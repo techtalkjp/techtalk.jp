@@ -4,12 +4,14 @@ import { Box, Flex } from '@chakra-ui/react'
 
 interface Props {
   children?: React.ReactNode
+  id: string
   bgImage: string
 }
 
-const CoverPage: React.FC<Props> = ({ children, bgImage }) => {
+const CoverPage: React.FC<Props> = ({ children, bgImage, id }) => {
   return (
     <Box
+      id={id}
       position="relative"
       w="100vw"
       h="100vh"

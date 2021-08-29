@@ -4,7 +4,7 @@ import CoverPage from '../components/CoverPage'
 
 const HeroPage: React.FC = () => {
   return (
-    <CoverPage bgImage="/hero.jpg">
+    <CoverPage id="hero" bgImage="/hero.jpg">
       <Heading
         fontSize="5xl"
         fontWeight="black"
