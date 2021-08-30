@@ -1,0 +1,24 @@
+.markdown {
+  text-align: center;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.markdown h1 {
+  font-size: x-large;
+  font-weight: bold;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.markdown h2 {
+  font-size: large;
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.markdown p {
+  text-align: left;
+}
