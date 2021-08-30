@@ -3,6 +3,15 @@ import { Flex, Text, Spacer, HStack } from '@chakra-ui/react'
 import { Link as Scroll } from 'react-scroll'
 
 const Navigation: NextPage = () => {
+  const scrollTo = (
+    id: string,
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    const element = document.getElementById(id)
+    element?.scrollIntoView({ behavior: 'smooth' })
+    event.preventDefault()
+  }
+
   return (
     <Flex
       p="4"
@@ -15,7 +24,7 @@ const Navigation: NextPage = () => {
       fontWeight="bold"
       letterSpacing="tight"
     >
-      <Scroll to="hero" smooth={true}>
+      <a href="#hero" onClick={(event) => scrollTo('hero', event)}>
         <Text
           _hover={{
             color: 'accent.500',
@@ -24,10 +33,10 @@ const Navigation: NextPage = () => {
         >
           TechTalk
         </Text>
-      </Scroll>
+      </a>
       <Spacer />
       <HStack>
-        <Scroll to="about" smooth={true}>
+        <a href="#about" onClick={(event) => scrollTo('about', event)}>
           <Text
             _hover={{
               color: 'accent.500',
@@ -36,8 +45,8 @@ const Navigation: NextPage = () => {
           >
             About
           </Text>
-        </Scroll>
-        <Scroll to="contact" smooth={true}>
+        </a>
+        <a href="#contact" onClick={(event) => scrollTo('contact', event)}>
           <Text
             _hover={{
               color: 'accent.500',
@@ -46,7 +55,7 @@ const Navigation: NextPage = () => {
           >
             Contact
           </Text>
-        </Scroll>
+        </a>
       </HStack>
     </Flex>
   )
