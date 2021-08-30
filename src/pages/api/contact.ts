@@ -1,14 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import sgMail from '@sendgrid/mail'
 import * as Slack from 'typed-slack'
-
-interface ContactFormData {
-  name: string
-  company?: string
-  phone?: string
-  email: string
-  message?: string
-}
+import { ContactFormData } from '../../interfaces/ContactFormData'
 
 type Data = {
   error?: {
@@ -43,11 +36,8 @@ const sendSlack = async (form: ContactFormData) => {
   await slack.send({ text: JSON.stringify(form) })
 }
 
-function isValidFormData(form: ContactFormData): Boolean {
-  if (!form.email) {
-    return false
-  }
-  return true
+function isValidFormData(form: ContactFormData) {
+  return !!form.email
 }
 
 export default async function handler(
@@ -65,15 +55,19 @@ export default async function handler(
     return
   }
 
+  if (process.env.DRY_RUN === '1') {
+    return res.status(200).end()
+  }
+
   try {
     await sendSlack(formData)
     await sendEmail(formData)
     return res.status(200).end()
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       error: {
         code: 'error',
-        message: 'The requested form data is not valid'
+        message: error.toString()
       }
     })
   }
