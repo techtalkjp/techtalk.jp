@@ -4,7 +4,7 @@ import NextLink from 'next/link'
 import { promises as fs } from 'fs'
 import marked from 'marked'
 import styles from '../assets/privacy.module.css'
-import { Box, Button } from '@chakra-ui/react'
+import { Heading, Box, Button } from '@chakra-ui/react'
 
 interface Props {
   content: string
@@ -23,14 +23,19 @@ const Privacy: NextPage<Props> = ({ content }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div
+      <Heading textAlign="center" my="4rem">
+        TechTalkプライバシーポリシー
+      </Heading>
+
+      <Box
+        maxW="80%"
         className={styles.markdown}
         dangerouslySetInnerHTML={{ __html: content }}
       />
 
       <Box textAlign="center" my="4rem">
         <NextLink href="/">
-          <Button colorScheme="blue" as="a">
+          <Button colorScheme="accent" as="a">
             トップに戻る
           </Button>
         </NextLink>
@@ -41,7 +46,7 @@ const Privacy: NextPage<Props> = ({ content }) => {
 export default Privacy
 
 export const getStaticProps: GetStaticProps = async () => {
-  const content = await fs.readFile('src/assets/privacy.md')
+  const content = await fs.readFile('public/privacy.md')
   return {
     props: {
       content: marked(content.toString())

@@ -22,7 +22,7 @@ const CoverPage: React.FC<Props> = ({ children, bgImage, id }) => {
       sx={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
     >
       <Flex w="100vw" h="100vh" align="center" justify="center">
-        <Box color="white" align="center" mx="auto">
+        <Box color="white" minW="60%" px="1rem" align="center" mx="auto">
           {children}
         </Box>
       </Flex>

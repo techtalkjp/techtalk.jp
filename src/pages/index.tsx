@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { NextPage, GetStaticProps } from 'next'
 import Head from 'next/head'
 import { chakra, Heading, Text } from '@chakra-ui/react'
 import DefaultLayout from '../layouts/DefaultLayout'
