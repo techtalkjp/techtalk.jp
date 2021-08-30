@@ -28,7 +28,7 @@ const PrivacyPolicyDialog: React.FC<Props> = (props) => {
       if (ret) setPolicy(marked(ret.data as string))
     }
     fetch()
-  })
+  }, [])
 
   return (
     <>
