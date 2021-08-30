@@ -12,6 +12,10 @@ const Home: NextPage = () => {
       <Head>
         <title>株式会社 TechTalk</title>
         <meta name="description" content="Technicaly, It's possible." />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
