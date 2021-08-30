@@ -126,7 +126,7 @@ const ContactPage: React.FC = () => {
             <FormControl
               id="message"
               isRequired
-              isInvalid={formState.errors.phone ? true : false}
+              isInvalid={formState.errors.message ? true : false}
             >
               <FormLabel htmlFor="message">メッセージ</FormLabel>
               <Textarea
@@ -138,7 +138,11 @@ const ContactPage: React.FC = () => {
               </FormErrorMessage>
             </FormControl>
 
-            <FormControl id="privacy" isRequired>
+            <FormControl
+              id="privacy"
+              isRequired
+              isInvalid={formState.errors.privacy ? true : false}
+            >
               <Checkbox {...register('privacy', { required: '必須です' })}>
                 プライバシーポリシーに同意
               </Checkbox>
@@ -153,7 +157,7 @@ const ContactPage: React.FC = () => {
               disabled={!formState.isValid}
               isLoading={formState.isSubmitting}
             >
-              Let's talk
+              Let&apos;s talk
             </Button>
           </VStack>
         </chakra.form>

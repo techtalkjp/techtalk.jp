@@ -15,11 +15,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <chakra.main
+        height="100vh"
+        sx={{ overflowY: 'scroll', scrollSnapType: 'y mandatory' }}
+      >
         <HeroPage />
         <AboutPage />
         <ContactPage />
-      </main>
+      </chakra.main>
     </DefaultLayout>
   )
 }

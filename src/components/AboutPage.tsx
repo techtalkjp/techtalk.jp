@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-  Heading,
-  Button,
-  Table,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  chakra
-} from '@chakra-ui/react'
+import { Heading, Button, Table, Tbody, Tr, Td, chakra } from '@chakra-ui/react'
 import CoverPage from '../components/CoverPage'
 
 const AboutPage: React.FC = () => {
@@ -29,7 +20,7 @@ const AboutPage: React.FC = () => {
             <Td>東京都中央区佃2-1-2</Td>
           </Tr>
           <Tr>
-            <Td fontWeight="bold">代表取締役</Td>
+            <Td fontWeight="bold">代表</Td>
             <Td>
               溝口浩二
               <chakra.a
@@ -53,7 +44,11 @@ const AboutPage: React.FC = () => {
                 <li>
                   クラウドサービスの企画・開発
                   <chakra.div ml="2">
-                    <a href="https://ima-ticket.com" target="_blank">
+                    <a
+                      href="https://ima-ticket.com"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       イマチケ
                     </a>
                     <chakra.small ml="2">

@@ -14,7 +14,7 @@ const HeroPage: React.FC = () => {
       >
         Technically,
         <br />
-        <Text color="accent.600">It's possible.</Text>
+        <Text color="accent.600">It&apos;s possible.</Text>
       </Heading>
       <Text fontSize="lg">ビジネスを可能にする、技術の話を。</Text>
     </CoverPage>
