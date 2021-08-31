@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useLocale } from '../utils/useLocale'
 import marked from 'marked'
 import axios from 'axios'
 import {
@@ -19,6 +20,7 @@ import styles from '../assets/privacy.module.css'
 interface Props {}
 
 const PrivacyPolicyDialog: React.FC<Props> = (props) => {
+  const { t } = useLocale()
   const [policy, setPolicy] = useState<string>('')
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -33,15 +35,19 @@ const PrivacyPolicyDialog: React.FC<Props> = (props) => {
   return (
     <>
       <Box>
+        {t('privacy.agree-to-before', '')}
         <Text
           color="accent.500"
           cursor="pointer"
           display="inline"
           onClick={onOpen}
         >
-          プライバシーポリシー
+          {t('privacy.privacy-policy', 'プライバシーポリシー')}
         </Text>
-        をお読みいただき、同意の上送信してください。
+        {t(
+          'privacy.agree-to-after',
+          'をお読みいただき、同意の上送信してください。'
+        )}
       </Box>
 
       <Modal
@@ -52,7 +58,9 @@ const PrivacyPolicyDialog: React.FC<Props> = (props) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>TechTalk プライバシーポリシー</ModalHeader>
+          <ModalHeader>
+            {t('privacy.dialog.title', 'TechTalk プライバシーポリシー')}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <div
@@ -62,7 +70,7 @@ const PrivacyPolicyDialog: React.FC<Props> = (props) => {
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="accent" onClick={onClose}>
-              Close
+              {t('privacy.dialog.close', '閉じる')}
             </Button>
           </ModalFooter>
         </ModalContent>

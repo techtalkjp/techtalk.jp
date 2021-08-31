@@ -1,8 +1,10 @@
 import type { NextPage } from 'next'
 import { Flex, Text, Spacer, HStack } from '@chakra-ui/react'
-import { Link as Scroll } from 'react-scroll'
+import { useLocale } from '../utils/useLocale'
+import LanguageSwitcher from './LanguageSwitcher'
 
 const Navigation: NextPage = () => {
+  const { t } = useLocale()
   const scrollTo = (
     id: string,
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -31,7 +33,7 @@ const Navigation: NextPage = () => {
             cursor: 'pointer'
           }}
         >
-          TechTalk
+          {t('nav.techtalk', 'TechTalk')}
         </Text>
       </a>
       <Spacer />
@@ -43,7 +45,7 @@ const Navigation: NextPage = () => {
               cursor: 'pointer'
             }}
           >
-            About
+            {t('nav.about', '会社概要')}
           </Text>
         </a>
         <a href="#contact" onClick={(event) => scrollTo('contact', event)}>
@@ -53,9 +55,11 @@ const Navigation: NextPage = () => {
               cursor: 'pointer'
             }}
           >
-            Contact
+            {t('nav.contact', 'お問い合わせ')}
           </Text>
         </a>
+
+        <LanguageSwitcher />
       </HStack>
     </Flex>
   )

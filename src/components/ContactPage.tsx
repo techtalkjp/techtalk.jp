@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import NextLink from 'next/link'
+import { useLocale } from '../utils/useLocale'
 import {
   chakra,
   Heading,
@@ -22,6 +22,7 @@ import ContactSentMessage from './ContactSentMessage'
 import PrivacyPolicyDialog from './PrivacyPolicyDialog'
 
 const ContactPage: React.FC = () => {
+  const { t } = useLocale()
   const [submitted, setSubmitted] = useState(false)
   const [sentContact, setSentContact] = useState<ContactFormData>()
 
@@ -36,7 +37,7 @@ const ContactPage: React.FC = () => {
   return (
     <CoverPage id="contact" bgImage="/contact.jpg">
       <Heading fontSize="5xl" fontWeight="black" lineHeight="1">
-        Contact
+        {t('contact.title', 'お問い合わせ')}
       </Heading>
 
       {sentContact ? (
@@ -49,11 +50,15 @@ const ContactPage: React.FC = () => {
               isRequired
               isInvalid={formState.errors.name ? true : false}
             >
-              <FormLabel htmlFor="name">お名前</FormLabel>
+              <FormLabel htmlFor="name">
+                {t('contact.name', 'お名前')}
+              </FormLabel>
               <Input
                 backgroundColor="blackAlpha.400"
-                placeholder="お名前"
-                {...register('name', { required: '必須です' })}
+                placeholder={t('contact.name', 'お名前')}
+                {...register('name', {
+                  required: t('contact.required', '必須')
+                })}
               />
               <FormErrorMessage>
                 {formState.errors.name && formState.errors.name.message}
@@ -64,10 +69,12 @@ const ContactPage: React.FC = () => {
               id="company"
               isInvalid={formState.errors.company ? true : false}
             >
-              <FormLabel htmlFor="company">会社名</FormLabel>
+              <FormLabel htmlFor="company">
+                {t('contact.company', '会社名')}
+              </FormLabel>
               <Input
                 backgroundColor="blackAlpha.400"
-                placeholder="会社名"
+                placeholder={t('contact.company', '会社名')}
                 {...register('company')}
               />
               <FormErrorMessage>
@@ -79,10 +86,12 @@ const ContactPage: React.FC = () => {
               id="phone"
               isInvalid={formState.errors.phone ? true : false}
             >
-              <FormLabel htmlFor="phone">電話番号</FormLabel>
+              <FormLabel htmlFor="phone">
+                {t('contact.phone', '電話番号')}
+              </FormLabel>
               <Input
                 backgroundColor="blackAlpha.400"
-                placeholder="電話番号"
+                placeholder={t('contact.phone', '電話番号')}
                 {...register('phone')}
               />
               <FormErrorMessage>
@@ -95,17 +104,22 @@ const ContactPage: React.FC = () => {
               isRequired
               isInvalid={formState.errors.email ? true : false}
             >
-              <FormLabel htmlFor="email">メール</FormLabel>
+              <FormLabel htmlFor="email">
+                {t('contact.email', 'メール')}
+              </FormLabel>
               <Input
                 type="email"
                 backgroundColor="blackAlpha.400"
-                placeholder="メール"
+                placeholder={t('contact.email', 'メール')}
                 {...register('email', {
-                  required: '必須です。',
+                  required: t('contact.required', '必須'),
                   pattern: {
                     value:
                       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: 'メールアドレス形式で入力してください。'
+                    message: t(
+                      'contact.email.message',
+                      'メールアドレスの形式で入力してください。'
+                    )
                   }
                 })}
               />
@@ -119,11 +133,15 @@ const ContactPage: React.FC = () => {
               isRequired
               isInvalid={formState.errors.message ? true : false}
             >
-              <FormLabel htmlFor="message">メッセージ</FormLabel>
+              <FormLabel htmlFor="message">
+                {t('contact.message', 'メッセージ')}
+              </FormLabel>
               <Textarea
                 backgroundColor="blackAlpha.400"
-                placeholder="メッセージ"
-                {...register('message', { required: '必須です' })}
+                placeholder={t('contact.message', 'メッセージ')}
+                {...register('message', {
+                  required: t('contact.required', '必須')
+                })}
               />
               <FormErrorMessage>
                 {formState.errors.message && formState.errors.message.message}
@@ -137,8 +155,15 @@ const ContactPage: React.FC = () => {
               isRequired
               isInvalid={formState.errors.privacy ? true : false}
             >
-              <Checkbox {...register('privacy', { required: '必須です' })}>
-                プライバシーポリシーに同意する
+              <Checkbox
+                {...register('privacy', {
+                  required: t('contact.required', '必須')
+                })}
+              >
+                {t(
+                  'contact.agree-to-the-privacy-policy',
+                  'プライバシーポリシーに同意する'
+                )}
               </Checkbox>
               <FormErrorMessage>
                 {formState.errors.privacy && formState.errors.privacy.message}
