@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const routers = useRouter()
   useEffect(() => {
     // firebase analytics
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production' && process.browser) {
       routers.events.on('routeChangeComplete', logEvent)
       const analytics = getAnalytics(getApp())
       setCurrentScreen(analytics, window.location.pathname)

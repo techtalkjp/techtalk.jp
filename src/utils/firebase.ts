@@ -11,5 +11,5 @@ if (!getApps().length) {
     messagingSenderId: '589381418154',
     appId: '1:589381418154:web:b22a2ab91ebcdba0cc24d3'
   })
-  if (typeof window !== undefined) getAnalytics(app)
+  if (process.browser) getAnalytics(app)
 }
