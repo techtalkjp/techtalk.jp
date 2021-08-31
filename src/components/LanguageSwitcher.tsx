@@ -1,13 +1,11 @@
 import React from 'react'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react'
 import { useLocale } from '../utils/useLocale'
 
 const LanguageSwitcher: React.FC = () => {
   const { t, locales, locale } = useLocale()
-  const setLocale = (locale: string) => {
-    Router.push(Router.asPath, undefined, { locale })
-  }
+  const router = useRouter()
 
   return (
     <Menu>
@@ -26,7 +24,9 @@ const LanguageSwitcher: React.FC = () => {
             isDisabled={e === locale}
             fontWeight={e === locale ? 'bold' : 'normal'}
             key={e}
-            onClick={() => setLocale(e)}
+            onClick={() =>
+              router.push(router.asPath, router.asPath, { locale: e })
+            }
           >
             {t(e, e)}
           </MenuItem>
