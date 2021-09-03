@@ -9,10 +9,7 @@ import {
   FormErrorMessage,
   Input,
   Textarea,
-  Checkbox,
-  Button,
-  Box,
-  Text
+  Button
 } from '@chakra-ui/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
@@ -23,7 +20,6 @@ import PrivacyPolicyDialog from './PrivacyPolicyDialog'
 
 const ContactPage: React.FC = () => {
   const { t } = useLocale()
-  const [submitted, setSubmitted] = useState(false)
   const [sentContact, setSentContact] = useState<ContactFormData>()
 
   const { register, handleSubmit, formState } = useForm<ContactFormData>({

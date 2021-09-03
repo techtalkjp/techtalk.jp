@@ -4,5 +4,4 @@ export interface ContactFormData {
   phone?: string
   email: string
   message: string
-  privacy: boolean
 }
