@@ -27,8 +27,6 @@ const ContactSentMessage: React.FC<Props> = ({ sentData }) => {
         <Box>{sentData.email}</Box>
         <Box>メッセージ</Box>
         <Box>{sentData.message}</Box>
-        <Box>プライバシーポリシー</Box>
-        <Box>{sentData.privacy ? '同意する' : '同意しない'}</Box>
       </SimpleGrid>
     </VStack>
   )
