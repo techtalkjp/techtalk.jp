@@ -150,26 +150,6 @@ const ContactPage: React.FC = () => {
 
             <PrivacyPolicyDialog />
 
-            <FormControl
-              id="privacy"
-              isRequired
-              isInvalid={formState.errors.privacy ? true : false}
-            >
-              <Checkbox
-                {...register('privacy', {
-                  required: t('contact.required', '必須')
-                })}
-              >
-                {t(
-                  'contact.agree-to-the-privacy-policy',
-                  'プライバシーポリシーに同意する'
-                )}
-              </Checkbox>
-              <FormErrorMessage>
-                {formState.errors.privacy && formState.errors.privacy.message}
-              </FormErrorMessage>
-            </FormControl>
-
             <Button
               type="submit"
               colorScheme="accent"
