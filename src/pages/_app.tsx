@@ -28,7 +28,7 @@ const theme = extendTheme({
   }
 })
 
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const routers = useRouter()
   useEffect(() => {
     // firebase analytics
@@ -49,4 +49,4 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ChakraProvider>
   )
 }
-export default MyApp
+export default App
