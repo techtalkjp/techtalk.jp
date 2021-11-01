@@ -12,7 +12,7 @@ import {
   Button
 } from '@chakra-ui/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import axios from 'axios'
+import ky from 'ky'
 import CoverPage from '../components/CoverPage'
 import { ContactFormData } from '../interfaces/ContactFormData'
 import ContactSentMessage from './ContactSentMessage'
@@ -26,7 +26,10 @@ const ContactPage: React.FC = () => {
     mode: 'all'
   })
   const onSubmit: SubmitHandler<ContactFormData> = async (data) => {
-    await axios.post('/api/contact', data).catch(() => null)
+    await ky
+      .post('/api/contact', { json: data })
+      .json()
+      .catch(() => null)
     setSentContact(data)
   }
 
@@ -43,7 +46,6 @@ const ContactPage: React.FC = () => {
           <VStack spacing="2">
             <FormControl
               id="name"
-              isRequired
               isInvalid={formState.errors.name ? true : false}
             >
               <FormLabel htmlFor="name">
@@ -97,7 +99,6 @@ const ContactPage: React.FC = () => {
 
             <FormControl
               id="email"
-              isRequired
               isInvalid={formState.errors.email ? true : false}
             >
               <FormLabel htmlFor="email">
@@ -126,7 +127,6 @@ const ContactPage: React.FC = () => {
 
             <FormControl
               id="message"
-              isRequired
               isInvalid={formState.errors.message ? true : false}
             >
               <FormLabel htmlFor="message">
@@ -149,7 +149,6 @@ const ContactPage: React.FC = () => {
             <Button
               type="submit"
               colorScheme="accent"
-              disabled={!formState.isValid}
               isLoading={formState.isSubmitting}
             >
               Let&apos;s talk

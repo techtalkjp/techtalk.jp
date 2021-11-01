@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useLocale } from '../utils/useLocale'
 import marked from 'marked'
-import axios from 'axios'
+import useSWR from 'swr'
 import {
   Box,
   Text,
@@ -16,21 +16,16 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import styles from '../assets/privacy.module.css'
+import ky from 'ky'
 
 interface Props {}
 
 const PrivacyPolicyDialog: React.FC<Props> = (props) => {
   const { t } = useLocale()
-  const [policy, setPolicy] = useState<string>('')
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  useEffect(() => {
-    async function fetch() {
-      const ret = await axios.get('/privacy.md').catch(() => null)
-      if (ret) setPolicy(marked(ret.data as string))
-    }
-    fetch()
-  }, [])
+  const { data: policy } = useSWR<string>('/privacy.md', () =>
+    ky.get('/privacy.md').text()
+  )
 
   return (
     <>
@@ -50,12 +45,7 @@ const PrivacyPolicyDialog: React.FC<Props> = (props) => {
         )}
       </Box>
 
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        isCentered
-        scrollBehavior="inside"
-      >
+      <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -65,7 +55,7 @@ const PrivacyPolicyDialog: React.FC<Props> = (props) => {
           <ModalBody>
             <div
               className={styles.markdown}
-              dangerouslySetInnerHTML={{ __html: policy }}
+              dangerouslySetInnerHTML={{ __html: policy || 'no data' }}
             ></div>
           </ModalBody>
           <ModalFooter>
@@ -78,5 +68,4 @@ const PrivacyPolicyDialog: React.FC<Props> = (props) => {
     </>
   )
 }
-
 export default PrivacyPolicyDialog
