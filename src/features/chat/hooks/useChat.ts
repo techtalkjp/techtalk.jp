@@ -2,7 +2,13 @@ import {
   useFirestoreQueryData,
   useFirestoreCollectionMutation
 } from '@react-query-firebase/firestore'
-import { query, collection, serverTimestamp, orderBy } from 'firebase/firestore'
+import {
+  query,
+  collection,
+  serverTimestamp,
+  orderBy,
+  limit
+} from 'firebase/firestore'
 import type { QueryDocumentSnapshot, SnapshotOptions } from 'firebase/firestore'
 import { firestore } from '@/utils/firebase'
 import dayjs, { Dayjs } from 'dayjs'
@@ -18,13 +24,12 @@ interface ChatMessage {
 
 const chatMessageConverter = {
   fromFirestore: (
-    ss: QueryDocumentSnapshot<ChatMessage>,
-    op: SnapshotOptions
+    snapshot: QueryDocumentSnapshot<ChatMessage>,
+    options: SnapshotOptions
   ) => {
-    const { createdAt, ...rest } = ss.data()
-    console.log('createdAt', createdAt)
+    const { createdAt, ...rest } = snapshot.data()
     return {
-      id: ss.id,
+      id: snapshot.id,
       ...rest,
       createdAt: createdAt ? dayjs(createdAt.toDate()) : dayjs()
     } as ChatMessage
@@ -37,17 +42,17 @@ const chatMessageConverter = {
   }
 }
 
-export const useChat = (roomId: string) => {
+export const useChat = () => {
   const { currentUser } = useAuth()
 
   const collectionRef = collection(
     firestore,
-    `chat/${roomId}/messages`
+    `chat`
   ).withConverter<ChatMessage>(chatMessageConverter)
 
   const messages = useFirestoreQueryData<ChatMessage>(
-    ['chat', roomId],
-    query(collectionRef, orderBy('createdAt', 'desc')),
+    ['chat'],
+    query(collectionRef, orderBy('createdAt', 'desc'), limit(20)),
     {
       subscribe: true
     }
