@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLocale } from '../utils/useLocale'
-import marked from 'marked'
+import MarkdownIt from 'markdown-it'
 import useSWR from 'swr'
 import {
   Box,
@@ -17,14 +17,15 @@ import {
 } from '@chakra-ui/react'
 import styles from '../assets/privacy.module.css'
 import ky from 'ky'
+const md = new MarkdownIt()
 
 interface Props {}
 
 const PrivacyPolicyDialog: React.FC<Props> = (props) => {
   const { t } = useLocale()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { data: policy } = useSWR<string>('/privacy.md', () =>
-    ky.get('/privacy.md').text()
+  const { data: policy } = useSWR<string>('/privacy.md', async () =>
+    md.render(await ky.get('/privacy.md').text())
   )
 
   return (

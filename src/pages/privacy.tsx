@@ -2,7 +2,7 @@ import { NextPage, GetStaticProps } from 'next'
 import Head from 'next/head'
 import NextLink from 'next/link'
 import { promises as fs } from 'fs'
-import marked from 'marked'
+import MarkdownIt from 'markdown-it'
 import styles from '../assets/privacy.module.css'
 import { Heading, Box, Button } from '@chakra-ui/react'
 
@@ -47,9 +47,10 @@ export default Privacy
 
 export const getStaticProps: GetStaticProps = async () => {
   const content = await fs.readFile('public/privacy.md')
+  const md = new MarkdownIt()
   return {
     props: {
-      content: marked(content.toString())
+      content: md.render(content.toString())
     }
   }
 }
