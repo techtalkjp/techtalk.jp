@@ -1,11 +1,8 @@
 import { useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
-import { getApp } from 'firebase/app'
-import { getAnalytics, setCurrentScreen, logEvent } from 'firebase/analytics'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { QueryClientProvider, QueryClient } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
 
 const theme = extendTheme({
   colors: {
@@ -31,25 +28,10 @@ const theme = extendTheme({
 const queryClient = new QueryClient({})
 
 function App({ Component, pageProps }: AppProps) {
-  const routers = useRouter()
-  useEffect(() => {
-    // firebase analytics
-    if (process.env.NODE_ENV === 'production' && process.browser) {
-      routers.events.on('routeChangeComplete', logEvent)
-      const analytics = getAnalytics(getApp())
-      setCurrentScreen(analytics, window.location.pathname)
-      logEvent(analytics, 'screen_view')
-      return () => {
-        routers.events.off('routeChangeComplete', logEvent)
-      }
-    }
-  })
-
   return (
     <ChakraProvider theme={theme} resetCSS>
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={true} />
       </QueryClientProvider>
     </ChakraProvider>
   )
