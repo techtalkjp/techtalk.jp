@@ -1,8 +1,7 @@
-import { useEffect } from 'react'
 import type { AppProps } from 'next/app'
-import { useRouter } from 'next/router'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { QueryClientProvider, QueryClient } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const theme = extendTheme({
   colors: {
@@ -32,6 +31,7 @@ function App({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme} resetCSS>
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
+        <ReactQueryDevtools initialIsOpen={true} />
       </QueryClientProvider>
     </ChakraProvider>
   )
