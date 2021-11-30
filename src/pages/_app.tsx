@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
-import '../utils/firebase'
 import { getApp } from 'firebase/app'
 import { getAnalytics, setCurrentScreen, logEvent } from 'firebase/analytics'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
-import '../assets/styles.css'
+import { QueryClientProvider, QueryClient } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const theme = extendTheme({
   colors: {
@@ -28,6 +28,8 @@ const theme = extendTheme({
   }
 })
 
+const queryClient = new QueryClient({})
+
 function App({ Component, pageProps }: AppProps) {
   const routers = useRouter()
   useEffect(() => {
@@ -44,8 +46,11 @@ function App({ Component, pageProps }: AppProps) {
   })
 
   return (
-    <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+    <ChakraProvider theme={theme} resetCSS>
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </QueryClientProvider>
     </ChakraProvider>
   )
 }
