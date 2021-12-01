@@ -1,4 +1,4 @@
-import { useAuthAction } from '@/features/auth/hooks/useAuth'
+import { useAuthAction } from '@/features/auth/hooks/useAuthAction'
 import { Button } from '@chakra-ui/react'
 
 const AuthSignInWithGoogleButton: React.VFC = () => {
