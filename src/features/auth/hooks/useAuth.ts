@@ -7,6 +7,12 @@ import { auth, googleAuthProvider } from '@/utils/firebase'
 
 export const useAuth = () => {
   const currentUser = useAuthUser(['user'], auth)
+  return {
+    currentUser
+  }
+}
+
+export const useAuthAction = () => {
   const authSignIn = useAuthSignInWithRedirect(auth)
   const authSignOut = useAuthSignOut(auth)
 
@@ -22,9 +28,6 @@ export const useAuth = () => {
 
   return {
     signInWithGoogle,
-    signOut,
-    currentUser
+    signOut
   }
 }
-
-export const useRequireLogin = () => {}
