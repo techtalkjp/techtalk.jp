@@ -21,13 +21,20 @@ const CoverPage: React.VFC<Props> = ({ children, bgImage, id }) => {
       scrollSnapAlign="start"
       scrollSnapStop="always"
     >
-      <Box position="absolute" height="full" width="full" zIndex="-1">
+      <Box
+        position="absolute"
+        height="full"
+        width="full"
+        zIndex="-1"
+        bgColor="black"
+      >
         <Image
           alt="background"
           src={bgImage}
           objectFit="cover"
           layout="fill"
-          quality={100}
+          quality={70}
+          priority
         />
       </Box>
       <Flex w="full" h="full" align="center" justify="center">
