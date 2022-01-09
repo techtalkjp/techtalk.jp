@@ -23,7 +23,8 @@ const Home: NextPage = () => {
 
       <chakra.main
         height="100vh"
-        sx={{ overflowY: 'scroll', scrollSnapType: 'y mandatory' }}
+        scrollSnapType="y mandatory"
+        overflowY="scroll"
       >
         <HeroPage />
         <AboutPage />

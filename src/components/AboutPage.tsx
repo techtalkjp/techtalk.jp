@@ -24,7 +24,7 @@ const AboutPage: React.FC = () => {
           <Tr>
             <Td fontWeight="bold">{t('about.representative', '代表')}</Td>
             <Td>
-              {t('kojimizoguchi', '溝口浩二')}
+              {t('cojimizoguchi', '溝口 浩二')}
               <chakra.a
                 ml="4"
                 href="https://shareboss.net/p/boss/koji-mizoguchi/"
