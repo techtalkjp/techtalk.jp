@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useLocale } from '../utils/useLocale'
 import MarkdownIt from 'markdown-it'
-import useSWR from 'swr'
+import { useQuery } from 'react-query'
 import {
   Box,
   Text,
@@ -24,7 +24,7 @@ interface Props {}
 const PrivacyPolicyDialog: React.FC<Props> = (props) => {
   const { t } = useLocale()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { data: policy } = useSWR<string>('/privacy.md', async () =>
+  const { data: policy } = useQuery<string>('/privacy.md', async () =>
     md.render(await ky.get('/privacy.md').text())
   )
 
@@ -48,7 +48,7 @@ const PrivacyPolicyDialog: React.FC<Props> = (props) => {
 
       <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside">
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent maxW="container.md">
           <ModalHeader>
             {t('privacy.dialog.title', 'TechTalk プライバシーポリシー')}
           </ModalHeader>
