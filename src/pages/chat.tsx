@@ -6,11 +6,16 @@ import { Container, Stack } from '@chakra-ui/react'
 
 const Home: NextPage = () => {
   return (
-    <Container maxW="container.xl" my="2">
-      <Stack>
-        <ChatUserCard />
-        <ChatMessagePanel />
-      </Stack>
+    <Container
+      maxW="container.xl"
+      my="2"
+      maxH="100vh"
+      overflow="auto"
+      display="flex"
+      flexDirection="column"
+    >
+      <ChatUserCard />
+      <ChatMessagePanel flex="1" />
     </Container>
   )
 }

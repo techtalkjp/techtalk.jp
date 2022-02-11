@@ -11,16 +11,9 @@ import {
 } from 'firebase/firestore'
 import type { QueryDocumentSnapshot, SnapshotOptions } from 'firebase/firestore'
 import { firestore } from '@/utils/firebase'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { useAuth } from '@/features/auth/hooks/useAuth'
-
-interface ChatMessage {
-  id?: string
-  name: string
-  photoURL: string
-  text: string
-  createdAt: Dayjs
-}
+import type { ChatMessage } from '../interfaces/model'
 
 const chatMessageConverter = {
   fromFirestore: (

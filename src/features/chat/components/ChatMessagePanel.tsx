@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { useChat } from '@/features/chat/hooks/useChat'
-import { Stack, Box, Text, SkeletonText } from '@chakra-ui/react'
+import { Stack, Box, BoxProps, SkeletonText } from '@chakra-ui/react'
+import { ChatMessageCard } from '../components/ChatMessageCard'
 
-const ChatMessagePanel: React.VFC = () => {
+interface ChatMessagePanelProps extends BoxProps {}
+const ChatMessagePanel: React.VFC<ChatMessagePanelProps> = ({ ...rest }) => {
   const { messages } = useChat()
 
   return (
@@ -12,22 +14,15 @@ const ChatMessagePanel: React.VFC = () => {
       border="1px solid"
       borderColor="gray.100"
       rounded="md"
+      {...rest}
     >
       <SkeletonText isLoaded={!messages.isFetching} noOfLines={5} spacing={3.5}>
-        {messages.data &&
-          messages.data.map((e) => {
-            return (
-              <Stack direction="row" key={e.id} alignItems="center">
-                <Text fontSize="xs" color="green.500">
-                  {e.createdAt.format('YYYY-MM-DD HH:mm:ss')}
-                </Text>
-                <Text fontSize="sm" color="gray.400" fontWeight="bold">
-                  {e.name}
-                </Text>
-                <Text color="gray.600">{e.text}</Text>
-              </Stack>
-            )
-          })}
+        <Stack direction="column-reverse">
+          {messages.data &&
+            messages.data.map((e) => (
+              <ChatMessageCard key={e.id} message={e} />
+            ))}
+        </Stack>
       </SkeletonText>
     </Box>
   )
