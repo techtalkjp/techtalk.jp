@@ -34,7 +34,7 @@ const Privacy: NextPage<Props> = ({ content }) => {
       />
 
       <Box textAlign="center" my="4rem">
-        <NextLink href="/">
+        <NextLink href="/" passHref>
           <Button colorScheme="accent" as="a">
             トップに戻る
           </Button>
