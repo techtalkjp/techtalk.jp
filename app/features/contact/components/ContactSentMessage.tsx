@@ -1,12 +1,11 @@
-import React from 'react'
 import { VStack, Box, SimpleGrid } from '@chakra-ui/react'
-import type { ContactFormData } from '~/interfaces/ContactFormData'
+import type { ContactFormData } from '~/features/contact/interfaces/ContactFormData'
 
-interface Props {
-  sentData: ContactFormData
+interface ContactSentMessageProps {
+  data: ContactFormData
 }
 
-const ContactSentMessage: React.FC<Props> = ({ sentData }) => {
+export const ContactSentMessage = ({ data }: ContactSentMessageProps) => {
   return (
     <VStack mt="4" spacing={4}>
       <Box>
@@ -18,18 +17,16 @@ const ContactSentMessage: React.FC<Props> = ({ sentData }) => {
       </Box>
       <SimpleGrid columns={2} spacing={4} justifyItems="start">
         <div>お名前</div>
-        <Box>{sentData.name}</Box>
+        <Box>{data.name}</Box>
         <Box>会社名</Box>
-        <Box>{sentData.company}</Box>
+        <Box>{data.company}</Box>
         <Box>電話番号</Box>
-        <Box>{sentData.phone}</Box>
+        <Box>{data.phone}</Box>
         <Box>メールアドレス</Box>
-        <Box>{sentData.email}</Box>
+        <Box>{data.email}</Box>
         <Box>メッセージ</Box>
-        <Box>{sentData.message}</Box>
+        <Box>{data.message}</Box>
       </SimpleGrid>
     </VStack>
   )
 }
-
-export default ContactSentMessage

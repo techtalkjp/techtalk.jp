@@ -1,56 +1,18 @@
-import sgMail from '@sendgrid/mail'
 import type { ActionArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
-//import * as Slack from 'typed-slack'
-import type { ContactFormData } from '~/interfaces/ContactFormData'
+import { useActionData } from '@remix-run/react'
+import { ContactSentMessage } from '~/features/contact/components/ContactSentMessage'
+import type { ContactFormData } from '~/features/contact/interfaces/ContactFormData'
+import { withZod } from '@remix-validated-form/with-zod'
+import { ContactFormSchema } from '~/features/contact/schemas/contact-form'
 
-const sendEmail = async (form: ContactFormData) => {
-  if (form.message) {
-    form.message = form.message.replace(/\r\n/g, '<br />')
-    form.message = form.message.replace(/(\n|\r)/g, '<br />')
-  }
-
-  const payload = {
-    to: form.email,
-    from: {
-      email: 'info@techtalk.jp',
-      name: 'TechTalk'
-    },
-    bcc: 'info@techtalk.jp',
-    replyTo: 'info@techtalk.jp',
-    dynamic_template_data: form,
-    template_id: 'd-fc1f4a74b71644c0930a8df488956323'
-  }
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY as string)
-  await sgMail.send(payload as any)
-}
-
-// const sendSlack = async (form: ContactFormData) => {
-//   const slack = new Slack.IncomingWebhook(process.env.SLACK_WEBHOOK as string)
-//   await slack.send({ text: JSON.stringify(form) })
-// }
-
-function isValidFormData(form: FormData) {
-  return !!form.has('email')
-}
+const validator = withZod(ContactFormSchema)
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
-  console.log('contact action', Object.fromEntries(formData))
+  const { data, error } = await validator.validate(formData)
 
-  if (request.method !== 'POST' || !isValidFormData(formData)) {
-    throw json(
-      {
-        error: {
-          code: 'error',
-          message: 'The requested form data is not valid'
-        }
-      },
-      { status: 500 }
-    )
-  }
-
-  return json('ok')
+  return json({ data, error })
   //  await sendEmail(formData)
 
   /*
@@ -69,6 +31,9 @@ export const action = async ({ request }: ActionArgs) => {
   */
 }
 
-export default function Thanks() {
-  return <div>thanks!</div>
+export default async function Thanks() {
+  const ret = useActionData<typeof action>()
+  if (!ret) return <div>error</div>
+
+  return <div>{ret.data && <ContactSentMessage data={ret.data} />}</div>
 }

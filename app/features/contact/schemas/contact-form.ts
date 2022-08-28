@@ -5,5 +5,6 @@ export const ContactFormSchema = z.object({
   company: z.string(),
   phone: z.string(),
   email: z.string().min(1, { message: 'Email is required' }).email(),
-  message: z.string()
+  message: z.string().min(1, { message: 'Message is required' }),
+  locale: z.string()
 })
