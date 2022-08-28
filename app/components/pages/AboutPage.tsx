@@ -1,6 +1,6 @@
 import { Button, chakra, Heading, Table, Tbody, Td, Tr } from '@chakra-ui/react'
 import { useLocale } from '~/hooks/useLocale'
-import CoverPage from './CoverPage'
+import CoverPage from '../CoverPage'
 
 export const AboutPage = () => {
   const { t } = useLocale()

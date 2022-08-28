@@ -15,7 +15,6 @@ import {
   ModalCloseButton,
   useDisclosure
 } from '@chakra-ui/react'
-import styles from '../assets/privacy.module.css'
 //import ky from 'ky'
 //const md = new MarkdownIt()
 

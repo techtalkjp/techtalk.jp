@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
-import { useLocale } from '../hooks/useLocale'
 import {
+  Button,
   chakra,
-  Heading,
-  VStack,
   FormControl,
-  FormLabel,
   FormErrorMessage,
+  FormLabel,
+  Heading,
   Input,
   Textarea,
-  Button
+  VStack
 } from '@chakra-ui/react'
+import { useState } from 'react'
 import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
-import CoverPage from './CoverPage'
-import type { ContactFormData } from '../interfaces/ContactFormData'
-import ContactSentMessage from './ContactSentMessage'
-import PrivacyPolicyDialog from './PrivacyPolicyDialog'
+import { useLocale } from '~/hooks/useLocale'
+import type { ContactFormData } from '~/interfaces/ContactFormData'
+import ContactSentMessage from '../ContactSentMessage'
+import CoverPage from '../CoverPage'
+import PrivacyPolicyDialog from '../PrivacyPolicyDialog'
 
 export const ContactPage = () => {
   const { t } = useLocale()

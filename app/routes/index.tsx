@@ -1,8 +1,8 @@
 import { Box, chakra } from '@chakra-ui/react'
 import { Navigation } from '~/components/Navigation'
-import { HeroPage } from '~/components/HeroPage'
-import { AboutPage } from '~/components/AboutPage'
-import { ContactPage } from '~/components/ContactPage'
+import { HeroPage } from '~/components/pages/HeroPage'
+import { AboutPage } from '~/components/pages/AboutPage'
+import { ContactPage } from '~/components/pages/ContactPage'
 
 export default function Index() {
   return (
