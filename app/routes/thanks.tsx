@@ -36,6 +36,8 @@ function isValidFormData(form: FormData) {
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
+  console.log('contact action', Object.fromEntries(formData))
+
   if (request.method !== 'POST' || !isValidFormData(formData)) {
     throw json(
       {
@@ -48,7 +50,7 @@ export const action = async ({ request }: ActionArgs) => {
     )
   }
 
-  return {}
+  return json('ok')
   //  await sendEmail(formData)
 
   /*
@@ -65,4 +67,8 @@ export const action = async ({ request }: ActionArgs) => {
     })
   }
   */
+}
+
+export default function Thanks() {
+  return <div>thanks!</div>
 }

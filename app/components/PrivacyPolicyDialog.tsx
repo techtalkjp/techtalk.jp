@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocale } from '../hooks/useLocale'
+import { useLocale } from '../features/i18n/hooks/useLocale'
 //import MarkdownIt from 'markdown-it'
 //import { useQuery } from 'react-query'
 import {

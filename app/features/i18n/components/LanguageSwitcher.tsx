@@ -1,10 +1,10 @@
 import React from 'react'
 import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react'
-import { useLocale } from '~/hooks/useLocale'
+import { useLocale, locales } from '~/features/i18n/hooks/useLocale'
 import { useNavigate } from '@remix-run/react'
 
-const LanguageSwitcher: React.FC = () => {
-  const { t, locales, locale } = useLocale()
+const LanguageSwitcher = () => {
+  const { t, locale } = useLocale()
   const navigate = useNavigate()
 
   return (

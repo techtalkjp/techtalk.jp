@@ -1,6 +1,6 @@
 import { Flex, Text, Spacer, HStack } from '@chakra-ui/react'
-import { useLocale } from '../hooks/useLocale'
-import LanguageSwitcher from './LanguageSwitcher'
+import { useLocale } from '~/features/i18n/hooks/useLocale'
+import LanguageSwitcher from '~/features/i18n/components/LanguageSwitcher'
 
 export const Navigation = () => {
   const { t } = useLocale()

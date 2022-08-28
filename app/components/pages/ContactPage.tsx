@@ -1,15 +1,14 @@
 import { Heading, VStack } from '@chakra-ui/react'
 import { withZod } from '@remix-validated-form/with-zod'
 import { ValidatedForm } from 'remix-validated-form'
-import { useLocale } from '~/hooks/useLocale'
+import { useLocale } from '~/features/i18n/hooks/useLocale'
 import CoverPage from '../CoverPage'
 import { FormInput, FormTextarea, FormSubmitButton } from '../form'
-
 import PrivacyPolicyDialog from '../PrivacyPolicyDialog'
 import { ContactFormSchema } from '~/schemas/contact-form'
 
 export const ContactPage = () => {
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
 
   return (
     <CoverPage id="contact" bgImage="/images/contact.jpg">
@@ -17,7 +16,12 @@ export const ContactPage = () => {
         {t('contact.title', 'お問い合わせ')}
       </Heading>
 
-      <ValidatedForm validator={withZod(ContactFormSchema)} method="post">
+      <ValidatedForm
+        validator={withZod(ContactFormSchema)}
+        action="/thanks"
+        method="post"
+        noValidate
+      >
         <VStack>
           <FormInput name="name" label={t('contact.name', 'お名前')} />
           <FormInput name="company" label={t('contact.company', 'お名前')} />
@@ -27,6 +31,7 @@ export const ContactPage = () => {
             name="message"
             label={t('contact.message', 'メッセージ')}
           />
+          <input type="hidden" name="locale" value={locale} />
 
           <PrivacyPolicyDialog />
           <FormSubmitButton />

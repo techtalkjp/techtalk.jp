@@ -1,5 +1,5 @@
 import { Heading, Text } from '@chakra-ui/react'
-import { useLocale } from '~/hooks/useLocale'
+import { useLocale } from '~/features/i18n/hooks/useLocale'
 import CoverPage from '../CoverPage'
 
 export const HeroPage = () => {
