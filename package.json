@@ -24,6 +24,7 @@
     "react-dom": "18.2.0",
     "react-scroll": "1.8.7",
     "remix-validated-form": "^4.5.5",
+    "ts-pattern": "^4.0.5",
     "zod": "^3.18.0",
     "zod-form-data": "^1.2.1"
   },

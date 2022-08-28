@@ -24,9 +24,7 @@ const Privacy = () => {
 
         <Box textAlign="center" my="4rem">
           <Link to="/">
-            <Button colorScheme="accent" as="a">
-              トップに戻る
-            </Button>
+            <Button colorScheme="accent">トップに戻る</Button>
           </Link>
         </Box>
       </Container>

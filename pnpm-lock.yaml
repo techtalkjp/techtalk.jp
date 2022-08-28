@@ -27,6 +27,7 @@ specifiers:
   react-dom: 18.2.0
   react-scroll: 1.8.7
   remix-validated-form: ^4.5.5
+  ts-pattern: ^4.0.5
   typescript: 4.8.2
   zod: ^3.18.0
   zod-form-data: ^1.2.1
@@ -50,6 +51,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-scroll: 1.8.7_biqbaboplfbrettd7655fr4n2y
   remix-validated-form: 4.5.5_hsyx54cdmnzdf7hjncs52aiuaq
+  ts-pattern: 4.0.5
   zod: 3.18.0
   zod-form-data: 1.2.1_zod@3.18.0
 
@@ -8671,6 +8673,10 @@ packages:
       source-map-support: 0.5.21
       typescript: 4.3.4
       yn: 3.1.1
+    dev: false
+
+  /ts-pattern/4.0.5:
+    resolution: {integrity: sha512-Bq44KCEt7JVaNLa148mBCJkcQf4l7jtLEBDuDdeuLynWDA+1a60P4D0rMkqSM9mOKLQbIWUddE9h3XKyKwBeqA==}
     dev: false
 
   /ts-toolbelt/6.15.5:
