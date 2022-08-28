@@ -3,6 +3,8 @@ import { Navigation } from '~/components/Navigation'
 import { HeroPage, AboutPage, ContactPage } from '~/components/pages'
 
 export default function Index() {
+  console.log('IndexPage', typeof window)
+
   return (
     <Box position="relative" w="100vw" h="100vh">
       <Navigation />

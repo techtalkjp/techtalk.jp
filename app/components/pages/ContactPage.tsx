@@ -12,7 +12,7 @@ export const ContactPage = () => {
   const { t } = useLocale()
 
   return (
-    <CoverPage id="contact" bgImage="/contact.jpg">
+    <CoverPage id="contact" bgImage="/images/contact.jpg">
       <Heading fontSize="5xl" fontWeight="black" lineHeight="1">
         {t('contact.title', 'お問い合わせ')}
       </Heading>
