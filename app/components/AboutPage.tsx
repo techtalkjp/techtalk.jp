@@ -1,9 +1,8 @@
-import React from 'react'
-import { useLocale } from '../utils/useLocale'
-import { Heading, Button, Table, Tbody, Tr, Td, chakra } from '@chakra-ui/react'
-import CoverPage from '../components/CoverPage'
+import { Button, chakra, Heading, Table, Tbody, Td, Tr } from '@chakra-ui/react'
+import { useLocale } from '~/hooks/useLocale'
+import CoverPage from './CoverPage'
 
-const AboutPage: React.FC = () => {
+export const AboutPage = () => {
   const { t } = useLocale()
   return (
     <CoverPage id="about" bgImage="/about.jpg">
@@ -71,5 +70,3 @@ const AboutPage: React.FC = () => {
     </CoverPage>
   )
 }
-
-export default AboutPage

@@ -1,9 +1,8 @@
-import type { NextPage } from 'next'
 import { Flex, Text, Spacer, HStack } from '@chakra-ui/react'
-import { useLocale } from '../utils/useLocale'
+import { useLocale } from '../hooks/useLocale'
 import LanguageSwitcher from './LanguageSwitcher'
 
-const Navigation: NextPage = () => {
+export const Navigation = () => {
   const { t } = useLocale()
   const scrollTo = (
     id: string,

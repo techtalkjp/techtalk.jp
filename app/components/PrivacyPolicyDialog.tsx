@@ -1,7 +1,7 @@
 import React from 'react'
-import { useLocale } from '../utils/useLocale'
-import MarkdownIt from 'markdown-it'
-import { useQuery } from 'react-query'
+import { useLocale } from '../hooks/useLocale'
+//import MarkdownIt from 'markdown-it'
+//import { useQuery } from 'react-query'
 import {
   Box,
   Text,
@@ -16,17 +16,17 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import styles from '../assets/privacy.module.css'
-import ky from 'ky'
-const md = new MarkdownIt()
+//import ky from 'ky'
+//const md = new MarkdownIt()
 
 interface Props {}
 
 const PrivacyPolicyDialog: React.FC<Props> = (props) => {
   const { t } = useLocale()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { data: policy } = useQuery<string>('/privacy.md', async () =>
-    md.render(await ky.get('/privacy.md').text())
-  )
+  //  const { data: policy } = useQuery<string>('/privacy.md', async () =>
+  //    md.render(await ky.get('/privacy.md').text())
+  //  )
 
   return (
     <>
@@ -54,10 +54,12 @@ const PrivacyPolicyDialog: React.FC<Props> = (props) => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            {/*
             <div
               className={styles.markdown}
               dangerouslySetInnerHTML={{ __html: policy || 'no data' }}
             ></div>
+              */}
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="accent" onClick={onClose}>

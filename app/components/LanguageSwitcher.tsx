@@ -1,11 +1,11 @@
 import React from 'react'
-import { useRouter } from 'next/router'
 import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react'
-import { useLocale } from '../utils/useLocale'
+import { useLocale } from '~/hooks/useLocale'
+import { useNavigate } from '@remix-run/react'
 
 const LanguageSwitcher: React.FC = () => {
   const { t, locales, locale } = useLocale()
-  const router = useRouter()
+  const navigate = useNavigate()
 
   return (
     <Menu>
@@ -24,9 +24,7 @@ const LanguageSwitcher: React.FC = () => {
             isDisabled={e === locale}
             fontWeight={e === locale ? 'bold' : 'normal'}
             key={e}
-            onClick={() =>
-              router.push(router.asPath, router.asPath, { locale: e })
-            }
+            onClick={() => navigate(e === 'ja' ? '/' : `/${e}`)}
           >
             {t(e, e)}
           </MenuItem>

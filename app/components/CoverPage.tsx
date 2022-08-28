@@ -1,6 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
-import { Box, Center, Flex } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 
 interface Props {
   children?: React.ReactNode
@@ -8,7 +7,7 @@ interface Props {
   bgImage: string
 }
 
-const CoverPage: React.VFC<Props> = ({ children, bgImage, id }) => {
+const CoverPage = ({ children, bgImage, id }: Props) => {
   return (
     <Box
       id={id}
@@ -18,25 +17,10 @@ const CoverPage: React.VFC<Props> = ({ children, bgImage, id }) => {
       bg="blackAlpha.400"
       backgroundSize="cover"
       backgroundPosition="center"
+      backgroundImage={bgImage}
       scrollSnapAlign="start"
       scrollSnapStop="always"
     >
-      <Box
-        position="absolute"
-        height="full"
-        width="full"
-        zIndex="-1"
-        bgColor="black"
-      >
-        <Image
-          alt="background"
-          src={bgImage}
-          objectFit="cover"
-          layout="fill"
-          quality={70}
-          priority
-        />
-      </Box>
       <Flex w="full" h="full" align="center" justify="center">
         <Box color="white" px="1rem" textAlign="center" mx="auto">
           {children}

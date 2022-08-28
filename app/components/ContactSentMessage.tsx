@@ -1,6 +1,6 @@
 import React from 'react'
 import { VStack, Box, SimpleGrid } from '@chakra-ui/react'
-import { ContactFormData } from '../interfaces/ContactFormData'
+import type { ContactFormData } from '~/interfaces/ContactFormData'
 
 interface Props {
   sentData: ContactFormData

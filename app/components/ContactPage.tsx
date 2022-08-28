@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useLocale } from '../utils/useLocale'
+import { useLocale } from '../hooks/useLocale'
 import {
   chakra,
   Heading,
@@ -11,14 +11,14 @@ import {
   Textarea,
   Button
 } from '@chakra-ui/react'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import ky from 'ky'
-import CoverPage from '../components/CoverPage'
-import { ContactFormData } from '../interfaces/ContactFormData'
+import type { SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import CoverPage from './CoverPage'
+import type { ContactFormData } from '../interfaces/ContactFormData'
 import ContactSentMessage from './ContactSentMessage'
 import PrivacyPolicyDialog from './PrivacyPolicyDialog'
 
-const ContactPage: React.FC = () => {
+export const ContactPage = () => {
   const { t } = useLocale()
   const [sentContact, setSentContact] = useState<ContactFormData>()
 
@@ -26,11 +26,13 @@ const ContactPage: React.FC = () => {
     mode: 'all'
   })
   const onSubmit: SubmitHandler<ContactFormData> = async (data) => {
+    /*
     await ky
       .post('/api/contact', { json: data })
       .json()
       .catch(() => null)
     setSentContact(data)
+    */
   }
 
   return (
@@ -159,5 +161,3 @@ const ContactPage: React.FC = () => {
     </CoverPage>
   )
 }
-
-export default ContactPage

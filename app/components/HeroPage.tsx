@@ -1,9 +1,8 @@
-import React from 'react'
-import { useLocale } from '../utils/useLocale'
+import { useLocale } from '../hooks/useLocale'
 import { Heading, Text } from '@chakra-ui/react'
-import CoverPage from '../components/CoverPage'
+import CoverPage from './CoverPage'
 
-const HeroPage: React.FC = () => {
+export const HeroPage = () => {
   const { t } = useLocale()
   return (
     <CoverPage id="hero" bgImage="/hero.jpg">
@@ -24,5 +23,3 @@ const HeroPage: React.FC = () => {
     </CoverPage>
   )
 }
-
-export default HeroPage
