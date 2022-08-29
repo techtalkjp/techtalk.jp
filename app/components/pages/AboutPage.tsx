@@ -5,7 +5,7 @@ import CoverPage from '../CoverPage'
 export const AboutPage = () => {
   const { t } = useLocale()
   return (
-    <CoverPage id="about" bgImage="/images/about.jpg">
+    <CoverPage id="about" bgImage="/images/about.webp">
       <Heading fontSize="5xl" fontWeight="black" lineHeight="1">
         {t('about.title', '会社概要')}
       </Heading>
