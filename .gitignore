@@ -9,6 +9,7 @@ node_modules
 /public/build
 /api/index.js
 /api/index.js.map
+/api/_assets
 
 # local env files
 .env.local
