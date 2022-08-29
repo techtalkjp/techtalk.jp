@@ -1,8 +1,9 @@
-import { VStack, Box, SimpleGrid } from '@chakra-ui/react'
+import { VStack, Box, Grid, Button } from '@chakra-ui/react'
 import type { ContactFormData } from '~/features/contact/interfaces/ContactFormData'
+import { Link } from '@remix-run/react'
 
 interface ContactSentMessageProps {
-  data: ContactFormData
+  data: Partial<ContactFormData>
 }
 
 export const ContactSentMessage = ({ data }: ContactSentMessageProps) => {
@@ -15,8 +16,16 @@ export const ContactSentMessage = ({ data }: ContactSentMessageProps) => {
         <br />
         お返事をお待ち下さい。
       </Box>
-      <SimpleGrid columns={2} spacing={4} justifyItems="start">
-        <div>お名前</div>
+
+      <Grid
+        gridTemplateColumns="auto 1fr"
+        justifyItems="start"
+        bgColor="blackAlpha.500"
+        rounded="md"
+        gap="4"
+        p="4"
+      >
+        <Box>お名前</Box>
         <Box>{data.name}</Box>
         <Box>会社名</Box>
         <Box>{data.company}</Box>
@@ -26,7 +35,11 @@ export const ContactSentMessage = ({ data }: ContactSentMessageProps) => {
         <Box>{data.email}</Box>
         <Box>メッセージ</Box>
         <Box>{data.message}</Box>
-      </SimpleGrid>
+      </Grid>
+
+      <Link to="." reloadDocument>
+        <Button colorScheme="accent">OK</Button>
+      </Link>
     </VStack>
   )
 }

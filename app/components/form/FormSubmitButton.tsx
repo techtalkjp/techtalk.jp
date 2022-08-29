@@ -1,8 +1,7 @@
-import { useIsSubmitting } from 'remix-validated-form'
 import { Button } from '@chakra-ui/react'
 
-export const FormSubmitButton = () => {
-  const isSubmitting = useIsSubmitting()
+export const FormSubmitButton = ({ state }: { state?: string }) => {
+  const isSubmitting = state === 'submitting'
 
   return (
     <Button
