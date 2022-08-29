@@ -12,7 +12,7 @@ export const ContactSentMessage = ({ data }: ContactSentMessageProps) => {
       <Box>
         お問い合わせありがとうございます。
         <br />
-        以下のメッセージを受付ました。
+        以下のメッセージを受付けました。
         <br />
         お返事をお待ち下さい。
       </Box>
