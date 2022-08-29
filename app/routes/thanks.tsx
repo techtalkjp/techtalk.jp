@@ -3,6 +3,8 @@ import { json } from '@remix-run/node'
 import type { ContactFormData } from '~/features/contact/interfaces/ContactFormData'
 import { withZod } from '@remix-validated-form/with-zod'
 import { ContactFormSchema } from '~/features/contact/schemas/contact-form'
+import { sendSlack } from '~/features/contact/utils/sendSlack'
+import { sendEmail } from '~/features/contact/utils/sendEmail'
 
 const validator = withZod(ContactFormSchema)
 
@@ -25,23 +27,17 @@ export const action = async ({ request }: ActionArgs) => {
     )
   }
 
-  return json<ActionProps>({
-    data
-  })
-  //  await sendEmail(formData)
-
-  /*
   try {
-    await sendSlack(formData)
-    await sendEmail(formData)
-    return res.status(200).end()
-  } catch (error: any) {
-    res.status(500).json({
-      error: {
-        code: 'error',
-        message: error.toString()
-      }
-    })
+    await sendSlack(data)
+    await sendEmail(data)
+    return json<ActionProps>({ data })
+  } catch (e: any) {
+    return json<ActionProps>(
+      {
+        data,
+        error: [e.toString()]
+      },
+      { status: 500 }
+    )
   }
-  */
 }

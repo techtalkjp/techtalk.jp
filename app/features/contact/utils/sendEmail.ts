@@ -1,12 +1,7 @@
 import sgMail from '@sendgrid/mail'
 import type { ContactFormData } from '../interfaces/ContactFormData'
 
-// const sendSlack = async (form: ContactFormData) => {
-//   const slack = new Slack.IncomingWebhook(process.env.SLACK_WEBHOOK as string)
-//   await slack.send({ text: JSON.stringify(form) })
-// }
-
-export const senContactEmail = async (form: ContactFormData) => {
+export const sendEmail = async (form: ContactFormData) => {
   if (form.message) {
     form.message = form.message.replace(/\r\n/g, '<br />')
     form.message = form.message.replace(/(\n|\r)/g, '<br />')
