@@ -9,7 +9,7 @@ After having run the `create-remix` command and selected "Vercel" as a deploymen
 If you'd like to avoid using a Git repository, you can also deploy the directory by running [Vercel CLI](https://vercel.com/cli):
 
 ```sh
-npm i -g vercel
+pnpm i -g vercel
 vercel
 ```
 
@@ -20,13 +20,13 @@ It is generally recommended to use a Git repository, because future commits will
 To run your Remix app locally, make sure your project's local dependencies are installed:
 
 ```sh
-npm install
+pnpm install
 ```
 
 Afterwards, start the Remix development server like so:
 
 ```sh
-npm run dev
+pnpm run dev
 ```
 
 Open up [http://localhost:3000](http://localhost:3000) and you should be ready to go!
