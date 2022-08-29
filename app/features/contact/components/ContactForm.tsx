@@ -29,7 +29,8 @@ export const ContactForm = ({ privacyPolicy }: ContactFormProps) => {
   return (
     <ValidatedForm
       validator={withZod(ContactFormSchema)}
-      onSubmit={(data) => {
+      onSubmit={(data, event) => {
+        event.preventDefault()
         fetcher.submit(data, {
           method: 'post',
           action: '/thanks'
