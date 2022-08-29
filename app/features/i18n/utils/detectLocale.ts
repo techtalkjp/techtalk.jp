@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern'
 
-export const locales = ['ja', 'en', 'zhls', 'zhlt']
+export const locales = ['ja', 'en']
 
 export const detectLocale = (pathname: string) =>
   match(pathname)
