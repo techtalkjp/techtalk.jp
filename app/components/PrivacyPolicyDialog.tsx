@@ -1,7 +1,5 @@
 import React from 'react'
 import { useLocale } from '../features/i18n/hooks/useLocale'
-//import MarkdownIt from 'markdown-it'
-//import { useQuery } from 'react-query'
 import {
   Box,
   Text,
@@ -15,17 +13,13 @@ import {
   ModalCloseButton,
   useDisclosure
 } from '@chakra-ui/react'
-//import ky from 'ky'
-//const md = new MarkdownIt()
+import Content from '~/assets/privacy.md'
 
 interface Props {}
 
 const PrivacyPolicyDialog: React.FC<Props> = (props) => {
   const { t } = useLocale()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  //  const { data: policy } = useQuery<string>('/privacy.md', async () =>
-  //    md.render(await ky.get('/privacy.md').text())
-  //  )
 
   return (
     <>
@@ -53,12 +47,9 @@ const PrivacyPolicyDialog: React.FC<Props> = (props) => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {/*
-            <div
-              className={styles.markdown}
-              dangerouslySetInnerHTML={{ __html: policy || 'no data' }}
-            ></div>
-              */}
+            <Box className="markdown">
+              <Content />
+            </Box>
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="accent" onClick={onClose}>

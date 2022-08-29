@@ -19,7 +19,7 @@ const Privacy = () => {
         TechTalkプライバシーポリシー
       </Heading>
 
-      <Container>
+      <Container className="markdown">
         <Content />
 
         <Box textAlign="center" my="4rem">
