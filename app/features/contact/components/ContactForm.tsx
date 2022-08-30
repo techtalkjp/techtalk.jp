@@ -42,7 +42,7 @@ export const ContactForm = ({ privacyPolicy }: ContactFormProps) => {
     >
       <VStack>
         <FormInput name="name" label={t('contact.name', 'お名前')} />
-        <FormInput name="company" label={t('contact.company', 'お名前')} />
+        <FormInput name="company" label={t('contact.company', '会社名')} />
         <FormInput name="phone" label={t('contact.phone', '電話番号')} />
         {<FormInput name="email" label={t('contact.email', 'メール')} />}
         <FormTextarea
