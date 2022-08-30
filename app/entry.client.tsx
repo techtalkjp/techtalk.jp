@@ -1,12 +1,13 @@
 import { CacheProvider } from '@emotion/react'
 import { RemixBrowser } from '@remix-run/react'
+import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { ClientStyleContext } from './context'
 import createEmotionCache from './createEmotionCache'
 
 interface ClientCacheProviderProps {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 function ClientCacheProvider({ children }: ClientCacheProviderProps) {

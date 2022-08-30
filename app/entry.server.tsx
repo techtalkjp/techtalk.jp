@@ -3,7 +3,6 @@ import createEmotionServer from '@emotion/server/create-instance'
 import type { EntryContext } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
 import { renderToString } from 'react-dom/server'
-
 import { ServerStyleContext } from './context'
 import createEmotionCache from './createEmotionCache'
 
@@ -23,9 +22,7 @@ export default function handleRequest(
       </CacheProvider>
     </ServerStyleContext.Provider>
   )
-
   const chunks = extractCriticalToChunks(html)
-
   const markup = renderToString(
     <ServerStyleContext.Provider value={chunks.styles}>
       <CacheProvider value={cache}>
@@ -36,7 +33,7 @@ export default function handleRequest(
 
   responseHeaders.set('Content-Type', 'text/html')
 
-  return new Response(`<!DOCTYPE html>${markup}`, {
+  return new Response('<!DOCTYPE html>' + markup, {
     status: responseStatusCode,
     headers: responseHeaders
   })
