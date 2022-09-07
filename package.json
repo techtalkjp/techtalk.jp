@@ -6,7 +6,7 @@
     "dev": "remix dev"
   },
   "dependencies": {
-    "@chakra-ui/react": "2.3.1",
+    "@chakra-ui/react": "2.3.2",
     "@emotion/cache": "^11.10.3",
     "@emotion/react": "11.10.4",
     "@emotion/server": "11.10.0",
@@ -18,7 +18,7 @@
     "@sendgrid/mail": "7.7.0",
     "@types/markdown-it": "^12.2.3",
     "@vercel/node": "2.5.13",
-    "framer-motion": "7.2.1",
+    "framer-motion": "7.3.0",
     "markdown-it": "^13.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
