@@ -44,24 +44,6 @@ export const AboutPage = () => {
                   {t('about.business.2', '事業仮説検証のためのMVP開発支援')}
                 </li>
                 <li>{t('about.business.3', 'アライアンス構築支援')}</li>
-                <li>
-                  {t('about.business.4', 'クラウドサービスの企画・開発')}
-                  <chakra.div ml="2">
-                    <a
-                      href="https://ima-ticket.com"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {t('about.business.4.1.title', 'イマチケ')}
-                    </a>
-                    <chakra.small ml="2">
-                      {t(
-                        'about.business.4.1.description',
-                        'ライブチケット販売サービス'
-                      )}
-                    </chakra.small>
-                  </chakra.div>
-                </li>
               </chakra.ol>
             </Td>
           </Tr>
