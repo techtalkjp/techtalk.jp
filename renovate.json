@@ -1,6 +1,29 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
+  ],
+  "timezone": "Asia/Tokyo",
+  "enabledManagers": [
+    "npm"
+  ],
+  "ignoreDeps": [
+    "@types/node",
+    "npm"
+  ],
+  "schedule": "every weekend",
+  "separateMultipleMajor": true,
+  "packageRules": [
+    {
+      "matchDepTypes": [
+        "dependencies"
+      ],
+      "groupName": "dependencies"
+    },
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "groupName": "devDependencies"
+    }
   ]
 }
