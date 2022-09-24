@@ -22,7 +22,7 @@ specifiers:
   eslint: 8.24.0
   eslint-config-prettier: 8.5.0
   framer-motion: 7.3.6
-  markdown-it: ^13.0.1
+  markdown-it: 13.0.1
   prettier: 2.7.1
   react: 18.2.0
   react-dom: 18.2.0
