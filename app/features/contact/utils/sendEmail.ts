@@ -16,8 +16,8 @@ export const sendEmail = async (form: ContactFormData) => {
     bcc: 'info@techtalk.jp',
     replyTo: 'info@techtalk.jp',
     dynamicTemplateData: form,
-    templateId: 'd-fc1f4a74b71644c0930a8df488956323',
-    mailSettings: { sandboxMode: { enable: true } }
+    templateId: 'd-fc1f4a74b71644c0930a8df488956323'
+    //    mailSettings: { sandboxMode: { enable: true } }
   }
   sgMail.setApiKey(process.env.SENDGRID_API_KEY as string)
   await sgMail.send(payload)

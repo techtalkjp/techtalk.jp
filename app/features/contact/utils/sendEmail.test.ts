@@ -26,7 +26,6 @@ test('sendEmail', async () => {
       name: 'coji',
       message: 'hello!'
     },
-    templateId: 'd-fc1f4a74b71644c0930a8df488956323',
-    mailSettings: { sandboxMode: { enable: true } }
+    templateId: 'd-fc1f4a74b71644c0930a8df488956323'
   })
 })
