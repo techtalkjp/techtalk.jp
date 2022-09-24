@@ -7,7 +7,7 @@ export const sendEmail = async (form: ContactFormData) => {
     form.message = form.message.replace(/(\n|\r)/g, '<br />')
   }
 
-  const payload = {
+  const payload: sgMail.MailDataRequired = {
     to: form.email,
     from: {
       email: 'info@techtalk.jp',
@@ -15,9 +15,10 @@ export const sendEmail = async (form: ContactFormData) => {
     },
     bcc: 'info@techtalk.jp',
     replyTo: 'info@techtalk.jp',
-    dynamic_template_data: form,
-    template_id: 'd-fc1f4a74b71644c0930a8df488956323'
+    dynamicTemplateData: form,
+    templateId: 'd-fc1f4a74b71644c0930a8df488956323',
+    mailSettings: { sandboxMode: { enable: true } }
   }
   sgMail.setApiKey(process.env.SENDGRID_API_KEY as string)
-  await sgMail.send(payload as any)
+  await sgMail.send(payload)
 }

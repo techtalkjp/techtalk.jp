@@ -1,13 +1,12 @@
 import { VStack } from '@chakra-ui/react'
-import { withZod } from '@remix-validated-form/with-zod'
+import { useFetcher } from '@remix-run/react'
 import { ValidatedForm } from 'remix-validated-form'
+import { ContactSentMessage } from '~/features/contact/components/ContactSentMessage'
+import { validator } from '~/features/contact/schemas/contact-form'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 import { FormInput } from './FormInput'
-import { FormTextarea } from './FormTextarea'
 import { FormSubmitButton } from './FormSubmitButton'
-import { ContactFormSchema } from '~/features/contact/schemas/contact-form'
-import { useFetcher } from '@remix-run/react'
-import { ContactSentMessage } from '~/features/contact/components/ContactSentMessage'
+import { FormTextarea } from './FormTextarea'
 
 interface ContactFormProps {
   privacyPolicy: React.ReactNode
@@ -17,10 +16,10 @@ export const ContactForm = ({ privacyPolicy }: ContactFormProps) => {
   const fetcher = useFetcher()
 
   if (fetcher.type === 'done' && fetcher.data.error) {
-    return <div>error: {JSON.stringify(fetcher.data.error)}</div>
+    return <div>error!{JSON.stringify(fetcher.data)}</div>
   }
 
-  if (fetcher.type === 'done') {
+  if (fetcher.type === 'done' && fetcher.data.data) {
     return (
       <VStack>
         <ContactSentMessage data={fetcher.data.data}></ContactSentMessage>
@@ -30,12 +29,13 @@ export const ContactForm = ({ privacyPolicy }: ContactFormProps) => {
 
   return (
     <ValidatedForm
-      validator={withZod(ContactFormSchema)}
+      fetcher={fetcher}
+      validator={validator}
       onSubmit={(data, event) => {
         event.preventDefault()
         fetcher.submit(data, {
           method: 'post',
-          action: '/thanks'
+          action: '/api/contact'
         })
       }}
       noValidate
@@ -44,7 +44,7 @@ export const ContactForm = ({ privacyPolicy }: ContactFormProps) => {
         <FormInput name="name" label={t('contact.name', 'お名前')} />
         <FormInput name="company" label={t('contact.company', '会社名')} />
         <FormInput name="phone" label={t('contact.phone', '電話番号')} />
-        {<FormInput name="email" label={t('contact.email', 'メール')} />}
+        <FormInput name="email" label={t('contact.email', 'メール')} />
         <FormTextarea
           name="message"
           label={t('contact.message', 'メッセージ')}

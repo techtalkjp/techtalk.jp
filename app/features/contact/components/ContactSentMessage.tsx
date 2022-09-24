@@ -1,6 +1,6 @@
-import { VStack, Box, Grid, Button } from '@chakra-ui/react'
-import type { ContactFormData } from '~/features/contact/interfaces/ContactFormData'
+import { Box, Button, Grid, VStack } from '@chakra-ui/react'
 import { Link } from '@remix-run/react'
+import type { ContactFormData } from '~/features/contact/interfaces/ContactFormData'
 
 interface ContactSentMessageProps {
   data: Partial<ContactFormData>
