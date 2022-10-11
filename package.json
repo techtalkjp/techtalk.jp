@@ -7,7 +7,7 @@
     "test:run": "vitest --run"
   },
   "dependencies": {
-    "@chakra-ui/react": "2.3.4",
+    "@chakra-ui/react": "2.3.5",
     "@emotion/cache": "11.10.3",
     "@emotion/react": "11.10.4",
     "@emotion/server": "11.10.0",
@@ -15,20 +15,20 @@
     "@remix-run/node": "1.7.2",
     "@remix-run/react": "1.7.2",
     "@remix-run/vercel": "1.7.2",
-    "@remix-validated-form/with-zod": "2.0.1",
+    "@remix-validated-form/with-zod": "2.0.2",
     "@sendgrid/mail": "7.7.0",
     "@types/markdown-it": "12.2.3",
-    "@vercel/node": "2.5.18",
-    "framer-motion": "7.3.6",
+    "@vercel/node": "2.5.22",
+    "framer-motion": "7.5.3",
     "markdown-it": "13.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-scroll": "1.8.7",
-    "remix-validated-form": "4.5.5",
+    "remix-validated-form": "4.5.7",
     "ts-pattern": "4.0.5",
     "typed-slack": "0.1.4",
     "zod": "3.19.1",
-    "zod-form-data": "1.2.1"
+    "zod-form-data": "1.2.2"
   },
   "devDependencies": {
     "@remix-run/dev": "1.7.2",
