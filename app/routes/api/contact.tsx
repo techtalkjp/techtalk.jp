@@ -21,9 +21,11 @@ export const action = async ({ request }: ActionArgs) => {
   }
 
   try {
-    // await sendSlack(data)
-    await sendEmail(data)
-    await sendSlack(data)
+    if (data.email !== 'test@example.com') {
+      // テスト用
+      await sendEmail(data)
+      await sendSlack(data)
+    }
     return json<ActionProps>({ data })
   } catch (e: any) {
     return json<ActionProps>(
