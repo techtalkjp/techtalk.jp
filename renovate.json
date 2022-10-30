@@ -1,8 +1,8 @@
 {
   "extends": ["config:base"],
   "timezone": "Asia/Tokyo",
-  "enabledManagers": ["pnpm"],
-  "ignoreDeps": ["pnpm"],
+  "enabledManagers": ["npm"],
+  "ignoreDeps": ["npm"],
   "schedule": "every weekend",
   "separateMultipleMajor": true,
   "packageRules": [
