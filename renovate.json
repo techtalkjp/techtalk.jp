@@ -1,29 +1,14 @@
 {
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:base"],
   "timezone": "Asia/Tokyo",
-  "enabledManagers": [
-    "npm"
-  ],
-  "ignoreDeps": [
-    "@types/node",
-    "npm"
-  ],
+  "enabledManagers": ["pnpm"],
+  "ignoreDeps": ["pnpm"],
   "schedule": "every weekend",
   "separateMultipleMajor": true,
   "packageRules": [
     {
-      "matchDepTypes": [
-        "dependencies"
-      ],
+      "matchDepTypes": ["dependencies", "devDependencies"],
       "groupName": "dependencies"
-    },
-    {
-      "matchDepTypes": [
-        "devDependencies"
-      ],
-      "groupName": "devDependencies"
     }
   ]
 }
