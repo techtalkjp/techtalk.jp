@@ -27,12 +27,14 @@ export const action = async ({ request }: ActionArgs) => {
       await sendSlack(data)
     }
     return json<ActionProps>({ data })
-  } catch (e: any) {
-    return json<ActionProps>(
-      {
-        error: [e.toString()]
-      },
-      { status: 500 }
-    )
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      return json<ActionProps>(
+        {
+          error: [e.toString()]
+        },
+        { status: 500 }
+      )
+    }
   }
 }

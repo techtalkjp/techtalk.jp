@@ -15,9 +15,7 @@ import {
 } from '@chakra-ui/react'
 import Content from '~/assets/privacy.md'
 
-interface Props {}
-
-const PrivacyPolicyDialog: React.FC<Props> = (props) => {
+const PrivacyPolicyDialog = () => {
   const { t } = useLocale()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
