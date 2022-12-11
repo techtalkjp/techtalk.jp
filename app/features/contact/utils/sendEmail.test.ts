@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { expect, test, vi } from 'vitest'
 import { sendEmail } from './sendEmail'
 import sgMail from '@sendgrid/mail'
