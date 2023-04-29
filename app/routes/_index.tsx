@@ -4,7 +4,7 @@ import { AboutPage, ContactPage, HeroPage } from '~/components/pages'
 
 export default function Index() {
   return (
-    <Box position="relative" w="100vw" h="100vh">
+    <Box position="relative" w="100vw" h="100dvh">
       <Navigation />
 
       <chakra.main
