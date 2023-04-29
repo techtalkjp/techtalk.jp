@@ -8,7 +8,7 @@ export default function Index() {
       <Navigation />
 
       <chakra.main
-        height="100vh"
+        height="100dvh"
         scrollSnapType="y mandatory"
         overflowY="scroll"
       >
