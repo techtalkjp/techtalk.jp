@@ -9,6 +9,7 @@ import {
 } from '@remix-run/react'
 import type { LinksFunction, V2_MetaFunction } from '@vercel/remix'
 import React from 'react'
+import biographyStyle from '~/styles/biography.css'
 import privacyStyles from '~/styles/privacy.css'
 import { theme } from './theme'
 
@@ -17,7 +18,10 @@ export const meta: V2_MetaFunction = () => {
 }
 
 export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: privacyStyles }]
+  return [
+    { rel: 'stylesheet', href: privacyStyles },
+    { rel: 'stylesheet', href: biographyStyle },
+  ]
 }
 
 interface DocumentProps {

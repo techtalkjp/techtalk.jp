@@ -1,5 +1,16 @@
-import { Button, chakra, Heading, Table, Tbody, Td, Tr } from '@chakra-ui/react'
+import {
+  HStack,
+  Heading,
+  List,
+  ListItem,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Tr,
+} from '@chakra-ui/react'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
+import { BiographyPopover } from '../BiographyPopover'
 import CoverPage from '../CoverPage'
 
 export const AboutPage = () => {
@@ -23,28 +34,26 @@ export const AboutPage = () => {
           <Tr>
             <Td fontWeight="bold">{t('about.representative', '代表')}</Td>
             <Td>
-              {t('cojimizoguchi', '溝口 浩二')}
-              <chakra.a
-                ml="4"
-                href="https://shareboss.net/p/boss/koji-mizoguchi/"
-                target="_blank"
-              >
-                <Button colorScheme="accent" size="xs">
-                  {t('about.biography', '代表略歴')}
-                </Button>
-              </chakra.a>
+              <HStack>
+                <Text>{t('cojimizoguchi', '溝口 浩二')}</Text>
+                <BiographyPopover />
+              </HStack>
             </Td>
           </Tr>
           <Tr>
             <Td fontWeight="bold">{t('about.business', '事業内容')}</Td>
             <Td>
-              <chakra.ol lineHeight="5" ml="4">
-                <li>{t('about.business.1', '技術に基づく新規事業構築支援')}</li>
-                <li>
+              <List lineHeight="5">
+                <ListItem>
+                  {t('about.business.1', '技術に基づく新規事業構築支援')}
+                </ListItem>
+                <ListItem>
                   {t('about.business.2', '事業仮説検証のためのMVP開発支援')}
-                </li>
-                <li>{t('about.business.3', 'アライアンス構築支援')}</li>
-              </chakra.ol>
+                </ListItem>
+                <ListItem>
+                  {t('about.business.3', 'アライアンス構築支援')}
+                </ListItem>
+              </List>
             </Td>
           </Tr>
         </Tbody>
