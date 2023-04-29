@@ -1,6 +1,6 @@
 import { Box, chakra } from '@chakra-ui/react'
 import { Navigation } from '~/components/Navigation'
-import { HeroPage, AboutPage, ContactPage } from '~/components/pages'
+import { AboutPage, ContactPage, HeroPage } from '~/components/pages'
 
 export default function Index() {
   return (

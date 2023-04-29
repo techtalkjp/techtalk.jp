@@ -1,5 +1,5 @@
-import React from 'react'
 import { Box, Flex } from '@chakra-ui/react'
+import React from 'react'
 
 interface Props {
   children?: React.ReactNode
@@ -13,7 +13,7 @@ const CoverPage = ({ children, bgImage, id }: Props) => {
       id={id}
       position="relative"
       w="100vw"
-      h="100vh"
+      h="100dvh"
       bg="blackAlpha.400"
       backgroundSize="cover"
       backgroundPosition="center"

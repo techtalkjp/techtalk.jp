@@ -11,7 +11,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react'
 import Content from '~/assets/privacy.md'
 
@@ -33,7 +33,7 @@ const PrivacyPolicyDialog = () => {
         </Text>
         {t(
           'privacy.agree-to-after',
-          'をお読みいただき、同意の上送信してください。'
+          'をお読みいただき、同意の上送信してください。',
         )}
       </Box>
 

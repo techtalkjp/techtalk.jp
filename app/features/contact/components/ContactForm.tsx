@@ -4,6 +4,7 @@ import { ValidatedForm } from 'remix-validated-form'
 import { ContactSentMessage } from '~/features/contact/components/ContactSentMessage'
 import { validator } from '~/features/contact/schemas/contact-form'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
+import { type action } from '~/routes/api.contact'
 import { FormInput } from './FormInput'
 import { FormSubmitButton } from './FormSubmitButton'
 import { FormTextarea } from './FormTextarea'
@@ -13,16 +14,13 @@ interface ContactFormProps {
 }
 export const ContactForm = ({ privacyPolicy }: ContactFormProps) => {
   const { t, locale } = useLocale()
-  const fetcher = useFetcher()
+  const fetcher = useFetcher<typeof action>()
+  const isDone = fetcher.state === 'idle' && !!fetcher.data
 
-  if (fetcher.type === 'done' && fetcher.data.error) {
-    return <div>error!{JSON.stringify(fetcher.data)}</div>
-  }
-
-  if (fetcher.type === 'done' && fetcher.data.data) {
+  if (isDone) {
     return (
       <VStack>
-        <ContactSentMessage data={fetcher.data.data}></ContactSentMessage>
+        <ContactSentMessage data={fetcher.data}></ContactSentMessage>
       </VStack>
     )
   }
@@ -35,7 +33,7 @@ export const ContactForm = ({ privacyPolicy }: ContactFormProps) => {
         event.preventDefault()
         fetcher.submit(data, {
           method: 'post',
-          action: '/api/contact'
+          action: '/api/contact',
         })
       }}
       noValidate

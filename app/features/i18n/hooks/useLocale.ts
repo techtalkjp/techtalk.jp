@@ -14,7 +14,7 @@ const resources: { [key: string]: LocaleString } = {
   ja,
   en,
   zhls,
-  zhlt
+  zhlt,
 }
 
 export const useLocale = () => {

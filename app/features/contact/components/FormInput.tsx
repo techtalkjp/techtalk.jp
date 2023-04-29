@@ -2,7 +2,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Input
+  Input,
 } from '@chakra-ui/react'
 import { useField } from 'remix-validated-form'
 

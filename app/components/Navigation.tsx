@@ -6,7 +6,7 @@ export const Navigation = () => {
   const { t } = useLocale()
   const scrollTo = (
     id: string,
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
   ) => {
     const element = document.getElementById(id)
     element?.scrollIntoView({ behavior: 'smooth' })
@@ -29,7 +29,7 @@ export const Navigation = () => {
         <Text
           _hover={{
             color: 'accent.500',
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}
         >
           {t('nav.techtalk', 'TechTalk')}
@@ -41,7 +41,7 @@ export const Navigation = () => {
           <Text
             _hover={{
               color: 'accent.500',
-              cursor: 'pointer'
+              cursor: 'pointer',
             }}
           >
             {t('nav.about', '会社概要')}
@@ -51,7 +51,7 @@ export const Navigation = () => {
           <Text
             _hover={{
               color: 'accent.500',
-              cursor: 'pointer'
+              cursor: 'pointer',
             }}
           >
             {t('nav.contact', 'お問い合わせ')}

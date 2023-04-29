@@ -1,11 +1,11 @@
-import styles from '~/styles/privacy.css'
-import { Heading, Box, Button, Container } from '@chakra-ui/react'
-import type { MetaFunction } from '@remix-run/node'
+import { Box, Button, Container, Heading } from '@chakra-ui/react'
 import { Link } from '@remix-run/react'
+import type { MetaFunction } from '@vercel/remix'
 import Content from '~/assets/privacy.md'
+import styles from '~/styles/privacy.css'
 
 export const meta: MetaFunction = () => ({
-  title: 'プライバシーポリシー - TechTalk'
+  title: 'プライバシーポリシー - TechTalk',
 })
 
 export function links() {

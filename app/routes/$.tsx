@@ -1,7 +1,7 @@
-import path from 'path'
 import type { LoaderArgs } from '@remix-run/node'
+import path from 'path'
 import { locales } from '~/features/i18n/utils/detectLocale'
-import Index from './index'
+import Index from './_index'
 
 export const loader = ({ request }: LoaderArgs) => {
   const url = new URL(request.url)
