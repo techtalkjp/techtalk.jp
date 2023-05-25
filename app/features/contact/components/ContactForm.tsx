@@ -4,30 +4,25 @@ import { ValidatedForm } from 'remix-validated-form'
 import { ContactSentMessage } from '~/features/contact/components/ContactSentMessage'
 import { validator } from '~/features/contact/schemas/contact-form'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
-import { type action } from '~/routes/api.contact'
+import { isSucceed, type action } from '~/routes/api.contact'
 import { FormInput } from './FormInput'
 import { FormSubmitButton } from './FormSubmitButton'
 import { FormTextarea } from './FormTextarea'
 
-interface ContactFormProps {
-  privacyPolicy: React.ReactNode
-}
-export const ContactForm = ({ privacyPolicy }: ContactFormProps) => {
+export const ContactForm = ({ children }: { children?: React.ReactNode }) => {
   const { t, locale } = useLocale()
   const fetcher = useFetcher<typeof action>()
-  const isDone = fetcher.state === 'idle' && !!fetcher.data
 
-  if (isDone) {
+  if (fetcher.data && isSucceed(fetcher.data)) {
     return (
       <VStack>
-        <ContactSentMessage data={fetcher.data}></ContactSentMessage>
+        <ContactSentMessage data={fetcher.data.formData}></ContactSentMessage>
       </VStack>
     )
   }
 
   return (
     <ValidatedForm
-      fetcher={fetcher}
       validator={validator}
       onSubmit={(data, event) => {
         event.preventDefault()
@@ -49,9 +44,11 @@ export const ContactForm = ({ privacyPolicy }: ContactFormProps) => {
         />
         <input type="hidden" name="locale" value={locale} />
 
-        {privacyPolicy}
+        {children}
 
-        <FormSubmitButton state={fetcher.state} />
+        <FormSubmitButton isSubmitting={fetcher.state !== 'idle'}>
+          Let's talk
+        </FormSubmitButton>
       </VStack>
     </ValidatedForm>
   )

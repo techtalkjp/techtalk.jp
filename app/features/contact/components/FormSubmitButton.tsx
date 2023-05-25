@@ -1,8 +1,12 @@
 import { Button } from '@chakra-ui/react'
 
-export const FormSubmitButton = ({ state }: { state?: string }) => {
-  const isSubmitting = state === 'submitting'
-
+export const FormSubmitButton = ({
+  isSubmitting = false,
+  children,
+}: {
+  isSubmitting?: boolean
+  children: React.ReactNode
+}) => {
   return (
     <Button
       type="submit"
@@ -10,7 +14,7 @@ export const FormSubmitButton = ({ state }: { state?: string }) => {
       isDisabled={isSubmitting}
       isLoading={isSubmitting}
     >
-      {isSubmitting ? 'Submitting...' : "Let's talk"}
+      {isSubmitting ? 'Submitting...' : children}
     </Button>
   )
 }

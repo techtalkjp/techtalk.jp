@@ -1,5 +1,5 @@
-import { z } from 'zod'
 import { withZod } from '@remix-validated-form/with-zod'
+import { z } from 'zod'
 
 export const ContactFormSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
@@ -7,7 +7,8 @@ export const ContactFormSchema = z.object({
   phone: z.string(),
   email: z.string().min(1, { message: 'Email is required' }).email(),
   message: z.string().min(1, { message: 'Message is required' }),
-  locale: z.string()
+  locale: z.string(),
 })
 
+export type ContactFormData = z.infer<typeof ContactFormSchema>
 export const validator = withZod(ContactFormSchema)

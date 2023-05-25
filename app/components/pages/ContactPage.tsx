@@ -13,7 +13,9 @@ export const ContactPage = () => {
         {t('contact.title', 'お問い合わせ')}
       </Heading>
 
-      <ContactForm privacyPolicy={<PrivacyPolicyDialog />}></ContactForm>
+      <ContactForm>
+        <PrivacyPolicyDialog />
+      </ContactForm>
     </CoverPage>
   )
 }
