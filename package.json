@@ -27,6 +27,7 @@
     "react-dom": "18.2.0",
     "react-icons": "4.9.0",
     "react-scroll": "1.8.9",
+    "remix-island": "0.1.2",
     "remix-validated-form": "4.6.12",
     "ts-pattern": "4.3.0",
     "typed-slack": "0.1.4",
