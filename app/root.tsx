@@ -14,7 +14,11 @@ import privacyStyles from '~/styles/privacy.css'
 import { theme } from './theme'
 
 export const meta: V2_MetaFunction = () => {
-  return [{ title: '株式会社TechTalk' }]
+  return [
+    { title: '株式会社TechTalk' },
+    { charSet: 'utf-8' },
+    { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+  ]
 }
 
 export const Head = createHead(() => (
