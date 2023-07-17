@@ -18,3 +18,8 @@ node_modules
 .env.production.local
 
 .DS_Store
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
