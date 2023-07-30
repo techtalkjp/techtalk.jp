@@ -1,4 +1,4 @@
-import { Heading, Text } from '@chakra-ui/react'
+import { Heading } from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 import CoverPage from '../CoverPage'
 
@@ -6,20 +6,14 @@ export const HeroPage = () => {
   const { t } = useLocale()
   return (
     <CoverPage id="hero" bgImage="/images/hero.webp">
-      <Heading
-        fontSize="5xl"
-        fontWeight="black"
-        lineHeight="1"
-        letterSpacing="tight"
-        textShadow="5px 5px black 5px"
-      >
+      <Heading>
         Technically,
         <br />
-        <Text color="accent.600">It&apos;s possible.</Text>
+        <p className="text-primary">It&apos;s possible.</p>
       </Heading>
-      <Text fontSize="lg">
+      <p className="text-lg">
         {t('hero.subcopy', 'ビジネスを可能にする、技術の話を。')}
-      </Text>
+      </p>
     </CoverPage>
   )
 }
