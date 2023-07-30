@@ -3,11 +3,11 @@ import { cva } from 'class-variance-authority'
 import * as React from 'react'
 import { cn } from '~/libs/utils'
 
-const stackVariants = cva('grid gap-2', {
+const stackVariants = cva('flex gap-2', {
   variants: {
     direction: {
-      vertical: 'grid-cols-1',
-      horizontal: 'grid-cols-[auto-fit]',
+      vertical: 'flex-col',
+      horizontal: 'flex-row',
     },
   },
   defaultVariants: {

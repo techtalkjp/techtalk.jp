@@ -1,6 +1,6 @@
-import { Flex, Text, Spacer, HStack } from '@chakra-ui/react'
-import { useLocale } from '~/features/i18n/hooks/useLocale'
+import { Spacer, Stack } from '~/components/ui'
 import LanguageSwitcher from '~/features/i18n/components/LanguageSwitcher'
+import { useLocale } from '~/features/i18n/hooks/useLocale'
 
 export const Navigation = () => {
   const { t } = useLocale()
@@ -14,53 +14,28 @@ export const Navigation = () => {
   }
 
   return (
-    <Flex
-      p="4"
-      alignContent="center"
-      justifyContent="center"
-      position="fixed"
-      w="100%"
-      zIndex="10"
-      color="white"
-      fontWeight="bold"
-      letterSpacing="tight"
-    >
+    <div className="flex p-4 items-center justify-center fixed w-full z-10 text-white font-bold leading-tight">
       <a href="#hero" onClick={(event) => scrollTo('hero', event)}>
-        <Text
-          _hover={{
-            color: 'accent.500',
-            cursor: 'pointer',
-          }}
-        >
+        <p className="hover:text-primary cursor-pointer">
           {t('nav.techtalk', 'TechTalk')}
-        </Text>
+        </p>
       </a>
       <Spacer />
-      <HStack>
+      <Stack direction="horizontal" className="items-center">
         <a href="#about" onClick={(event) => scrollTo('about', event)}>
-          <Text
-            _hover={{
-              color: 'accent.500',
-              cursor: 'pointer',
-            }}
-          >
+          <p className="hover:text-primary cursor-pointer">
             {t('nav.about', '会社概要')}
-          </Text>
+          </p>
         </a>
         <a href="#contact" onClick={(event) => scrollTo('contact', event)}>
-          <Text
-            _hover={{
-              color: 'accent.500',
-              cursor: 'pointer',
-            }}
-          >
+          <p className="hover:text-primary cursor-pointer">
             {t('nav.contact', 'お問い合わせ')}
-          </Text>
+          </p>
         </a>
 
         <LanguageSwitcher />
-      </HStack>
-    </Flex>
+      </Stack>
+    </div>
   )
 }
 
