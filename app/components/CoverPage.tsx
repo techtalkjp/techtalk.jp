@@ -1,4 +1,3 @@
-import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -9,26 +8,18 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 const CoverPage = ({ children, bgImage, id, ...rest }: Props) => {
   return (
-    <Box
+    <div
       id={id}
-      position="relative"
-      w="100vw"
-      h="100dvh"
-      bg="blackAlpha.500"
-      backgroundSize="cover"
-      backgroundPosition="center"
-      backgroundImage={bgImage}
-      backgroundBlendMode="overlay"
-      scrollSnapAlign="start"
-      scrollSnapStop="always"
+      className="flex items-center justify-center relative w-screen h-screen bg-black/30 bg-cover bg-center bg-blend-overlay snap-start snap-always"
       {...rest}
+      style={{
+        backgroundImage: `url(${bgImage})`,
+      }}
     >
-      <Flex w="full" h="full" align="center" justify="center">
-        <Box px="1rem" textAlign="center" mx="auto" minW="container.sm">
-          {children}
-        </Box>
-      </Flex>
-    </Box>
+      <div className="px-4 sm:px-0 text-center mx-auto max-w-[30rem]">
+        {children}
+      </div>
+    </div>
   )
 }
 
