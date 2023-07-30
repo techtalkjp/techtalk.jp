@@ -3,6 +3,7 @@
     "remix.env.d.ts",
     "remix.config.js",
     ".eslintrc.js",
+    "prettier.config.js",
     "**/*.ts",
     "**/*.tsx"
   ],
