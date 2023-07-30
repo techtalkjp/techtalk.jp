@@ -21,7 +21,7 @@ export const Navigation = () => {
         </p>
       </a>
       <Spacer />
-      <Stack direction="horizontal" className="items-center">
+      <Stack direction="row" className="items-center">
         <a href="#about" onClick={(event) => scrollTo('about', event)}>
           <p className="hover:text-primary cursor-pointer">
             {t('nav.about', '会社概要')}
