@@ -1,4 +1,4 @@
-import { Box, ChakraProvider, Heading } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 import {
   Links,
   LiveReload,
@@ -55,13 +55,11 @@ export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <>
       <Head />
-      <ChakraProvider theme={theme} resetCSS>
-        <Box>
-          <Heading as="h1" bg="blue.500">
-            [Error]: There was an error: {String(error)}
-          </Heading>
-        </Box>
-      </ChakraProvider>
+      <div>
+        <h1 className="text-5xl">
+          [Error]: There was an error: {String(error)}
+        </h1>
+      </div>
       <ScrollRestoration />
       <Scripts />
       <LiveReload />

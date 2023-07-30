@@ -1,5 +1,4 @@
-import { Stack, Text } from '@chakra-ui/react'
-import { Heading } from '~/components/ui'
+import { Heading, Stack } from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 import { BiographyPopover } from '../BiographyPopover'
 import CoverPage from '../CoverPage'
@@ -28,7 +27,7 @@ export const AboutPage = () => {
             </td>
             <td className="p-4">
               <Stack direction="row" className="items-center">
-                <Text>{t('cojimizoguchi', '溝口 浩二')}</Text>
+                <p>{t('cojimizoguchi', '溝口 浩二')}</p>
                 <BiographyPopover />
               </Stack>
             </td>
