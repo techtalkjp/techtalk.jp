@@ -4,6 +4,7 @@
     "remix.config.js",
     ".eslintrc.js",
     "prettier.config.js",
+    "tailwind.config.js",
     "**/*.ts",
     "**/*.tsx"
   ],

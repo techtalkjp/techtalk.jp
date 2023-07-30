@@ -10,6 +10,7 @@ import {
 import type { LinksFunction, V2_MetaFunction } from '@vercel/remix'
 import { createHead } from 'remix-island'
 import biographyStyle from '~/styles/biography.css'
+import globalStyles from '~/styles/globals.css'
 import privacyStyles from '~/styles/privacy.css'
 import { theme } from './theme'
 
@@ -30,6 +31,7 @@ export const Head = createHead(() => (
 
 export const links: LinksFunction = () => {
   return [
+    { rel: 'stylesheet', href: globalStyles },
     { rel: 'stylesheet', href: privacyStyles },
     { rel: 'stylesheet', href: biographyStyle },
   ]

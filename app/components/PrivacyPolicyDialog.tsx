@@ -1,19 +1,18 @@
-import React from 'react'
-import { useLocale } from '../features/i18n/hooks/useLocale'
 import {
   Box,
-  Text,
   Button,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react'
 import Content from '~/assets/privacy.md'
+import { useLocale } from '../features/i18n/hooks/useLocale'
 
 const PrivacyPolicyDialog = () => {
   const { t } = useLocale()

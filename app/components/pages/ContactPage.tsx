@@ -1,6 +1,6 @@
 import { Heading } from '@chakra-ui/react'
-import { ContactForm } from '~/features/contact/components/ContactForm'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
+import { ContactForm } from '~/routes/api.contact'
 import CoverPage from '../CoverPage'
 import PrivacyPolicyDialog from '../PrivacyPolicyDialog'
 
@@ -9,11 +9,11 @@ export const ContactPage = () => {
 
   return (
     <CoverPage id="contact" bgImage="/images/contact.webp">
-      <Heading fontSize="5xl" fontWeight="black" lineHeight="1">
+      <Heading fontSize="5xl" fontWeight="black" lineHeight="1" mb="4">
         {t('contact.title', 'お問い合わせ')}
       </Heading>
 
-      <ContactForm>
+      <ContactForm className="text-left">
         <PrivacyPolicyDialog />
       </ContactForm>
     </CoverPage>
