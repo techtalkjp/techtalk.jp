@@ -1,21 +1,16 @@
-import { Box, chakra } from '@chakra-ui/react'
 import { Navigation } from '~/components/Navigation'
 import { AboutPage, ContactPage, HeroPage } from '~/components/pages'
 
 export default function Index() {
   return (
-    <Box position="relative" w="100vw" h="100dvh">
+    <div className="relative w-screen h-screen text-white">
       <Navigation />
 
-      <chakra.main
-        height="100dvh"
-        scrollSnapType="y mandatory"
-        overflowY="scroll"
-      >
+      <main className="h-screen snap-y snap-mandatory overflow-auto">
         <HeroPage />
         <AboutPage />
         <ContactPage />
-      </chakra.main>
-    </Box>
+      </main>
+    </div>
   )
 }

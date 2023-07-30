@@ -1,60 +1,50 @@
-import {
-  Box,
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { useState } from 'react'
 import Content from '~/assets/privacy.md'
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+} from '~/components/ui'
 import { useLocale } from '../features/i18n/hooks/useLocale'
 
 const PrivacyPolicyDialog = () => {
   const { t } = useLocale()
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <>
-      <Box>
+      <div>
         {t('privacy.agree-to-before', '')}
-        <Text
-          color="accent.500"
-          cursor="pointer"
-          display="inline"
-          onClick={onOpen}
+        <p
+          className="text-primary cursor-pointer inline"
+          onClick={() => setIsOpen(true)}
         >
           {t('privacy.privacy-policy', 'プライバシーポリシー')}
-        </Text>
+        </p>
         {t(
           'privacy.agree-to-after',
           'をお読みいただき、同意の上送信してください。',
         )}
-      </Box>
+      </div>
 
-      <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside">
-        <ModalOverlay />
-        <ModalContent maxW="container.md">
-          <ModalHeader>
+      <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
+        <DialogContent className="max-h-[32rem] flex flex-col gap-4">
+          <DialogHeader className="font-bold text-xl">
             {t('privacy.dialog.title', 'TechTalk プライバシーポリシー')}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Box className="markdown">
-              <Content />
-            </Box>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="accent" onClick={onClose}>
+          </DialogHeader>
+
+          <div className="markdown overflow-auto flex-1">
+            <Content />
+          </div>
+          <DialogFooter>
+            <Button className="w-full" onClick={() => setIsOpen(false)}>
               {t('privacy.dialog.close', '閉じる')}
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

@@ -24,7 +24,7 @@ const CoverPage = ({ children, bgImage, id, ...rest }: Props) => {
       {...rest}
     >
       <Flex w="full" h="full" align="center" justify="center">
-        <Box color="white" px="1rem" textAlign="center" mx="auto">
+        <Box px="1rem" textAlign="center" mx="auto" minW="container.sm">
           {children}
         </Box>
       </Flex>

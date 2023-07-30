@@ -11,6 +11,9 @@ module.exports = {
       },
     },
     extend: {
+      height: { screen: ['100vh', '100dvh'] },
+      minHeight: { screen: ['100vh', '100dvh'] },
+      maxHeight: { screen: ['100vh', '100dvh'] },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
