@@ -6,7 +6,7 @@ export const HeroPage = () => {
   const { t } = useLocale()
   return (
     <CoverPage id="hero" bgImage="/images/hero.webp">
-      <Heading>
+      <Heading size="5xl">
         Technically,
         <br />
         <p className="text-primary">It&apos;s possible.</p>

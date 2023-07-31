@@ -14,12 +14,7 @@ const LanguageSwitcher = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          size="xs"
-          aria-label="Language"
-          variant="outline"
-          className="bg-transparent"
-        >
+        <Button size="xs" aria-label="Language" variant="outline">
           {t(locale, locale)}
         </Button>
       </DropdownMenuTrigger>

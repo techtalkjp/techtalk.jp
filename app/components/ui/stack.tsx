@@ -36,10 +36,10 @@ export interface StackProps
     VariantProps<typeof stackVariants> {}
 
 export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
-  ({ className, direction, ...props }, ref) => (
+  ({ className, gap, direction, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(stackVariants({ direction, className }))}
+      className={cn(stackVariants({ direction, gap, className }))}
       {...props}
     />
   ),

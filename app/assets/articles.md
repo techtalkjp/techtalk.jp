@@ -22,7 +22,7 @@
 
 ## 2007 年 CNET JAPAN
 
-[ニワンゴ技術責任者が語る、「ニコニコ動画」成功の鍵](https://shareboss.net/p/boss/koji-mizoguchi/)
+[ニワンゴ技術責任者が語る、「ニコニコ動画」成功の鍵](https://japan.cnet.com/article/20361283/)
 
 ![](https://japan.cnet.com/story_media/20361283/CNETJ/071117_niwango2.jpg)
 

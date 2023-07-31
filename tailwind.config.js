@@ -3,13 +3,6 @@ module.exports = {
   darkMode: ['class'],
   content: ['./app/**/*.{ts,tsx}'],
   theme: {
-    colors: {
-      white: '#fff',
-      black: '#000',
-      github: '#181717',
-      facebook: '#1877f2',
-      twitter: '#1da1f2',
-    },
     container: {
       center: true,
       padding: '2rem',
@@ -22,6 +15,9 @@ module.exports = {
       minHeight: { screen: ['100vh', '100dvh'] },
       maxHeight: { screen: ['100vh', '100dvh'] },
       colors: {
+        github: '#181717',
+        facebook: '#1877f2',
+        twitter: '#1da1f2',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

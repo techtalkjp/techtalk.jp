@@ -24,9 +24,11 @@ export const BiographyPopover = () => {
   return (
     <Popover open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <PopoverTrigger asChild>
-        <Button size="xs">{t('about.biography', '代表略歴')}</Button>
+        <Button size="xs" variant="outline">
+          {t('about.biography', '代表略歴')}
+        </Button>
       </PopoverTrigger>
-      <PopoverContent color="gray.800">
+      <PopoverContent className="text-slate-700 w-[21rem]">
         <Stack className="relative">
           <Button
             className="absolute top-0 right-0 h-6 w-6"
@@ -41,35 +43,56 @@ export const BiographyPopover = () => {
             <Avatar>
               <AvatarImage src="/images/coji.webp" loading="lazy" />
             </Avatar>
-            <Stack>
-              <Heading className="font-bold">溝口浩二 coji</Heading>
+            <Stack gap="1">
+              <Heading size="md">溝口浩二 coji</Heading>
               <HStack>
-                <a
-                  href="https://twitter.com/techtalkjp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center text-twitter"
+                <Button
+                  size="xs"
+                  variant="outline"
+                  className="text-twitter"
+                  asChild
                 >
-                  <BsTwitter /> <p className="ml-1 text-xs">Twitter</p>
-                </a>
+                  <a
+                    href="https://twitter.com/techtalkjp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center"
+                  >
+                    <BsTwitter /> <p className="ml-1 text-xs">Twitter</p>
+                  </a>
+                </Button>
 
-                <a
-                  href="https://www.facebook.com/mizoguchi.coji"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center text-facebook"
+                <Button
+                  size="xs"
+                  variant="outline"
+                  className="text-facebook"
+                  asChild
                 >
-                  <BsFacebook /> <p className="ml-1 text-xs">Facebook</p>
-                </a>
+                  <a
+                    href="https://www.facebook.com/mizoguchi.coji"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center"
+                  >
+                    <BsFacebook /> <p className="ml-1 text-xs">Facebook</p>
+                  </a>
+                </Button>
 
-                <a
-                  href="https://github.com/coji"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center text-github"
+                <Button
+                  size="xs"
+                  variant="outline"
+                  className="text-github"
+                  asChild
                 >
-                  <BsGithub /> <p className="ml-1 text-xs">GitHub</p>
-                </a>
+                  <a
+                    href="https://github.com/coji"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center"
+                  >
+                    <BsGithub /> <p className="ml-1 text-xs">GitHub</p>
+                  </a>
+                </Button>
               </HStack>
             </Stack>
           </HStack>
@@ -93,7 +116,7 @@ export const BiographyPopover = () => {
             </Button>
           </HStack>
 
-          <div className="biography pr-2 h-48 overflow-auto text-sm">
+          <div className="biography p-2 leading-5 h-48 overflow-auto text-sm">
             {state === 'biography' && <BiographyContent />}
             {state === 'articles' && <ArticlesContent />}
           </div>
