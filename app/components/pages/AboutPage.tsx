@@ -1,4 +1,4 @@
-import { Heading, Stack } from '~/components/ui'
+import { Heading, HStack } from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 import { BiographyPopover } from '../BiographyPopover'
 import CoverPage from '../CoverPage'
@@ -32,10 +32,10 @@ export const AboutPage = () => {
               {t('about.representative', '代表')}
             </td>
             <td className="p-2 sm:p-4">
-              <Stack direction="row" className="items-center">
+              <HStack>
                 <p>{t('cojimizoguchi', '溝口 浩二')}</p>
                 <BiographyPopover />
-              </Stack>
+              </HStack>
             </td>
           </tr>
           <tr>

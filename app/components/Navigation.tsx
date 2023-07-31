@@ -1,4 +1,4 @@
-import { Spacer, Stack } from '~/components/ui'
+import { HStack, Spacer } from '~/components/ui'
 import LanguageSwitcher from '~/features/i18n/components/LanguageSwitcher'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 
@@ -14,14 +14,15 @@ export const Navigation = () => {
   }
 
   return (
-    <div className="flex p-4 items-center justify-center fixed w-full z-10 text-white font-bold leading-tight">
+    <HStack className="py-2 px-4 fixed w-full z-10 text-white font-bold">
       <a href="#hero" onClick={(event) => scrollTo('hero', event)}>
         <p className="hover:text-primary cursor-pointer">
           {t('nav.techtalk', 'TechTalk')}
         </p>
       </a>
+
       <Spacer />
-      <Stack direction="row" className="items-center">
+      <HStack>
         <a href="#about" onClick={(event) => scrollTo('about', event)}>
           <p className="hover:text-primary cursor-pointer">
             {t('nav.about', '会社概要')}
@@ -34,8 +35,8 @@ export const Navigation = () => {
         </a>
 
         <LanguageSwitcher />
-      </Stack>
-    </div>
+      </HStack>
+    </HStack>
   )
 }
 

@@ -45,3 +45,18 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
   ),
 )
 Stack.displayName = 'Stack'
+
+export interface HStackProps extends React.HTMLAttributes<HTMLDivElement> {}
+export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(
+  ({ className, ...props }, ref) => (
+    <Stack
+      ref={ref}
+      className={cn(
+        stackVariants({ direction: 'row', className }),
+        'items-center',
+      )}
+      {...props}
+    />
+  ),
+)
+HStack.displayName = 'HStack'
