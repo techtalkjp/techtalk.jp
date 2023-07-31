@@ -28,7 +28,10 @@ test('sendEmail', async () => {
     dynamicTemplateData: {
       email: 'coji@techtalk.jp',
       name: 'coji',
-      message: 'hello!',
+      company: 'techtalk',
+      phone: '000-0000-0000',
+      message: 'Hello!',
+      locale: 'ja',
     },
     templateId: 'd-fc1f4a74b71644c0930a8df488956323',
   })
