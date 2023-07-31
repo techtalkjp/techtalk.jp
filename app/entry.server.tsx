@@ -54,7 +54,7 @@ const handleBotRequest = (
               status: didError ? 500 : responseStatusCode,
             }),
           )
-          const bodyWithStyles = `<!DOCTYPE html><html><head>${head}</head><body><div id="root">`
+          const bodyWithStyles = `<!DOCTYPE html><html lang="ja"><head>${head}</head><body><div id="root">`
           body.write(bodyWithStyles)
           stream.pipe(body)
           body.write(`</div></body></html>`)
@@ -96,7 +96,7 @@ const handleBrowserRequest = (
             }),
           )
 
-          const bodyWithStyles = `<!DOCTYPE html><html><head>${head}</head><body><div id="root">`
+          const bodyWithStyles = `<!DOCTYPE html><html lang="ja"><head>${head}</head><body><div id="root">`
           body.write(bodyWithStyles)
           stream.pipe(body)
           body.write(`</div></body></html>`)
