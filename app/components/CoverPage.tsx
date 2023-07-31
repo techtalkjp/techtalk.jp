@@ -16,7 +16,7 @@ const CoverPage = ({ children, bgImage, id, ...rest }: Props) => {
         backgroundImage: `url(${bgImage})`,
       }}
     >
-      <div className="px-4 sm:px-0 text-center mx-auto max-w-[30rem]">
+      <div className="px-4 sm:px-0 text-center mx-auto max-w-[32rem]">
         {children}
       </div>
     </div>
