@@ -5,9 +5,7 @@ import Content from '~/assets/privacy.md'
 import styles from '~/styles/privacy.css'
 
 export const meta: V2_MetaFunction = () => [
-  {
-    title: 'プライバシーポリシー - TechTalk',
-  },
+  { title: 'プライバシーポリシー - TechTalk' },
 ]
 
 export function links() {

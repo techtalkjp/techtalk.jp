@@ -1,7 +1,5 @@
 import {
-  Avatar,
   Box,
-  Button,
   HStack,
   Icon,
   Link,
@@ -19,6 +17,7 @@ import { useState } from 'react'
 import { BsFacebook, BsGithub, BsTwitter } from 'react-icons/bs'
 import ArticlesContent from '~/assets/articles.md'
 import BiographyContent from '~/assets/biography.md'
+import { Avatar, AvatarImage, Button } from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 
 export const BiographyPopover = () => {
@@ -28,16 +27,16 @@ export const BiographyPopover = () => {
   return (
     <Popover isLazy>
       <PopoverTrigger>
-        <Button colorScheme="accent" size="xs">
-          {t('about.biography', '代表略歴')}
-        </Button>
+        <Button size="xs">{t('about.biography', '代表略歴')}</Button>
       </PopoverTrigger>
       <PopoverContent color="gray.800">
         <PopoverArrow />
         <PopoverCloseButton />
         <PopoverHeader>
           <HStack>
-            <Avatar src="/images/coji.webp" loading="lazy" />
+            <Avatar>
+              <AvatarImage src="/images/coji.webp" loading="lazy" />
+            </Avatar>
             <Stack>
               <Text>溝口浩二 coji</Text>
               <HStack>
@@ -75,19 +74,17 @@ export const BiographyPopover = () => {
           <Stack>
             <HStack>
               <Button
-                colorScheme="accent"
+                className="flex-1"
                 size="xs"
-                flex="1"
-                variant={state === 'biography' ? 'solid' : 'outline'}
+                variant={state === 'biography' ? 'default' : 'outline'}
                 onClick={() => setState('biography')}
               >
                 略歴
               </Button>
               <Button
-                colorScheme="accent"
+                className="flex-1"
                 size="xs"
-                flex="1"
-                variant={state === 'articles' ? 'solid' : 'outline'}
+                variant={state === 'articles' ? 'default' : 'outline'}
                 onClick={() => setState('articles')}
               >
                 掲載記事
