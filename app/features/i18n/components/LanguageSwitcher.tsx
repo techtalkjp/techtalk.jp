@@ -1,35 +1,36 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
-import { useNavigate } from '@remix-run/react'
+import { Link } from '@remix-run/react'
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '~/components/ui'
 import { locales, useLocale } from '~/features/i18n/hooks/useLocale'
 
 const LanguageSwitcher = () => {
   const { t, locale } = useLocale()
-  const navigate = useNavigate()
 
   return (
-    <Menu>
-      <MenuButton
-        as={Button}
-        size="xs"
-        aria-label="Language"
-        variant="outline"
-        colorScheme="white"
-      >
-        {t(locale, locale)}
-      </MenuButton>
-      <MenuList color="black">
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          size="xs"
+          aria-label="Language"
+          variant="outline"
+          className="bg-transparent"
+        >
+          {t(locale, locale)}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
         {locales.map((e) => (
-          <MenuItem
-            isDisabled={e === locale}
-            fontWeight={e === locale ? 'bold' : 'normal'}
-            key={e}
-            onClick={() => navigate(e === 'ja' ? '/' : `/${e}`)}
-          >
-            {t(e, e)}
-          </MenuItem>
+          <DropdownMenuItem key={e} asChild>
+            <Link to={e === 'ja' ? '/' : `/${e}`}>{t(e, e)}</Link>
+          </DropdownMenuItem>
         ))}
-      </MenuList>
-    </Menu>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 export default LanguageSwitcher
