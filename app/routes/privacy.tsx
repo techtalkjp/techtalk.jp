@@ -1,7 +1,7 @@
-import { Box, Button, Container, Heading } from '@chakra-ui/react'
 import { Link } from '@remix-run/react'
 import type { V2_MetaFunction } from '@vercel/remix'
 import Content from '~/assets/privacy.md'
+import { Button, Heading } from '~/components/ui'
 import styles from '~/styles/privacy.css'
 
 export const meta: V2_MetaFunction = () => [
@@ -15,19 +15,19 @@ export function links() {
 const Privacy = () => {
   return (
     <>
-      <Heading textAlign="center" my="4rem">
+      <Heading className="text-center my-16 text-4xl font-black">
         TechTalkプライバシーポリシー
       </Heading>
 
-      <Container className="markdown">
+      <div className="markdown container">
         <Content />
 
-        <Box textAlign="center" my="4rem">
-          <Link to="/">
-            <Button colorScheme="accent">トップに戻る</Button>
-          </Link>
-        </Box>
-      </Container>
+        <div className="text-center my-16">
+          <Button asChild>
+            <Link to="/">トップに戻る</Link>
+          </Button>
+        </div>
+      </div>
     </>
   )
 }

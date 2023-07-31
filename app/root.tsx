@@ -1,4 +1,3 @@
-import { ChakraProvider } from '@chakra-ui/react'
 import {
   Links,
   LiveReload,
@@ -12,7 +11,6 @@ import { createHead } from 'remix-island'
 import biographyStyle from '~/styles/biography.css'
 import globalStyles from '~/styles/globals.css'
 import privacyStyles from '~/styles/privacy.css'
-import { theme } from './theme'
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -41,9 +39,7 @@ export default function App() {
   return (
     <>
       <Head />
-      <ChakraProvider theme={theme} resetCSS>
-        <Outlet />
-      </ChakraProvider>
+      <Outlet />
       <ScrollRestoration />
       <Scripts />
       <LiveReload />

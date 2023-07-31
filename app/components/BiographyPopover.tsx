@@ -1,12 +1,3 @@
-import {
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-} from '@chakra-ui/react'
 import { useState } from 'react'
 import { BsFacebook, BsGithub, BsTwitter } from 'react-icons/bs'
 import ArticlesContent from '~/assets/articles.md'
@@ -17,6 +8,9 @@ import {
   Button,
   HStack,
   Heading,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Stack,
 } from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
@@ -26,14 +20,12 @@ export const BiographyPopover = () => {
   const [state, setState] = useState<'biography' | 'articles'>('biography')
 
   return (
-    <Popover isLazy>
-      <PopoverTrigger>
+    <Popover>
+      <PopoverTrigger asChild>
         <Button size="xs">{t('about.biography', '代表略歴')}</Button>
       </PopoverTrigger>
       <PopoverContent color="gray.800">
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverHeader>
+        <Stack>
           <HStack>
             <Avatar>
               <AvatarImage src="/images/coji.webp" loading="lazy" />
@@ -47,7 +39,7 @@ export const BiographyPopover = () => {
                   rel="noopener noreferrer"
                   className="flex items-center text-twitter"
                 >
-                  <BsTwitter /> <p className="ml-1">Twitter</p>
+                  <BsTwitter /> <p className="ml-1 text-xs">Twitter</p>
                 </a>
 
                 <a
@@ -56,7 +48,7 @@ export const BiographyPopover = () => {
                   rel="noopener noreferrer"
                   className="flex items-center text-facebook"
                 >
-                  <BsFacebook /> <p className="ml-1">Facebook</p>
+                  <BsFacebook /> <p className="ml-1 text-xs">Facebook</p>
                 </a>
 
                 <a
@@ -65,39 +57,39 @@ export const BiographyPopover = () => {
                   rel="noopener noreferrer"
                   className="flex items-center text-github"
                 >
-                  <BsGithub /> <p className="ml-1">GitHub</p>
+                  <BsGithub /> <p className="ml-1 text-xs">GitHub</p>
                 </a>
               </HStack>
             </Stack>
+            <Button variant="outline" size="icon">
+              close
+            </Button>
           </HStack>
-        </PopoverHeader>
-        <PopoverBody>
-          <Stack>
-            <HStack>
-              <Button
-                className="flex-1"
-                size="xs"
-                variant={state === 'biography' ? 'default' : 'outline'}
-                onClick={() => setState('biography')}
-              >
-                略歴
-              </Button>
-              <Button
-                className="flex-1"
-                size="xs"
-                variant={state === 'articles' ? 'default' : 'outline'}
-                onClick={() => setState('articles')}
-              >
-                掲載記事
-              </Button>
-            </HStack>
 
-            <div className="biography pr-2 h-48 overflow-auto text-sm">
-              {state === 'biography' && <BiographyContent />}
-              {state === 'articles' && <ArticlesContent />}
-            </div>
-          </Stack>
-        </PopoverBody>
+          <HStack>
+            <Button
+              className="flex-1"
+              size="xs"
+              variant={state === 'biography' ? 'default' : 'outline'}
+              onClick={() => setState('biography')}
+            >
+              略歴
+            </Button>
+            <Button
+              className="flex-1"
+              size="xs"
+              variant={state === 'articles' ? 'default' : 'outline'}
+              onClick={() => setState('articles')}
+            >
+              掲載記事
+            </Button>
+          </HStack>
+
+          <div className="biography pr-2 h-48 overflow-auto text-sm">
+            {state === 'biography' && <BiographyContent />}
+            {state === 'articles' && <ArticlesContent />}
+          </div>
+        </Stack>
       </PopoverContent>
     </Popover>
   )

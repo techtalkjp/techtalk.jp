@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority'
 import * as React from 'react'
 import { cn } from '~/libs/utils'
 
-const stackVariants = cva('flex gap-2', {
+const stackVariants = cva('flex', {
   variants: {
     direction: {
       column: 'flex-col',

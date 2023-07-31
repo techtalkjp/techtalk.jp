@@ -8,13 +8,8 @@
     "test:run": "vitest --run"
   },
   "dependencies": {
-    "@chakra-ui/react": "2.8.0",
     "@conform-to/react": "0.7.4",
     "@conform-to/zod": "0.7.4",
-    "@emotion/cache": "11.11.0",
-    "@emotion/react": "11.11.1",
-    "@emotion/server": "11.11.0",
-    "@emotion/styled": "11.11.0",
     "@radix-ui/react-avatar": "1.0.3",
     "@radix-ui/react-dialog": "1.0.4",
     "@radix-ui/react-dropdown-menu": "2.0.5",
@@ -31,7 +26,6 @@
     "@vercel/remix": "1.19.1",
     "class-variance-authority": "0.7.0",
     "clsx": "2.0.0",
-    "framer-motion": "10.15.0",
     "isbot": "3.6.13",
     "markdown-it": "13.0.1",
     "react": "18.2.0",

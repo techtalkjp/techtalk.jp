@@ -1,6 +1,3 @@
-import createEmotionCache from '@emotion/cache'
-import { CacheProvider as EmotionCacheProvider } from '@emotion/react'
-import createEmotionServer from '@emotion/server/create-instance'
 import type { EntryContext } from '@remix-run/node'
 import { Response } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
@@ -41,17 +38,13 @@ const handleBotRequest = (
 ) =>
   new Promise((resolve, reject) => {
     let didError = false
-    const emotionCache = createEmotionCache({ key: 'css' })
 
     const stream = renderToPipeableStream(
-      <EmotionCacheProvider value={emotionCache}>
-        <RemixServer context={remixContext} url={request.url} />
-      </EmotionCacheProvider>,
+      <RemixServer context={remixContext} url={request.url} />,
       {
         onAllReady: () => {
           const head = renderHeadToString({ request, remixContext, Head })
           const body = new PassThrough()
-          const emotionServer = createEmotionServer(emotionCache)
 
           responseHeaders.set('Content-Type', 'text/html')
 
@@ -61,9 +54,7 @@ const handleBotRequest = (
               status: didError ? 500 : responseStatusCode,
             }),
           )
-          const bodyWithStyles = emotionServer.renderStylesToString(
-            `<!DOCTYPE html><html><head>${head}</head><body><div id="root">`,
-          )
+          const bodyWithStyles = `<!DOCTYPE html><html><head>${head}</head><body><div id="root">`
           body.write(bodyWithStyles)
           stream.pipe(body)
           body.write(`</div></body></html>`)
@@ -89,17 +80,12 @@ const handleBrowserRequest = (
 ) =>
   new Promise((resolve, reject) => {
     let didError = false
-    const emotionCache = createEmotionCache({ key: 'css' })
-
     const stream = renderToPipeableStream(
-      <EmotionCacheProvider value={emotionCache}>
-        <RemixServer context={remixContext} url={request.url} />
-      </EmotionCacheProvider>,
+      <RemixServer context={remixContext} url={request.url} />,
       {
         onShellReady: () => {
           const head = renderHeadToString({ request, remixContext, Head })
           const body = new PassThrough()
-          const emotionServer = createEmotionServer(emotionCache)
 
           responseHeaders.set('Content-Type', 'text/html')
 
@@ -110,9 +96,7 @@ const handleBrowserRequest = (
             }),
           )
 
-          const bodyWithStyles = emotionServer.renderStylesToString(
-            `<!DOCTYPE html><html><head>${head}</head><body><div id="root">`,
-          )
+          const bodyWithStyles = `<!DOCTYPE html><html><head>${head}</head><body><div id="root">`
           body.write(bodyWithStyles)
           stream.pipe(body)
           body.write(`</div></body></html>`)
