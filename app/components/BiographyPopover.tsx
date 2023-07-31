@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { BsFacebook, BsGithub, BsTwitter } from 'react-icons/bs'
+import { IoClose } from 'react-icons/io5'
 import ArticlesContent from '~/assets/articles.md'
 import BiographyContent from '~/assets/biography.md'
 import {
@@ -17,15 +18,25 @@ import { useLocale } from '~/features/i18n/hooks/useLocale'
 
 export const BiographyPopover = () => {
   const { t } = useLocale()
+  const [isOpen, setIsOpen] = useState(false)
   const [state, setState] = useState<'biography' | 'articles'>('biography')
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <PopoverTrigger asChild>
         <Button size="xs">{t('about.biography', '代表略歴')}</Button>
       </PopoverTrigger>
       <PopoverContent color="gray.800">
-        <Stack>
+        <Stack className="relative">
+          <Button
+            className="absolute top-0 right-0 h-6 w-6"
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsOpen(false)}
+          >
+            <IoClose />
+          </Button>
+
           <HStack>
             <Avatar>
               <AvatarImage src="/images/coji.webp" loading="lazy" />
@@ -61,9 +72,6 @@ export const BiographyPopover = () => {
                 </a>
               </HStack>
             </Stack>
-            <Button variant="outline" size="icon">
-              close
-            </Button>
           </HStack>
 
           <HStack>
