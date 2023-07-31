@@ -1,5 +1,5 @@
 import sgMail from '@sendgrid/mail'
-import type { ContactFormData } from '../interfaces/ContactFormData'
+import type { ContactFormData } from '~/routes/api.contact'
 
 export const sendEmail = async (form: ContactFormData) => {
   if (form.message) {
@@ -11,12 +11,12 @@ export const sendEmail = async (form: ContactFormData) => {
     to: form.email,
     from: {
       email: 'info@techtalk.jp',
-      name: 'TechTalk'
+      name: 'TechTalk',
     },
     bcc: 'info@techtalk.jp',
     replyTo: 'info@techtalk.jp',
     dynamicTemplateData: form,
-    templateId: 'd-fc1f4a74b71644c0930a8df488956323'
+    templateId: 'd-fc1f4a74b71644c0930a8df488956323',
     //    mailSettings: { sandboxMode: { enable: true } }
   }
   sgMail.setApiKey(process.env.SENDGRID_API_KEY as string)

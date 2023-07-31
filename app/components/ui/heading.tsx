@@ -1,3 +1,6 @@
-export const Heading = ({ children }: { children?: React.ReactNode }) => (
-  <h2 className="font-sans text-5xl font-black">{children}</h2>
+interface HeadingProps extends React.HTMLAttributes<HTMLDivElement> {}
+export const Heading = ({ children, ...rest }: HeadingProps) => (
+  <h2 className="font-sans text-5xl font-black" {...rest}>
+    {children}
+  </h2>
 )

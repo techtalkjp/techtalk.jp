@@ -1,21 +1,24 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import { test, expect, vi } from 'vitest'
 import { IncomingWebhook } from 'typed-slack'
+import { expect, test, vi } from 'vitest'
 import { sendSlack } from './sendSlack'
 
 vi.mock('typed-slack')
 
 test('sendSlack', async () => {
-  const incommingWebhook = new IncomingWebhook('test')
+  const incomingWebhook = new IncomingWebhook('test')
 
   const form = {
     email: 'coji@techtalk.jp',
     name: 'coji',
-    message: 'Hello!'
+    company: 'techtalk',
+    phone: '000-0000-0000',
+    message: 'Hello!',
+    locale: 'ja',
   }
   await sendSlack(form)
 
-  expect(incommingWebhook.send).toHaveBeenCalledWith({
-    text: JSON.stringify(form)
+  expect(incomingWebhook.send).toHaveBeenCalledWith({
+    text: JSON.stringify(form),
   })
 })

@@ -1,8 +1,4 @@
 import {
-  Box,
-  HStack,
-  Icon,
-  Link,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -10,14 +6,19 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
-  Stack,
-  Text,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { BsFacebook, BsGithub, BsTwitter } from 'react-icons/bs'
 import ArticlesContent from '~/assets/articles.md'
 import BiographyContent from '~/assets/biography.md'
-import { Avatar, AvatarImage, Button } from '~/components/ui'
+import {
+  Avatar,
+  AvatarImage,
+  Button,
+  HStack,
+  Heading,
+  Stack,
+} from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 
 export const BiographyPopover = () => {
@@ -38,34 +39,34 @@ export const BiographyPopover = () => {
               <AvatarImage src="/images/coji.webp" loading="lazy" />
             </Avatar>
             <Stack>
-              <Text>溝口浩二 coji</Text>
+              <Heading className="font-bold">溝口浩二 coji</Heading>
               <HStack>
-                <Link
+                <a
                   href="https://twitter.com/techtalkjp"
                   target="_blank"
-                  color="twitter.500"
-                  display="flex"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-twitter"
                 >
-                  <Icon as={BsTwitter} /> <Text ml="1">Twitter</Text>
-                </Link>
+                  <BsTwitter /> <p className="ml-1">Twitter</p>
+                </a>
 
-                <Link
+                <a
                   href="https://www.facebook.com/mizoguchi.coji"
                   target="_blank"
-                  color="facebook.500"
-                  display="flex"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-facebook"
                 >
-                  <Icon as={BsFacebook} /> <Text ml="1">Facebook</Text>
-                </Link>
+                  <BsFacebook /> <p className="ml-1">Facebook</p>
+                </a>
 
-                <Link
-                  href="https://www.facebook.com/mizoguchi.coji"
+                <a
+                  href="https://github.com/coji"
                   target="_blank"
-                  color="github.500"
-                  display="flex"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-github"
                 >
-                  <Icon as={BsGithub} /> <Text ml="1">GitHub</Text>
-                </Link>
+                  <BsGithub /> <p className="ml-1">GitHub</p>
+                </a>
               </HStack>
             </Stack>
           </HStack>
@@ -91,10 +92,10 @@ export const BiographyPopover = () => {
               </Button>
             </HStack>
 
-            <Box className="biography" pr="2" height="12rem" overflow="auto">
+            <div className="biography pr-2 h-48 overflow-auto text-sm">
               {state === 'biography' && <BiographyContent />}
               {state === 'articles' && <ArticlesContent />}
-            </Box>
+            </div>
           </Stack>
         </PopoverBody>
       </PopoverContent>
