@@ -30,6 +30,14 @@ export const isSucceed = (
   )
 }
 
+export const buildContactMessage = (data: ContactFormData) => {
+  return `お名前: ${data.name}
+会社名: ${data.company}
+電話番号: ${data.phone}
+メールアドレス: ${data.email}
+メッセージ: ${data.message}`
+}
+
 export const action = async ({ request }: ActionArgs) => {
   const submission = parse(await request.formData(), { schema })
   if (!submission.value) {
@@ -39,7 +47,7 @@ export const action = async ({ request }: ActionArgs) => {
   try {
     if (submission.value.email !== 'test@example.com') {
       await sendEmail(submission.value)
-      await sendSlack(submission.value)
+      await sendSlack(buildContactMessage(submission.value))
     }
     return json({
       isDone: true,

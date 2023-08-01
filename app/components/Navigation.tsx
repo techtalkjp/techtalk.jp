@@ -11,6 +11,7 @@ export const Navigation = () => {
     const element = document.getElementById(id)
     element?.scrollIntoView({ behavior: 'smooth' })
     event.preventDefault()
+    event.stopPropagation()
   }
 
   return (

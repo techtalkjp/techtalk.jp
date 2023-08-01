@@ -7,7 +7,6 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 import type { LinksFunction, V2_MetaFunction } from '@vercel/remix'
-import { createHead } from 'remix-island'
 import biographyStyle from '~/styles/biography.css'
 import globalStyles from '~/styles/globals.css'
 import privacyStyles from '~/styles/privacy.css'
@@ -21,13 +20,6 @@ export const meta: V2_MetaFunction = () => {
   ]
 }
 
-export const Head = createHead(() => (
-  <>
-    <Meta />
-    <Links />
-  </>
-))
-
 export const links: LinksFunction = () => {
   return [
     { rel: 'stylesheet', href: globalStyles },
@@ -38,28 +30,35 @@ export const links: LinksFunction = () => {
 
 export default function App() {
   return (
-    <>
-      <Head />
-      <Outlet />
-      <ScrollRestoration />
-      <Scripts />
-      <LiveReload />
-    </>
+    <html lang="ja">
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body className="scroll-smooth">
+        <Outlet />
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
   )
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
-    <>
-      <Head />
-      <div>
-        <h1 className="text-5xl">
-          [Error]: There was an error: {String(error)}
-        </h1>
-      </div>
-      <ScrollRestoration />
-      <Scripts />
-      <LiveReload />
-    </>
+    <html lang="ja">
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <h1 className="text-5xl">There was an error</h1>
+        <div>{String(error)}</div>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
   )
 }
