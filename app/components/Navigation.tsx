@@ -14,7 +14,7 @@ export const Navigation = () => {
   }
 
   return (
-    <HStack className="py-2 px-4 fixed w-full z-10 text-white font-bold">
+    <HStack className="py-2 pl-4 pr-4 sm:pr-8 fixed w-full z-10 text-white font-bold">
       <a href="#hero" onClick={(event) => scrollTo('hero', event)}>
         <p className="hover:text-primary cursor-pointer">
           {t('nav.techtalk', 'TechTalk')}
