@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node'
+import type { LoaderArgs } from '@vercel/remix'
 import path from 'path'
 import { locales } from '~/features/i18n/utils/detectLocale'
 import Index from './_index'
