@@ -1,13 +1,5 @@
 {
-  "include": [
-    "remix.env.d.ts",
-    "remix.config.js",
-    ".eslintrc.js",
-    "prettier.config.js",
-    "tailwind.config.js",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
+  "include": ["*.js", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,

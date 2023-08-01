@@ -49,6 +49,7 @@ export const action = async ({ request }: ActionArgs) => {
       await sendEmail(submission.value)
       await sendSlack(buildContactMessage(submission.value))
     }
+
     return json({
       isDone: true,
       formData: submission.value satisfies ContactFormData,

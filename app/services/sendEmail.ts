@@ -1,20 +1,21 @@
 import type { ContactFormData } from '~/routes/api.contact'
 
 export const sendEmail = async (form: ContactFormData) => {
-  if (form.message) {
-    form.message = form.message.replace(/\r\n/g, '<br />')
-    form.message = form.message.replace(/(\n|\r)/g, '<br />')
+  const sendForm = { ...form }
+  if (sendForm.message) {
+    sendForm.message = sendForm.message.replace(/\r\n/g, '<br />')
+    sendForm.message = sendForm.message.replace(/(\n|\r)/g, '<br />')
   }
 
   const payload = {
-    to: form.email,
+    to: sendForm.email,
     from: {
       email: 'info@techtalk.jp',
       name: 'TechTalk',
     },
     bcc: 'info@techtalk.jp',
     replyTo: 'info@techtalk.jp',
-    dynamicTemplateData: form,
+    dynamicTemplateData: sendForm,
     templateId: 'd-fc1f4a74b71644c0930a8df488956323',
   }
 
