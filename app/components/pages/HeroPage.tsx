@@ -9,7 +9,7 @@ export const HeroPage = () => {
       <Heading size="5xl">
         Technically,
         <br />
-        <p className="text-primary">It&apos;s possible.</p>
+        <span className="text-primary">It&apos;s possible.</span>
       </Heading>
       <p className="text-lg">
         {t('hero.subcopy', 'ビジネスを可能にする、技術の話を。')}
