@@ -1,19 +1,29 @@
 import { conform, useForm } from '@conform-to/react'
-import { parse } from '@conform-to/zod'
+import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { Link, useFetcher } from '@remix-run/react'
 import { json, type ActionArgs } from '@vercel/remix'
 import { z } from 'zod'
-import { Button, Input, Label, Stack, Textarea } from '~/components/ui'
+import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
+import {
+  Button,
+  Checkbox,
+  HStack,
+  Input,
+  Label,
+  Stack,
+  Textarea,
+} from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 import { sendEmail } from '~/services/sendEmail'
 import { sendSlack } from '~/services/sendSlack'
 
 export const schema = z.object({
-  name: z.string().min(1, { message: 'Name is required' }),
-  company: z.string(),
-  phone: z.string(),
-  email: z.string().min(1, { message: 'Email is required' }).email(),
-  message: z.string().min(1, { message: 'Message is required' }),
+  name: z.string(),
+  company: z.string().optional(),
+  phone: z.string().optional(),
+  email: z.string().email(),
+  message: z.string(),
+  privacyPolicy: z.string().transform((value) => value === 'on'),
   locale: z.string(),
 })
 
@@ -101,10 +111,12 @@ interface ContactFormProps extends React.HTMLAttributes<HTMLFormElement> {
 export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   const { t, locale } = useLocale()
   const fetcher = useFetcher<typeof action>()
-  const [form, { name, company, phone, email, message }] = useForm({
-    id: 'contact-form',
-    onValidate: ({ formData }) => parse(formData, { schema }),
-  })
+  const [form, { name, company, phone, email, message, privacyPolicy }] =
+    useForm({
+      id: 'contact-form',
+      constraint: getFieldsetConstraint(schema),
+      onValidate: ({ formData }) => parse(formData, { schema }),
+    })
 
   if (fetcher.data && isSucceed(fetcher.data)) {
     return <ContactSentMessage data={fetcher.data.formData} />
@@ -153,7 +165,19 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
 
         <input type="hidden" name="locale" value={locale} />
 
-        {children}
+        <div>
+          <HStack>
+            <Checkbox
+              id={privacyPolicy.id}
+              name={privacyPolicy.name}
+              value="on"
+            />
+            <label htmlFor={privacyPolicy.id} className="cursor-pointer">
+              <PrivacyPolicyDialog />
+            </label>
+          </HStack>
+          <div className="text-red-500">{privacyPolicy.error}</div>
+        </div>
 
         <Button type="submit" disabled={fetcher.state === 'submitting'}>
           Let's talk

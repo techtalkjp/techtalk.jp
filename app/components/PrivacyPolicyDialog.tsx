@@ -15,18 +15,19 @@ const PrivacyPolicyDialog = () => {
 
   return (
     <>
-      <div>
+      <div className="text-sm">
         {t('privacy.agree-to-before', '')}
         <p
           className="text-primary cursor-pointer inline"
-          onClick={() => setIsOpen(true)}
+          onClick={(e) => {
+            e.stopPropagation()
+            e.preventDefault()
+            setIsOpen(true)
+          }}
         >
           {t('privacy.privacy-policy', 'プライバシーポリシー')}
         </p>
-        {t(
-          'privacy.agree-to-after',
-          'をお読みいただき、同意の上送信してください。',
-        )}
+        {t('privacy.agree-to-after', 'に同意する。')}
       </div>
 
       <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
