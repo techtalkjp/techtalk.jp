@@ -15,9 +15,9 @@ const PrivacyPolicyDialog = () => {
 
   return (
     <>
-      <div className="text-sm">
+      <span className="text-sm">
         {t('privacy.agree-to-before', '')}
-        <p
+        <span
           className="text-primary cursor-pointer inline"
           onClick={(e) => {
             e.stopPropagation()
@@ -26,9 +26,9 @@ const PrivacyPolicyDialog = () => {
           }}
         >
           {t('privacy.privacy-policy', 'プライバシーポリシー')}
-        </p>
+        </span>
         {t('privacy.agree-to-after', 'に同意する。')}
-      </div>
+      </span>
 
       <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
         <DialogContent className="max-h-[32rem] flex flex-col gap-4">
