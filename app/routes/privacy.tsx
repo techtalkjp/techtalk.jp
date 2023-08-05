@@ -8,11 +8,9 @@ export const meta: V2_MetaFunction = () => [
   { title: 'プライバシーポリシー - TechTalk' },
 ]
 
-export function links() {
-  return [{ rel: 'stylesheet', href: styles }]
-}
+export const links = () => [{ rel: 'stylesheet', href: styles }]
 
-const Privacy = () => {
+export default function Privacy() {
   return (
     <>
       <Heading className="text-center my-16 text-4xl font-black">
@@ -31,4 +29,3 @@ const Privacy = () => {
     </>
   )
 }
-export default Privacy

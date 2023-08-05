@@ -18,10 +18,10 @@
     "@radix-ui/react-label": "2.0.2",
     "@radix-ui/react-popover": "1.0.6",
     "@radix-ui/react-slot": "1.0.2",
-    "@remix-run/react": "1.19.1",
+    "@remix-run/react": "1.19.2",
     "@remix-validated-form/with-zod": "2.0.6",
     "@types/markdown-it": "12.2.3",
-    "@vercel/remix": "1.19.1",
+    "@vercel/remix": "1.19.2",
     "class-variance-authority": "0.7.0",
     "clsx": "2.0.0",
     "isbot": "3.6.13",
@@ -37,19 +37,19 @@
     "zod-form-data": "2.0.1"
   },
   "devDependencies": {
-    "@remix-run/dev": "1.19.1",
-    "@remix-run/eslint-config": "1.19.1",
-    "@remix-run/serve": "1.19.1",
-    "@types/node": "^20.4.5",
-    "@types/react": "18.2.17",
+    "@remix-run/dev": "1.19.2",
+    "@remix-run/eslint-config": "1.19.2",
+    "@remix-run/serve": "1.19.2",
+    "@types/node": "^20.4.7",
+    "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
     "eslint": "8.46.0",
-    "eslint-config-prettier": "8.9.0",
+    "eslint-config-prettier": "8.10.0",
     "eslint-plugin-chakra-ui": "0.9.1",
-    "prettier": "3.0.0",
+    "prettier": "3.0.1",
     "prettier-plugin-organize-imports": "3.2.3",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6",
-    "vitest": "0.33.0"
+    "vitest": "0.34.1"
   }
 }
