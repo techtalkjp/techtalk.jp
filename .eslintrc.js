@@ -9,7 +9,6 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
-  plugins: ['chakra-ui'],
   overrides: [
     {
       files: ['**/*.ts'],
