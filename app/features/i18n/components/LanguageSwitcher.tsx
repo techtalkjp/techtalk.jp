@@ -1,11 +1,5 @@
 import { Link } from '@remix-run/react'
-import {
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '~/components/ui'
+import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui'
 import { locales, useLocale } from '~/features/i18n/hooks/useLocale'
 
 const LanguageSwitcher = () => {

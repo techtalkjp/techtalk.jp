@@ -28,10 +28,10 @@ export const BiographyPopover = () => {
           {t('about.biography', '代表略歴')}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="text-slate-700 w-[21rem]">
+      <PopoverContent className="w-[21rem] text-slate-700">
         <Stack className="relative">
           <Button
-            className="absolute top-0 right-0 h-6 w-6"
+            className="absolute right-0 top-0 h-6 w-6"
             variant="ghost"
             size="icon"
             onClick={() => setIsOpen(false)}
@@ -46,12 +46,7 @@ export const BiographyPopover = () => {
             <Stack gap="1">
               <Heading size="md">溝口浩二 coji</Heading>
               <HStack>
-                <Button
-                  size="xs"
-                  variant="outline"
-                  className="text-twitter"
-                  asChild
-                >
+                <Button size="xs" variant="outline" className="text-twitter" asChild>
                   <a
                     href="https://twitter.com/techtalkjp"
                     target="_blank"
@@ -62,12 +57,7 @@ export const BiographyPopover = () => {
                   </a>
                 </Button>
 
-                <Button
-                  size="xs"
-                  variant="outline"
-                  className="text-facebook"
-                  asChild
-                >
+                <Button size="xs" variant="outline" className="text-facebook" asChild>
                   <a
                     href="https://www.facebook.com/mizoguchi.coji"
                     target="_blank"
@@ -78,12 +68,7 @@ export const BiographyPopover = () => {
                   </a>
                 </Button>
 
-                <Button
-                  size="xs"
-                  variant="outline"
-                  className="text-github"
-                  asChild
-                >
+                <Button size="xs" variant="outline" className="text-github" asChild>
                   <a
                     href="https://github.com/coji"
                     target="_blank"
@@ -116,7 +101,7 @@ export const BiographyPopover = () => {
             </Button>
           </HStack>
 
-          <div className="biography p-2 leading-5 h-48 overflow-auto text-sm">
+          <div className="biography h-48 overflow-auto p-2 text-sm leading-5">
             {state === 'biography' && <BiographyContent />}
             {state === 'articles' && <ArticlesContent />}
           </div>

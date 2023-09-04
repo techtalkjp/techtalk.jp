@@ -31,32 +31,15 @@ const stackVariants = cva('flex', {
   },
 })
 
-export interface StackProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof stackVariants> {}
+export interface StackProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof stackVariants> {}
 
-export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
-  ({ className, gap, direction, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(stackVariants({ direction, gap, className }))}
-      {...props}
-    />
-  ),
-)
+export const Stack = React.forwardRef<HTMLDivElement, StackProps>(({ className, gap, direction, ...props }, ref) => (
+  <div ref={ref} className={cn(stackVariants({ direction, gap, className }))} {...props} />
+))
 Stack.displayName = 'Stack'
 
 export interface HStackProps extends React.HTMLAttributes<HTMLDivElement> {}
-export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(
-  ({ className, ...props }, ref) => (
-    <Stack
-      ref={ref}
-      className={cn(
-        stackVariants({ direction: 'row', className }),
-        'items-center',
-      )}
-      {...props}
-    />
-  ),
-)
+export const HStack = React.forwardRef<HTMLDivElement, HStackProps>(({ className, ...props }, ref) => (
+  <Stack ref={ref} className={cn(stackVariants({ direction: 'row', className }), 'items-center')} {...props} />
+))
 HStack.displayName = 'HStack'

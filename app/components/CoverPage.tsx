@@ -10,15 +10,13 @@ const CoverPage = ({ children, bgImage, id, ...rest }: Props) => {
   return (
     <div
       id={id}
-      className="flex items-center justify-center relative h-screen bg-black/40 bg-cover bg-center bg-blend-overlay snap-start snap-always"
+      className="relative flex h-screen snap-start snap-always items-center justify-center bg-black/40 bg-cover bg-center bg-blend-overlay"
       {...rest}
       style={{
         backgroundImage: `url(${bgImage})`,
       }}
     >
-      <div className="px-4 sm:px-0 text-center mx-auto w-full sm:w-2/3">
-        {children}
-      </div>
+      <div className="mx-auto w-full px-4 text-center sm:w-2/3 sm:px-0">{children}</div>
     </div>
   )
 }

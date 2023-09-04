@@ -5,8 +5,7 @@ import Index from './_index'
 
 export const loader = ({ request }: LoaderArgs) => {
   const url = new URL(request.url)
-  if (!locales.includes(path.basename(url.pathname)))
-    throw new Response('Not Found', { status: 404 })
+  if (!locales.includes(path.basename(url.pathname))) throw new Response('Not Found', { status: 404 })
   return {}
 }
 

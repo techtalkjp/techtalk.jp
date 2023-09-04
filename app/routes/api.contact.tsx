@@ -4,15 +4,7 @@ import { Link, useFetcher } from '@remix-run/react'
 import { json, type ActionArgs } from '@vercel/remix'
 import { z } from 'zod'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
-import {
-  Button,
-  Checkbox,
-  HStack,
-  Input,
-  Label,
-  Stack,
-  Textarea,
-} from '~/components/ui'
+import { Button, Checkbox, HStack, Input, Label, Stack, Textarea } from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 import { sendEmail } from '~/services/sendEmail'
 import { sendSlack } from '~/services/sendSlack'
@@ -29,15 +21,8 @@ export const schema = z.object({
 
 export type ContactFormData = z.infer<typeof schema>
 
-export const isSucceed = (
-  data: unknown,
-): data is { isDone: true; formData: ContactFormData } => {
-  return (
-    typeof data === 'object' &&
-    data !== null &&
-    'isDone' in data &&
-    data.isDone === true
-  )
+export const isSucceed = (data: unknown): data is { isDone: true; formData: ContactFormData } => {
+  return typeof data === 'object' && data !== null && 'isDone' in data && data.isDone === true
 }
 
 export const buildContactMessage = (data: ContactFormData) => {
@@ -76,7 +61,7 @@ interface ContactSentMessageProps {
 
 export const ContactSentMessage = ({ data }: ContactSentMessageProps) => {
   return (
-    <div className="mt-4 gap-4 grid grid-cols-1">
+    <div className="mt-4 grid grid-cols-1 gap-4">
       <div>
         お問い合わせありがとうございます。
         <br />
@@ -85,7 +70,7 @@ export const ContactSentMessage = ({ data }: ContactSentMessageProps) => {
         お返事をお待ち下さい。
       </div>
 
-      <div className="grid grid-cols-2 gap-4 justify-items-start bg-black bg-opacity-50 rounded p-4">
+      <div className="grid grid-cols-2 justify-items-start gap-4 rounded bg-black bg-opacity-50 p-4">
         <div>お名前</div>
         <div>{data.name}</div>
         <div>会社名</div>
@@ -111,12 +96,11 @@ interface ContactFormProps extends React.HTMLAttributes<HTMLFormElement> {
 export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   const { t, locale } = useLocale()
   const fetcher = useFetcher<typeof action>()
-  const [form, { name, company, phone, email, message, privacyPolicy }] =
-    useForm({
-      id: 'contact-form',
-      constraint: getFieldsetConstraint(schema),
-      onValidate: ({ formData }) => parse(formData, { schema }),
-    })
+  const [form, { name, company, phone, email, message, privacyPolicy }] = useForm({
+    id: 'contact-form',
+    constraint: getFieldsetConstraint(schema),
+    onValidate: ({ formData }) => parse(formData, { schema }),
+  })
 
   if (fetcher.data && isSucceed(fetcher.data)) {
     return <ContactSentMessage data={fetcher.data.formData} />
@@ -133,10 +117,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
 
         <div>
           <Label htmlFor={company.id}>{t('contact.company', '会社名')}</Label>
-          <Input
-            className=" bg-black bg-opacity-50"
-            {...conform.input(company)}
-          />
+          <Input className=" bg-black bg-opacity-50" {...conform.input(company)} />
           <div className="text-red-500">{company.error}</div>
         </div>
 
@@ -153,13 +134,8 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
         </div>
 
         <div>
-          <Label htmlFor={message.id}>
-            {t('contact.message', 'メッセージ')}
-          </Label>
-          <Textarea
-            className="bg-black bg-opacity-50"
-            {...conform.input(message)}
-          />
+          <Label htmlFor={message.id}>{t('contact.message', 'メッセージ')}</Label>
+          <Textarea className="bg-black bg-opacity-50" {...conform.input(message)} />
           <div className="text-red-500">{message.error}</div>
         </div>
 
@@ -167,11 +143,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
 
         <div>
           <HStack>
-            <Checkbox
-              id={privacyPolicy.id}
-              name={privacyPolicy.name}
-              value="on"
-            />
+            <Checkbox id={privacyPolicy.id} name={privacyPolicy.name} value="on" />
             <label htmlFor={privacyPolicy.id} className="cursor-pointer">
               <PrivacyPolicyDialog />
             </label>

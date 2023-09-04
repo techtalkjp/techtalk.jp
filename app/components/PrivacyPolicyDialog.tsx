@@ -1,12 +1,6 @@
 import { useState } from 'react'
 import Content from '~/assets/privacy.md'
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-} from '~/components/ui'
+import { Button, Dialog, DialogContent, DialogFooter, DialogHeader } from '~/components/ui'
 import { useLocale } from '../features/i18n/hooks/useLocale'
 
 const PrivacyPolicyDialog = () => {
@@ -18,7 +12,7 @@ const PrivacyPolicyDialog = () => {
       <span className="text-sm">
         {t('privacy.agree-to-before', '')}
         <span
-          className="text-primary cursor-pointer inline"
+          className="inline cursor-pointer text-primary"
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()
@@ -31,12 +25,12 @@ const PrivacyPolicyDialog = () => {
       </span>
 
       <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
-        <DialogContent className="max-h-[32rem] flex flex-col gap-4">
-          <DialogHeader className="font-bold text-xl">
+        <DialogContent className="flex max-h-[32rem] flex-col gap-4">
+          <DialogHeader className="text-xl font-bold">
             {t('privacy.dialog.title', 'TechTalk プライバシーポリシー')}
           </DialogHeader>
 
-          <div className="markdown overflow-auto flex-1">
+          <div className="markdown flex-1 overflow-auto">
             <Content />
           </div>
           <DialogFooter>

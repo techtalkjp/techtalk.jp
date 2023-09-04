@@ -1,11 +1,4 @@
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from '@remix-run/react'
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
 import type { LinksFunction, V2_MetaFunction } from '@vercel/remix'
 import biographyStyle from '~/styles/biography.css'
 import globalStyles from '~/styles/globals.css'
