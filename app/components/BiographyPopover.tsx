@@ -28,7 +28,7 @@ export const BiographyPopover = () => {
           {t('about.biography', '代表略歴')}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[21rem] text-slate-700">
+      <PopoverContent className="w-auto max-w-sm text-slate-700 md:max-w-md lg:max-w-lg">
         <Stack className="relative">
           <Button
             className="absolute right-0 top-0 h-6 w-6"
