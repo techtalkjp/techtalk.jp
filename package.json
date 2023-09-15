@@ -6,7 +6,6 @@
     "dev": "remix dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint app/**/*.{ts,tsx}",
     "format": "prettier -w --ignore-path .gitignore '**/*.{ts,tsx}'",
-    "test:run": "vitest --run",
     "validate": "run-p format lint typecheck",
     "typecheck": "tsc"
   },
