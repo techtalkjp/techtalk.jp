@@ -1,6 +1,6 @@
 import { Heading } from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
-import CoverPage from '../CoverPage'
+import CoverPage from '~/routes/_index/components/CoverPage'
 
 export const HeroPage = () => {
   const { t } = useLocale()

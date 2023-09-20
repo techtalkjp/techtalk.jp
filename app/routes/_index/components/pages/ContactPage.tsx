@@ -1,7 +1,7 @@
 import { Heading } from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
+import CoverPage from '~/routes/_index/components/CoverPage'
 import { ContactForm } from '~/routes/api.contact'
-import CoverPage from '../CoverPage'
 
 export const ContactPage = () => {
   const { t } = useLocale()

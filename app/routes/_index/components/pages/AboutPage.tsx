@@ -1,7 +1,7 @@
 import { Heading, HStack } from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
-import { BiographyPopover } from '../BiographyPopover'
-import CoverPage from '../CoverPage'
+import { BiographyPopover } from '~/routes/_index/components/BiographyPopover'
+import CoverPage from '~/routes/_index/components/CoverPage'
 
 export const AboutPage = () => {
   const { t } = useLocale()
@@ -9,7 +9,7 @@ export const AboutPage = () => {
     <CoverPage id="about" bgImage="/images/about.webp">
       <Heading>{t('about.title', '会社概要')}</Heading>
 
-      <table className="mt-4 text-left">
+      <table className="mx-auto mt-4 text-left">
         <tbody>
           <tr>
             <td className="p-1 font-bold sm:p-4">{t('about.company', '会社名')}</td>
