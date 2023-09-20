@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { BsFacebook, BsGithub, BsTwitter } from 'react-icons/bs'
-import { IoClose } from 'react-icons/io5'
+import { BsFacebook, BsGithub, BsTwitter } from 'react-icons/bs/index.js'
+import { IoClose } from 'react-icons/io5/index.js'
 import ArticlesContent from '~/assets/articles.md'
 import BiographyContent from '~/assets/biography.md'
 import {

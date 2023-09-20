@@ -1,10 +1,10 @@
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
-import type { LinksFunction, V2_MetaFunction } from '@vercel/remix'
+import type { LinksFunction, MetaFunction } from '@vercel/remix'
 import biographyStyle from '~/styles/biography.css'
 import globalStyles from '~/styles/globals.css'
 import privacyStyles from '~/styles/privacy.css'
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [
     { title: '株式会社TechTalk' },
     { name: 'description', content: '株式会社TechTalkの公式サイトです。' },
