@@ -1,10 +1,10 @@
 import { Link } from '@remix-run/react'
-import type { V2_MetaFunction } from '@vercel/remix'
+import type { MetaFunction } from '@vercel/remix'
 import Content from '~/assets/privacy.md'
 import { Button, Heading } from '~/components/ui'
 import styles from '~/styles/privacy.css'
 
-export const meta: V2_MetaFunction = () => [{ title: 'プライバシーポリシー - TechTalk' }]
+export const meta: MetaFunction = () => [{ title: 'プライバシーポリシー - TechTalk' }]
 
 export const links = () => [{ rel: 'stylesheet', href: styles }]
 

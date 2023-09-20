@@ -1,7 +1,7 @@
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { Link, useFetcher } from '@remix-run/react'
-import { json, type ActionArgs } from '@vercel/remix'
+import { json, type ActionFunctionArgs } from '@vercel/remix'
 import { z } from 'zod'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
 import { Button, Checkbox, HStack, Input, Label, Stack, Textarea } from '~/components/ui'
@@ -33,7 +33,7 @@ export const buildContactMessage = (data: ContactFormData) => {
 メッセージ: ${data.message}`
 }
 
-export const action = async ({ request }: ActionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parse(await request.formData(), { schema })
   if (!submission.value) {
     throw new Error('Invalid submission')
