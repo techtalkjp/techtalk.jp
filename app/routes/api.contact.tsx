@@ -108,7 +108,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
 
   return (
     <fetcher.Form method="POST" action="/api/contact" {...form.props} {...rest}>
-      <Stack>
+      <Stack className="text-left">
         <div>
           <Label htmlFor={name.id}>{t('contact.name', 'お名前')}</Label>
           <Input className="bg-black bg-opacity-50" {...conform.input(name)} />

@@ -10,7 +10,7 @@ export const ContactPage = () => {
     <CoverPage id="contact" bgImage="/images/contact.webp">
       <Heading>{t('contact.title', 'お問い合わせ')}</Heading>
 
-      <ContactForm className="mt-4 text-left" />
+      <ContactForm className="mx-auto mt-4 max-w-md" />
     </CoverPage>
   )
 }
