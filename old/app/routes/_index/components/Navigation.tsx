@@ -1,5 +1,5 @@
 import { HStack, Spacer } from '~/components/ui'
-import LanguageSwitcher from '~/features/i18n/components/LanguageSwitcher'
+import LanguageSwitcher from '../../../../../src/features/i18n/components/LanguageSwitcher'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 
 export const Navigation = () => {

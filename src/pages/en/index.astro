@@ -1,18 +1,13 @@
 ---
-
+import Layout from '~/layouts/Layout.astro'
+import { LanguageSwitcher} from '~/features/i18n/components/LanguageSwitcher'
 ---
+<Layout>
+	<main class="h-screen snap-y snap-mandatory overflow-auto">
+		<LanguageSwitcher client:load client:only />
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>TechTalk</h1>
-		<div>hogehoge</div>
-		<a href="/">ja</a>
-	</body>
-</html>
+		<div>hero page</div>
+		<div>about page</div>
+		<div>contact page</div>
+	</main>
+</Layout>

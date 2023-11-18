@@ -1,9 +1,12 @@
 ---
 import Layout from '~/layouts/Layout.astro'
+import { LanguageSwitcher} from '~/features/i18n/components/LanguageSwitcher'
 ---
 <Layout>
 	<main class="h-screen snap-y snap-mandatory overflow-auto">
-		<div>hero page</div>
+		<LanguageSwitcher client:load client:only />
+
+		<div>ヒーロー page</div>
 		<div>about page</div>
 		<div>contact page</div>
 	</main>

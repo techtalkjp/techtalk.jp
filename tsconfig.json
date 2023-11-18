@@ -6,5 +6,5 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react"
   },
-  "exclude": ["old"]
+  "exclude": ["old", "dist"]
 }

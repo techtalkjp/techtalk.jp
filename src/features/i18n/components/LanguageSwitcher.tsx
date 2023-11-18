@@ -1,9 +1,14 @@
-import { Link } from '@remix-run/react'
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui'
-import { locales, useLocale } from '~/features/i18n/hooks/useLocale'
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui";
+import { locales, useLocale } from "~/features/i18n/hooks/useLocale";
 
-const LanguageSwitcher = () => {
-  const { t, locale } = useLocale()
+export const LanguageSwitcher = () => {
+  const { t, locale } = useLocale();
 
   return (
     <DropdownMenu>
@@ -15,11 +20,10 @@ const LanguageSwitcher = () => {
       <DropdownMenuContent>
         {locales.map((e) => (
           <DropdownMenuItem key={e} asChild>
-            <Link to={e === 'ja' ? '/' : `/${e}`}>{t(e, e)}</Link>
+            <a href={e === "ja" ? "/" : `/${e}`}>{t(e, e)}</a>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
-export default LanguageSwitcher
+  );
+};
