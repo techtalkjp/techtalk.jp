@@ -1,0 +1,25 @@
+node_modules
+
+.cache
+.env
+.vercel
+.output
+
+/build/
+/public/build
+/api/index.js
+/api/index.js.map
+/api/_assets
+
+# local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+.DS_Store
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
