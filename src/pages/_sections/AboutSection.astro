@@ -3,11 +3,12 @@ import HStack from '~/components/ui/HStack.astro'
 import Heading from '~/components/ui/heading.astro'
 import CoverPage from '~/components/CoverPage.astro'
 import { useI18n } from '~/services/i18n'
+import bgImage from '~/assets/images/about.webp'
 
 const { t } = useI18n(Astro.url.pathname)
 ---
 
-<CoverPage id="about" bgImageSrc="/images/about.webp">
+<CoverPage id="about" bgImageSrc={bgImage}>
   <Heading>{t('about.title', '会社概要')}</Heading>
 
   <table class="mx-auto mt-4 text-left">

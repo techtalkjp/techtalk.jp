@@ -2,11 +2,12 @@
 import Heading from '~/components/ui/heading.astro'
 import CoverPage from '~/components/CoverPage.astro'
 import { useI18n } from '~/services/i18n'
+import bgImage from '~/assets/images/hero.webp'
 
 const { t } = useI18n(Astro.url.pathname)
 ---
 
-<CoverPage id="hero" bgImageSrc="/images/hero.webp">
+<CoverPage id="hero" bgImageSrc={bgImage}>
   <Heading size="5xl">
     Technically,
     <br />
