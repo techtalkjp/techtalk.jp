@@ -1,14 +1,10 @@
 ---
-import { getRelativeLocaleUrl } from 'astro:i18n'
 import Layout from '~/layouts/Layout.astro'
 import AboutPage from '~/components/pages/AboutPage.astro'
 ---
 
 <Layout>
   <main class="h-screen snap-y snap-mandatory overflow-auto">
-    <a href={getRelativeLocaleUrl('ja', '/')}>ja</a>
-    <a href={getRelativeLocaleUrl('en', '/')}>en</a>
-
     <div>TechTalk</div>
     <div>会社概要</div>
     <div>お問い合わせ</div>
