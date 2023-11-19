@@ -1,13 +1,12 @@
-import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
-import react from "@astrojs/react";
+import tailwind from '@astrojs/tailwind'
+import { defineConfig } from 'astro/config'
 
 export default defineConfig({
   experimental: {
     i18n: {
-      defaultLocale: "ja",
-      locales: ["ja", "en"],
+      defaultLocale: 'ja',
+      locales: ['ja', 'en'],
     },
   },
-  integrations: [tailwind({ applyBaseStyles: false }), react()],
-});
+  integrations: [tailwind({ applyBaseStyles: false })],
+})

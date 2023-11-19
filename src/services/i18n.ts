@@ -12,14 +12,14 @@ export const languages = [
 ]
 
 export const getCurrentLanguage = (path: string) => {
-  return languages.find((lang) => path.startsWith(`/${lang.id}`)) || languages[0]
+  return path.startsWith('/en') ? languages[1] : languages[0]
 }
 
 export const useI18n = (path: string) => {
   const currentLanguage = getCurrentLanguage(path)
 
   const t = (key: string, fallback: string) => {
-    return locales[key] ?? fallback
+    return locales[currentLanguage.id][key] ?? fallback
   }
 
   return { t, currentLanguage }
