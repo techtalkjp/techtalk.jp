@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Content from '~/assets/privacy.md'
+import * as Content from '~/assets/privacy.md'
 import { Button, Dialog, DialogContent, DialogFooter, DialogHeader } from '~/components/ui'
 import { useLocale } from '../features/i18n/hooks/useLocale'
 
@@ -30,9 +30,7 @@ const PrivacyPolicyDialog = () => {
             {t('privacy.dialog.title', 'TechTalk プライバシーポリシー')}
           </DialogHeader>
 
-          <div className="markdown flex-1 overflow-auto">
-            <Content />
-          </div>
+          <div className="markdown flex-1 overflow-auto">{Content.compiledContent()}</div>
           <DialogFooter>
             <Button className="w-full" onClick={() => setIsOpen(false)}>
               {t('privacy.dialog.close', '閉じる')}

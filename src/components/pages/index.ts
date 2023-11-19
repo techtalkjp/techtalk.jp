@@ -1,3 +1,3 @@
-export * from "./AboutPage.astro";
-export * from "./ContactPage";
-export * from "./HeroPage";
+export * from './AboutPage.astro'
+export * from './ContactPage'
+export * from './HeroPage'

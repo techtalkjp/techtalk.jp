@@ -1,7 +1,7 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n'
 import Layout from '~/layouts/Layout.astro'
-import LanguageSwitcher from '~/features/i18n/components/LanguageSwitcher.astro'
+import AboutPage from '~/components/pages/AboutPage.astro'
 ---
 
 <Layout>
@@ -12,5 +12,6 @@ import LanguageSwitcher from '~/features/i18n/components/LanguageSwitcher.astro'
     <div>TechTalk</div>
     <div>会社概要</div>
     <div>お問い合わせ</div>
+    <AboutPage />
   </main>
 </Layout>

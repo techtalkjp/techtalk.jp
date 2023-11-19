@@ -1,10 +1,12 @@
 ---
 import { HStack } from '~/components/ui'
 import Heading from '~/components/ui/heading.astro'
-import { useLocale } from '~/features/i18n/hooks/useLocale'
 import CoverPage from '~/components/CoverPage.astro'
+import { BiographyPopover } from '../BiographyPopover'
 
-Astro.locals
+const t = (key: string, fallback: string) => {
+  return key
+}
 ---
 
 <CoverPage id="about" bgImage="/images/about.webp">

@@ -1,8 +1,7 @@
+import { FacebookIcon, GithubIcon, TwitterIcon, XIcon } from 'lucide-react'
 import { useState } from 'react'
-import { BsFacebook, BsGithub, BsTwitter } from 'react-icons/bs/index.js'
-import { IoClose } from 'react-icons/io5/index.js'
-import ArticlesContent from '~/assets/articles.md'
-import BiographyContent from '~/assets/biography.md'
+import * as ArticlesContent from '~/assets/articles.md'
+import * as BiographyContent from '~/assets/biography.md'
 import {
   Avatar,
   AvatarImage,
@@ -36,7 +35,7 @@ export const BiographyPopover = () => {
             size="icon"
             onClick={() => setIsOpen(false)}
           >
-            <IoClose />
+            <XIcon />
           </Button>
 
           <HStack>
@@ -53,7 +52,7 @@ export const BiographyPopover = () => {
                     rel="noopener noreferrer"
                     className="flex items-center"
                   >
-                    <BsTwitter /> <p className="ml-1 text-xs">Twitter</p>
+                    <TwitterIcon /> <p className="ml-1 text-xs">Twitter</p>
                   </a>
                 </Button>
 
@@ -64,7 +63,7 @@ export const BiographyPopover = () => {
                     rel="noopener noreferrer"
                     className="flex items-center"
                   >
-                    <BsFacebook /> <p className="ml-1 text-xs">Facebook</p>
+                    <FacebookIcon /> <p className="ml-1 text-xs">Facebook</p>
                   </a>
                 </Button>
 
@@ -75,7 +74,7 @@ export const BiographyPopover = () => {
                     rel="noopener noreferrer"
                     className="flex items-center"
                   >
-                    <BsGithub /> <p className="ml-1 text-xs">GitHub</p>
+                    <GithubIcon /> <p className="ml-1 text-xs">GitHub</p>
                   </a>
                 </Button>
               </HStack>
@@ -102,8 +101,8 @@ export const BiographyPopover = () => {
           </HStack>
 
           <div className="biography h-48 overflow-auto p-2 text-sm leading-5">
-            {state === 'biography' && <BiographyContent />}
-            {state === 'articles' && <ArticlesContent />}
+            {state === 'biography' && <div>{BiographyContent.compiledContent()}</div>}
+            {state === 'articles' && <div>{ArticlesContent.compiledContent()}</div>}
           </div>
         </Stack>
       </PopoverContent>
