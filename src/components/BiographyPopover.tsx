@@ -13,10 +13,9 @@ import {
   PopoverTrigger,
   Stack,
 } from '~/components/ui'
-import { useLocale } from '~/features/i18n/hooks/useLocale'
 
 export const BiographyPopover = () => {
-  const { t } = useLocale()
+  const t = (key: string, fallback: string) => fallback // TODO: use i18n (i18next
   const [isOpen, setIsOpen] = useState(false)
   const [state, setState] = useState<'biography' | 'articles'>('biography')
 

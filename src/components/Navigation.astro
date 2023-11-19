@@ -1,6 +1,7 @@
 ---
 import HStack from '~/components/ui/HStack.astro'
 import Spacer from '~/components/ui/Spacer.astro'
+import LanguageSwitcher from '~/features/i18n/components/LanguageSwitcher.astro'
 
 const t = (key: string, fallback: string) => {
   const lang = 'ja'
@@ -37,6 +38,6 @@ const t = (key: string, fallback: string) => {
       {t('nav.contact', 'お問い合わせ')}
     </a>
 
-    <!-- <LanguageSwitcher /> -->
+    <LanguageSwitcher />
   </HStack>
 </HStack>
