@@ -1,12 +1,12 @@
 ---
-const { id, bgImage } = Astro.props
+const { id, bgImageSrc } = Astro.props
 ---
 
 <div
   id={id}
-  class="relative flex h-screen snap-start snap-always items-center justify-center bg-black/40 bg-cover bg-center bg-blend-overlay"
+  class="relative flex h-screen snap-start snap-always items-center justify-center bg-black/50 bg-cover bg-center bg-blend-overlay"
   style={{
-    backgroundImage: `url(${bgImage})`,
+    backgroundImage: `url(${bgImageSrc})`,
   }}
 >
   <div class="mx-auto w-full px-4 text-center sm:w-2/3 sm:px-0">

@@ -1,13 +1,14 @@
 ---
 import Layout from '~/layouts/Layout.astro'
-import AboutPage from '~/components/pages/AboutPage.astro'
+import HeroSection from '~/pages/_sections/HeroSection.astro'
+import AboutSection from '~/pages/_sections/AboutSection.astro'
+import ContactSection from './_sections/ContactSection.astro'
 ---
 
 <Layout>
   <main class="h-screen snap-y snap-mandatory overflow-auto">
-    <div>TechTalk</div>
-    <div>会社概要</div>
-    <div>お問い合わせ</div>
-    <!-- <AboutPage /> -->
+    <HeroSection />
+    <AboutSection />
+    <ContactSection />
   </main>
 </Layout>

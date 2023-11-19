@@ -21,9 +21,10 @@ const headingVariants = cva('font-sans font-black', {
   },
 })
 
-const { As, size } = Astro.props.As ?? 'h2'
+const { As, size } = Astro.props
+const Component = As ?? 'h2'
 ---
 
-<As class={cn(headingVariants({ size }))}>
+<Component class={cn(headingVariants({ size }))}>
   <slot />
-</As>
+</Component>

@@ -1,40 +1,23 @@
 ---
 import HStack from '~/components/ui/HStack.astro'
 import Spacer from '~/components/ui/Spacer.astro'
-import LanguageSwitcher from '~/features/i18n/components/LanguageSwitcher.astro'
+import LanguageSwitcher from '~/components/LanguageSwitcher.astro'
+import { useI18n } from '~/services/i18n'
 
-const t = (key: string, fallback: string) => {
-  const lang = 'ja'
-  const translations: Record<string, Record<string, string>> = {
-    'nav.techtalk': {
-      ja: 'TechTalk',
-      en: 'TechTalk',
-    },
-    'nav.about': {
-      ja: '会社概要',
-      en: 'About',
-    },
-    'nav.contact': {
-      ja: 'お問い合わせ',
-      en: 'Contact',
-    },
-  }
-
-  return translations[key][lang] || fallback
-}
+const { t } = useI18n(Astro.url.pathname)
 ---
 
 <HStack class="fixed z-10 w-full items-center px-4 py-2 text-white sm:pr-8">
-  <a href="#hero" class="cursor-pointer font-bold hover:text-indigo-500">
+  <a href="#hero" class="cursor-pointer font-bold hover:text-indigo-600">
     {t('nav.techtalk', 'TechTalk')}
   </a>
 
   <Spacer />
   <HStack class="items-center">
-    <a href="#about" class="cursor-pointer font-bold hover:text-indigo-500">
+    <a href="#about" class="cursor-pointer font-bold hover:text-indigo-600">
       {t('nav.about', '会社概要')}
     </a>
-    <a href="#contact" class="cursor-pointer font-bold hover:text-indigo-500">
+    <a href="#contact" class="cursor-pointer font-bold hover:text-indigo-600">
       {t('nav.contact', 'お問い合わせ')}
     </a>
 

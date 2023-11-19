@@ -1,18 +1,14 @@
 ---
-import { getRelativeLocaleUrl, getRelativeLocaleUrlList } from 'astro:i18n'
 import Layout from '~/layouts/Layout.astro'
-import LanguageSwitcher from '~/features/i18n/components/LanguageSwitcher.astro'
-
-const t = getRelativeLocaleUrlList('about', { normalizeLocale: true, path: '/', prependWith: 'hoge' })
+import HeroSection from '~/pages/_sections/HeroSection.astro'
+import AboutSection from '~/pages/_sections/AboutSection.astro'
+import ContactSection from '~/pages/_sections/ContactSection.astro'
 ---
 
 <Layout>
   <main class="h-screen snap-y snap-mandatory overflow-auto">
-    <a href={getRelativeLocaleUrl('ja', '/')}>ja</a>
-    <a href={getRelativeLocaleUrl('en', '/')}>en</a>
-
-    <div>hero page</div>
-    <div>about page</div>
-    <div>contact page</div>
+    <HeroSection />
+    <AboutSection />
+    <ContactSection />
   </main>
 </Layout>

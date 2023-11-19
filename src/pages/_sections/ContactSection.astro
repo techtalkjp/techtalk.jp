@@ -1,0 +1,11 @@
+---
+import Heading from '~/components/ui/heading.astro'
+import CoverPage from '~/components/CoverPage.astro'
+import { useI18n } from '~/services/i18n'
+
+const { t } = useI18n(Astro.url.pathname)
+---
+
+<CoverPage id="contact" bgImageSrc="/images/contact.webp">
+  <Heading>{t('contact.title', 'お問い合わせ')}</Heading>
+</CoverPage>
