@@ -1,7 +1,7 @@
 import enLocales from '~/assets/locales/en.json'
 import jaLocales from '~/assets/locales/ja.json'
 
-const locales = {
+const locales: Record<string, Record<string, string>> = {
   ja: jaLocales,
   en: enLocales,
 }
