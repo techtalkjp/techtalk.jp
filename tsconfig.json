@@ -1,7 +1,7 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "baseUrl": "/Users/coji/progs/techtalk.jp",
+    "baseUrl": ".",
     "paths": { "~/*": ["src/*"] },
     "jsx": "react-jsx",
     "jsxImportSource": "react"
