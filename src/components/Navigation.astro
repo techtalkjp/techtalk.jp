@@ -24,17 +24,17 @@ const t = (key: string, fallback: string) => {
 }
 ---
 
-<HStack class="fixed z-10 w-full px-4 py-2 font-bold text-white sm:pr-8">
-  <a href="#hero" class="cursor-pointer hover:text-indigo-500">
+<HStack class="fixed z-10 w-full items-center px-4 py-2 text-white sm:pr-8">
+  <a href="#hero" class="cursor-pointer font-bold hover:text-indigo-500">
     {t('nav.techtalk', 'TechTalk')}
   </a>
 
   <Spacer />
-  <HStack>
-    <a href="#about" class="cursor-pointer hover:text-indigo-500">
+  <HStack class="items-center">
+    <a href="#about" class="cursor-pointer font-bold hover:text-indigo-500">
       {t('nav.about', '会社概要')}
     </a>
-    <a href="#contact" class="cursor-pointer hover:text-indigo-500">
+    <a href="#contact" class="cursor-pointer font-bold hover:text-indigo-500">
       {t('nav.contact', 'お問い合わせ')}
     </a>
 
