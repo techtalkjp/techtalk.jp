@@ -12,39 +12,39 @@ const { t } = useI18n(Astro.url.pathname)
 <CoverPage id="contact" bgImageSrc={bgImage}>
   <Heading>{t('contact.title', 'お問い合わせ')}</Heading>
 
-  <form action="/contact" method="post" class="grid grid-cols-1 gap-x-4 gap-y-2 text-left">
-    <fieldset>
-      <Label for="name">Name</Label>
+  <form action="/contact" method="post" class="mx-auto grid max-w-lg grid-cols-1 gap-x-4 gap-y-2">
+    <Label for="name">
+      Name
       <Input type="text" class="block w-full" id="name" name="name" />
-    </fieldset>
+    </Label>
 
-    <fieldset>
-      <Label for="company">Company</Label>
-      <Input type="text" class="w-full" id="company" name="company" />
-    </fieldset>
-
-    <fieldset>
-      <Label for="tel">Tel</Label>
+    <Label for="company">
+      Company
       <Input type="tel" class="w-full" id="tel" name="tel" />
-    </fieldset>
+    </Label>
 
-    <fieldset>
-      <Label for="email">Email</Label>
+    <Label>
+      Tel
+      <Input type="tel" class="w-full" id="tel" name="tel" />
+    </Label>
+
+    <Label>
+      Email
       <Input type="email" class="w-full" id="email" name="email" />
-    </fieldset>
+    </Label>
 
-    <fieldset>
-      <Label for="message">Message</Label>
+    <Label>
+      Message
       <textarea
         id="message"
         rows="4"
         name="message"
         class="block w-full rounded-md border-0 bg-black bg-opacity-50 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
       ></textarea>
-    </fieldset>
+    </Label>
 
     <fieldset class="flex w-full gap-4">
-      <Input type="checkbox" class="w-auto" id="privacy" name="privacy" />
+      <Input type="checkbox" class="mx-0.5 w-auto ring-0" id="privacy" name="privacy" />
       <Label for="privacy" class="flex-1 text-left">I agree to the privacy policy</Label>
     </fieldset>
 

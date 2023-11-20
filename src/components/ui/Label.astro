@@ -1,5 +1,6 @@
 ---
+import { twMerge } from 'tailwind-merge'
 const { class: className, ...rest } = Astro.props
 ---
 
-<label class:list={['block text-sm font-medium leading-6', className]} {...rest}><slot /></label>
+<label class={twMerge('block text-left text-sm font-medium leading-6', className)} {...rest}><slot /></label>

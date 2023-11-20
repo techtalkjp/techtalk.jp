@@ -1,7 +1,8 @@
 ---
+import { twMerge } from 'tailwind-merge'
 const { class: className } = Astro.props
 ---
 
-<div class:list={['flex flex-row gap-2', className]}>
+<div class={twMerge('flex flex-row gap-2', className)}>
   <slot />
 </div>
