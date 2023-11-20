@@ -7,20 +7,41 @@ import { useI18n } from '~/services/i18n'
 const { t } = useI18n(Astro.url.pathname)
 ---
 
-<HStack class="fixed z-10 w-full items-center px-4 py-2 text-white sm:pr-8">
-  <a href="#hero" class="cursor-pointer font-bold hover:text-indigo-600">
-    {t('nav.techtalk', 'TechTalk')}
-  </a>
+<script>
+  function smoothScroll(event: Event) {
+    const anchor = event.target as HTMLAnchorElement
+    const targetId = anchor.getAttribute('href')
+    if (!targetId) return
+    const targetElement = document.querySelector(targetId)
 
-  <Spacer />
-  <HStack class="items-center">
-    <a href="#about" class="cursor-pointer font-bold hover:text-indigo-600">
-      {t('nav.about', '会社概要')}
-    </a>
-    <a href="#contact" class="cursor-pointer font-bold hover:text-indigo-600">
-      {t('nav.contact', 'お問い合わせ')}
+    if (targetElement) {
+      event.preventDefault()
+      event.stopPropagation()
+      targetElement.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  document.querySelectorAll('nav div > a').forEach((link) => {
+    link.addEventListener('click', smoothScroll)
+  })
+</script>
+
+<nav>
+  <HStack class="fixed z-10 w-full items-center px-4 py-2 text-white sm:pr-8">
+    <a href="#hero" class="cursor-pointer font-bold hover:text-indigo-600">
+      {t('nav.techtalk', 'TechTalk')}
     </a>
 
-    <LanguageSwitcher />
+    <Spacer />
+    <HStack class="items-center">
+      <a href="#about" class="cursor-pointer font-bold hover:text-indigo-600">
+        {t('nav.about', '会社概要')}
+      </a>
+      <a href="#contact" class="cursor-pointer font-bold hover:text-indigo-600">
+        {t('nav.contact', 'お問い合わせ')}
+      </a>
+
+      <LanguageSwitcher />
+    </HStack>
   </HStack>
-</HStack>
+</nav>
