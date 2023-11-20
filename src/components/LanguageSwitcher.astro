@@ -37,7 +37,7 @@ const currentLanguage = getCurrentLanguage(Astro.url.pathname)
   </button>
 
   <ul
-    class="absolute right-0 z-10 mt-1 hidden max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+    class="absolute right-0 z-10 mt-1 hidden max-h-60 w-fit overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
     id="language-list"
     tabindex="-1"
     role="listbox"
@@ -48,7 +48,7 @@ const currentLanguage = getCurrentLanguage(Astro.url.pathname)
       localeUrlList.map((localeUrl, idx) => (
         <li
           class:list={[
-            'cursor-default select-none py-1 pl-4 pr-4 text-gray-900 hover:bg-slate-200',
+            'block cursor-default select-none py-1 pl-4 pr-4 text-gray-900 hover:bg-slate-200',
             { 'font-bold': languages[idx].id === currentLanguage.id },
           ]}
           role="option"

@@ -7,7 +7,7 @@ const locales: Record<string, Record<string, string>> = {
 }
 
 export const languages = [
-  { id: 'ja', label: 'Japanese' },
+  { id: 'ja', label: '日本語' },
   { id: 'en', label: 'English' },
 ]
 
