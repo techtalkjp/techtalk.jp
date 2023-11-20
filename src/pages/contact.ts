@@ -21,14 +21,8 @@ export const POST: APIRoute = async ({ request }) => {
   if (result.success) {
     await sendEmail(result.output)
     await sendSlack(JSON.stringify(result.output, null, 2))
-
-    return new Response(
-      JSON.stringify({
-        message: 'This was a POST!',
-        result: result.output,
-      }),
-    )
+    return new Response(JSON.stringify(result))
   } else {
-    return new Response(JSON.stringify({ error: result.issues }), { status: 400 })
+    return new Response(JSON.stringify(result), { status: 422 })
   }
 }
