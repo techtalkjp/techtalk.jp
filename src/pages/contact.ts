@@ -3,6 +3,8 @@ import { email, literal, maxLength, minLength, object, optional, safeParse, stri
 import { sendEmail } from '~/services/sendEmail'
 import { sendSlack } from '~/services/sendSlack'
 
+export const prerender = false
+
 export const ContactFormSchema = object({
   name: string([minLength(1, 'required'), maxLength(200, 'too long')]),
   company: optional(string([maxLength(200, 'too long')])),
