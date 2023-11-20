@@ -10,13 +10,7 @@ export default defineConfig({
       locales: ['ja', 'en'],
     },
   },
-  integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
-  ],
-  output: 'hybrid',
-  adapter: vercel({
-    mode: 'middleware',
-  }),
+  integrations: [tailwind({ applyBaseStyles: false })],
+  output: 'server',
+  adapter: vercel(),
 })
