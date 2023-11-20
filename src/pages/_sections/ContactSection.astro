@@ -15,28 +15,27 @@ const { t } = useI18n(Astro.url.pathname)
   <form action="/contact" method="post" class="mx-auto grid max-w-lg grid-cols-1 gap-x-4 gap-y-2">
     <Label for="name">
       Name
-      <Input type="text" class="block w-full" id="name" name="name" />
+      <Input type="text" class="block w-full" name="name" />
     </Label>
 
     <Label for="company">
       Company
-      <Input type="tel" class="w-full" id="tel" name="tel" />
+      <Input type="tel" class="w-full" name="tel" />
     </Label>
 
     <Label>
       Tel
-      <Input type="tel" class="w-full" id="tel" name="tel" />
+      <Input type="tel" class="w-full" name="tel" />
     </Label>
 
     <Label>
       Email
-      <Input type="email" class="w-full" id="email" name="email" />
+      <Input type="email" class="w-full" name="email" />
     </Label>
 
     <Label>
       Message
       <textarea
-        id="message"
         rows="4"
         name="message"
         class="block w-full rounded-md border-0 bg-black bg-opacity-50 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -44,7 +43,7 @@ const { t } = useI18n(Astro.url.pathname)
     </Label>
 
     <fieldset class="flex w-full gap-4">
-      <Input type="checkbox" class="mx-0.5 w-auto ring-0" id="privacy" name="privacy" />
+      <Input type="checkbox" class="mx-0.5 w-auto ring-0" name="privacy" />
       <Label for="privacy" class="flex-1 text-left">I agree to the privacy policy</Label>
     </fieldset>
 
