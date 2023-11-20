@@ -3,10 +3,55 @@ import Heading from '~/components/ui/Heading.astro'
 import CoverPage from '~/components/CoverPage.astro'
 import { useI18n } from '~/services/i18n'
 import bgImage from '~/assets/images/contact.webp'
+import Label from '~/components/ui/Label.astro'
+import Input from '~/components/ui/Input.astro'
 
 const { t } = useI18n(Astro.url.pathname)
 ---
 
 <CoverPage id="contact" bgImageSrc={bgImage}>
   <Heading>{t('contact.title', 'お問い合わせ')}</Heading>
+
+  <form action="/contact" method="post" class="grid grid-cols-1 gap-x-4 gap-y-2 text-left">
+    <fieldset>
+      <Label for="name">Name</Label>
+      <Input type="text" class="block w-full" id="name" name="name" />
+    </fieldset>
+
+    <fieldset>
+      <Label for="company">Company</Label>
+      <Input type="text" class="w-full" id="company" name="company" />
+    </fieldset>
+
+    <fieldset>
+      <Label for="tel">Tel</Label>
+      <Input type="tel" class="w-full" id="tel" name="tel" />
+    </fieldset>
+
+    <fieldset>
+      <Label for="email">Email</Label>
+      <Input type="email" class="w-full" id="email" name="email" />
+    </fieldset>
+
+    <fieldset>
+      <Label for="message">Message</Label>
+      <textarea
+        id="message"
+        rows="4"
+        name="message"
+        class="block w-full rounded-md border-0 bg-black bg-opacity-50 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+      ></textarea>
+    </fieldset>
+
+    <fieldset class="flex w-full gap-4">
+      <Input type="checkbox" class="w-auto" id="privacy" name="privacy" />
+      <Label for="privacy" class="flex-1 text-left">I agree to the privacy policy</Label>
+    </fieldset>
+
+    <button
+      class="w-full rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    >
+      Button text
+    </button>
+  </form>
 </CoverPage>

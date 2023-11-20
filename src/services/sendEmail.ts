@@ -1,4 +1,4 @@
-import type { ContactFormData } from '~/routes/api.contact'
+import type { ContactFormData } from '~/pages/contact.ts'
 
 export const sendEmail = async (form: ContactFormData) => {
   const sendForm = { ...form }
@@ -23,7 +23,7 @@ export const sendEmail = async (form: ContactFormData) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
+      Authorization: `Bearer ${import.meta.env.SENDGRID_API_KEY}`,
     },
     body: JSON.stringify(payload),
   })
