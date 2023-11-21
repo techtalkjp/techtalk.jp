@@ -6,11 +6,11 @@ import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
 import { Textarea } from '~/components/ui/textarea'
 import { useI18n } from '~/services/i18n'
-import { ContactFormSchema } from '../contact'
+import { ContactFormSchema, type ContactFormData } from '../contact'
 
 export const ContactForm = ({ path }: { path: string }) => {
   const { t } = useI18n(path)
-  const [result, setResult] = useState(null)
+  const [result, setResult] = useState<ContactFormData | null>(null)
   const [errors, setErrors] = useState<ReturnType<typeof flatten<typeof ContactFormSchema>>['nested']>({})
 
   const handleFormSubmit = async (event: React.SyntheticEvent) => {
@@ -32,11 +32,34 @@ export const ContactForm = ({ path }: { path: string }) => {
       body: formData,
     })
     const result = await response.json()
-    setResult(result)
+    setResult(result.output)
   }
 
   if (result) {
-    return <div>{JSON.stringify(result)}</div>
+    return (
+      <div className="flex flex-col gap-4">
+        <p>
+          お問い合わせありがとうございます。
+          <br />
+          以下のメッセージを受付けました。
+          <br />
+          お返事をお待ち下さい。
+        </p>
+
+        <div className="grid grid-cols-[auto_1fr] max-h-96 overflow-y-scroll max-w-md mx-auto text-left rounded-md bg-black/50 gap-4 p-4">
+          <div>{t('contact.name', 'お名前')}</div>
+          <div>{result.name}</div>
+          <div>{t('contact.company', '会社名')}</div>
+          <div>{result.company}</div>
+          <div>{t('contact.tel', '電話番号')}</div>
+          <div>{result.tel}</div>
+          <div>{t('contact.email', 'メールアドレス')}</div>
+          <div>{result.email}</div>
+          <div>{t('contact.message', 'メッセージ')}</div>
+          <div>{result.message}</div>
+        </div>
+      </div>
+    )
   }
 
   return (
