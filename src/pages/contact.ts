@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro'
-import { email, literal, maxLength, minLength, object, optional, safeParse, string, type Input } from 'valibot'
+import { email, flatten, literal, maxLength, minLength, object, optional, safeParse, string, type Input } from 'valibot'
 import { sendEmail } from '~/services/sendEmail'
 import { sendSlack } from '~/services/sendSlack'
 
@@ -25,6 +25,12 @@ export const POST: APIRoute = async ({ request }) => {
     await sendSlack(JSON.stringify(result.output, null, 2))
     return new Response(JSON.stringify(result))
   } else {
-    return new Response(JSON.stringify(result), { status: 422 })
+    return new Response(
+      JSON.stringify({
+        success: false,
+        errors: flatten(result.issues).nested,
+      }),
+      { status: 422 },
+    )
   }
 }
