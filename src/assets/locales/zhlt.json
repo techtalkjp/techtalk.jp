@@ -22,7 +22,7 @@
   "contact.title": "Contact",
   "contact.name": "Name",
   "contact.company": "Company",
-  "contact.phone": "Phone",
+  "contact.tel": "Phone",
   "contact.email": "Email",
   "contact.email.message": "Please enter in email address format.",
   "contact.message": "Message",

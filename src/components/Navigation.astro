@@ -27,17 +27,17 @@ const { t } = useI18n(Astro.url.pathname)
 </script>
 
 <nav>
-  <HStack class="fixed z-10 w-full items-center px-4 py-2 text-white sm:pr-8">
-    <a href="#hero" class="cursor-pointer font-bold hover:text-indigo-600">
+  <HStack class="fixed z-10 w-full items-center px-4 py-2 sm:pr-8">
+    <a href="#hero" class="cursor-pointer font-bold hover:text-primary">
       {t('nav.techtalk', 'TechTalk')}
     </a>
 
     <Spacer />
     <HStack class="items-center">
-      <a href="#about" class="cursor-pointer font-bold hover:text-indigo-600">
+      <a href="#about" class="cursor-pointer font-bold hover:text-primary">
         {t('nav.about', '会社概要')}
       </a>
-      <a href="#contact" class="cursor-pointer font-bold hover:text-indigo-600">
+      <a href="#contact" class="cursor-pointer font-bold hover:text-primary">
         {t('nav.contact', 'お問い合わせ')}
       </a>
 
