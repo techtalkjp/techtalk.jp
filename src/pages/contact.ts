@@ -17,8 +17,8 @@ export const ContactFormSchema = object({
 export type ContactFormData = Input<typeof ContactFormSchema>
 
 export const POST: APIRoute = async ({ request }) => {
-  const formData = await request.formData()
-  const result = safeParse(ContactFormSchema, Object.fromEntries(formData))
+  const data = await request.json()
+  const result = safeParse(ContactFormSchema, data)
 
   if (result.success) {
     await sendEmail(result.output)

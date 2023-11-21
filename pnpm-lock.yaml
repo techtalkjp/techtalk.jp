@@ -17,6 +17,9 @@ dependencies:
   '@astrojs/vercel':
     specifier: ^5.2.0
     version: 5.2.0(astro@3.5.5)
+  '@hookform/resolvers':
+    specifier: ^3.3.2
+    version: 3.3.2(react-hook-form@7.48.2)
   '@radix-ui/react-avatar':
     specifier: ^1.0.4
     version: 1.0.4(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)
@@ -56,6 +59,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-hook-form:
+    specifier: ^7.48.2
+    version: 7.48.2(react@18.2.0)
   sharp:
     specifier: ^0.32.6
     version: 0.32.6
@@ -965,6 +971,14 @@ packages:
 
   /@floating-ui/utils@0.1.6:
     resolution: {integrity: sha512-OfX7E2oUDYxtBvsuS4e/jSn4Q9Qb6DzgeYtsAdkPZ47znpoNsMgZw0+tVijiv3uGNR6dgNlty6r9rzIzHjtd/A==}
+    dev: false
+
+  /@hookform/resolvers@3.3.2(react-hook-form@7.48.2):
+    resolution: {integrity: sha512-Tw+GGPnBp+5DOsSg4ek3LCPgkBOuOgS5DsDV7qsWNH9LZc433kgsWICjlsh2J9p04H2K66hsXPPb9qn9ILdUtA==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+    dependencies:
+      react-hook-form: 7.48.2(react@18.2.0)
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
@@ -4360,6 +4374,15 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-hook-form@7.48.2(react@18.2.0):
+    resolution: {integrity: sha512-H0T2InFQb1hX7qKtDIZmvpU1Xfn/bdahWBN1fH19gSe4bBEqTfmlr7H3XWTaVtiK4/tpPaI1F3355GPMZYge+A==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-refresh@0.14.0:
