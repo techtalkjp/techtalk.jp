@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { FacebookIcon, GithubIcon, TwitterIcon, XIcon } from 'lucide-react'
+import { useState } from 'react'
 import ArticlesContent from '~/assets/articles.md'
 import BiographyContent from '~/assets/biography.md'
 import {
@@ -52,7 +52,7 @@ export const BiographyPopover = () => {
                     rel="noopener noreferrer"
                     className="flex items-center"
                   >
-                    <TwitterIcon /> <p className="ml-1 text-xs">Twitter</p>
+                    <TwitterIcon className="h-4 w-4" /> <p className="ml-1 text-xs">Twitter</p>
                   </a>
                 </Button>
 
@@ -63,7 +63,7 @@ export const BiographyPopover = () => {
                     rel="noopener noreferrer"
                     className="flex items-center"
                   >
-                    <FacebookIcon /> <p className="ml-1 text-xs">Facebook</p>
+                    <FacebookIcon className="h-4 w-4" /> <p className="ml-1 text-xs">Facebook</p>
                   </a>
                 </Button>
 
@@ -74,7 +74,7 @@ export const BiographyPopover = () => {
                     rel="noopener noreferrer"
                     className="flex items-center"
                   >
-                    <GithubIcon /> <p className="ml-1 text-xs">GitHub</p>
+                    <GithubIcon className="h-4 w-4" /> <p className="ml-1 text-xs">GitHub</p>
                   </a>
                 </Button>
               </HStack>
