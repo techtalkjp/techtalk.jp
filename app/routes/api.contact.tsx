@@ -1,5 +1,5 @@
-import { conform, useForm } from '@conform-to/react'
-import { getFieldsetConstraint, parse } from '@conform-to/zod'
+import { getFormProps, getInputProps, getTextareaProps, useForm } from '@conform-to/react'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { Link, useFetcher } from '@remix-run/react'
 import { json, type ActionFunctionArgs } from '@vercel/remix'
 import { z } from 'zod'
@@ -34,9 +34,9 @@ export const buildContactMessage = (data: ContactFormData) => {
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const submission = parse(await request.formData(), { schema })
-  if (!submission.value) {
-    throw new Error('Invalid submission')
+  const submission = parseWithZod(await request.formData(), { schema })
+  if (submission.status !== 'success') {
+    return submission.reply()
   }
 
   try {
@@ -98,8 +98,8 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   const fetcher = useFetcher<typeof action>()
   const [form, { name, company, phone, email, message, privacyPolicy }] = useForm({
     id: 'contact-form',
-    constraint: getFieldsetConstraint(schema),
-    onValidate: ({ formData }) => parse(formData, { schema }),
+    constraint: getZodConstraint(schema),
+    onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
 
   if (fetcher.data && isSucceed(fetcher.data)) {
@@ -107,36 +107,36 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   }
 
   return (
-    <fetcher.Form method="POST" action="/api/contact" {...form.props} {...rest}>
+    <fetcher.Form method="POST" action="/api/contact" {...getFormProps(form)} {...rest}>
       <Stack className="text-left">
         <div>
           <Label htmlFor={name.id}>{t('contact.name', 'お名前')}</Label>
-          <Input className="bg-black bg-opacity-50" {...conform.input(name)} />
-          <div className="text-red-500">{name.error}</div>
+          <Input className="bg-black bg-opacity-50" {...getInputProps(name, { type: 'text' })} />
+          <div className="text-red-500">{name.errors}</div>
         </div>
 
         <div>
           <Label htmlFor={company.id}>{t('contact.company', '会社名')}</Label>
-          <Input className=" bg-black bg-opacity-50" {...conform.input(company)} />
-          <div className="text-red-500">{company.error}</div>
+          <Input className=" bg-black bg-opacity-50" {...getInputProps(company, { type: 'text' })} />
+          <div className="text-red-500">{company.errors}</div>
         </div>
 
         <div>
           <Label htmlFor={phone.id}>{t('contact.phone', '電話番号')}</Label>
-          <Input className="bg-black bg-opacity-50" {...conform.input(phone)} />
-          <div className="text-red-500">{phone.error}</div>
+          <Input className="bg-black bg-opacity-50" {...getInputProps(phone, { type: 'tel' })} />
+          <div className="text-red-500">{phone.errors}</div>
         </div>
 
         <div>
           <Label htmlFor={email.id}> {t('contact.email', 'メール')} </Label>
-          <Input className="bg-black bg-opacity-50" {...conform.input(email)} />
-          <div className="text-red-500">{email.error}</div>
+          <Input className="bg-black bg-opacity-50" {...getInputProps(email, { type: 'email' })} />
+          <div className="text-red-500">{email.errors}</div>
         </div>
 
         <div>
           <Label htmlFor={message.id}>{t('contact.message', 'メッセージ')}</Label>
-          <Textarea className="bg-black bg-opacity-50" {...conform.input(message)} />
-          <div className="text-red-500">{message.error}</div>
+          <Textarea className="bg-black bg-opacity-50" {...getTextareaProps(message)} />
+          <div className="text-red-500">{message.errors}</div>
         </div>
 
         <input type="hidden" name="locale" value={locale} />
@@ -148,7 +148,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
               <PrivacyPolicyDialog />
             </label>
           </HStack>
-          <div className="text-red-500">{privacyPolicy.error}</div>
+          <div className="text-red-500">{privacyPolicy.errors}</div>
         </div>
 
         <Button type="submit" disabled={fetcher.state === 'submitting'}>
