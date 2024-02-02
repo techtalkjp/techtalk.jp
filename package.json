@@ -6,7 +6,7 @@
     "build": "remix build",
     "dev": "remix dev",
     "lint": "biome lint .",
-    "format": "prettier -w --ignore-path .gitignore '**/*.{ts,tsx}'",
+    "format": "prettier --check --ignore-path .gitignore '**/*.{ts,tsx}'",
     "validate": "run-p format lint typecheck",
     "typecheck": "tsc"
   },
