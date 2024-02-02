@@ -11,8 +11,10 @@ const PrivacyPolicyDialog = () => {
     <>
       <span className="text-sm">
         {t('privacy.agree-to-before', '')}
-        <span
-          className="inline cursor-pointer text-primary"
+        <Button
+          size="xs"
+          type="button"
+          variant="link"
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()
@@ -20,7 +22,7 @@ const PrivacyPolicyDialog = () => {
           }}
         >
           {t('privacy.privacy-policy', 'プライバシーポリシー')}
-        </span>
+        </Button>
         {t('privacy.agree-to-after', 'に 同意する。')}
       </span>
 

@@ -111,31 +111,35 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
       <Stack className="text-left">
         <div>
           <Label htmlFor={name.id}>{t('contact.name', 'お名前')}</Label>
-          <Input className="bg-black bg-opacity-50" {...getInputProps(name, { type: 'text' })} />
+          <Input className="bg-black bg-opacity-50" autoComplete="name" {...getInputProps(name, { type: 'text' })} />
           <div className="text-red-500">{name.errors}</div>
         </div>
 
         <div>
           <Label htmlFor={company.id}>{t('contact.company', '会社名')}</Label>
-          <Input className=" bg-black bg-opacity-50" {...getInputProps(company, { type: 'text' })} />
+          <Input
+            className="bg-black bg-opacity-50"
+            autoComplete="organization"
+            {...getInputProps(company, { type: 'text' })}
+          />
           <div className="text-red-500">{company.errors}</div>
         </div>
 
         <div>
           <Label htmlFor={phone.id}>{t('contact.phone', '電話番号')}</Label>
-          <Input className="bg-black bg-opacity-50" {...getInputProps(phone, { type: 'tel' })} />
+          <Input className="bg-black bg-opacity-50" autoComplete="tel" {...getInputProps(phone, { type: 'tel' })} />
           <div className="text-red-500">{phone.errors}</div>
         </div>
 
         <div>
           <Label htmlFor={email.id}> {t('contact.email', 'メール')} </Label>
-          <Input className="bg-black bg-opacity-50" {...getInputProps(email, { type: 'email' })} />
+          <Input className="bg-black bg-opacity-50" autoComplete="email" {...getInputProps(email, { type: 'email' })} />
           <div className="text-red-500">{email.errors}</div>
         </div>
 
         <div>
           <Label htmlFor={message.id}>{t('contact.message', 'メッセージ')}</Label>
-          <Textarea className="bg-black bg-opacity-50" {...getTextareaProps(message)} />
+          <Textarea className="bg-black bg-opacity-50" autoComplete="off" {...getTextareaProps(message)} />
           <div className="text-red-500">{message.errors}</div>
         </div>
 
