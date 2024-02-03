@@ -1,4 +1,13 @@
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  isRouteErrorResponse,
+  useRouteError,
+} from '@remix-run/react'
 import type { LinksFunction, MetaFunction } from '@vercel/remix'
 import biographyStyle from '~/styles/biography.css'
 import globalStyles from '~/styles/globals.css'
@@ -38,19 +47,34 @@ export default function App() {
   )
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  let status = 0
+  let statusText = ''
+  let message = ''
+  if (isRouteErrorResponse(error)) {
+    status = error.status
+    statusText = error.statusText
+    message = error.data
+  } else if (error instanceof Error) {
+    status = 500
+    statusText = 'Internal Server Error'
+    message = error.message
+  }
+
   return (
     <html lang="ja">
       <head>
         <Meta />
         <Links />
       </head>
-      <body>
-        <h1 className="text-5xl">There was an error</h1>
-        <div>{String(error)}</div>
-        <ScrollRestoration />
+      <body className="m-8">
+        <h1 className="text-4xl">
+          {status} {statusText}
+        </h1>
+        <div className="mt-4">{message}</div>
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   )
