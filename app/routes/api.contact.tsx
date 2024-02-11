@@ -107,7 +107,6 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
 
-  console.log({ lastResult, formData: fetcher.formData ? Object.fromEntries(fetcher.formData?.entries()) : null })
   if (lastResult?.status === 'success' && lastResult.initialValue) {
     return <ContactSentMessage data={lastResult.initialValue} />
   }
