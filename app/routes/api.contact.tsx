@@ -153,7 +153,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
 
         <div>
           <HStack>
-            <Checkbox id={privacyPolicy.id} name={privacyPolicy.name} defaultValue="on" />
+            <Checkbox id={privacyPolicy.id} name={privacyPolicy.name} defaultValue="on" aria-label="privacy" />
             <label htmlFor={privacyPolicy.id} className="cursor-pointer">
               <PrivacyPolicyDialog />
             </label>
