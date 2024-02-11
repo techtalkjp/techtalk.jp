@@ -4,7 +4,18 @@ import { Link, useFetcher } from '@remix-run/react'
 import { json, type ActionFunctionArgs } from '@vercel/remix'
 import { z } from 'zod'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
-import { Button, Checkbox, HStack, Input, Label, Stack, Textarea } from '~/components/ui'
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Button,
+  Checkbox,
+  HStack,
+  Input,
+  Label,
+  Stack,
+  Textarea,
+} from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 import { sendEmail } from '~/services/sendEmail'
 import { sendSlack } from '~/services/sendSlack'
@@ -21,10 +32,6 @@ export const schema = z.object({
 
 export type ContactFormData = z.infer<typeof schema>
 
-export const isSucceed = (data: unknown): data is { isDone: true; formData: ContactFormData } => {
-  return typeof data === 'object' && data !== null && 'isDone' in data && data.isDone === true
-}
-
 export const buildContactMessage = (data: ContactFormData) => {
   return `お名前: ${data.name}
 会社名: ${data.company}
@@ -36,7 +43,7 @@ export const buildContactMessage = (data: ContactFormData) => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return submission.reply()
+    return json(submission.reply())
   }
 
   try {
@@ -45,13 +52,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       await sendSlack(buildContactMessage(submission.value))
     }
 
-    return json({
-      isDone: true,
-      formData: submission.value satisfies ContactFormData,
-    })
+    return json(submission.reply())
   } catch (e: unknown) {
     console.log(e)
-    throw new Response(String(e), { status: 500 })
+    return json(submission.reply({ formErrors: [String(e)] }))
   }
 }
 
@@ -96,13 +100,16 @@ interface ContactFormProps extends React.HTMLAttributes<HTMLFormElement> {
 export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   const { t, locale } = useLocale()
   const fetcher = useFetcher<typeof action>()
+  const lastResult = fetcher.data
   const [form, { name, company, phone, email, message, privacyPolicy }] = useForm({
+    lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
 
-  if (fetcher.data && isSucceed(fetcher.data)) {
-    return <ContactSentMessage data={fetcher.data.formData} />
+  console.log({ lastResult, formData: fetcher.formData ? Object.fromEntries(fetcher.formData?.entries()) : null })
+  if (lastResult?.status === 'success' && lastResult.initialValue) {
+    return <ContactSentMessage data={lastResult.initialValue} />
   }
 
   return (
@@ -146,13 +153,20 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
 
         <div>
           <HStack>
-            <Checkbox id={privacyPolicy.id} name={privacyPolicy.name} value="on" />
+            <Checkbox id={privacyPolicy.id} name={privacyPolicy.name} defaultValue="on" />
             <label htmlFor={privacyPolicy.id} className="cursor-pointer">
               <PrivacyPolicyDialog />
             </label>
           </HStack>
           <div className="text-red-500">{privacyPolicy.errors}</div>
         </div>
+
+        {form.errors && (
+          <Alert variant="destructive">
+            <AlertTitle>System Error</AlertTitle>
+            <AlertDescription>{form.errors}</AlertDescription>
+          </Alert>
+        )}
 
         <Button type="submit" disabled={fetcher.state === 'submitting'}>
           Let's talk
