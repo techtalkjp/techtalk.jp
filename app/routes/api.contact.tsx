@@ -10,11 +10,11 @@ import { sendEmail } from '~/services/sendEmail'
 import { sendSlack } from '~/services/sendSlack'
 
 export const schema = z.object({
-  name: z.string(),
-  company: z.string().optional(),
-  phone: z.string().optional(),
-  email: z.string().email(),
-  message: z.string(),
+  name: z.string().max(100),
+  company: z.string().max(100).optional(),
+  phone: z.string().max(20).optional(),
+  email: z.string().max(100).email(),
+  message: z.string().max(10000),
   privacyPolicy: z.string().transform((value) => value === 'on'),
   locale: z.string(),
 })
@@ -97,7 +97,6 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   const { t, locale } = useLocale()
   const fetcher = useFetcher<typeof action>()
   const [form, { name, company, phone, email, message, privacyPolicy }] = useForm({
-    id: 'contact-form',
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
