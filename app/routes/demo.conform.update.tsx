@@ -34,7 +34,7 @@ export default function TestPage() {
         <input {...getInputProps(message, { type: 'text' })} key={message.initialValue} />
         <div className="text-destructive">{message.errors}</div>
 
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {/* getButtonProps でやる場合は type='submit' にしないと動かない */}
           <button
             type="submit"
