@@ -1,6 +1,11 @@
 import { Link, Outlet, useLocation } from '@remix-run/react'
+import { MetaFunction } from '@vercel/remix'
 import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from '~/components/ui'
 import { cn } from '~/libs/utils'
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'Demos' }]
+}
 
 const demoPages: { [demoPage: string]: { path: string; title: string }[] } = {
   conform: [{ path: '/demo/conform/update', title: '外部から値を変更する' }],

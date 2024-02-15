@@ -1,8 +1,12 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { useActionData } from '@remix-run/react'
-import { json, type ActionFunctionArgs } from '@vercel/remix'
+import { MetaFunction, json, type ActionFunctionArgs } from '@vercel/remix'
 import { z } from 'zod'
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'conform で外部から値を変更するデモ - Demos' }]
+}
 
 const schema = z.object({
   message: z.string(),
