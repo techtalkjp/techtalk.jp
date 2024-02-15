@@ -5,7 +5,11 @@ import { MetaFunction, json, type ActionFunctionArgs } from '@vercel/remix'
 import { z } from 'zod'
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'conform で外部から値を変更するデモ - Demos' }]
+  return [
+    { title: 'conform で外部から値を変更するデモ - Demos' },
+    { charSet: 'utf-8' },
+    { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+  ]
 }
 
 const schema = z.object({

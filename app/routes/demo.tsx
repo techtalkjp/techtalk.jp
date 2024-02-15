@@ -4,7 +4,7 @@ import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } fro
 import { cn } from '~/libs/utils'
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Demos' }]
+  return [{ title: 'Demos' }, { charSet: 'utf-8' }, { name: 'viewport', content: 'width=device-width,initial-scale=1' }]
 }
 
 const demoPages: { [demoPage: string]: { path: string; title: string }[] } = {
