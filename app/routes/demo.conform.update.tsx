@@ -63,6 +63,9 @@ export default function TestPage() {
 
           {/* select の選択に応じて変更 */}
           <select onChange={(e) => form.update({ name: message.name, value: e.target.value })}>
+            <option value="" selected>
+              選択してください
+            </option>
             <option>プリセット1</option>
             <option>プリセット2</option>
             <option>プリセット3</option>
