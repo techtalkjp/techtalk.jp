@@ -9,7 +9,7 @@ export const meta: MetaFunction = () => {
 
 const demoPages: { [demoPage: string]: { path: string; title: string }[] } = {
   conform: [{ path: '/demo/conform/update', title: '外部から値を変更する' }],
-  test: [{ path: '/demo/test', title: 'test' }],
+  about: [{ path: '/demo/about', title: 'これは何?' }],
 }
 
 export default function TestPage() {
