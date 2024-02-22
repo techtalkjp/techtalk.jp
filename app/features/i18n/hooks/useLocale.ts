@@ -22,8 +22,7 @@ export const useLocale = () => {
   const locale = detectLocale(location.pathname)
 
   const t = (id: string, fallback: string) => {
-    const resource: { [key: string]: string } = resources[locale]
-    return resource[id] || fallback
+    return resources[locale]?.[id] ?? fallback
   }
 
   return { locale, t }

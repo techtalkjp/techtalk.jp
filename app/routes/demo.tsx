@@ -30,7 +30,7 @@ const demoPages: { [demoPage: string]: { path: string; title: string; ext?: 'mdx
 export default function TestPage() {
   const location = useLocation()
   const menu = location.pathname.split('/')[2]
-  const menuItems = demoPages[menu]
+  const menuItems = menu ? demoPages[menu] ?? [] : []
   const currentMenuItem = menuItems.find((item) => item.path === location.pathname)
   const codeURL =
     currentMenuItem &&
@@ -53,7 +53,7 @@ export default function TestPage() {
                 {demoMenu}
               </MenubarTrigger>
               <MenubarContent>
-                {demoPages[demoMenu].map(({ path, title }) => (
+                {demoPages[demoMenu]?.map(({ path, title }) => (
                   <MenubarItem key={path} asChild>
                     <Link to={path}>{title}</Link>
                   </MenubarItem>
@@ -65,21 +65,25 @@ export default function TestPage() {
       </header>
 
       <main className="mx-2 md:container md:mx-auto">
-        <Card>
-          <CardHeader className="flex-row justify-start space-y-0">
-            <CardTitle>{currentMenuItem?.title}</CardTitle>
-            <Spacer />
-            {codeURL && (
-              <a className="block text-sm" target="_blank" rel="noreferrer noopener" href={codeURL}>
-                <span>Source</span>
-                <ExternalLinkIcon className="mb-1 ml-1 inline h-4 w-4" />
-              </a>
-            )}
-          </CardHeader>
-          <CardContent>
-            <Outlet />
-          </CardContent>
-        </Card>
+        {currentMenuItem ? (
+          <Card>
+            <CardHeader className="flex-row justify-start space-y-0">
+              <CardTitle>{currentMenuItem?.title}</CardTitle>
+              <Spacer />
+              {codeURL && (
+                <a className="block text-sm" target="_blank" rel="noreferrer noopener" href={codeURL}>
+                  <span>Source</span>
+                  <ExternalLinkIcon className="mb-1 ml-1 inline h-4 w-4" />
+                </a>
+              )}
+            </CardHeader>
+            <CardContent>
+              <Outlet />
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="mx-auto text-center">メニューからデモを選択してください。</div>
+        )}
       </main>
 
       <footer className="px-4 py-2 text-center">Copyright&copy; TechTalk inc.</footer>
