@@ -2,7 +2,7 @@ import { Link } from '@remix-run/react'
 import type { MetaFunction } from '@vercel/remix'
 import Content from '~/assets/privacy.md'
 import { Button, Heading } from '~/components/ui'
-import styles from '~/styles/privacy.css'
+import styles from '~/styles/privacy.css?url'
 
 export const meta: MetaFunction = () => [{ title: 'プライバシーポリシー - TechTalk' }]
 

@@ -21,8 +21,8 @@ export const meta: MetaFunction = () => {
 
 const demoPages: { [demoPage: string]: { path: string; title: string; ext?: 'mdx' }[] } = {
   conform: [
-    { path: '/demo/conform/update', title: '外部から値を変更する' },
-    { path: '/demo/conform/value', title: '入力値を参照する' },
+    { path: '/demo/conform/update', title: '外部から値を変更する - update' },
+    { path: '/demo/conform/value', title: '入力値を参照する - value' },
   ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: 'mdx' }],
 }
@@ -71,13 +71,18 @@ export default function TestPage() {
               <CardTitle>{currentMenuItem?.title}</CardTitle>
               <Spacer />
               {codeURL && (
-                <a className="block text-sm" target="_blank" rel="noreferrer noopener" href={codeURL}>
+                <a
+                  className="block text-sm hover:text-primary hover:underline"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  href={codeURL}
+                >
                   <span>Source</span>
                   <ExternalLinkIcon className="mb-1 ml-1 inline h-4 w-4" />
                 </a>
               )}
             </CardHeader>
-            <CardContent className="prose lg:prose-xl">
+            <CardContent className={cn('prose max-w-full lg:prose-xl')}>
               <Outlet />
             </CardContent>
           </Card>
