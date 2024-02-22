@@ -112,6 +112,9 @@ devDependencies:
   npm-run-all:
     specifier: 4.1.5
     version: 4.1.5
+  postcss:
+    specifier: ^8.4.35
+    version: 8.4.35
   prettier:
     specifier: 3.2.5
     version: 3.2.5

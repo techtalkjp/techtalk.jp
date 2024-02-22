@@ -16,7 +16,7 @@ import {
 import { cn } from '~/libs/utils'
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Demos' }, { charSet: 'utf-8' }, { name: 'viewport', content: 'width=device-width,initial-scale=1' }]
+  return [{ title: 'TechTalk Demos' }]
 }
 
 const demoPages: { [demoPage: string]: { path: string; title: string; ext?: 'mdx' }[] } = {

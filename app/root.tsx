@@ -9,17 +9,12 @@ import {
   useRouteError,
 } from '@remix-run/react'
 import type { LinksFunction, MetaFunction } from '@vercel/remix'
-import biographyStyle from '~/styles/biography.css'
-import globalStyles from '~/styles/globals.css'
-import privacyStyles from '~/styles/privacy.css'
+import biographyStyle from './styles/biography.css?url'
+import globalStyles from './styles/globals.css?url'
+import privacyStyles from './styles/privacy.css?url'
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: '株式会社TechTalk' },
-    { name: 'description', content: '株式会社TechTalkの公式サイトです。' },
-    { charSet: 'utf-8' },
-    { name: 'viewport', content: 'width=device-width,initial-scale=1' },
-  ]
+  return [{ title: '株式会社TechTalk' }, { name: 'description', content: '株式会社TechTalkの公式サイトです。' }]
 }
 
 export const links: LinksFunction = () => {
@@ -34,6 +29,8 @@ export default function App() {
   return (
     <html lang="ja">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
