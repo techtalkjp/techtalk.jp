@@ -35,11 +35,13 @@ export default function TestPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl">conform で外部から値を変更するデモ</h1>
-
       <form method="POST" className="flex flex-col gap-4" {...getFormProps(form)}>
-        <label htmlFor={message.id}>Message</label>
-        <input {...getInputProps(message, { type: 'text' })} key={message.initialValue} />
+        <div>
+          <label className="block" htmlFor={message.id}>
+            Message
+          </label>
+          <input className="block w-full" {...getInputProps(message, { type: 'text' })} key={message.initialValue} />
+        </div>
         <div className="text-destructive">{message.errors}</div>
 
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
