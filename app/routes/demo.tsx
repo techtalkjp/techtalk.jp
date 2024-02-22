@@ -32,7 +32,9 @@ export default function TestPage() {
   const menu = location.pathname.split('/')[2]
   const menuItems = demoPages[menu]
   const currentMenuItem = menuItems.find((item) => item.path === location.pathname)
-  const codeURL = `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/${currentMenuItem?.path.replace(/^\//, '').replaceAll('/', '.')}.${currentMenuItem?.ext ?? 'tsx'}`
+  const codeURL =
+    currentMenuItem &&
+    `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/${currentMenuItem?.path.replace(/^\//, '').replaceAll('/', '.')}.${currentMenuItem?.ext ?? 'tsx'}`
 
   return (
     <div className="grid h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4">
@@ -67,10 +69,12 @@ export default function TestPage() {
           <CardHeader className="flex-row justify-start space-y-0">
             <CardTitle>{currentMenuItem?.title}</CardTitle>
             <Spacer />
-            <a className="block text-sm" target="_blank" rel="noreferrer noopener" href={codeURL}>
-              <span>Source</span>
-              <ExternalLinkIcon className="mb-1 ml-1 inline h-4 w-4" />
-            </a>
+            {codeURL && (
+              <a className="block text-sm" target="_blank" rel="noreferrer noopener" href={codeURL}>
+                <span>Source</span>
+                <ExternalLinkIcon className="mb-1 ml-1 inline h-4 w-4" />
+              </a>
+            )}
           </CardHeader>
           <CardContent>
             <Outlet />
