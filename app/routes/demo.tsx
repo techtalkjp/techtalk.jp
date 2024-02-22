@@ -77,7 +77,7 @@ export default function TestPage() {
                 </a>
               )}
             </CardHeader>
-            <CardContent>
+            <CardContent className="prose lg:prose-xl">
               <Outlet />
             </CardContent>
           </Card>
