@@ -16,6 +16,15 @@ const schema = z.object({
   street: z.string().optional(),
 })
 
+/**
+ * 郵便番号から住所を取得する
+ *
+ * 郵便番号 REST API
+ * https://postcode.teraren.com/
+ *
+ * @param postalCode
+ * @returns
+ */
 const lookupAddress = async (postalCode: string) => {
   const res = await fetch(`https://postcode.teraren.com/postcodes/${postalCode}.json`).catch((e) => null)
   if (!res) return
@@ -53,11 +62,9 @@ export const action: ActionFunction = async ({ request }) => {
     return json(submission.reply())
   }
 
-  const address = `${submission.value.prefecture}${submission.value.city}${submission.value.suburb}${submission.value.street ?? ''}`
-
   return jsonWithToast(submission.reply(), {
     message: '登録しました！',
-    description: address,
+    description: `${submission.value.prefecture}${submission.value.city}${submission.value.suburb}${submission.value.street ?? ''}`,
     type: 'success',
   })
 }
@@ -71,7 +78,11 @@ export default function ConformValueDemoPage() {
   })
   const navigation = useNavigation()
 
+  // value はレンダリングのときに都度参照していないと更新されず undefined になるので、ここで参照しておく
+  // ref: https://github.com/edmundhung/conform/pull/467
   const postalCode = `${zip1.value}${zip2.value}`
+
+  // 郵便番号から住所を取得
   const handleClickLookupPostalCode = async () => {
     const address = await lookupAddress(postalCode)
     if (!address) return
