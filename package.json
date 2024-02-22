@@ -3,7 +3,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix vite:build",
+    "build": "remix build",
     "dev": "remix vite:dev",
     "lint": "biome lint .",
     "format": "prettier --check --ignore-path .gitignore '**/*.{ts,tsx}'",
