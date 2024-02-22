@@ -26,6 +26,7 @@ export const schema = z.object({
   phone: z.string().max(20).optional(),
   email: z.string().max(100).email(),
   message: z.string().max(10000),
+  companyPhone: z.string().max(20).optional(),
   privacyPolicy: z.string().transform((value) => value === 'on'),
   locale: z.string(),
 })
@@ -47,6 +48,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   try {
+    if (submission.value.companyPhone) {
+      // honeypot
+      console.log('honeypot', submission.value.companyPhone)
+      return json(submission.reply())
+    }
+
     if (submission.value.email !== 'test@example.com') {
       await sendEmail(submission.value)
       await sendSlack(buildContactMessage(submission.value))
@@ -94,14 +101,12 @@ export const ContactSentMessage = ({ data }: ContactSentMessageProps) => {
   )
 }
 
-interface ContactFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  children?: React.ReactNode
-}
+type ContactFormProps = React.HTMLAttributes<HTMLFormElement>
 export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   const { t, locale } = useLocale()
   const fetcher = useFetcher<typeof action>()
   const lastResult = fetcher.data
-  const [form, { name, company, phone, email, message, privacyPolicy }] = useForm({
+  const [form, { name, company, phone, email, message, companyPhone, privacyPolicy }] = useForm({
     lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
@@ -112,7 +117,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   }
 
   return (
-    <fetcher.Form method="POST" action="/api/contact" {...getFormProps(form)} {...rest}>
+    <fetcher.Form method="POST" action="/api/contact" {...rest} {...getFormProps(form)}>
       <Stack className="text-left">
         <div>
           <Label htmlFor={name.id}>{t('contact.name', 'お名前')}</Label>
@@ -149,6 +154,9 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
         </div>
 
         <input type="hidden" name="locale" value={locale} />
+        <div className="hidden">
+          <input {...getInputProps(companyPhone, { type: 'tel' })} />
+        </div>
 
         <div>
           <HStack>
