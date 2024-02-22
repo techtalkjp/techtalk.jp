@@ -45,7 +45,12 @@ export const BiographyPopover = () => {
             <Stack gap="1">
               <Heading size="md">溝口浩二 coji</Heading>
               <HStack>
-                <Button size="xs" variant="outline" className="text-twitter" asChild>
+                <Button
+                  size="xs"
+                  variant="default"
+                  className="bg-twitter text-white hover:bg-twitter/80 active:bg-twitter"
+                  asChild
+                >
                   <a
                     href="https://twitter.com/techtalkjp"
                     target="_blank"
@@ -56,7 +61,12 @@ export const BiographyPopover = () => {
                   </a>
                 </Button>
 
-                <Button size="xs" variant="outline" className="text-facebook" asChild>
+                <Button
+                  size="xs"
+                  variant="outline"
+                  className="bg-facebook text-white hover:bg-facebook/80 hover:text-white active:bg-facebook"
+                  asChild
+                >
                   <a
                     href="https://www.facebook.com/mizoguchi.coji"
                     target="_blank"
@@ -67,7 +77,12 @@ export const BiographyPopover = () => {
                   </a>
                 </Button>
 
-                <Button size="xs" variant="outline" className="text-github" asChild>
+                <Button
+                  size="xs"
+                  variant="outline"
+                  className="bg-github text-white hover:bg-github/80 hover:text-white active:bg-github"
+                  asChild
+                >
                   <a
                     href="https://github.com/coji"
                     target="_blank"
