@@ -30,28 +30,10 @@ const lookupAddress = async (postalCode: string) => {
   if (!res) return
   if (res.ok) {
     return (await res.json()) as {
-      postcode_type: 'area'
-      jis: string
-      old: string
-      new: string
-      prefecture_kana: string
-      city_kana: string
-      suburb_kana: string
       prefecture: string
       city: string
       suburb: string
       street_address: string | null
-      office: string | null
-      office_kana: string | null
-      post_type: string | null
-      is_separated_suburb: number
-      is_koaza: number
-      is_chome: number
-      is_include_area: number
-      status: number
-      reason: number
-      created_at: string
-      updated_at: string
     }
   }
 }
