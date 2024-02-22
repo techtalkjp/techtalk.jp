@@ -13,7 +13,7 @@ export default function Privacy() {
     <>
       <Heading className="my-16 text-center text-4xl font-black">TechTalkプライバシーポリシー</Heading>
 
-      <div className="markdown container">
+      <div className="markdown prone container">
         <Content />
 
         <div className="my-16 text-center">

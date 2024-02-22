@@ -12,7 +12,7 @@ import { json, type LinksFunction, type LoaderFunctionArgs, type MetaFunction } 
 import { useEffect } from 'react'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
-import { Toaster } from '~/components/ui'
+import { Toaster } from './components/ui'
 import biographyStyle from './styles/biography.css?url'
 import globalStyles from './styles/globals.css?url'
 import privacyStyles from './styles/privacy.css?url'
