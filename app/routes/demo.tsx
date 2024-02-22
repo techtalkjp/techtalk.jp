@@ -22,7 +22,7 @@ export const meta: MetaFunction = () => {
 const demoPages: { [demoPage: string]: { path: string; title: string; ext?: 'mdx' }[] } = {
   conform: [
     { path: '/demo/conform/update', title: '外部から値を変更する - update' },
-    { path: '/demo/conform/value', title: '入力値を参照する - value' },
+    { path: '/demo/conform/value', title: '郵便番号から住所を補完する - value / update' },
   ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: 'mdx' }],
 }
