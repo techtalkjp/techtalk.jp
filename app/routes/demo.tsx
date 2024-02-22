@@ -19,12 +19,12 @@ export const meta: MetaFunction = () => {
   return [{ title: 'Demos' }, { charSet: 'utf-8' }, { name: 'viewport', content: 'width=device-width,initial-scale=1' }]
 }
 
-const demoPages: { [demoPage: string]: { path: string; title: string }[] } = {
+const demoPages: { [demoPage: string]: { path: string; title: string; ext?: 'mdx' }[] } = {
   conform: [
     { path: '/demo/conform/update', title: '外部から値を変更する' },
     { path: '/demo/conform/value', title: '入力値を参照する' },
   ],
-  about: [{ path: '/demo/about', title: 'これは何?' }],
+  about: [{ path: '/demo/about', title: 'これは何?', ext: 'mdx' }],
 }
 
 export default function TestPage() {
@@ -32,7 +32,7 @@ export default function TestPage() {
   const menu = location.pathname.split('/')[2]
   const menuItems = demoPages[menu]
   const currentMenuItem = menuItems.find((item) => item.path === location.pathname)
-  const codeURL = `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/${currentMenuItem?.path.replace(/^\//, '').replaceAll('/', '.')}.tsx`
+  const codeURL = `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/${currentMenuItem?.path.replace(/^\//, '').replaceAll('/', '.')}.${currentMenuItem?.ext ?? 'tsx'}`
 
   return (
     <div className="grid h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4">
