@@ -1,6 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { Form } from '@remix-run/react'
+import { Form, useActionData } from '@remix-run/react'
 import { ActionFunction, json } from '@vercel/remix'
 import { jsonWithToast } from 'remix-toast'
 import { toast } from 'sonner'
@@ -50,8 +50,10 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 export default function ConformValueDemoPage() {
+  const lastResult = useActionData<typeof action>()
   // conform の useForm でフォームとフィールドメタデータを使う
   const [form, { zip1, zip2, prefecture, city, street }] = useForm({
+    lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
