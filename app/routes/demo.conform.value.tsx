@@ -64,28 +64,23 @@ export default function ConformValueDemoPage() {
 
   // 郵便番号から住所を取得
   const handleClickLookupPostalCode = async () => {
-    try {
-      const address = await lookupAddress(postalCode)
-      if (!address) {
-        return
-      }
-      form.update({
-        name: prefecture.name,
-        value: address.prefecture,
-      })
-      form.update({
-        name: city.name,
-        value: `${address.city}${address.suburb}`,
-      })
-      form.update({
-        name: street.name,
-        value: address.street_address ?? '',
-      })
-      toast.info('郵便番号をもとに住所を更新しました')
-    } catch (e) {
-      toast.error(`郵便番号から住所を取得できませんでした: ${String(e)}`)
+    const address = await lookupAddress(postalCode)
+    if (!address) {
       return
     }
+    form.update({
+      name: prefecture.name,
+      value: address.prefecture,
+    })
+    form.update({
+      name: city.name,
+      value: `${address.city}${address.suburb}`,
+    })
+    form.update({
+      name: street.name,
+      value: address.street_address ?? '',
+    })
+    toast.info('郵便番号をもとに住所を更新しました')
   }
 
   return (
@@ -121,11 +116,13 @@ export default function ConformValueDemoPage() {
           <Input {...getInputProps(prefecture, { type: 'text' })} key={prefecture.key} />
           <div className="text-sm text-destructive">{prefecture.errors}</div>
         </div>
+
         <div>
           <Label htmlFor={city.id}>市区町村</Label>
           <Input {...getInputProps(city, { type: 'text' })} key={city.key} />
           <div className="text-sm text-destructive">{city.errors}</div>
         </div>
+
         <div>
           <Label htmlFor={street.id}>番地</Label>
           <Input {...getInputProps(street, { type: 'text' })} key={street.key} />
