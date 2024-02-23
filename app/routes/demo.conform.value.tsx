@@ -53,7 +53,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function ConformValueDemoPage() {
   const lastResult = useActionData<typeof action>()
-  const [form, { zip1, zip2, prefecture, city, suburb, street }] = useForm({
+  const [form, { zip1, zip2, prefecture, city, street }] = useForm({
     lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
@@ -75,11 +75,7 @@ export default function ConformValueDemoPage() {
     })
     form.update({
       name: city.name,
-      value: address.city,
-    })
-    form.update({
-      name: suburb.name,
-      value: address.suburb,
+      value: `${address.city}${address.suburb}`,
     })
     form.update({
       name: street.name,
@@ -118,17 +114,12 @@ export default function ConformValueDemoPage() {
           </div>
           <div>
             <Label htmlFor={city.id}>市区町村</Label>
-            <Input {...getInputProps(city, { type: 'text' })} />
+            <Input {...getInputProps(city, { type: 'text' })} key={city.key} />
             <div className="text-destructive">{city.errors}</div>
           </div>
           <div>
-            <Label htmlFor={suburb.id}>町域</Label>
-            <Input {...getInputProps(suburb, { type: 'text' })} />
-            <div className="text-destructive">{suburb.errors}</div>
-          </div>
-          <div>
             <Label htmlFor={street.id}>番地</Label>
-            <Input {...getInputProps(street, { type: 'text' })} />
+            <Input {...getInputProps(street, { type: 'text' })} key={street.key} />
             <div className="text-destructive">{street.errors}</div>
           </div>
         </Stack>
