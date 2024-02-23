@@ -61,12 +61,14 @@ export default function ConformValueDemoPage() {
   // ref: https://github.com/edmundhung/conform/pull/467
   const postalCode = `${zip1.value}${zip2.value}`
 
-  // 郵便番号から住所を取得
   const fillAddressByPostalCode = async () => {
+    // 郵便番号から住所を取得
     const address = await lookupAddress(postalCode)
     if (!address) {
       return
     }
+
+    // 住所をフォームに反映する
     form.update({
       name: prefecture.name,
       value: address.prefecture,
