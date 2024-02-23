@@ -12,7 +12,6 @@ const schema = z.object({
   zip2: z.string().max(4),
   prefecture: z.string(),
   city: z.string(),
-  suburb: z.string(),
   street: z.string().optional(),
 })
 
@@ -46,7 +45,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   return jsonWithToast(submission.reply(), {
     message: '登録しました！',
-    description: `${submission.value.prefecture}${submission.value.city}${submission.value.suburb}${submission.value.street ?? ''}`,
+    description: `${submission.value.prefecture}${submission.value.city}${submission.value.street ?? ''}`,
     type: 'success',
   })
 }
