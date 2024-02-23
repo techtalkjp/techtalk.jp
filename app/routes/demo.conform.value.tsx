@@ -113,19 +113,19 @@ export default function ConformValueDemoPage() {
 
         <div>
           <Label htmlFor={prefecture.id}>都道府県</Label>
-          <Input {...getInputProps(prefecture, { type: 'text' })} key={prefecture.key} />
+          <Input {...getInputProps(prefecture, { type: 'text' })} />
           <div className="text-sm text-destructive">{prefecture.errors}</div>
         </div>
 
         <div>
           <Label htmlFor={city.id}>市区町村</Label>
-          <Input {...getInputProps(city, { type: 'text' })} key={city.key} />
+          <Input {...getInputProps(city, { type: 'text' })} />
           <div className="text-sm text-destructive">{city.errors}</div>
         </div>
 
         <div>
           <Label htmlFor={street.id}>番地</Label>
-          <Input {...getInputProps(street, { type: 'text' })} key={street.key} />
+          <Input {...getInputProps(street, { type: 'text' })} />
           <div className="text-sm text-destructive">{street.errors}</div>
         </div>
 
