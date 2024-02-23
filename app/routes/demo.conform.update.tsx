@@ -1,8 +1,10 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { useActionData } from '@remix-run/react'
-import { MetaFunction, json, type ActionFunctionArgs } from '@vercel/remix'
+import { Form, useActionData } from '@remix-run/react'
+import { ActionFunctionArgs, MetaFunction } from '@vercel/remix'
+import { jsonWithError, jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
+import { Button, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui'
 
 export const meta: MetaFunction = () => {
   return [
@@ -19,79 +21,80 @@ const schema = z.object({
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return json({ lastResult: submission.reply(), actionMessage: 'Action Error!' })
+    return jsonWithError(submission.reply(), { message: 'エラーが発生しました' })
   }
-  return json({ lastResult: submission.reply(), actionMessage: 'Action Success!' })
+  return jsonWithSuccess(submission.reply(), { message: '登録しました！' })
 }
 
 export default function TestPage() {
-  const actionData = useActionData<typeof action>()
-
+  const lastResult = useActionData<typeof action>()
   const [form, { message }] = useForm({
-    lastResult: actionData?.lastResult,
+    lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
 
   return (
-    <div className="flex flex-col gap-4">
-      <form method="POST" className="flex flex-col gap-4" {...getFormProps(form)}>
-        <div>
-          <label className="block" htmlFor={message.id}>
-            Message
-          </label>
-          <input className="block w-full" {...getInputProps(message, { type: 'text' })} key={message.initialValue} />
-        </div>
-        <div className="text-destructive">{message.errors}</div>
+    <Form method="POST" className="flex flex-col gap-4" {...getFormProps(form)}>
+      <div>
+        <Label htmlFor={message.id}>Message</Label>
+        <Input className="w-full" {...getInputProps(message, { type: 'text' })} key={message.initialValue} />
+      </div>
+      <div className="text-sm text-destructive">{message.errors}</div>
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {/* getButtonProps でやる場合は type='submit' にしないと動かない */}
-          <button
-            type="submit"
-            className="border"
-            {...form.update.getButtonProps({
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-2">
+        {/* getButtonProps でやる場合は type='submit' にしないと動かない */}
+        <Button
+          type="submit"
+          variant="outline"
+          {...form.update.getButtonProps({
+            name: message.name,
+            value: 'Hello! from form.update.getButtonProps',
+          })}
+        >
+          getButtonProps で update
+        </Button>
+
+        {/* form.update でやる場合は type='button' で OK */}
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => {
+            form.update({
               name: message.name,
-              value: 'Hello! from form.update.getButtonProps',
-            })}
-          >
-            getButtonProps で update
-          </button>
+              value: 'こんにちは！ from form.update',
+            })
+          }}
+        >
+          form.update で update
+        </Button>
 
-          {/* form.update でやる場合は type='button' で OK */}
-          <button
-            type="button"
-            className="border"
-            onClick={() => {
-              form.update({
-                name: message.name,
-                value: 'こんにちは！ from form.update',
-              })
-            }}
-          >
-            form.update で update
-          </button>
+        {/* select の選択に応じて変更 */}
+        <Select
+          onValueChange={(val) => {
+            form.update({ name: message.name, value: val })
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="選択してください" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="プリセット1">プリセット1</SelectItem>
+            <SelectItem value="プリセット2">プリセット2</SelectItem>
+            <SelectItem value="プリセット3">プリセット3</SelectItem>
+          </SelectContent>
+        </Select>
 
-          {/* select の選択に応じて変更 */}
-          <select defaultValue="" onChange={(e) => form.update({ name: message.name, value: e.target.value })}>
-            <option value="">選択してください</option>
-            <option>プリセット1</option>
-            <option>プリセット2</option>
-            <option>プリセット3</option>
-          </select>
+        {/* form.reset.getButtonProps でリセット。submit で。 */}
+        <Button type="submit" variant="outline" {...form.reset.getButtonProps({ name: message.name })}>
+          リセット
+        </Button>
+      </div>
 
-          {/* form.reset.getButtonProps でリセット。submit で。 */}
-          <button type="submit" className="border" {...form.reset.getButtonProps({ name: message.name })}>
-            リセット
-          </button>
-        </div>
-
-        {/* 登録 */}
-        <button type="submit" className="border">
-          登録
-        </button>
-      </form>
-
-      {actionData?.lastResult && <div>{actionData?.actionMessage}</div>}
-    </div>
+      {/* 登録 */}
+      <Button type="submit" variant="default">
+        登録
+      </Button>
+    </Form>
   )
 }

@@ -66,7 +66,7 @@ export default function TestPage() {
 
       <main className="mx-2 md:container md:mx-auto">
         {currentMenuItem ? (
-          <Card>
+          <Card className="mx-auto max-w-lg">
             <CardHeader className="flex-row justify-start space-y-0">
               <CardTitle>{currentMenuItem?.title}</CardTitle>
               <Spacer />
