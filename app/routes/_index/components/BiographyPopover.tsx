@@ -42,7 +42,7 @@ export const BiographyPopover = () => {
             <Avatar>
               <AvatarImage src="/images/coji.webp" loading="lazy" />
             </Avatar>
-            <Stack gap="1">
+            <Stack className="gap-0.5">
               <Heading size="md">溝口浩二 coji</Heading>
               <HStack>
                 <Button
