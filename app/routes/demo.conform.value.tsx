@@ -128,9 +128,9 @@ export default function ConformValueDemoPage() {
           <Input {...getInputProps(street, { type: 'text' })} key={street.key} />
           <div className="text-sm text-destructive">{street.errors}</div>
         </div>
-      </Stack>
 
-      <Button className="mt-8 w-full">登録</Button>
+        <Button className="mt-2 w-full">登録</Button>
+      </Stack>
     </Form>
   )
 }
