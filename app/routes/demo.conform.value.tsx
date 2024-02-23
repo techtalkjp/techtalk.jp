@@ -109,7 +109,7 @@ export default function ConformValueDemoPage() {
 
           <div>
             <Label htmlFor={prefecture.id}>都道府県</Label>
-            <Input {...getInputProps(prefecture, { type: 'text' })} />
+            <Input {...getInputProps(prefecture, { type: 'text' })} key={prefecture.key} />
             <div className="text-destructive">{prefecture.errors}</div>
           </div>
           <div>
