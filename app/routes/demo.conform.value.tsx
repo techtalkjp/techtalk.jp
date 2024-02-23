@@ -95,20 +95,14 @@ export default function ConformValueDemoPage() {
           </div>
           <div>-</div>
           <div>
-            <Input
-              className="w-24"
-              onBlur={() => fillAddressByPostalCode()}
-              {...getInputProps(zip2, { type: 'tel' })}
-            />
+            <Input className="w-24" {...getInputProps(zip2, { type: 'tel' })} />
             <div className="text-sm text-destructive">{zip2.errors}</div>
           </div>
           <Button
             type="button"
             variant="outline"
             className="whitespace-nowrap"
-            onClick={() => {
-              fillAddressByPostalCode()
-            }}
+            onClick={() => fillAddressByPostalCode()}
           >
             住所検索
           </Button>
