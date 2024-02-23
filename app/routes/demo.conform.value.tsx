@@ -133,11 +133,9 @@ export default function ConformValueDemoPage() {
           </div>
         </Stack>
 
-        <div className="mt-8 text-center">
-          <Button className="w-full" disabled={navigation.state === 'submitting'}>
-            {navigation.state === 'submitting' ? '登録しています...' : '登録'}
-          </Button>
-        </div>
+        <Button className="mt-8 w-full" disabled={navigation.state === 'submitting'}>
+          {navigation.state === 'submitting' ? '登録しています...' : '登録'}
+        </Button>
       </Form>
     </div>
   )
