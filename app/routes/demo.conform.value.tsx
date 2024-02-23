@@ -5,7 +5,7 @@ import { ActionFunction, json } from '@vercel/remix'
 import { jsonWithToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { Button, HStack, Input, Label, Stack } from '~/components/ui'
+import { Button, HStack, Input, Label } from '~/components/ui'
 
 // フォーム要素のスキーマ定義
 const schema = z.object({
@@ -19,11 +19,11 @@ const schema = z.object({
 /**
  * 郵便番号から住所を取得する
  *
- * 郵便番号 REST API
+ * 郵便番号 REST API を利用。
  * https://postcode.teraren.com/
  *
  * @param postalCode
- * @returns
+ * @returns 住所情報
  */
 const lookupAddress = async (postalCode: string) => {
   const res = await fetch(`https://postcode.teraren.com/postcodes/${postalCode}.json`).catch(() => null)
@@ -51,7 +51,6 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function ConformValueDemoPage() {
   const lastResult = useActionData<typeof action>()
-  // conform の useForm でフォームとフィールドメタデータを使う
   const [form, { zip1, zip2, prefecture, city, street }] = useForm({
     lastResult,
     constraint: getZodConstraint(schema),
@@ -63,7 +62,7 @@ export default function ConformValueDemoPage() {
   const postalCode = `${zip1.value}${zip2.value}`
 
   // 郵便番号から住所を取得
-  const handleClickLookupPostalCode = async () => {
+  const fillAddressByPostalCode = async () => {
     const address = await lookupAddress(postalCode)
     if (!address) {
       return
@@ -84,53 +83,55 @@ export default function ConformValueDemoPage() {
   }
 
   return (
-    <Form method="POST" {...getFormProps(form)}>
-      <Stack>
-        <div>
-          <Label htmlFor={zip1.id}>郵便番号</Label>
-          <HStack>
-            <div>
-              <Input className="w-16" {...getInputProps(zip1, { type: 'tel' })} />
-              <div className="text-sm text-destructive">{zip1.errors}</div>
-            </div>
-            <div>-</div>
-            <div>
-              <Input className="w-24" {...getInputProps(zip2, { type: 'tel' })} />
-              <div className="text-sm text-destructive">{zip2.errors}</div>
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              className="whitespace-nowrap"
-              onClick={() => {
-                handleClickLookupPostalCode()
-              }}
-            >
-              住所検索
-            </Button>
-          </HStack>
-        </div>
+    <Form method="POST" className="flex flex-col gap-4" {...getFormProps(form)}>
+      <div>
+        <Label htmlFor={zip1.id}>郵便番号</Label>
+        <HStack>
+          <div>
+            <Input className="w-16" {...getInputProps(zip1, { type: 'tel' })} />
+            <div className="text-sm text-destructive">{zip1.errors}</div>
+          </div>
+          <div>-</div>
+          <div>
+            <Input
+              className="w-24"
+              onBlur={() => fillAddressByPostalCode()}
+              {...getInputProps(zip2, { type: 'tel' })}
+            />
+            <div className="text-sm text-destructive">{zip2.errors}</div>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            className="whitespace-nowrap"
+            onClick={() => {
+              fillAddressByPostalCode()
+            }}
+          >
+            住所検索
+          </Button>
+        </HStack>
+      </div>
 
-        <div>
-          <Label htmlFor={prefecture.id}>都道府県</Label>
-          <Input {...getInputProps(prefecture, { type: 'text' })} />
-          <div className="text-sm text-destructive">{prefecture.errors}</div>
-        </div>
+      <div>
+        <Label htmlFor={prefecture.id}>都道府県</Label>
+        <Input {...getInputProps(prefecture, { type: 'text' })} />
+        <div className="text-sm text-destructive">{prefecture.errors}</div>
+      </div>
 
-        <div>
-          <Label htmlFor={city.id}>市区町村</Label>
-          <Input {...getInputProps(city, { type: 'text' })} />
-          <div className="text-sm text-destructive">{city.errors}</div>
-        </div>
+      <div>
+        <Label htmlFor={city.id}>市区町村</Label>
+        <Input {...getInputProps(city, { type: 'text' })} />
+        <div className="text-sm text-destructive">{city.errors}</div>
+      </div>
 
-        <div>
-          <Label htmlFor={street.id}>番地</Label>
-          <Input {...getInputProps(street, { type: 'text' })} />
-          <div className="text-sm text-destructive">{street.errors}</div>
-        </div>
+      <div>
+        <Label htmlFor={street.id}>番地</Label>
+        <Input {...getInputProps(street, { type: 'text' })} />
+        <div className="text-sm text-destructive">{street.errors}</div>
+      </div>
 
-        <Button className="mt-2 w-full">登録</Button>
-      </Stack>
+      <Button className="mt-2 w-full">登録</Button>
     </Form>
   )
 }
