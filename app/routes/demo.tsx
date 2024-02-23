@@ -77,7 +77,7 @@ export default function TestPage() {
                   rel="noreferrer noopener"
                   href={codeURL}
                 >
-                  <span>Source</span>
+                  <span>Code</span>
                   <ExternalLinkIcon className="mb-1 ml-1 inline h-4 w-4" />
                 </a>
               )}
