@@ -39,7 +39,7 @@ export default function TestPage() {
   return (
     <div className="grid h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4">
       <header className="bg-card">
-        <h1 className="mx-4 text-2xl font-bold md:my-2">TechTalk demos</h1>
+        <h1 className="mx-4 my-2 text-2xl font-bold">TechTalk demos</h1>
         <Menubar className="rounded-none border-b border-l-0 border-r-0 border-t shadow-none">
           {Object.keys(demoPages).map((demoMenu) => (
             <MenubarMenu key={demoMenu}>
