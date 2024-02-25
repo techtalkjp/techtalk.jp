@@ -13,9 +13,9 @@ import { useEffect } from 'react'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { Toaster } from '~/components/ui'
-import biographyStyle from '~/styles/biography.css?url'
-import globalStyles from '~/styles/globals.css?url'
-import privacyStyles from '~/styles/privacy.css?url'
+import biographyStyle from './styles/biography.css?url'
+import globalStyles from './styles/globals.css?url'
+import privacyStyles from './styles/privacy.css?url'
 
 export const meta: MetaFunction = () => {
   return [{ title: '株式会社TechTalk' }, { name: 'description', content: '株式会社TechTalkの公式サイトです。' }]
