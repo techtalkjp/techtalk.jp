@@ -68,7 +68,7 @@ export default function DemoConformAlert() {
         {navigation.state === 'submitting' ? '削除しています...' : '削除'}
       </Button>
 
-      <AlertDialog open={intent.value === 'alert'}>
+      <AlertDialog open={form.valid && intent.value === 'alert'}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>このメールアドレスを削除します</AlertDialogTitle>
