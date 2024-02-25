@@ -1,5 +1,5 @@
-import { Link, Outlet, useLocation } from '@remix-run/react'
-import { MetaFunction } from '@vercel/remix'
+import { Link, Outlet, useLoaderData } from '@remix-run/react'
+import { LoaderFunctionArgs, MetaFunction } from '@vercel/remix'
 import { ExternalLinkIcon } from 'lucide-react'
 import {
   Card,
@@ -23,18 +23,25 @@ const demoPages: { [demoPage: string]: { path: string; title: string; ext?: 'mdx
   conform: [
     { path: '/demo/conform/update', title: '外部から値を変更する - update' },
     { path: '/demo/conform/value', title: '郵便番号から住所を補完する - value / update' },
+    { path: '/demo/conform/alert', title: '実行確認ダイアログを出す' },
   ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: 'mdx' }],
 }
 
-export default function TestPage() {
-  const location = useLocation()
-  const menu = location.pathname.split('/')[2]
+export const loader = ({ request }: LoaderFunctionArgs) => {
+  const url = new URL(request.url)
+  const menu = url.pathname.split('/')[2]
   const menuItems = menu ? demoPages[menu] ?? [] : []
-  const currentMenuItem = menuItems.find((item) => item.path === location.pathname)
+  const currentMenuItem = menuItems.find((item) => item.path === url.pathname)
   const codeURL =
     currentMenuItem &&
     `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/${currentMenuItem?.path.replace(/^\//, '').replaceAll('/', '.')}.${currentMenuItem?.ext ?? 'tsx'}`
+
+  return { menu, currentMenuItem, codeURL }
+}
+
+export default function DemoPage() {
+  const { menu, currentMenuItem, codeURL } = useLoaderData<typeof loader>()
 
   return (
     <div className="grid h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4">
