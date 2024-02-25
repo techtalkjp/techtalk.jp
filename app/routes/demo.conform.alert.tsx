@@ -21,35 +21,37 @@ import {
 } from '~/components/ui'
 
 const schema = z.object({
+  intent: z.literal('alert').or(z.literal('submit')),
   email: z.string().email(),
 })
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return jsonWithError(submission.reply(), { message: 'Invalid form submission' })
+    return jsonWithError(submission.reply(), {
+      message: 'Invalid form submission',
+    });
+  }
+
+  if (submission.value.intent === 'alert') {
+    return submission.reply()
   }
 
   // Simulate a slow server
   await setTimeout(2000)
 
-  return jsonWithSuccess(submission.reply(), { message: 'Deleted successfly', description: submission.value.email })
-}
+  return jsonWithSuccess(submission.reply(), {
+    message: 'Deleted successfly',
+    description: submission.value.email,
+  })
+};
 
 export default function DemoConformAlert() {
-  const [isAlertOpen, setIsAlertOpen] = useState(false)
   const lastResult = useActionData<typeof action>()
-  const [form, { email }] = useForm({
+  const [form, { intent, email }] = useForm({
     lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
-    onSubmit: (event, { formData }) => {
-      const intent = formData.get('intent')
-      if (intent === 'alert') {
-        event.preventDefault()
-        setIsAlertOpen(true)
-      }
-    },
     shouldValidate: 'onBlur',
   })
   const navigation = useNavigation()
@@ -66,17 +68,15 @@ export default function DemoConformAlert() {
         {navigation.state === 'submitting' ? '削除しています...' : '削除'}
       </Button>
 
-      <AlertDialog open={isAlertOpen} onOpenChange={(open) => setIsAlertOpen(open)}>
+      <AlertDialog open={intent.value === 'alert'}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>このメールアドレスを削除します</AlertDialogTitle>
             <AlertDialogDescription>{email.value}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>戻る</AlertDialogCancel>
-            <AlertDialogAction type="submit" name="intent" value="submit" form={form.id}>
-              削除する
-            </AlertDialogAction>
+            <AlertDialogCancel type="submit" form={form.id}>戻る</AlertDialogCancel>
+            <AlertDialogAction type="submit" name="intent" value="submit" form={form.id}>削除する</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
