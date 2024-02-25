@@ -74,7 +74,7 @@ export default function DemoConformAlert() {
         <div className="text-sm text-destructive">{email.errors}</div>
       </div>
 
-      {/* intent=confirm で submit: 確認ダイアログを表示させるように戻させる */}
+      {/* intent=confirm で submit: フォームを検証された状態で確認ダイアログを表示させる */}
       <Button type="submit" name="intent" value="confirm" disabled={actionData?.shouldConfirm}>
         削除
       </Button>
