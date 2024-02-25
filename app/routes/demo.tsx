@@ -23,7 +23,7 @@ const demoPages: { [demoPage: string]: { path: string; title: string; ext?: 'mdx
   conform: [
     { path: '/demo/conform/update', title: '外部から値を変更する - update' },
     { path: '/demo/conform/value', title: '郵便番号から住所を補完する - value / update' },
-    { path: '/demo/conform/alert', title: '実行確認ダイアログを出す' },
+    { path: '/demo/conform/alert', title: '検証してから実行確認ダイアログを出す' },
   ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: 'mdx' }],
 }
