@@ -1,6 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { Form, useNavigation } from '@remix-run/react'
+import { Form, useActionData, useNavigation } from '@remix-run/react'
 import { ActionFunctionArgs } from '@vercel/remix'
 import { useState } from 'react'
 import { jsonWithError, jsonWithSuccess } from 'remix-toast'
@@ -38,8 +38,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function DemoConformAlert() {
   const [isAlertOpen, setIsAlertOpen] = useState(false)
-
+  const lastResult = useActionData<typeof action>()
   const [form, { email }] = useForm({
+    lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
     onSubmit: (event, { formData }) => {
@@ -49,6 +50,7 @@ export default function DemoConformAlert() {
         setIsAlertOpen(true)
       }
     },
+    shouldValidate: 'onBlur',
   })
   const navigation = useNavigation()
 
