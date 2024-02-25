@@ -12,5 +12,8 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit"
-  }
+  },
+  "vite.port": 3000,
+  "vite.buildCommand": "pnpm run build",
+  "vite.devCommand": "pnpm run dev"
 }
