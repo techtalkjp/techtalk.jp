@@ -1,20 +1,27 @@
-import { PassThrough } from 'node:stream'
-
 import type { AppLoadContext, EntryContext } from '@remix-run/node'
 import { createReadableStreamFromReadable } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
 import * as isbotModule from 'isbot'
+import { PassThrough } from 'node:stream'
 import { renderToPipeableStream } from 'react-dom/server'
+import { createSitemapGenerator } from 'remix-sitemap'
+const { isSitemapUrl, sitemap } = createSitemapGenerator({
+  siteUrl: 'https://www.techtalk.jp',
+  generateRobotsTxt: true,
+})
 
 const ABORT_DELAY = 5_000
 
-export default function handleRequest(
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
   loadContext: AppLoadContext,
 ) {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  if (isSitemapUrl(request)) return await sitemap(request, remixContext as any)
+
   return isBotRequest(request.headers.get('user-agent'))
     ? handleBotRequest(
         request,

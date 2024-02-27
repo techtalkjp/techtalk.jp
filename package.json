@@ -37,6 +37,7 @@
     "react": "18.3.0-canary-47beb96cc-20240222",
     "react-dom": "18.3.0-canary-47beb96cc-20240222",
     "react-twc": "1.4.1",
+    "remix-sitemap": "3.2.0",
     "remix-toast": "1.2.0",
     "sonner": "1.4.0",
     "tailwind-merge": "2.2.1",
