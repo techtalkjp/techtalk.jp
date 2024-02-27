@@ -6,7 +6,7 @@ import {
   useNavigation,
   useRevalidator,
 } from '@remix-run/react'
-import { ActionFunctionArgs, json } from '@vercel/remix'
+import { json, type ActionFunctionArgs } from '@vercel/remix'
 import { jsonWithSuccess } from 'remix-toast'
 import { setTimeout } from 'timers/promises'
 import { z } from 'zod'
@@ -72,7 +72,7 @@ export default function DemoConformAlert() {
         <div className="text-sm text-destructive">{email.errors}</div>
       </div>
 
-      {/* intent=confirm で submit: フォームを検証された状態で確認ダイアログを表示させる */}
+      {/* intent=confirm でフォームを検証された状態で確認ダイアログを表示させる */}
       <Button
         type="submit"
         name="intent"
@@ -101,7 +101,7 @@ export default function DemoConformAlert() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>戻る</AlertDialogCancel>
-            {/* intent=submit で submit: 実際に削除 */}
+            {/* intent=submit で実際に削除 */}
             <AlertDialogAction
               type="submit"
               name="intent"
