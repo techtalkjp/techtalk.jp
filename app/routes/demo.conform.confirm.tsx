@@ -1,11 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import {
-  Form,
-  useActionData,
-  useNavigation,
-  useRevalidator,
-} from '@remix-run/react'
+import { Form, useActionData, useNavigation, useRevalidator } from '@remix-run/react'
 import { ActionFunctionArgs, json } from '@vercel/remix'
 import { jsonWithSuccess } from 'remix-toast'
 import { setTimeout } from 'timers/promises'
@@ -61,11 +56,7 @@ export default function DemoConformAlert() {
   const { revalidate } = useRevalidator()
 
   return (
-    <Form
-      method="POST"
-      className="grid grid-cols-1 gap-4"
-      {...getFormProps(form)}
-    >
+    <Form method="POST" className="grid grid-cols-1 gap-4" {...getFormProps(form)}>
       <div>
         <Label htmlFor={email.id}>メールアドレス</Label>
         <Input {...getInputProps(email, { type: 'email' })} />
@@ -73,12 +64,7 @@ export default function DemoConformAlert() {
       </div>
 
       {/* intent=confirm で submit: フォームを検証された状態で確認ダイアログを表示させる */}
-      <Button
-        type="submit"
-        name="intent"
-        value="confirm"
-        disabled={actionData?.shouldConfirm}
-      >
+      <Button type="submit" name="intent" value="confirm" disabled={actionData?.shouldConfirm}>
         削除
       </Button>
 
@@ -86,8 +72,11 @@ export default function DemoConformAlert() {
       <AlertDialog
         open={actionData?.shouldConfirm}
         onOpenChange={(open) => {
-          // キャンセルボタンや ESC キー押下時に閉じられるので、revalidate で再度 loader を実行し、lastResult をリセットして初期状態に戻す
-          // email の値は Input の DOM に保持されているので revalidate しても消えない。
+          // キャンセルボタンや ESC キー押下時に閉じられるので、
+          // revalidate で再度 loader を実行し、
+          // lastResult をリセットして初期状態に戻す。
+          // email の値は Input の DOM に保持されているので
+          // revalidate しても消えない。
           !open && revalidate()
         }}
       >
