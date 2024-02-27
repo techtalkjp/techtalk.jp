@@ -3,12 +3,14 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix build",
+    "build": "remix vite:build",
     "dev": "remix vite:dev",
+    "start": "remix-serve ./build/server/index.js",
     "lint": "biome lint .",
     "format": "prettier --check .",
     "typecheck": "tsc",
-    "validate": "run-p format lint typecheck"
+    "validate": "run-p format lint typecheck",
+    "test": "vitest run"
   },
   "dependencies": {
     "@conform-to/react": "1.0.2",
@@ -24,8 +26,9 @@
     "@radix-ui/react-popover": "1.0.7",
     "@radix-ui/react-select": "2.0.0",
     "@radix-ui/react-slot": "1.0.2",
+    "@remix-run/node": "2.7.2",
     "@remix-run/react": "2.7.2",
-    "@vercel/remix": "2.7.2-preset.1",
+    "@remix-run/serve": "2.7.2",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.0",
     "isbot": "5.1.0",
@@ -44,9 +47,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
+    "@flydotio/dockerfile": "0.5.2",
     "@mdx-js/rollup": "3.0.1",
     "@remix-run/dev": "2.7.2",
-    "@remix-run/serve": "2.7.2",
     "@tailwindcss/typography": "0.5.10",
     "@types/node": "20.11.20",
     "@types/react": "18.2.57",

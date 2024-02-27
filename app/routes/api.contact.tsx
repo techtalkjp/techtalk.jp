@@ -5,8 +5,8 @@ import {
   useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { Link, useFetcher } from '@remix-run/react'
-import { json, type ActionFunctionArgs } from '@vercel/remix'
 import { z } from 'zod'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
 import {

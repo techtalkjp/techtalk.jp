@@ -1,12 +1,12 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { json, type ActionFunctionArgs } from '@remix-run/node'
 import {
   Form,
   useActionData,
   useNavigation,
   useRevalidator,
 } from '@remix-run/react'
-import { json, type ActionFunctionArgs } from '@vercel/remix'
 import { jsonWithSuccess } from 'remix-toast'
 import { setTimeout } from 'timers/promises'
 import { z } from 'zod'

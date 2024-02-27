@@ -1,7 +1,7 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { json, type ActionFunction } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
-import { ActionFunction, json } from '@vercel/remix'
 import { jsonWithToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'

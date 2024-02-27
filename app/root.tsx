@@ -1,19 +1,19 @@
 import {
+  json,
+  type LinksFunction,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from '@remix-run/node'
+import {
+  isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  isRouteErrorResponse,
   useLoaderData,
   useRouteError,
 } from '@remix-run/react'
-import {
-  json,
-  type LinksFunction,
-  type LoaderFunctionArgs,
-  type MetaFunction,
-} from '@vercel/remix'
 import { useEffect } from 'react'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
