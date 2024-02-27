@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import Content from '~/assets/privacy.md'
-import { Button, Dialog, DialogContent, DialogFooter, DialogHeader } from '~/components/ui'
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+} from '~/components/ui'
 import { useLocale } from '../features/i18n/hooks/useLocale'
 
 const PrivacyPolicyDialog = () => {

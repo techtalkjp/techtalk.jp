@@ -19,11 +19,19 @@ export const meta: MetaFunction = () => {
   return [{ title: 'TechTalk Demos' }]
 }
 
-const demoPages: { [demoPage: string]: { path: string; title: string; ext?: 'mdx' }[] } = {
+const demoPages: {
+  [demoPage: string]: { path: string; title: string; ext?: 'mdx' }[]
+} = {
   conform: [
     { path: '/demo/conform/update', title: '外部から値を変更する - update' },
-    { path: '/demo/conform/value', title: '郵便番号から住所を補完する - value / update' },
-    { path: '/demo/conform/confirm', title: '実行確認ダイアログ付きの削除フォーム' },
+    {
+      path: '/demo/conform/value',
+      title: '郵便番号から住所を補完する - value / update',
+    },
+    {
+      path: '/demo/conform/confirm',
+      title: '実行確認ダイアログ付きの削除フォーム',
+    },
   ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: 'mdx' }],
 }
@@ -32,7 +40,9 @@ export default function DemoPage() {
   const location = useLocation()
   const menu = location.pathname.split('/')[2]
   const menuItems = menu ? demoPages[menu] ?? [] : []
-  const currentMenuItem = menuItems.find((item) => item.path === location.pathname)
+  const currentMenuItem = menuItems.find(
+    (item) => item.path === location.pathname,
+  )
   const codeURL =
     currentMenuItem &&
     `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/${currentMenuItem?.path.replace(/^\//, '').replaceAll('/', '.')}.${currentMenuItem?.ext ?? 'tsx'}`
@@ -88,11 +98,15 @@ export default function DemoPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="mx-auto text-center">メニューからデモを選択してください。</div>
+          <div className="mx-auto text-center">
+            メニューからデモを選択してください。
+          </div>
         )}
       </main>
 
-      <footer className="px-4 py-2 text-center">Copyright&copy; TechTalk inc.</footer>
+      <footer className="px-4 py-2 text-center">
+        Copyright&copy; TechTalk inc.
+      </footer>
     </div>
   )
 }

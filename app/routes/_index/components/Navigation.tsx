@@ -3,8 +3,17 @@ import { Button, HStack, Spacer } from '~/components/ui'
 import LanguageSwitcher from '~/features/i18n/components/LanguageSwitcher'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
 
-const NavItem = ({ id, children }: { id: string; children: React.ReactNode }) => {
-  const scrollTo = (id: string, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+const NavItem = ({
+  id,
+  children,
+}: {
+  id: string
+  children: React.ReactNode
+}) => {
+  const scrollTo = (
+    id: string,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     event.preventDefault()
     event.stopPropagation()
     const element = document.getElementById(id)
@@ -12,7 +21,12 @@ const NavItem = ({ id, children }: { id: string; children: React.ReactNode }) =>
   }
 
   return (
-    <Button size="xs" variant="ghost" asChild onClick={(event) => scrollTo(id, event)}>
+    <Button
+      size="xs"
+      variant="ghost"
+      asChild
+      onClick={(event) => scrollTo(id, event)}
+    >
       <Link to={`#${id}`} className="cursor-pointer hover:text-primary">
         {children}
       </Link>

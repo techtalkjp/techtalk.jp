@@ -4,7 +4,16 @@ import { Form, useActionData } from '@remix-run/react'
 import { ActionFunctionArgs, MetaFunction } from '@vercel/remix'
 import { jsonWithError, jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
-import { Button, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui'
+import {
+  Button,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '~/components/ui'
 
 export const meta: MetaFunction = () => {
   return [
@@ -21,7 +30,9 @@ const schema = z.object({
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return jsonWithError(submission.reply(), { message: 'エラーが発生しました' })
+    return jsonWithError(submission.reply(), {
+      message: 'エラーが発生しました',
+    })
   }
   return jsonWithSuccess(submission.reply(), { message: '登録しました！' })
 }
@@ -38,7 +49,11 @@ export default function TestPage() {
     <Form method="POST" className="flex flex-col gap-4" {...getFormProps(form)}>
       <div>
         <Label htmlFor={message.id}>Message</Label>
-        <Input className="w-full" {...getInputProps(message, { type: 'text' })} key={message.initialValue} />
+        <Input
+          className="w-full"
+          {...getInputProps(message, { type: 'text' })}
+          key={message.initialValue}
+        />
       </div>
       <div className="text-sm text-destructive">{message.errors}</div>
 
@@ -86,7 +101,11 @@ export default function TestPage() {
         </Select>
 
         {/* form.reset.getButtonProps でリセット。submit で。 */}
-        <Button type="submit" variant="outline" {...form.reset.getButtonProps({ name: message.name })}>
+        <Button
+          type="submit"
+          variant="outline"
+          {...form.reset.getButtonProps({ name: message.name })}
+        >
           リセット
         </Button>
       </div>

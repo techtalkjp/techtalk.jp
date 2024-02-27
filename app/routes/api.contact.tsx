@@ -1,4 +1,9 @@
-import { getFormProps, getInputProps, getTextareaProps, useForm } from '@conform-to/react'
+import {
+  getFormProps,
+  getInputProps,
+  getTextareaProps,
+  useForm,
+} from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { Link, useFetcher } from '@remix-run/react'
 import { json, type ActionFunctionArgs } from '@vercel/remix'
@@ -106,7 +111,10 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   const { t, locale } = useLocale()
   const fetcher = useFetcher<typeof action>()
   const lastResult = fetcher.data
-  const [form, { name, company, phone, email, message, companyPhone, privacyPolicy }] = useForm({
+  const [
+    form,
+    { name, company, phone, email, message, companyPhone, privacyPolicy },
+  ] = useForm({
     lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
@@ -117,11 +125,20 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   }
 
   return (
-    <fetcher.Form method="POST" action="/api/contact" {...rest} {...getFormProps(form)}>
+    <fetcher.Form
+      method="POST"
+      action="/api/contact"
+      {...rest}
+      {...getFormProps(form)}
+    >
       <Stack className="text-left">
         <div>
           <Label htmlFor={name.id}>{t('contact.name', 'お名前')}</Label>
-          <Input className="bg-black bg-opacity-50" autoComplete="name" {...getInputProps(name, { type: 'text' })} />
+          <Input
+            className="bg-black bg-opacity-50"
+            autoComplete="name"
+            {...getInputProps(name, { type: 'text' })}
+          />
           <div className="text-red-500">{name.errors}</div>
         </div>
 
@@ -137,19 +154,33 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
 
         <div>
           <Label htmlFor={phone.id}>{t('contact.phone', '電話番号')}</Label>
-          <Input className="bg-black bg-opacity-50" autoComplete="tel" {...getInputProps(phone, { type: 'tel' })} />
+          <Input
+            className="bg-black bg-opacity-50"
+            autoComplete="tel"
+            {...getInputProps(phone, { type: 'tel' })}
+          />
           <div className="text-red-500">{phone.errors}</div>
         </div>
 
         <div>
           <Label htmlFor={email.id}> {t('contact.email', 'メール')} </Label>
-          <Input className="bg-black bg-opacity-50" autoComplete="email" {...getInputProps(email, { type: 'email' })} />
+          <Input
+            className="bg-black bg-opacity-50"
+            autoComplete="email"
+            {...getInputProps(email, { type: 'email' })}
+          />
           <div className="text-red-500">{email.errors}</div>
         </div>
 
         <div>
-          <Label htmlFor={message.id}>{t('contact.message', 'メッセージ')}</Label>
-          <Textarea className="bg-black bg-opacity-50" autoComplete="off" {...getTextareaProps(message)} />
+          <Label htmlFor={message.id}>
+            {t('contact.message', 'メッセージ')}
+          </Label>
+          <Textarea
+            className="bg-black bg-opacity-50"
+            autoComplete="off"
+            {...getTextareaProps(message)}
+          />
           <div className="text-red-500">{message.errors}</div>
         </div>
 
@@ -160,7 +191,12 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
 
         <div>
           <HStack>
-            <Checkbox id={privacyPolicy.id} name={privacyPolicy.name} defaultValue="on" aria-label="privacy" />
+            <Checkbox
+              id={privacyPolicy.id}
+              name={privacyPolicy.name}
+              defaultValue="on"
+              aria-label="privacy"
+            />
             <label htmlFor={privacyPolicy.id} className="cursor-pointer">
               <PrivacyPolicyDialog />
             </label>

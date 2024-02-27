@@ -8,7 +8,12 @@ import {
   useLoaderData,
   useRouteError,
 } from '@remix-run/react'
-import { json, type LinksFunction, type LoaderFunctionArgs, type MetaFunction } from '@vercel/remix'
+import {
+  json,
+  type LinksFunction,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from '@vercel/remix'
 import { useEffect } from 'react'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
@@ -18,7 +23,10 @@ import globalStyles from './styles/globals.css?url'
 import privacyStyles from './styles/privacy.css?url'
 
 export const meta: MetaFunction = () => {
-  return [{ title: '株式会社TechTalk' }, { name: 'description', content: '株式会社TechTalkの公式サイトです。' }]
+  return [
+    { title: '株式会社TechTalk' },
+    { name: 'description', content: '株式会社TechTalkの公式サイトです。' },
+  ]
 }
 
 export const links: LinksFunction = () => {

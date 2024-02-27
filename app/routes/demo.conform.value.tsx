@@ -26,7 +26,9 @@ const schema = z.object({
  * @returns 住所情報
  */
 const lookupAddress = async (postalCode: string) => {
-  const res = await fetch(`https://postcode.teraren.com/postcodes/${postalCode}.json`).catch(() => null)
+  const res = await fetch(
+    `https://postcode.teraren.com/postcodes/${postalCode}.json`,
+  ).catch(() => null)
   if (!res || !res.ok) return null
   return (await res.json()) as {
     prefecture: string

@@ -57,7 +57,8 @@ export const BiographyPopover = () => {
                     rel="noopener noreferrer"
                     className="flex items-center"
                   >
-                    <TwitterIcon className="h-4 w-4" /> <p className="ml-1 text-xs">Twitter</p>
+                    <TwitterIcon className="h-4 w-4" />{' '}
+                    <p className="ml-1 text-xs">Twitter</p>
                   </a>
                 </Button>
 
@@ -73,7 +74,8 @@ export const BiographyPopover = () => {
                     rel="noopener noreferrer"
                     className="flex items-center"
                   >
-                    <FacebookIcon className="h-4 w-4" /> <p className="ml-1 text-xs">Facebook</p>
+                    <FacebookIcon className="h-4 w-4" />{' '}
+                    <p className="ml-1 text-xs">Facebook</p>
                   </a>
                 </Button>
 
@@ -89,7 +91,8 @@ export const BiographyPopover = () => {
                     rel="noopener noreferrer"
                     className="flex items-center"
                   >
-                    <GithubIcon className="h-4 w-4" /> <p className="ml-1 text-xs">GitHub</p>
+                    <GithubIcon className="h-4 w-4" />{' '}
+                    <p className="ml-1 text-xs">GitHub</p>
                   </a>
                 </Button>
               </HStack>
