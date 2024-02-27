@@ -2,11 +2,10 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { Form, useActionData, useNavigation, useRevalidator } from '@remix-run/react'
 import { ActionFunctionArgs, json } from '@vercel/remix'
+import { jsonWithSuccess } from 'remix-toast'
 import { setTimeout } from 'timers/promises'
 import { z } from 'zod'
 import {
-  Alert,
-  AlertDescription,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -15,7 +14,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertTitle,
   Button,
   Input,
   Label,
@@ -29,30 +27,22 @@ const schema = z.object({
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return json({
-      result: submission.reply(),
-      shouldConfirm: false,
-      message: null,
-    })
+    return json({ result: submission.reply(), shouldConfirm: false })
   }
 
   // intent=confirm で submit された場合は確認ダイアログを表示させるように戻す
   if (submission.value.intent === 'confirm') {
-    return json({
-      result: submission.reply(),
-      shouldConfirm: true,
-      message: null,
-    })
+    return json({ result: submission.reply(), shouldConfirm: true })
   }
 
   // intent=submit で submit された場合は実際に削除
   await setTimeout(1000) // simulate server delay
 
-  return json({
-    result: submission.reply(),
-    shouldConfirm: false,
-    message: { title: '削除しました', description: submission.value.email },
-  })
+  // 成功: resetForm: true でフォームをリセットさせる
+  return jsonWithSuccess(
+    { result: submission.reply({ resetForm: true }), shouldConfirm: false },
+    { message: '削除しました', description: submission.value.email }, // toast 表示
+  )
 }
 
 export default function DemoConformAlert() {
@@ -77,13 +67,6 @@ export default function DemoConformAlert() {
       <Button type="submit" name="intent" value="confirm" disabled={actionData?.shouldConfirm}>
         削除
       </Button>
-
-      {actionData?.message && (
-        <Alert>
-          <AlertTitle>{actionData.message.title}</AlertTitle>
-          <AlertDescription>{actionData.message.description}</AlertDescription>
-        </Alert>
-      )}
 
       {/* 確認ダイアログ */}
       <AlertDialog
