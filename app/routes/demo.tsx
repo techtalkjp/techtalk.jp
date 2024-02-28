@@ -33,6 +33,12 @@ const demoPages: {
       title: '実行確認ダイアログ付きの削除フォーム',
     },
   ],
+  cache: [
+    {
+      path: '/demo/cache/swr',
+      title: 'キャッシュヘッダ - stale-while-revalidate',
+    },
+  ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: 'mdx' }],
 }
 
