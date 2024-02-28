@@ -36,7 +36,7 @@ const demoPages: {
   cache: [
     {
       path: '/demo/cache/swr',
-      title: 'キャッシュヘッダ - stale-while-revalidate',
+      title: 'Cache Control - stale-while-revalidate',
     },
   ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: 'mdx' }],
