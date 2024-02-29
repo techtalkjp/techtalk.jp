@@ -1,9 +1,4 @@
-import {
-  json,
-  type LinksFunction,
-  type LoaderFunctionArgs,
-  type MetaFunction,
-} from '@remix-run/node'
+import { type LinksFunction, type MetaFunction } from '@remix-run/node'
 import {
   isRouteErrorResponse,
   Links,
@@ -11,12 +6,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
   useRouteError,
 } from '@remix-run/react'
-import { useEffect } from 'react'
-import { getToast } from 'remix-toast'
-import { toast } from 'sonner'
 import { Toaster } from '~/components/ui'
 import biographyStyle from './styles/biography.css?url'
 import globalStyles from './styles/globals.css?url'
@@ -37,28 +28,7 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { toast, headers } = await getToast(request)
-  return json({ toastData: toast }, { headers })
-}
-
 export default function App() {
-  const { toastData } = useLoaderData<typeof loader>()
-
-  useEffect(() => {
-    if (!toastData) return
-    let toastFn = toast.info
-    switch (toastData?.type) {
-      case 'success':
-        toastFn = toast.success
-        break
-      case 'error':
-        toastFn = toast.error
-        break
-    }
-    toastFn(toastData.message, { description: toastData.description })
-  }, [toastData])
-
   return (
     <html lang="ja">
       <head>

@@ -6,7 +6,7 @@ import {
 import { useLoaderData } from '@remix-run/react'
 
 const header = {
-  'Cache-Control': 'public, max-age=0, s-maxage=30, stale-while-revalidate=360',
+  'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=360',
 }
 
 export const headers: HeadersFunction = () => {
