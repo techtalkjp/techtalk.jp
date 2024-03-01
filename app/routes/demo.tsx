@@ -83,7 +83,7 @@ export default function DemoPage() {
 
       <main className="mx-2 md:container md:mx-auto">
         {currentMenuItem ? (
-          <Card className="mx-auto max-w-lg">
+          <Card className="mx-auto max-w-2xl">
             <CardHeader className="flex-row justify-start space-y-0">
               <CardTitle>{currentMenuItem?.title}</CardTitle>
               <Spacer />
@@ -99,7 +99,7 @@ export default function DemoPage() {
                 </a>
               )}
             </CardHeader>
-            <CardContent className={cn('prose max-w-full lg:prose-xl')}>
+            <CardContent>
               <Outlet />
             </CardContent>
           </Card>
