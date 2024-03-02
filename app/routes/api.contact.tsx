@@ -190,7 +190,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
         </div>
 
         <div>
-          <HStack>
+          <HStack className="items-center">
             <Checkbox
               id={privacyPolicy.id}
               name={privacyPolicy.name}

@@ -18,7 +18,6 @@ const PrivacyPolicyDialog = () => {
       <span className="text-sm">
         {t('privacy.agree-to-before', '')}
         <Button
-          size="xs"
           type="button"
           variant="link"
           onClick={(e) => {
