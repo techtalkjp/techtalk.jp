@@ -15,7 +15,7 @@ import {
   TableRow,
 } from '~/components/ui'
 
-const defaultCacheControl = 'public, s-maxage=60, stale-while-revalidate=30'
+const defaultCacheControl = 's-maxage=10, stale-while-revalidate=5'
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return loaderHeaders
