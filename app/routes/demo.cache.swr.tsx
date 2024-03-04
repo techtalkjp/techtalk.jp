@@ -4,6 +4,7 @@ import {
   type LoaderFunctionArgs,
 } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
+import dayjs from 'dayjs'
 import { setTimeout } from 'node:timers/promises'
 import { useEffect, useState } from 'react'
 import {
@@ -16,7 +17,7 @@ import {
   TableRow,
 } from '~/components/ui'
 
-const defaultCacheControl = 's-maxage=30, stale-while-revalidate=30'
+const defaultCacheControl = 's-maxage=60, stale-while-revalidate=120'
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return loaderHeaders
@@ -40,7 +41,8 @@ export default function DemoConformAlert() {
   useEffect(() => {
     setClientTime(new Date().toISOString())
   }, [])
-  new Date(serverTime).toISOString()
+
+  const diff = dayjs(clientTime).diff(dayjs(serverTime), 'second')
 
   return (
     <Stack>
@@ -67,6 +69,10 @@ export default function DemoConformAlert() {
           <TableRow>
             <TableCell>Client Time</TableCell>
             <TableCell>{clientTime}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Diff</TableCell>
+            <TableCell>{diff} seconds</TableCell>
           </TableRow>
         </TableBody>
       </Table>
