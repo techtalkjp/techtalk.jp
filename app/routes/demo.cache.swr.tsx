@@ -4,6 +4,7 @@ import {
   type LoaderFunctionArgs,
 } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
+import { setTimeout } from 'node:timers/promises'
 import { useEffect, useState } from 'react'
 import {
   Stack,
@@ -15,13 +16,15 @@ import {
   TableRow,
 } from '~/components/ui'
 
-const defaultCacheControl = 's-maxage=10, stale-while-revalidate=5'
+const defaultCacheControl = 's-maxage=30, stale-while-revalidate=30'
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return loaderHeaders
 }
 
-export const loader = ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  await setTimeout(5000)
+
   const serverTime = new Date().toISOString()
   const cacheControl = defaultCacheControl
   return json(
