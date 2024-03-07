@@ -7,15 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Web Standart's Request Log
-// https://developer.mozilla.org/ja/docs/Web/API/Request
-model RequestLog {
-  id            String  @id @default(cuid())
-  flyRegion     String  @map("fly_region")
-  flyAppName    String  @map("fly_app_name")
-  flyMachineId  String  @map("fly_machine_id")
-  url           String
-  createdAt     String  @map("created_at")
+model SampleOrder {
+  id           String @id @default(cuid())
+  flyRegion    String @map("fly_region")
+  flyAppName   String @map("fly_app_name")
+  flyMachineId String @map("fly_machine_id")
+  name         String
+  email        String
+  zip          String
+  country      String
+  prefecture   String
+  city         String
+  address      String
+  phone        String
+  note         String?
+  createdAt    String @map("created_at")
 
-  @@map("request_logs")
+  @@map("sample_orders")
 }

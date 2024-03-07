@@ -1,9 +1,4 @@
-import {
-  json,
-  type LinksFunction,
-  type LoaderFunctionArgs,
-  type MetaFunction,
-} from '@remix-run/node'
+import { type LinksFunction, type MetaFunction } from '@remix-run/node'
 import {
   isRouteErrorResponse,
   Links,
@@ -13,9 +8,7 @@ import {
   ScrollRestoration,
   useRouteError,
 } from '@remix-run/react'
-import dayjs from 'dayjs'
 import { Toaster } from '~/components/ui'
-import { prisma } from '~/services/prisma.server'
 import biographyStyle from './styles/biography.css?url'
 import globalStyles from './styles/globals.css?url'
 import privacyStyles from './styles/privacy.css?url'
@@ -33,23 +26,6 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: privacyStyles },
     { rel: 'stylesheet', href: biographyStyle },
   ]
-}
-
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const timeStart = Date.now()
-  await prisma.requestLog.create({
-    data: {
-      flyRegion: process.env.FLY_REGION ?? '',
-      flyAppName: process.env.FLY_APP_NAME ?? '',
-      flyMachineId: process.env.FLY_MACHINE_ID ?? '',
-      url: request.url,
-      createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    },
-  })
-  const timeEnd = Date.now()
-  const duration = timeEnd - timeStart
-
-  return json({ duration })
 }
 
 export default function App() {

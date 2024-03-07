@@ -1,6 +1,9 @@
-import { type MetaFunction } from '@remix-run/node'
-import { Link, Outlet, useLocation } from '@remix-run/react'
+import { LoaderFunctionArgs, json, type MetaFunction } from '@remix-run/node'
+import { Link, Outlet, useLoaderData, useLocation } from '@remix-run/react'
 import { ExternalLinkIcon } from 'lucide-react'
+import { useEffect } from 'react'
+import { getToast } from 'remix-toast'
+import { toast } from 'sonner'
 import {
   Card,
   CardContent,
@@ -12,6 +15,7 @@ import {
   MenubarMenu,
   MenubarTrigger,
   Spacer,
+  Toaster,
 } from '~/components/ui'
 import { cn } from '~/libs/utils'
 
@@ -33,7 +37,7 @@ const demoPages: {
       title: '実行確認ダイアログ付きの削除フォーム',
     },
   ],
-  db: [{ path: '/demo/db/request_logs', title: 'DB - Request Logs' }],
+  db: [{ path: '/demo/db/sample_order', title: 'DB - Request Logs' }],
   cache: [
     {
       path: '/demo/cache/swr',
@@ -43,7 +47,14 @@ const demoPages: {
   about: [{ path: '/demo/about', title: 'これは何?', ext: 'mdx' }],
 }
 
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { toast, headers } = await getToast(request)
+  return json({ toastData: toast }, { headers })
+}
+
 export default function DemoPage() {
+  const { toastData } = useLoaderData<typeof loader>()
+
   const location = useLocation()
   const menu = location.pathname.split('/')[2]
   const menuItems = menu ? demoPages[menu] ?? [] : []
@@ -54,8 +65,22 @@ export default function DemoPage() {
     currentMenuItem &&
     `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/${currentMenuItem?.path.replace(/^\//, '').replaceAll('/', '.')}.${currentMenuItem?.ext ?? 'tsx'}`
 
+  useEffect(() => {
+    if (toastData) {
+      let toastFn = toast.info
+      if (toastData.type === 'error') {
+        toastFn = toast.error
+      } else if (toastData.type === 'success') {
+        toastFn = toast.success
+      }
+      toastFn(toastData.message, {
+        description: toastData.description,
+      })
+    }
+  }, [toastData])
+
   return (
-    <div className="grid h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4">
+    <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4">
       <header className="bg-card">
         <h1 className="mx-4 my-2 text-2xl font-bold">TechTalk demos</h1>
         <Menubar className="rounded-none border-b border-l-0 border-r-0 border-t shadow-none">
@@ -101,6 +126,7 @@ export default function DemoPage() {
               )}
             </CardHeader>
             <CardContent>
+              <Toaster />
               <Outlet />
             </CardContent>
           </Card>

@@ -11,6 +11,9 @@ dependencies:
   '@conform-to/zod':
     specifier: 1.0.2
     version: 1.0.2(zod@3.22.4)
+  '@faker-js/faker':
+    specifier: 8.4.1
+    version: 8.4.1
   '@prisma/client':
     specifier: 5.10.2
     version: 5.10.2(prisma@5.10.2)
@@ -47,6 +50,9 @@ dependencies:
   '@radix-ui/react-slot':
     specifier: 1.0.2
     version: 1.0.2(@types/react@18.2.61)(react@18.3.0-canary-47beb96cc-20240222)
+  '@radix-ui/react-tabs':
+    specifier: 1.0.4
+    version: 1.0.4(@types/react-dom@18.2.19)(@types/react@18.2.61)(react-dom@18.3.0-canary-47beb96cc-20240222)(react@18.3.0-canary-47beb96cc-20240222)
   '@remix-run/node':
     specifier: 2.8.0
     version: 2.8.0(typescript@5.3.3)
@@ -1226,6 +1232,11 @@ packages:
     dev: true
     optional: true
 
+  /@faker-js/faker@8.4.1:
+    resolution: {integrity: sha512-XQ3cU+Q8Uqmrbf2e0cIC/QN43sTBSC8KF12u29Mb47tWrt2hAgBXSgpZMj4Ao8Uk0iJcU99QsOCaIL8934obCg==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
+    dev: false
+
   /@floating-ui/core@1.6.0:
     resolution: {integrity: sha512-PcF++MykgmTj3CIyOQbKA/hDzOAiqI3mhuoN44WRCopIs1sgoDoU4oty4Jtqaj/y3oDU6fnVSm4QG0a3t5i0+g==}
     dependencies:
@@ -2199,6 +2210,34 @@ packages:
       '@radix-ui/react-compose-refs': 1.0.1(@types/react@18.2.61)(react@18.3.0-canary-47beb96cc-20240222)
       '@types/react': 18.2.61
       react: 18.3.0-canary-47beb96cc-20240222
+    dev: false
+
+  /@radix-ui/react-tabs@1.0.4(@types/react-dom@18.2.19)(@types/react@18.2.61)(react-dom@18.3.0-canary-47beb96cc-20240222)(react@18.3.0-canary-47beb96cc-20240222):
+    resolution: {integrity: sha512-egZfYY/+wRNCflXNHx+dePvnz9FbmssDTJBtgRfDY7e8SE5oIo3Py2eCB1ckAbh1Q7cQ/6yJZThJ++sgbxibog==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.24.0
+      '@radix-ui/primitive': 1.0.1
+      '@radix-ui/react-context': 1.0.1(@types/react@18.2.61)(react@18.3.0-canary-47beb96cc-20240222)
+      '@radix-ui/react-direction': 1.0.1(@types/react@18.2.61)(react@18.3.0-canary-47beb96cc-20240222)
+      '@radix-ui/react-id': 1.0.1(@types/react@18.2.61)(react@18.3.0-canary-47beb96cc-20240222)
+      '@radix-ui/react-presence': 1.0.1(@types/react-dom@18.2.19)(@types/react@18.2.61)(react-dom@18.3.0-canary-47beb96cc-20240222)(react@18.3.0-canary-47beb96cc-20240222)
+      '@radix-ui/react-primitive': 1.0.3(@types/react-dom@18.2.19)(@types/react@18.2.61)(react-dom@18.3.0-canary-47beb96cc-20240222)(react@18.3.0-canary-47beb96cc-20240222)
+      '@radix-ui/react-roving-focus': 1.0.4(@types/react-dom@18.2.19)(@types/react@18.2.61)(react-dom@18.3.0-canary-47beb96cc-20240222)(react@18.3.0-canary-47beb96cc-20240222)
+      '@radix-ui/react-use-controllable-state': 1.0.1(@types/react@18.2.61)(react@18.3.0-canary-47beb96cc-20240222)
+      '@types/react': 18.2.61
+      '@types/react-dom': 18.2.19
+      react: 18.3.0-canary-47beb96cc-20240222
+      react-dom: 18.3.0-canary-47beb96cc-20240222(react@18.3.0-canary-47beb96cc-20240222)
     dev: false
 
   /@radix-ui/react-use-callback-ref@1.0.1(@types/react@18.2.61)(react@18.3.0-canary-47beb96cc-20240222):

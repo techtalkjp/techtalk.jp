@@ -15,6 +15,7 @@
   "dependencies": {
     "@conform-to/react": "1.0.2",
     "@conform-to/zod": "1.0.2",
+    "@faker-js/faker": "8.4.1",
     "@prisma/client": "5.10.2",
     "@radix-ui/react-alert-dialog": "1.0.5",
     "@radix-ui/react-avatar": "1.0.4",
@@ -27,6 +28,7 @@
     "@radix-ui/react-popover": "1.0.7",
     "@radix-ui/react-select": "2.0.0",
     "@radix-ui/react-slot": "1.0.2",
+    "@radix-ui/react-tabs": "1.0.4",
     "@remix-run/node": "2.8.0",
     "@remix-run/react": "2.8.0",
     "@remix-run/serve": "2.8.0",
