@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Web Standart's Request Log
+// https://developer.mozilla.org/ja/docs/Web/API/Request
+model RequestLog {
+  id            String   @id @default(cuid())
+  destination   String
+  headers       String // JSON
+  method        String
+  referer       String?
+  refererPolicy String   @map("referer_policy")
+  url           String
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("request_logs")
+}

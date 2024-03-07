@@ -1,4 +1,9 @@
-import { type LinksFunction, type MetaFunction } from '@remix-run/node'
+import {
+  json,
+  type LinksFunction,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from '@remix-run/node'
 import {
   isRouteErrorResponse,
   Links,
@@ -9,6 +14,7 @@ import {
   useRouteError,
 } from '@remix-run/react'
 import { Toaster } from '~/components/ui'
+import { prisma } from '~/services/prisma.server'
 import biographyStyle from './styles/biography.css?url'
 import globalStyles from './styles/globals.css?url'
 import privacyStyles from './styles/privacy.css?url'
@@ -26,6 +32,24 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: privacyStyles },
     { rel: 'stylesheet', href: biographyStyle },
   ]
+}
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const timeStart = Date.now()
+  await prisma.requestLog.create({
+    data: {
+      destination: request.destination,
+      headers: JSON.stringify(request.headers),
+      method: request.method,
+      referer: request.referrer,
+      refererPolicy: request.referrerPolicy,
+      url: request.url,
+    },
+  })
+  const timeEnd = Date.now()
+  const duration = timeEnd - timeStart
+
+  return json({ duration })
 }
 
 export default function App() {
