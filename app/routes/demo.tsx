@@ -33,6 +33,7 @@ const demoPages: {
       title: '実行確認ダイアログ付きの削除フォーム',
     },
   ],
+  db: [{ path: '/demo/db/request_logs', title: 'DB - Request Logs' }],
   cache: [
     {
       path: '/demo/cache/swr',

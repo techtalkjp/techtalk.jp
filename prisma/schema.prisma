@@ -14,11 +14,6 @@ model RequestLog {
   flyRegion     String  @map("fly_region")
   flyAppName    String  @map("fly_app_name")
   flyMachineId  String  @map("fly_machine_id")
-  destination   String
-  headers       String // JSON
-  method        String
-  referer       String?
-  refererPolicy String  @map("referer_policy")
   url           String
   createdAt     String  @map("created_at")
 
