@@ -10,14 +10,17 @@ datasource db {
 // Web Standart's Request Log
 // https://developer.mozilla.org/ja/docs/Web/API/Request
 model RequestLog {
-  id            String   @id @default(cuid())
+  id            String  @id @default(cuid())
+  flyRegion     String  @map("fly_region")
+  flyAppName    String  @map("fly_app_name")
+  flyMachineId  String  @map("fly_machine_id")
   destination   String
   headers       String // JSON
   method        String
   referer       String?
-  refererPolicy String   @map("referer_policy")
+  refererPolicy String  @map("referer_policy")
   url           String
-  createdAt     DateTime @default(now()) @map("created_at")
+  createdAt     String  @map("created_at")
 
   @@map("request_logs")
 }

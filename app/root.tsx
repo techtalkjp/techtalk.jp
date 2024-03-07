@@ -13,6 +13,7 @@ import {
   ScrollRestoration,
   useRouteError,
 } from '@remix-run/react'
+import dayjs from 'dayjs'
 import { Toaster } from '~/components/ui'
 import { prisma } from '~/services/prisma.server'
 import biographyStyle from './styles/biography.css?url'
@@ -38,12 +39,16 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const timeStart = Date.now()
   await prisma.requestLog.create({
     data: {
+      flyRegion: process.env.FLY_REGION ?? '',
+      flyAppName: process.env.FLY_APP_NAME ?? '',
+      flyMachineId: process.env.FLY_MACHINE_ID ?? '',
       destination: request.destination,
       headers: JSON.stringify(request.headers),
       method: request.method,
       referer: request.referrer,
       refererPolicy: request.referrerPolicy,
       url: request.url,
+      createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     },
   })
   const timeEnd = Date.now()
