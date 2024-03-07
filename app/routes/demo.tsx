@@ -37,7 +37,7 @@ const demoPages: {
       title: '実行確認ダイアログ付きの削除フォーム',
     },
   ],
-  db: [{ path: '/demo/db/sample_order', title: 'DB - Request Logs' }],
+  db: [{ path: '/demo/db/sample_order', title: 'DB - Sample Order' }],
   cache: [
     {
       path: '/demo/cache/swr',
