@@ -139,7 +139,7 @@ export default function DemoPage() {
           </Card>
         ) : (
           <div className="mx-auto text-center">
-            メニューからデモを選択してください。
+            <Outlet />
           </div>
         )}
       </main>
