@@ -93,7 +93,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       sampleOrders,
       duration: timeEnd - timeStart,
     },
-    { headers: { 'Cache-Control': 'maxage=0' } }, // キャッシュさせない
+    { headers: { 'Cache-Control': 'public, max-age=0, must-revalidate' } }, // キャッシュさせない
   )
 }
 
