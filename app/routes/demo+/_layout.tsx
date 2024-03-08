@@ -1,4 +1,8 @@
-import { LoaderFunctionArgs, json, type MetaFunction } from '@remix-run/node'
+import {
+  json,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from '@remix-run/node'
 import { Link, Outlet, useLoaderData, useLocation } from '@remix-run/react'
 import { ExternalLinkIcon } from 'lucide-react'
 import { useEffect } from 'react'

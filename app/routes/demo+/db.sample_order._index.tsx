@@ -7,9 +7,9 @@ import {
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { fakerJA as faker } from '@faker-js/faker'
 import {
-  ActionFunctionArgs,
-  HeadersFunction,
   json,
+  type ActionFunctionArgs,
+  type HeadersFunction,
   type LoaderFunctionArgs,
 } from '@remix-run/node'
 import {

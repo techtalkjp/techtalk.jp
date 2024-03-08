@@ -1,4 +1,8 @@
-import { HeadersFunction, LoaderFunctionArgs, json } from '@remix-run/node'
+import {
+  json,
+  type HeadersFunction,
+  type LoaderFunctionArgs,
+} from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { ArrowLeftIcon } from 'lucide-react'
 import {

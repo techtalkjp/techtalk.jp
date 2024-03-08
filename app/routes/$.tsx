@@ -1,5 +1,5 @@
-import { type LoaderFunctionArgs } from '@remix-run/node'
-import path from 'path'
+import type { LoaderFunctionArgs } from '@remix-run/node'
+import path from 'node:path'
 import { locales } from '~/features/i18n/utils/detectLocale'
 import Index from './_index/route'
 

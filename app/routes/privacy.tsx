@@ -1,4 +1,4 @@
-import { type MetaFunction } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node'
 import { Link } from '@remix-run/react'
 import Content from '~/assets/privacy.md'
 import { Button, Heading } from '~/components/ui'
