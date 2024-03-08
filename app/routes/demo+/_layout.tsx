@@ -44,7 +44,7 @@ const demoPages: {
   db: [
     {
       path: '/demo/db/sample_order',
-      ext: '.$id.tsx',
+      ext: '._index.tsx',
       title: 'DB - Sample Order',
     },
   ],
