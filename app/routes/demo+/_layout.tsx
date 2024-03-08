@@ -70,7 +70,7 @@ export default function DemoPage() {
   const demoPath = `${location.pathname.replace('/demo/', '').replaceAll('/', '.')}${currentMenuItem?.ext ?? '.tsx'}`
   const codeURL =
     currentMenuItem &&
-    `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/demo/${demoPath}`
+    `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/demo+/${demoPath}`
 
   useEffect(() => {
     if (toastData) {
