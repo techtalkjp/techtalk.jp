@@ -8,6 +8,7 @@ import { parseWithZod } from '@conform-to/zod'
 import { fakerJA as faker } from '@faker-js/faker'
 import {
   ActionFunctionArgs,
+  HeadersFunction,
   json,
   type LoaderFunctionArgs,
 } from '@remix-run/node'
@@ -54,6 +55,11 @@ const schema = z.object({
   note: z.string().max(1000),
 })
 
+const defaultCacheControl = 'maxage=0' // キャッシュさせない
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return loaderHeaders
+}
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
   const tab = url.searchParams.get('tab') ?? 'new'
@@ -79,14 +85,17 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   }
   const timeEnd = Date.now()
 
-  return json({
-    tab,
-    region,
-    machineId,
-    dummyData,
-    sampleOrders,
-    duration: timeEnd - timeStart,
-  })
+  return json(
+    {
+      tab,
+      region,
+      machineId,
+      dummyData,
+      sampleOrders,
+      duration: timeEnd - timeStart,
+    },
+    { headers: { 'Cache-Control': defaultCacheControl } },
+  )
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
