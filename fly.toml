@@ -6,7 +6,12 @@
 app = 'techtalk-jp'
 primary_region = 'nrt'
 
-[build]
+[[vm]]
+  size = 'shared-cpu-1x'
+
+[[mounts]]
+  source = 'data'
+  destination = '/data'
 
 [http_service]
   internal_port = 3000
@@ -16,5 +21,9 @@ primary_region = 'nrt'
   min_machines_running = 0
   processes = ['app']
 
-[[vm]]
-  size = 'shared-cpu-1x'
+[[http_service.checks]]
+  grace_period = "20s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/healthcheck"
