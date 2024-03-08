@@ -150,11 +150,10 @@ export default function RequestLogsPage() {
   } = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
-  const isSubmitting = navigation.state === 'submitting'
 
   const [form, fields] = useForm({
     id: now, // submit 後に revalidated された dummyData を反映するためにIDを毎回変える
-    lastResult: !isSubmitting ? actionData?.result : null,
+    lastResult: actionData?.result,
     defaultValue: dummyData,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
@@ -250,7 +249,13 @@ export default function RequestLogsPage() {
             )}
 
             <div className="col-span-2">
-              <Button className="w-full" disabled={isSubmitting}>
+              <Button
+                className="w-full"
+                disabled={
+                  navigation.state !== 'idle' &&
+                  navigation.location.pathname === '/demo/db/sample_order'
+                }
+              >
                 Submit
               </Button>
             </div>
