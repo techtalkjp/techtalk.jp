@@ -21,12 +21,14 @@ import dayjs from 'dayjs'
 import { jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
+  Badge,
   Button,
   HStack,
   Input,
   Label,
   Stack,
   Table,
+  TableBody,
   TableCell,
   TableHead,
   TableHeader,
@@ -59,7 +61,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     take: 10,
     orderBy: { createdAt: 'desc' },
   })
-  const timeEnd = Date.now()
 
   const dummyData = {
     name: faker.person.fullName(),
@@ -72,6 +73,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     phone: faker.phone.number(),
     note: faker.lorem.paragraph(),
   }
+  const timeEnd = Date.now()
 
   return json({
     region,
@@ -138,19 +140,25 @@ export default function RequestLogsPage() {
 
   return (
     <Stack>
-      <HStack>
-        <div className="text-sm text-slate-500">Region: {region}</div>
-        <div className="text-sm text-slate-500">Machine ID: {machineId}</div>
-        <div className="text-sm text-slate-500">
-          Loader:{' '}
-          <span className="font-bold text-green-500">{loaderDuration}ms</span>
+      <HStack className="text-sm text-foreground/50">
+        <div>
+          Region:{' '}
+          <Badge variant="secondary" className="text-foreground/50">
+            {region}
+          </Badge>
+        </div>
+        <div>
+          Machine ID:{' '}
+          <Badge variant="secondary" className="text-foreground/50">
+            {machineId}
+          </Badge>
+        </div>
+        <div>
+          Loader: <Badge>{loaderDuration}ms</Badge>
         </div>
         {actionData?.duration && (
-          <div className="text-sm text-slate-500">
-            Action:{' '}
-            <span className="font-bold text-red-500">
-              {actionData.duration}ms
-            </span>
+          <div>
+            Action: <Badge variant="destructive">{actionData.duration}ms</Badge>
           </div>
         )}
       </HStack>
@@ -234,17 +242,19 @@ export default function RequestLogsPage() {
                 <TableHead>Country</TableHead>
               </TableRow>
             </TableHeader>
-            {sampleOrders.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell className="whitespace-nowrap">
-                  {order.createdAt}
-                </TableCell>
-                <TableCell>{order.flyRegion}</TableCell>
-                <TableCell>{order.flyMachineId}</TableCell>
-                <TableCell>{order.name}</TableCell>
-                <TableCell>{order.country}</TableCell>
-              </TableRow>
-            ))}
+            <TableBody>
+              {sampleOrders.map((order) => (
+                <TableRow key={order.id}>
+                  <TableCell className="whitespace-nowrap">
+                    {order.createdAt}
+                  </TableCell>
+                  <TableCell>{order.flyRegion}</TableCell>
+                  <TableCell>{order.flyMachineId}</TableCell>
+                  <TableCell>{order.name}</TableCell>
+                  <TableCell>{order.country}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
           </Table>
         </TabsContent>
       </Tabs>
