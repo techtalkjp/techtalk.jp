@@ -16,5 +16,6 @@ node_modules
 .flaskenv*
 !.env.project
 !.env.vault
+!.env.example
 
 data
