@@ -13,6 +13,7 @@ import {
 } from '@remix-run/node'
 import {
   Form,
+  Link,
   useActionData,
   useLoaderData,
   useNavigation,
@@ -54,6 +55,9 @@ const schema = z.object({
 })
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const url = new URL(request.url)
+  const tab = url.searchParams.get('tab') ?? 'new'
+
   const region = process.env.FLY_REGION ?? 'N/A'
   const machineId = process.env.FLY_MACHINE_ID ?? 'N/A'
   const timeStart = Date.now()
@@ -76,6 +80,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const timeEnd = Date.now()
 
   return json({
+    tab,
     region,
     machineId,
     dummyData,
@@ -124,6 +129,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function RequestLogsPage() {
   const {
+    tab,
     region,
     machineId,
     dummyData,
@@ -163,12 +169,16 @@ export default function RequestLogsPage() {
         )}
       </HStack>
 
-      <Tabs defaultValue="form">
+      <Tabs defaultValue={tab}>
         <TabsList>
-          <TabsTrigger value="form">Form</TabsTrigger>
-          <TabsTrigger value="list">List</TabsTrigger>
+          <TabsTrigger value="new" asChild>
+            <Link to=".?tab=new">New</Link>
+          </TabsTrigger>
+          <TabsTrigger value="list" asChild>
+            <Link to=".?tab=list">List</Link>
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="form">
+        <TabsContent value="new">
           <Form
             className="grid grid-cols-2 gap-4"
             method="POST"
@@ -225,7 +235,10 @@ export default function RequestLogsPage() {
             )}
 
             <div className="col-span-2">
-              <Button className="w-full" disabled={navigation.state !== 'idle'}>
+              <Button
+                className="w-full"
+                disabled={navigation.state === 'submitting'}
+              >
                 Submit
               </Button>
             </div>
@@ -240,6 +253,7 @@ export default function RequestLogsPage() {
                 <TableHead>Machine</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Country</TableHead>
+                <TableHead />
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -252,6 +266,11 @@ export default function RequestLogsPage() {
                   <TableCell>{order.flyMachineId}</TableCell>
                   <TableCell>{order.name}</TableCell>
                   <TableCell>{order.country}</TableCell>
+                  <TableCell>
+                    <Button size="xs" variant="link" asChild>
+                      <Link to={`${order.id}`}>Details</Link>
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

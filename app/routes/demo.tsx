@@ -58,8 +58,8 @@ export default function DemoPage() {
   const location = useLocation()
   const menu = location.pathname.split('/')[2]
   const menuItems = menu ? demoPages[menu] ?? [] : []
-  const currentMenuItem = menuItems.find(
-    (item) => item.path === location.pathname,
+  const currentMenuItem = menuItems.find((item) =>
+    location.pathname.includes(item.path),
   )
   const codeURL =
     currentMenuItem &&
