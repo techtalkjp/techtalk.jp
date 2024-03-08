@@ -67,7 +67,6 @@ export default function DemoPage() {
   const currentMenuItem = menuItems.find((item) =>
     location.pathname.includes(item.path),
   )
-  console.log({ currentMenuItem })
   const demoPath = `${location.pathname.replace('/demo/', '').replaceAll('/', '.')}${currentMenuItem?.ext ?? '.tsx'}`
   const codeURL =
     currentMenuItem &&
