@@ -13,8 +13,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@conform-to/react": "1.0.3",
-    "@conform-to/zod": "1.0.3",
+    "@conform-to/react": "1.0.2",
+    "@conform-to/zod": "1.0.2",
     "@faker-js/faker": "8.4.1",
     "@prisma/client": "5.10.2",
     "@radix-ui/react-alert-dialog": "1.0.5",

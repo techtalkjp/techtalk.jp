@@ -4,7 +4,7 @@ import {
   getTextareaProps,
   useForm,
 } from '@conform-to/react'
-import { parseWithZod } from '@conform-to/zod'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { fakerJA as faker } from '@faker-js/faker'
 import {
   ActionFunctionArgs,
@@ -59,6 +59,18 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return loaderHeaders
 }
 
+const buildDummyData = () => ({
+  name: faker.person.fullName(),
+  email: faker.internet.email(),
+  zip: faker.location.zipCode(),
+  country: faker.location.country(),
+  prefecture: faker.location.state(),
+  city: faker.location.city(),
+  address: faker.location.streetAddress(),
+  phone: faker.phone.number(),
+  note: faker.lorem.paragraph(),
+})
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
   const tab = url.searchParams.get('tab') ?? 'new'
@@ -71,17 +83,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     orderBy: { createdAt: 'desc' },
   })
 
-  const dummyData = {
-    name: faker.person.fullName(),
-    email: faker.internet.email(),
-    zip: faker.location.zipCode(),
-    country: faker.location.country(),
-    prefecture: faker.location.state(),
-    city: faker.location.city(),
-    address: faker.location.streetAddress(),
-    phone: faker.phone.number(),
-    note: faker.lorem.paragraph(),
-  }
+  const dummyData = buildDummyData()
   const timeEnd = Date.now()
 
   return json(
@@ -92,6 +94,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       dummyData,
       sampleOrders,
       duration: timeEnd - timeStart,
+      now: new Date().toISOString(),
     },
     { headers: { 'Cache-Control': 'public, max-age=0, no-cache' } }, // キャッシュさせない
   )
@@ -143,14 +146,21 @@ export default function RequestLogsPage() {
     dummyData,
     sampleOrders,
     duration: loaderDuration,
+    now,
   } = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
-  const [form, fields] = useForm({
-    lastResult: actionData?.result,
-    defaultValue: dummyData,
-    onValidate: ({ formData }) => parseWithZod(formData, { schema }),
-  })
   const navigation = useNavigation()
+  const isSubmitting = navigation.state === 'submitting'
+
+  const [form, fields] = useForm({
+    id: now, // submit 後に revalidated された dummyData を反映するためにIDを毎回変える
+    lastResult: !isSubmitting ? actionData?.result : null,
+    defaultValue: dummyData,
+    constraint: getZodConstraint(schema),
+    onValidate: ({ formData }) => parseWithZod(formData, { schema }),
+    shouldValidate: 'onSubmit',
+    shouldRevalidate: 'onInput',
+  })
 
   return (
     <Stack>
@@ -179,17 +189,14 @@ export default function RequestLogsPage() {
 
       <Tabs defaultValue={tab}>
         <TabsList>
-          <TabsTrigger value="new" asChild>
-            <Link to=".?tab=new">New</Link>
-          </TabsTrigger>
-          <TabsTrigger value="list" asChild>
-            <Link to=".?tab=list">List</Link>
-          </TabsTrigger>
+          <TabsTrigger value="new">New</TabsTrigger>
+          <TabsTrigger value="list">List</TabsTrigger>
         </TabsList>
         <TabsContent value="new">
           <Form
             className="grid grid-cols-2 gap-4"
             method="POST"
+            key={form.key}
             {...getFormProps(form)}
           >
             <div>
@@ -243,10 +250,7 @@ export default function RequestLogsPage() {
             )}
 
             <div className="col-span-2">
-              <Button
-                className="w-full"
-                disabled={navigation.state === 'submitting'}
-              >
+              <Button className="w-full" disabled={isSubmitting}>
                 Submit
               </Button>
             </div>
