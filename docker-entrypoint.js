@@ -9,9 +9,9 @@ const env = { ...process.env }
   await exec('fallocate -l 512M /swapfile')
   await exec('chmod 600 /swapfile')
   await exec('mkswap /swapfile')
-  await exec('echo 10 | tee /proc/sys/vm/swappiness')
+  await exec('echo 10 > /proc/sys/vm/swappiness')
   await exec('swapon /swapfile')
-  await exec('echo 1 | tee /proc/sys/vm/overcommit_memory')
+  await exec('echo 1 > /proc/sys/vm/overcommit_memory')
 
   // If running the web server then migrate existing database
   if (process.argv.slice(2).join(' ') === 'pnpm run start') {
