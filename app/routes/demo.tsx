@@ -49,7 +49,7 @@ const demoPages: {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { toast, headers } = await getToast(request)
-  return json({ toastData: toast }, { headers })
+  return json({ toastData: toast }, { headers: toast ? headers : undefined })
 }
 
 export default function DemoPage() {
