@@ -55,7 +55,6 @@ const schema = z.object({
   note: z.string().max(1000),
 })
 
-const defaultCacheControl = 'maxage=0' // キャッシュさせない
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return loaderHeaders
 }
@@ -94,7 +93,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       sampleOrders,
       duration: timeEnd - timeStart,
     },
-    { headers: { 'Cache-Control': defaultCacheControl } },
+    { headers: { 'Cache-Control': 'maxage=0' } }, // キャッシュさせない
   )
 }
 
