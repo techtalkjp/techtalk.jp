@@ -1,6 +1,6 @@
 import { HeadersFunction, LoaderFunctionArgs, json } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
-import { ArrowLeftCircleIcon } from 'lucide-react'
+import { ArrowLeftIcon } from 'lucide-react'
 import {
   Badge,
   Button,
@@ -63,7 +63,7 @@ export default function OrderDetailPage() {
       <HStack>
         <Button variant="ghost" className="rounded-full px-0" size="xs" asChild>
           <Link to="..?tab=list" relative="path">
-            <ArrowLeftCircleIcon />
+            <ArrowLeftIcon className="text-slate-500 hover:text-foreground" />
           </Link>
         </Button>
         <h3 className="font-bold">Order Details</h3>
