@@ -5,6 +5,7 @@ import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import { flatRoutes} from 'remix-flat-routes'
 
 installGlobals()
 
@@ -14,6 +15,7 @@ export default defineConfig({
     mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter] }),
     remix({
       ignoredRouteFiles: ['**/.*'],
+      routes: (defineRoutes) => flatRoutes('routes', defineRoutes)
     }),
     tsconfigPaths(),
   ],

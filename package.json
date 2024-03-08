@@ -67,6 +67,7 @@
     "prisma": "5.10.2",
     "remark-frontmatter": "5.0.0",
     "remark-mdx-frontmatter": "4.0.0",
+    "remix-flat-routes": "0.6.4",
     "tailwindcss": "3.4.1",
     "typescript": "5.4.2",
     "vite": "5.1.5",

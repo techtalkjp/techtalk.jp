@@ -24,7 +24,7 @@ export const meta: MetaFunction = () => {
 }
 
 const demoPages: {
-  [demoPage: string]: { path: string; title: string; ext?: 'mdx' }[]
+  [demoPage: string]: { path: string; title: string; ext?: string }[]
 } = {
   conform: [
     { path: '/demo/conform/update', title: '外部から値を変更する - update' },
@@ -37,14 +37,20 @@ const demoPages: {
       title: '実行確認ダイアログ付きの削除フォーム',
     },
   ],
-  db: [{ path: '/demo/db/sample_order', title: 'DB - Sample Order' }],
+  db: [
+    {
+      path: '/demo/db/sample_order',
+      ext: '.$id.tsx',
+      title: 'DB - Sample Order',
+    },
+  ],
   cache: [
     {
       path: '/demo/cache/swr',
       title: 'Cache Control - stale-while-revalidate',
     },
   ],
-  about: [{ path: '/demo/about', title: 'これは何?', ext: 'mdx' }],
+  about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -61,9 +67,11 @@ export default function DemoPage() {
   const currentMenuItem = menuItems.find((item) =>
     location.pathname.includes(item.path),
   )
+  console.log({ currentMenuItem })
+  const demoPath = `${location.pathname.replace('/demo/', '').replaceAll('/', '.')}${currentMenuItem?.ext ?? '.tsx'}`
   const codeURL =
     currentMenuItem &&
-    `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/${currentMenuItem?.path.replace(/^\//, '').replaceAll('/', '.')}.${currentMenuItem?.ext ?? 'tsx'}`
+    `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/demo/${demoPath}`
 
   useEffect(() => {
     if (toastData) {
