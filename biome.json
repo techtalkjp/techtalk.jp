@@ -11,10 +11,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
-      "nursery": {
-        "useAwait": "error"
-      }
+      "recommended": true
     }
   },
   "formatter": {

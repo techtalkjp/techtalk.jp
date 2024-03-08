@@ -13,8 +13,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@conform-to/react": "1.0.2",
-    "@conform-to/zod": "1.0.2",
+    "@conform-to/react": "1.0.3",
+    "@conform-to/zod": "1.0.3",
     "@faker-js/faker": "8.4.1",
     "@prisma/client": "5.10.2",
     "@radix-ui/react-alert-dialog": "1.0.5",
@@ -36,7 +36,7 @@
     "clsx": "2.1.0",
     "dayjs": "1.11.10",
     "isbot": "5.1.1",
-    "lucide-react": "0.350.0",
+    "lucide-react": "0.351.0",
     "next-themes": "0.2.1",
     "react": "18.3.0-canary-47beb96cc-20240222",
     "react-dom": "18.3.0-canary-47beb96cc-20240222",
@@ -51,7 +51,7 @@
     "zod-form-data": "2.0.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.5.3",
+    "@biomejs/biome": "1.6.0",
     "@flydotio/dockerfile": "0.5.2",
     "@mdx-js/rollup": "3.0.1",
     "@remix-run/dev": "2.8.1",
