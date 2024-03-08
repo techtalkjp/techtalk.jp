@@ -52,6 +52,8 @@ const schema = z.object({
 })
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const region = process.env.FLY_REGION ?? 'N/A'
+  const machineId = process.env.FLY_MACHINE_ID ?? 'N/A'
   const timeStart = Date.now()
   const sampleOrders = await prisma.sampleOrder.findMany({
     take: 10,
@@ -71,7 +73,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     note: faker.lorem.paragraph(),
   }
 
-  return json({ dummyData, sampleOrders, duration: timeEnd - timeStart })
+  return json({
+    region,
+    machineId,
+    dummyData,
+    sampleOrders,
+    duration: timeEnd - timeStart,
+  })
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -114,8 +122,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function RequestLogsPage() {
   const {
-    sampleOrders,
+    region,
+    machineId,
     dummyData,
+    sampleOrders,
     duration: loaderDuration,
   } = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
@@ -129,6 +139,8 @@ export default function RequestLogsPage() {
   return (
     <Stack>
       <HStack>
+        <div className="text-sm text-slate-500">Region: {region}</div>
+        <div className="text-sm text-slate-500">Machine ID: {machineId}</div>
         <div className="text-sm text-slate-500">
           Loader:{' '}
           <span className="font-bold text-green-500">{loaderDuration}ms</span>
