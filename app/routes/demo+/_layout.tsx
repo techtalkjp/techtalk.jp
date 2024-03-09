@@ -12,7 +12,6 @@ import {
   MenubarMenu,
   MenubarTrigger,
   Spacer,
-  Toaster,
 } from '~/components/ui'
 import { cn } from '~/libs/utils'
 
@@ -109,7 +108,6 @@ export default function DemoPage() {
               )}
             </CardHeader>
             <CardContent>
-              <Toaster />
               <Outlet />
             </CardContent>
           </Card>
