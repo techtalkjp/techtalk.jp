@@ -13,11 +13,6 @@ const env = { ...process.env }
   await exec('swapon /swapfile')
   await exec('echo 1 > /proc/sys/vm/overcommit_memory')
 
-  // If running the web server then migrate existing database
-  if (process.argv.slice(2).join(' ') === 'pnpm run start') {
-    await exec('npx prisma migrate deploy')
-  }
-
   // launch application
   await exec(process.argv.slice(2).join(' '))
 })()

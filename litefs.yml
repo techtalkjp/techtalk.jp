@@ -1,0 +1,33 @@
+fuse:
+  dir: '/data/sqlite'
+
+data:
+  dir: '/data/litefs'
+
+exit-on-error: false
+
+proxy:
+  addr: ':3000'
+  target: 'localhost:8080'
+  db: 'techtalk.db'
+  passthrough:
+    - '*.ico'
+    - '*.png'
+
+exec:
+  # candidate ノードのときだけマイグレーションを実行
+  - cmd: 'pnpm prisma migrate deploy'
+    if-candidate: true
+
+  # アプリサーバを内部ポート番号で起動
+  - cmd: 'pnpm run start'
+
+lease:
+  type: 'consul'
+  advertise-url: 'http://${HOSTNAME}.vm.${FLY_APP_NAME}.internal:20202'
+  candidate: ${FLY_REGION == PRIMARY_REGION}
+  promote: true
+
+  consul:
+    url: '${FLY_CONSUL_URL}'
+    key: 'litefs/${FLY_APP_NAME}'
