@@ -1,4 +1,4 @@
-import type { ContactFormData } from '~/routes/api.contact'
+import type { ContactFormData } from '~/routes/_public+/api.contact'
 
 export const sendEmail = async (form: ContactFormData) => {
   const sendForm = { ...form }

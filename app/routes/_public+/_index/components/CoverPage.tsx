@@ -1,4 +1,5 @@
 import type React from 'react'
+import { cn } from '~/libs/utils'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode
@@ -6,11 +7,14 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   bgImage: string
 }
 
-const CoverPage = ({ children, bgImage, id, ...rest }: Props) => {
+const CoverPage = ({ children, className, bgImage, id, ...rest }: Props) => {
   return (
     <div
       id={id}
-      className="relative flex h-screen snap-start snap-always items-center justify-center bg-black/40 bg-cover bg-center bg-blend-overlay"
+      className={cn(
+        'relative flex h-screen snap-start snap-always items-center justify-center bg-black/40 bg-cover bg-center bg-blend-overlay',
+        className,
+      )}
       {...rest}
       style={{
         backgroundImage: `url(${bgImage})`,

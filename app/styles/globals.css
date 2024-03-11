@@ -76,3 +76,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* スクロールでフェードインさせる用途 */
+@layer components {
+  .fade-in {
+    @apply translate-y-12 transform opacity-0;
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+
+  .fade-in.visible {
+    @apply translate-y-0 opacity-100;
+  }
+}

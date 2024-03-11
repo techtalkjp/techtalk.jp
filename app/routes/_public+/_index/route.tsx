@@ -1,4 +1,4 @@
-import { Navigation } from '~/routes/_index/components/Navigation'
+import { Navigation } from '~/routes/_public+/_index/components/Navigation'
 import { AboutPage, ContactPage, HeroPage } from './components/pages'
 
 export default function Index() {

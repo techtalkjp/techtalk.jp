@@ -1,15 +1,15 @@
 import { Heading, HStack } from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
-import { BiographyPopover } from '~/routes/_index/components/BiographyPopover'
-import CoverPage from '~/routes/_index/components/CoverPage'
+import { BiographyPopover } from '~/routes/_public+/_index/components/BiographyPopover'
+import CoverPage from '~/routes/_public+/_index/components/CoverPage'
 
-export const AboutPage = () => {
+export const AboutPage = ({ className }: React.ComponentProps<'div'>) => {
   const { t } = useLocale()
   return (
-    <CoverPage id="about" bgImage="/images/about.webp">
-      <Heading>{t('about.title', '会社概要')}</Heading>
+    <CoverPage id="about" bgImage="/images/about.webp" className={className}>
+      <Heading className="fade-in">{t('about.title', '会社概要')}</Heading>
 
-      <table className="mx-auto mt-4 text-left">
+      <table className="mx-auto mt-4 text-left fade-in">
         <tbody>
           <tr>
             <td className="p-1 font-bold sm:p-4">
