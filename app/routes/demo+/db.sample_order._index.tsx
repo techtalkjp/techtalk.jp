@@ -145,7 +145,7 @@ export default function RequestLogsPage() {
     machineId,
     dummyData,
     sampleOrders,
-    duration: loaderDuration,
+    duration: selectDuration,
     now,
   } = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
@@ -165,23 +165,23 @@ export default function RequestLogsPage() {
     <Stack>
       <HStack className="text-sm text-foreground/50">
         <div>
-          Region:{' '}
+          Region{' '}
           <Badge variant="secondary" className="text-foreground/50">
             {region}
           </Badge>
         </div>
         <div>
-          Machine ID:{' '}
+          Machine{' '}
           <Badge variant="secondary" className="text-foreground/50">
             {machineId}
           </Badge>
         </div>
         <div>
-          Loader: <Badge>{loaderDuration}ms</Badge>
+          SELECT <Badge>{selectDuration}ms</Badge>
         </div>
         {actionData?.duration && (
           <div>
-            Action: <Badge variant="destructive">{actionData.duration}ms</Badge>
+            INSERT <Badge variant="destructive">{actionData.duration}ms</Badge>
           </div>
         )}
       </HStack>

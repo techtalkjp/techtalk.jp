@@ -48,19 +48,19 @@ export default function OrderDetailPage() {
     <Stack>
       <HStack className="text-sm text-foreground/50">
         <div>
-          Region:{' '}
+          Region{' '}
           <Badge variant="secondary" className="text-foreground/50">
             {region}
           </Badge>
         </div>
         <div>
-          Machine ID:{' '}
+          Machine{' '}
           <Badge variant="secondary" className="text-foreground/50">
             {machineId}
           </Badge>
         </div>
         <div>
-          Loader: <Badge>{duration}ms</Badge>
+          SELECT <Badge>{duration}ms</Badge>
         </div>
       </HStack>
 
