@@ -16,6 +16,8 @@
     "@conform-to/react": "1.0.3",
     "@conform-to/zod": "1.0.3",
     "@faker-js/faker": "8.4.1",
+    "@libsql/client": "0.5.5",
+    "@prisma/adapter-libsql": "5.10.2",
     "@prisma/client": "5.10.2",
     "@radix-ui/react-alert-dialog": "1.0.5",
     "@radix-ui/react-avatar": "1.0.4",
