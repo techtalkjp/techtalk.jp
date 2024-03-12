@@ -9,10 +9,6 @@ primary_region = 'nrt'
 [[vm]]
   size = 'shared-cpu-1x'
 
-[[mounts]]
-  source = 'data'
-  destination = '/data'
-
 [http_service]
   internal_port = 3000
   force_https = true
