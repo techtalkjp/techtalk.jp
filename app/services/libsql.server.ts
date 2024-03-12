@@ -7,11 +7,20 @@ export const useEmbeddedReplica =
 
 console.log({ useTurso, useEmbeddedReplica })
 
-export const libsql = createClient({
-  url: 'file:./data/local.db',
-  syncUrl: `${process.env.TURSO_DATABASE_URL}`,
-  authToken: `${process.env.TURSO_AUTH_TOKEN}`,
-})
+export const libsql = createClient(
+  useEmbeddedReplica
+    ? {
+        // embedded replica を使う
+        url: process.env.DATABASE_URL,
+        syncUrl: process.env.TURSO_DATABASE_URL,
+        authToken: process.env.TURSO_AUTH_TOKEN,
+      }
+    : {
+        // embedded replica を使わない
+        url: process.env.TURSO_DATABASE_URL,
+        authToken: process.env.TURSO_AUTH_TOKEN,
+      },
+)
 
 const syncReplica = async () => {
   // 立ち上げ時に同期

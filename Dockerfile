@@ -58,6 +58,7 @@ RUN mkdir -p /data
 VOLUME /data
 
 # add shortcut for connecting to database CLI
+ENV DATABASE_URL="file:///data/local.db"
 RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/database-cli && chmod +x /usr/local/bin/database-cli
 
 # Start the server by default, this can be overwritten at runtime
