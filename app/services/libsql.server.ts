@@ -29,12 +29,15 @@ const syncReplica = async () => {
   console.timeEnd('libsql sync intial')
 
   // 定期的に同期
-  setInterval(async () => {
-    const label = `libsql sync ${new Date().toISOString()}`
-    console.time(label)
-    await libsql.sync()
-    console.timeEnd(label)
-  }, 1000 * 10)
+  setInterval(
+    async () => {
+      const label = `libsql sync ${new Date().toISOString()}`
+      console.time(label)
+      await libsql.sync()
+      console.timeEnd(label)
+    },
+    1000 * 60 * 5,
+  ) // 5分ごとに同期
 }
 
 if (useEmbeddedReplica) {
