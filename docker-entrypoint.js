@@ -6,17 +6,17 @@ const env = { ...process.env }
 
 ;(async () => {
   // enable swapfile
-  await exec('fallocate -l 512M /swapfile')
-  await exec('chmod 600 /swapfile')
-  await exec('mkswap /swapfile')
-  await exec('echo 10 > /proc/sys/vm/swappiness')
-  await exec('swapon /swapfile')
-  await exec('echo 1 > /proc/sys/vm/overcommit_memory')
+  // await exec('fallocate -l 512M /swapfile')
+  // await exec('chmod 600 /swapfile')
+  // await exec('mkswap /swapfile')
+  // await exec('echo 10 > /proc/sys/vm/swappiness')
+  // await exec('swapon /swapfile')
+  // await exec('echo 1 > /proc/sys/vm/overcommit_memory')
 
   // If running the web server then migrate existing database
-  if (process.argv.slice(2).join(' ') === 'pnpm run start') {
-    await exec('npx prisma migrate deploy')
-  }
+  // if (process.argv.slice(2).join(' ') === 'pnpm run start') {
+  //   await exec('npx prisma migrate deploy')
+  // }
 
   // launch application
   await exec(process.argv.slice(2).join(' '))

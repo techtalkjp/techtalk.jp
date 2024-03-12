@@ -42,6 +42,25 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ toastData: toast }, { headers: toast ? headers : undefined })
 }
 
+export const Layout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <html lang="ja">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body className="scroll-smooth">
+        <Toaster />
+        {children}
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  )
+}
+
 export default function App() {
   const { toastData } = useLoaderData<typeof loader>()
 
@@ -60,22 +79,7 @@ export default function App() {
     }
   }, [toastData])
 
-  return (
-    <html lang="ja">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body className="scroll-smooth">
-        <Outlet />
-        <Toaster />
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
-  )
+  return <Outlet />
 }
 
 export function ErrorBoundary() {
@@ -95,18 +99,11 @@ export function ErrorBoundary() {
   }
 
   return (
-    <html lang="ja">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body className="m-8">
-        <h1 className="text-4xl">
-          {status} {statusText}
-        </h1>
-        <div className="mt-4">{message}</div>
-        <Scripts />
-      </body>
-    </html>
+    <div className="m-8">
+      <h1 className="text-4xl">
+        {status} {statusText}
+      </h1>
+      <div className="mt-4">{message}</div>
+    </div>
   )
 }
