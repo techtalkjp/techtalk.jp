@@ -10,9 +10,7 @@ datasource db {
 
 model SampleOrder {
   id           String @id @default(cuid())
-  flyRegion    String @map("fly_region")
-  flyAppName   String @map("fly_app_name")
-  flyMachineId String @map("fly_machine_id")
+  region       String @map("region")
   name         String
   email        String
   zip          String
@@ -24,5 +22,6 @@ model SampleOrder {
   note         String?
   createdAt    String @map("created_at")
 
+  @@index([createdAt])
   @@map("sample_orders")
 }

@@ -109,9 +109,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const timeStart = Date.now()
   await prisma.sampleOrder.create({
     data: {
-      flyRegion: process.env.FLY_REGION ?? '',
-      flyAppName: process.env.FLY_APP_NAME ?? '',
-      flyMachineId: process.env.FLY_MACHINE_ID ?? '',
+      region: process.env.VERCEL_REGION ?? '',
       name: submission.value.name,
       email: submission.value.email,
       zip: submission.value.zip,
@@ -267,7 +265,6 @@ export default function RequestLogsPage() {
               <TableRow>
                 <TableHead>Created At</TableHead>
                 <TableHead>Region</TableHead>
-                <TableHead>Machine</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Country</TableHead>
                 <TableHead />
@@ -279,8 +276,7 @@ export default function RequestLogsPage() {
                   <TableCell className="whitespace-nowrap">
                     {order.createdAt}
                   </TableCell>
-                  <TableCell>{order.flyRegion}</TableCell>
-                  <TableCell>{order.flyMachineId}</TableCell>
+                  <TableCell>{order.region}</TableCell>
                   <TableCell>{order.name}</TableCell>
                   <TableCell>{order.country}</TableCell>
                   <TableCell>

@@ -1,9 +1,7 @@
 -- CreateTable
 CREATE TABLE "sample_orders" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "fly_region" TEXT NOT NULL,
-    "fly_app_name" TEXT NOT NULL,
-    "fly_machine_id" TEXT NOT NULL,
+    "region" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "zip" TEXT NOT NULL,
