@@ -23,8 +23,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 }
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const region = process.env.FLY_REGION ?? 'N/A'
-  const machineId = process.env.FLY_MACHINE_ID ?? 'N/A'
+  const region = process.env.VERCEL_REGION ?? 'N/A'
 
   const timeStart = Date.now()
   const order = await prisma.sampleOrder.findUnique({
@@ -36,13 +35,13 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const timeEnd = Date.now()
 
   return json(
-    { order, region, machineId, duration: timeEnd - timeStart },
+    { order, region, duration: timeEnd - timeStart },
     { headers: { 'Cache-Control': defaultCacheControl } },
   )
 }
 
 export default function OrderDetailPage() {
-  const { order, region, machineId, duration } = useLoaderData<typeof loader>()
+  const { order, region, duration } = useLoaderData<typeof loader>()
 
   return (
     <Stack>
@@ -51,12 +50,6 @@ export default function OrderDetailPage() {
           Region{' '}
           <Badge variant="secondary" className="text-foreground/50">
             {region}
-          </Badge>
-        </div>
-        <div>
-          Machine{' '}
-          <Badge variant="secondary" className="text-foreground/50">
-            {machineId}
           </Badge>
         </div>
         <div>

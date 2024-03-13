@@ -75,8 +75,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
   const tab = url.searchParams.get('tab') ?? 'new'
 
-  const region = process.env.FLY_REGION ?? 'N/A'
-  const machineId = process.env.FLY_MACHINE_ID ?? 'N/A'
+  const region = process.env.VERCEL_REGION ?? 'N/A'
   const timeStart = Date.now()
   const sampleOrders = await prisma.sampleOrder.findMany({
     take: 10,
@@ -90,7 +89,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     {
       tab,
       region,
-      machineId,
       dummyData,
       sampleOrders,
       duration: timeEnd - timeStart,
@@ -140,7 +138,6 @@ export default function RequestLogsPage() {
   const {
     tab,
     region,
-    machineId,
     dummyData,
     sampleOrders,
     duration: selectDuration,
@@ -166,12 +163,6 @@ export default function RequestLogsPage() {
           Region{' '}
           <Badge variant="secondary" className="text-foreground/50">
             {region}
-          </Badge>
-        </div>
-        <div>
-          Machine{' '}
-          <Badge variant="secondary" className="text-foreground/50">
-            {machineId}
           </Badge>
         </div>
         <div>
