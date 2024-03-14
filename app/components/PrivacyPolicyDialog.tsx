@@ -20,6 +20,7 @@ const PrivacyPolicyDialog = () => {
         <Button
           type="button"
           variant="link"
+          className="p-0.5 "
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()

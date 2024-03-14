@@ -118,6 +118,8 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
     lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
+    shouldValidate: 'onBlur',
+    shouldRevalidate: 'onInput',
   })
 
   if (lastResult?.status === 'success' && lastResult.initialValue) {
@@ -192,8 +194,8 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
         <div>
           <HStack className="items-center">
             <Checkbox
-              id={privacyPolicy.id}
-              name={privacyPolicy.name}
+              {...getInputProps(privacyPolicy, { type: 'checkbox' })}
+              type={undefined}
               defaultValue="on"
               aria-label="privacy"
             />
