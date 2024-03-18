@@ -8,18 +8,20 @@ export const sendEmail = async (form: ContactFormData) => {
   }
 
   const payload = {
-    to: sendForm.email,
-    from: {
-      email: 'info@techtalk.jp',
-      name: 'TechTalk',
-    },
+    personalizations: [
+      {
+        to: [{ email: sendForm.email }],
+        dynamicTemplateData: sendForm,
+      },
+    ],
+    subject: "Let's Talk",
+    from: { email: 'info@techtalk.jp', name: 'TechTalk' },
     bcc: 'info@techtalk.jp',
     replyTo: 'info@techtalk.jp',
-    dynamicTemplateData: sendForm,
-    templateId: 'd-fc1f4a74b71644c0930a8df488956323',
+    template_id: 'd-fc1f4a74b71644c0930a8df488956323',
   }
 
-  return await fetch('https://api.sendgrid.com/v3/mail/send', {
+  const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -27,4 +29,5 @@ export const sendEmail = async (form: ContactFormData) => {
     },
     body: JSON.stringify(payload),
   })
+  return response
 }
