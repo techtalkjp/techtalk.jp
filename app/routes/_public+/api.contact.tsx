@@ -118,7 +118,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
     lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
-    shouldValidate: 'onBlur',
+    shouldValidate: 'onSubmit',
     shouldRevalidate: 'onInput',
   })
 
@@ -141,7 +141,9 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             autoComplete="name"
             {...getInputProps(name, { type: 'text' })}
           />
-          <div className="text-red-500">{name.errors}</div>
+          <div id={name.errorId} className="text-red-500">
+            {name.errors}
+          </div>
         </div>
 
         <div>
@@ -151,7 +153,9 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             autoComplete="organization"
             {...getInputProps(company, { type: 'text' })}
           />
-          <div className="text-red-500">{company.errors}</div>
+          <div id={company.errorId} className="text-red-500">
+            {company.errors}
+          </div>
         </div>
 
         <div>
@@ -161,7 +165,9 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             autoComplete="tel"
             {...getInputProps(phone, { type: 'tel' })}
           />
-          <div className="text-red-500">{phone.errors}</div>
+          <div id={phone.errorId} className="text-red-500">
+            {phone.errors}
+          </div>
         </div>
 
         <div>
@@ -171,7 +177,9 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             autoComplete="email"
             {...getInputProps(email, { type: 'email' })}
           />
-          <div className="text-red-500">{email.errors}</div>
+          <div id={email.errorId} className="text-red-500">
+            {email.errors}
+          </div>
         </div>
 
         <div>
@@ -183,7 +191,9 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             autoComplete="off"
             {...getTextareaProps(message)}
           />
-          <div className="text-red-500">{message.errors}</div>
+          <div id={message.errorId} className="text-red-500">
+            {message.errors}
+          </div>
         </div>
 
         <input type="hidden" name="locale" value={locale} />
@@ -194,8 +204,13 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
         <div>
           <HStack className="items-center">
             <Checkbox
-              {...getInputProps(privacyPolicy, { type: 'checkbox' })}
-              type={undefined}
+              id={privacyPolicy.id}
+              key={privacyPolicy.key}
+              defaultChecked={privacyPolicy.initialValue === 'on'}
+              aria-invalid={privacyPolicy.errors ? true : undefined}
+              aria-describedby={
+                privacyPolicy.errors ? privacyPolicy.errorId : undefined
+              }
               defaultValue="on"
               aria-label="privacy"
             />
@@ -203,7 +218,9 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
               <PrivacyPolicyDialog />
             </label>
           </HStack>
-          <div className="text-red-500">{privacyPolicy.errors}</div>
+          <div id={privacyPolicy.errorId} className="text-red-500">
+            {privacyPolicy.errors}
+          </div>
         </div>
 
         {form.errors && (
