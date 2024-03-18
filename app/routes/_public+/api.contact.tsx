@@ -206,12 +206,12 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             <Checkbox
               id={privacyPolicy.id}
               key={privacyPolicy.key}
-              defaultChecked={privacyPolicy.initialValue === 'on'}
+              name={privacyPolicy.name}
               aria-invalid={privacyPolicy.errors ? true : undefined}
               aria-describedby={
                 privacyPolicy.errors ? privacyPolicy.errorId : undefined
               }
-              defaultValue="on"
+              defaultChecked={privacyPolicy.initialValue === 'on'}
               aria-label="privacy"
             />
             <label htmlFor={privacyPolicy.id} className="cursor-pointer">
