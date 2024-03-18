@@ -11,7 +11,7 @@ export const sendEmail = async (form: ContactFormData) => {
     personalizations: [
       {
         to: [{ email: sendForm.email }],
-        dynamicTemplateData: sendForm,
+        dynamic_template_data: sendForm,
       },
     ],
     subject: "Let's Talk",
