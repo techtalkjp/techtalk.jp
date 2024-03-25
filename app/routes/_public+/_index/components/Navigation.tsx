@@ -24,7 +24,8 @@ const NavItem = ({
   return (
     <Button
       size="xs"
-      variant="ghost"
+      className="text-white"
+      variant="link"
       asChild
       onClick={(event) => scrollTo(id, event)}
     >
