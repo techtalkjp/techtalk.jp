@@ -77,16 +77,26 @@
   }
 }
 
-/* スクロールでフェードインさせる用途 */
 @layer components {
-  .fade-in {
+  /* 画面表示とともにフェードインさせる */
+  .inview-fade-in {
+    @apply opacity-0;
+    transition: opacity 0.6s ease-out;
+  }
+
+  .inview-fade-in.visible {
+    @apply opacity-100;
+  }
+
+  /* スクロールでフェードインさせる */
+  .scroll-fade-in {
     @apply translate-y-12 transform opacity-0;
     transition:
       opacity 0.6s ease-out,
       transform 0.6s ease-out;
   }
 
-  .fade-in.visible {
+  .scroll-fade-in.visible {
     @apply translate-y-0 opacity-100;
   }
 }

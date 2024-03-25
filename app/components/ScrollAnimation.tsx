@@ -2,7 +2,10 @@ import { useEffect } from 'react'
 
 const ScrollAnimation = () => {
   useEffect(() => {
-    const elements = document.querySelectorAll('.fade-in')
+    const elements = [
+      ...document.querySelectorAll('.scroll-fade-in'),
+      ...document.querySelectorAll('.inview-fade-in'),
+    ]
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -13,9 +16,7 @@ const ScrollAnimation = () => {
       { threshold: 0.2 },
     )
 
-    for (const element of elements) {
-      observer.observe(element)
-    }
+    for (const element of elements) observer.observe(element)
 
     return () => {
       for (const element of elements) {

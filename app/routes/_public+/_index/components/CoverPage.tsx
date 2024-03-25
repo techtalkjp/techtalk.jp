@@ -12,7 +12,7 @@ const CoverPage = ({ children, className, bgImage, id, ...rest }: Props) => {
     <div
       id={id}
       className={cn(
-        'relative flex h-screen snap-start snap-always items-center justify-center bg-black/40 bg-cover bg-center bg-blend-overlay fade-in',
+        'inview-fade-in relative flex h-screen snap-start snap-always items-center justify-center bg-black/40 bg-cover bg-center bg-blend-overlay',
         className,
       )}
       {...rest}

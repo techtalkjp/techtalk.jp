@@ -12,11 +12,11 @@ export const ContactPage = ({ className }: React.ComponentProps<'div'>) => {
       bgImage="/images/contact.webp"
       className={className}
     >
-      <Heading className="fade-in">
+      <Heading className="scroll-fade-in">
         {t('contact.title', 'お問い合わせ')}
       </Heading>
 
-      <ContactForm className="mx-auto mt-4 max-w-md fade-in" />
+      <ContactForm className="scroll-fade-in mx-auto mt-4 max-w-md" />
     </CoverPage>
   )
 }

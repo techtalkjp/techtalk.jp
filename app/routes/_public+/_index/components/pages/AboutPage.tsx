@@ -7,9 +7,11 @@ export const AboutPage = ({ className }: React.ComponentProps<'div'>) => {
   const { t } = useLocale()
   return (
     <CoverPage id="about" bgImage="/images/about.webp" className={className}>
-      <Heading className="fade-in">{t('about.title', '会社概要')}</Heading>
+      <Heading className="scroll-fade-in">
+        {t('about.title', '会社概要')}
+      </Heading>
 
-      <table className="mx-auto mt-4 text-left fade-in">
+      <table className="scroll-fade-in mx-auto mt-4 text-left">
         <tbody>
           <tr>
             <td className="p-1 font-bold sm:p-4">
