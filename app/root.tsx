@@ -12,12 +12,14 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
   useLoaderData,
+  useLocation,
   useRouteError,
 } from '@remix-run/react'
 import { useEffect } from 'react'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { Toaster } from '~/components/ui'
+import { cn } from './libs/utils'
 import biographyStyle from './styles/biography.css?url'
 import globalStyles from './styles/globals.css?url'
 import privacyStyles from './styles/privacy.css?url'
@@ -43,6 +45,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 }
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
+  const location = useLocation()
+  const isDemo = location.pathname.startsWith('/demo')
+
   return (
     <html lang="ja">
       <head>
@@ -51,7 +56,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <Meta />
         <Links />
       </head>
-      <body className="scroll-smooth">
+      <body className={cn('scroll-smooth', isDemo ? 'bg-white' : 'bg-black')}>
         <Toaster />
         {children}
         <ScrollRestoration />
