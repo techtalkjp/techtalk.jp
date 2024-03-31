@@ -71,11 +71,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 }
 
-interface ContactSentMessageProps {
+export const ContactSentMessage = ({
+  data,
+}: {
   data: Partial<ContactFormData>
-}
-
-export const ContactSentMessage = ({ data }: ContactSentMessageProps) => {
+}) => {
   return (
     <div className="mt-4 grid grid-cols-1 gap-4">
       <div>
