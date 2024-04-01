@@ -22,8 +22,12 @@ import {
   Textarea,
 } from '~/components/ui'
 import { useLocale } from '~/features/i18n/hooks/useLocale'
-import { sendEmail } from '~/services/sendEmail'
-import { sendSlack } from '~/services/sendSlack'
+import {
+  checkHoneypot,
+  checkTestEmail,
+  sendEmail,
+  sendSlack,
+} from './functions'
 
 export const schema = z.object({
   name: z.string().max(100),
@@ -38,37 +42,30 @@ export const schema = z.object({
 
 export type ContactFormData = z.infer<typeof schema>
 
-export const buildContactMessage = (data: ContactFormData) => {
-  return `お名前: ${data.name}
-会社名: ${data.company}
-電話番号: ${data.phone}
-メールアドレス: ${data.email}
-メッセージ: ${data.message}`
-}
-
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return json(submission.reply())
   }
 
-  try {
-    if (submission.value.companyPhone) {
-      // honeypot
-      console.log('honeypot', submission.value.companyPhone)
-      return json(submission.reply())
-    }
-
-    if (submission.value.email !== 'test@example.com') {
-      await sendEmail(submission.value)
-      await sendSlack(buildContactMessage(submission.value))
-    }
-
-    return json(submission.reply())
-  } catch (e: unknown) {
-    console.log(e)
-    return json(submission.reply({ formErrors: [String(e)] }))
+  let ret = checkHoneypot(submission.value)
+  if (ret.isErr()) {
+    return json(submission.reply({ formErrors: [ret.error] }))
   }
+
+  ret = checkTestEmail(ret.value)
+  if (ret.isErr()) {
+    return json(submission.reply({ formErrors: [ret.error] }))
+  }
+
+  const ret2 = await sendEmail(submission.value).andThen(() =>
+    sendSlack(submission.value),
+  )
+  if (ret2.isErr()) {
+    return json(submission.reply({ formErrors: [String(ret2.error)] }))
+  }
+
+  return json(submission.reply())
 }
 
 export const ContactSentMessage = ({
