@@ -7,6 +7,7 @@ import {
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { Link, useFetcher } from '@remix-run/react'
+import { ok } from 'neverthrow'
 import { z } from 'zod'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
 import {
@@ -48,21 +49,20 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json(submission.reply())
   }
 
-  let ret = checkHoneypot(submission.value)
-  if (ret.isErr()) {
-    return json(submission.reply({ formErrors: [ret.error] }))
+  const check = ok(submission.value)
+    .andThen(checkHoneypot)
+    .andThen(checkTestEmail)
+  if (check.isErr()) {
+    return json(submission.reply()) // make it look like success
   }
 
-  ret = checkTestEmail(ret.value)
-  if (ret.isErr()) {
-    return json(submission.reply({ formErrors: [ret.error] }))
-  }
-
-  const ret2 = await sendEmail(submission.value).andThen(() =>
+  const [ret1, ret2] = await Promise.all([
+    sendEmail(submission.value),
     sendSlack(submission.value),
-  )
-  if (ret2.isErr()) {
-    return json(submission.reply({ formErrors: [String(ret2.error)] }))
+  ])
+
+  if (ret1.isErr() || ret2.isErr()) {
+    return json(submission.reply())
   }
 
   return json(submission.reply())
