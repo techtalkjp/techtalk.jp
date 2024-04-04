@@ -8,7 +8,6 @@ permissions:
 
 jobs:
   lint:
-    if: false
     name: ⬣ ESLint
     runs-on: ubuntu-latest
     steps:
@@ -51,7 +50,6 @@ jobs:
         run: pnpm run lint
 
   typecheck:
-    if: false
     name: ʦ TypeScript
     runs-on: ubuntu-latest
     steps:
@@ -96,7 +94,6 @@ jobs:
         run: pnpm run typecheck
 
   vitest:
-    if: false
     name: ⚡ Vitest
     runs-on: ubuntu-latest
     steps:

@@ -56,13 +56,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json(submission.reply()) // make it look like success
   }
 
-  const [ret1, ret2] = await Promise.all([
+  const [result] = await Promise.all([
     sendEmail(submission.value),
     sendSlack(submission.value),
   ])
 
-  if (ret1.isErr() || ret2.isErr()) {
-    return json(submission.reply())
+  if (result.isErr()) {
+    return json(submission.reply({ formErrors: [result.error] }))
   }
 
   return json(submission.reply())

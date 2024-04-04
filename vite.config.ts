@@ -14,11 +14,13 @@ export default defineConfig({
   server: { port: 3000 },
   plugins: [
     mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter] }),
-    remix({
-      ignoredRouteFiles: ['**/.*'],
-      routes: (defineRoutes) => flatRoutes('routes', defineRoutes),
-      presets: [vercelPreset()],
-    }),
+    !process.env.VITEST &&
+      remix({
+        ignoredRouteFiles: ['**/.*'],
+        routes: (defineRoutes) => flatRoutes('routes', defineRoutes),
+        presets: [vercelPreset()],
+      }),
     tsconfigPaths(),
   ],
+  test: { environment: 'jsdom', setupFiles: ['./test/setup.ts'] },
 })

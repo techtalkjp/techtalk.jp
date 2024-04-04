@@ -29,14 +29,13 @@ const sendEmailImpl = async (form: ContactFormData) => {
     body: JSON.stringify(payload),
   })
   if (!response.ok) {
-    throw new Error('Failed to send email')
+    throw new Error(
+      `${response.status} ${response.statusText}: ${await response.text()}`,
+    )
   }
   return await response.text()
 }
 
 export const sendEmail = async (form: ContactFormData) => {
-  return ResultAsync.fromPromise(sendEmailImpl(form), (e) => {
-    console.error(e)
-    return e
-  })
+  return ResultAsync.fromPromise(sendEmailImpl(form), (e) => String(e))
 }
