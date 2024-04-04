@@ -28,7 +28,7 @@ import {
   checkTestEmail,
   sendEmail,
   sendSlack,
-} from './functions.server'
+} from './functions/index.server'
 
 export const schema = z.object({
   name: z.string().max(100),
