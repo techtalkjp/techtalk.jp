@@ -45,6 +45,7 @@ test('お問い合わせフォーム_メール送信成功', async () => {
     'こんにちは！',
   )
   await userEvent.click(getByRole('checkbox', { name: 'privacy' }))
+
   // 送信
   await userEvent.click(getByRole('button', { name: "Let's talk" }))
 
@@ -98,6 +99,7 @@ test('お問い合わせフォーム_メール送信エラー', async () => {
     'こんにちは！',
   )
   await userEvent.click(getByRole('checkbox', { name: 'privacy' }))
+
   // 送信
   await userEvent.click(getByRole('button', { name: "Let's talk" }))
 
