@@ -13,7 +13,7 @@ import {
   PopoverTrigger,
   Stack,
 } from '~/components/ui'
-import { useLocale } from '~/features/i18n/hooks/useLocale'
+import { useLocale } from '~/i18n/hooks/useLocale'
 
 export const BiographyPopover = () => {
   const { t } = useLocale()

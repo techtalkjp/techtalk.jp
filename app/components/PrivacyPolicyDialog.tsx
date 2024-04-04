@@ -7,7 +7,7 @@ import {
   DialogFooter,
   DialogHeader,
 } from '~/components/ui'
-import { useLocale } from '../features/i18n/hooks/useLocale'
+import { useLocale } from '../i18n/hooks/useLocale'
 
 const PrivacyPolicyDialog = () => {
   const { t } = useLocale()

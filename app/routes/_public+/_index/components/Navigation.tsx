@@ -1,8 +1,8 @@
 import { Link } from '@remix-run/react'
 import { TextReveal } from '~/components/TextRevail'
 import { Button, HStack, Spacer } from '~/components/ui'
-import LanguageSwitcher from '~/features/i18n/components/LanguageSwitcher'
-import { useLocale } from '~/features/i18n/hooks/useLocale'
+import LanguageSwitcher from '~/i18n/components/LanguageSwitcher'
+import { useLocale } from '~/i18n/hooks/useLocale'
 
 const NavItem = ({
   id,

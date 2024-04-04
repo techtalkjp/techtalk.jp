@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import path from 'node:path'
-import { locales } from '~/features/i18n/utils/detectLocale'
+import { locales } from '~/i18n/utils/detectLocale'
 import Index from './_index/route'
 
 export const loader = ({ request }: LoaderFunctionArgs) => {

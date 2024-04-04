@@ -22,7 +22,7 @@ import {
   Stack,
   Textarea,
 } from '~/components/ui'
-import { useLocale } from '~/features/i18n/hooks/useLocale'
+import { useLocale } from '~/i18n/hooks/useLocale'
 import {
   checkHoneypot,
   checkTestEmail,

@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '~/components/ui'
-import { locales, useLocale } from '~/features/i18n/hooks/useLocale'
+import { locales, useLocale } from '~/i18n/hooks/useLocale'
 
 const LanguageSwitcher = () => {
   const { t, locale } = useLocale()

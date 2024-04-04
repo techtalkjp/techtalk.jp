@@ -1,5 +1,5 @@
 import { Heading, HStack } from '~/components/ui'
-import { useLocale } from '~/features/i18n/hooks/useLocale'
+import { useLocale } from '~/i18n/hooks/useLocale'
 import { BiographyPopover } from '~/routes/_public+/_index/components/BiographyPopover'
 import CoverPage from '~/routes/_public+/_index/components/CoverPage'
 
