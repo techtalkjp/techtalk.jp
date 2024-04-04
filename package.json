@@ -9,8 +9,8 @@
     "lint": "biome lint .",
     "format": "prettier --check .",
     "typecheck": "tsc",
-    "validate": "run-p format lint typecheck",
     "test": "vitest run",
+    "validate": "run-p format lint && run-p typecheck test",
     "preinstall": "prisma generate"
   },
   "dependencies": {
@@ -70,7 +70,6 @@
     "@types/react-dom": "18.2.24",
     "@vercel/remix": "2.8.1",
     "@vitest/coverage-v8": "1.4.0",
-    "happy-dom": "14.4.0",
     "jsdom": "24.0.0",
     "msw": "2.2.13",
     "npm-run-all": "4.1.5",
