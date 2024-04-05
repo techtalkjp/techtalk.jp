@@ -21,7 +21,9 @@ const LanguageSwitcher = () => {
       <DropdownMenuContent>
         {locales.map((e) => (
           <DropdownMenuItem key={e} asChild>
-            <Link to={e === 'ja' ? '/' : `/${e}`}>{t(e, e)}</Link>
+            <Link to={e === 'ja' ? '/' : `/${e}`} reloadDocument>
+              {t(e, e)}
+            </Link>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
