@@ -34,7 +34,7 @@ const demoPages: {
     },
     {
       path: '/demo/conform/image-upload',
-      title: '画像アップロード',
+      title: 'Cloudflare R2 画像アップロード',
       ext: '/route.tsx',
     },
   ],
