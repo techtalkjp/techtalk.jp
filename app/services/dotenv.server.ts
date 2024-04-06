@@ -7,6 +7,10 @@ const envSchema = z.object({
   TURSO_DATABASE_URL: z.string(),
   TURSO_AUTH_TOKEN: z.string(),
   TURSO_USE_EMBEDDED_REPLICA: z.string(),
+  IMAGE_ENDPOINT_URL: z.string().url(),
+  R2_ENDPOINT_URL: z.string().url(),
+  R2_ACCESS_KEY_ID: z.string(),
+  R2_SECRET_ACCESS_KEY: z.string(),
 })
 envSchema.parse(process.env)
 

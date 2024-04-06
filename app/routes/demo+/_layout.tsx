@@ -32,6 +32,10 @@ const demoPages: {
       path: '/demo/conform/confirm',
       title: '実行確認ダイアログ付きの削除フォーム',
     },
+    {
+      path: '/demo/conform/image-upload',
+      title: '画像アップロード',
+    },
   ],
   db: [
     {
