@@ -21,6 +21,7 @@ import {
   TableRow,
 } from '~/components/ui'
 import { ImageEndpointUrl, list, upload } from './services/r2.server'
+import { resizeImage } from './services/sharp.server'
 
 const schema = z.object({
   file: z.instanceof(File),
@@ -37,7 +38,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ lastResult: submission.reply() })
   }
 
-  await upload(submission.value.file)
+  // Resize and convert to webp
+  const arrayBuffer = await submission.value.file.arrayBuffer()
+  const image = await resizeImage(Buffer.from(arrayBuffer), 1920, 1080)
+  const filename = submission.value.file.name.replace(/\.\w+$/, '.webp')
+
+  // Upload
+  await upload(new File([image], filename, { type: 'image/webp' }))
+
   return json({ lastResult: submission.reply({ resetForm: true }) })
 }
 
