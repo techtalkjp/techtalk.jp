@@ -10,8 +10,7 @@
     "format": "prettier --check .",
     "typecheck": "tsc",
     "test": "vitest run",
-    "validate": "run-p format lint && run-p typecheck test",
-    "preinstall": "prisma generate"
+    "validate": "run-p format lint && run-p typecheck test"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.550.0",
@@ -70,7 +69,6 @@
     "@types/node": "20.12.5",
     "@types/react": "18.2.74",
     "@types/react-dom": "18.2.24",
-    "@vercel/remix": "2.8.1",
     "@vitest/coverage-v8": "1.4.0",
     "jsdom": "24.0.0",
     "msw": "2.2.13",

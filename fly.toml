@@ -1,13 +1,12 @@
-# fly.toml app configuration file generated for techtalk-jp on 2024-02-27T23:20:07+09:00
+# fly.toml app configuration file generated for techtalk-jp-summer-sound-3160 on 2024-04-07T13:45:33+09:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'techtalk-jp'
+app = 'techtalkjp'
 primary_region = 'nrt'
 
-[[vm]]
-  size = 'shared-cpu-1x'
+[build]
 
 [http_service]
   internal_port = 3000
@@ -18,8 +17,11 @@ primary_region = 'nrt'
   processes = ['app']
 
 [[http_service.checks]]
-  grace_period = "20s"
-  interval = "30s"
-  method = "GET"
-  timeout = "5s"
-  path = "/healthcheck"
+    interval = '30s'
+    timeout = '5s'
+    grace_period = '20s'
+    method = 'GET'
+    path = '/healthcheck'
+
+[[vm]]
+  size = 'shared-cpu-1x'
