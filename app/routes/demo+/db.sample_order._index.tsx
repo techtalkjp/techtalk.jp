@@ -75,8 +75,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
   const tab = url.searchParams.get('tab') ?? 'new'
 
-  console.log({ env: process.env })
-
   const region = process.env.VERCEL_REGION ?? 'N/A'
   const timeStart = Date.now()
   const sampleOrders = await prisma.sampleOrder.findMany({

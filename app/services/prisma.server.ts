@@ -4,10 +4,7 @@ import { libsql } from './libsql.server'
 
 const createPrismaClient = () => {
   const adapter = new PrismaLibSQL(libsql)
-  return new PrismaClient({
-    adapter,
-    log: process.env.NODE_ENV === 'development' ? ['query'] : [],
-  })
+  return new PrismaClient({ adapter })
 }
 
 export const prisma = createPrismaClient()
