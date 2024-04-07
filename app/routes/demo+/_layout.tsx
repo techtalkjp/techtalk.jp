@@ -1,5 +1,5 @@
 import type { MetaFunction } from '@remix-run/node'
-import { Link, Outlet, useLocation } from '@remix-run/react'
+import { Link, Outlet, useLocation, useNavigate } from '@remix-run/react'
 import { ExternalLinkIcon } from 'lucide-react'
 import {
   Card,
@@ -34,7 +34,7 @@ const demoPages: {
     },
     {
       path: '/demo/conform/image-upload',
-      title: 'Cloudflare R2 画像アップロード',
+      title: 'Cloudflare R2 サーバサイドアップロード',
       ext: '/route.tsx',
     },
   ],
@@ -58,13 +58,15 @@ export default function DemoPage() {
   const location = useLocation()
   const menu = location.pathname.split('/')[2]
   const menuItems = menu ? demoPages[menu] ?? [] : []
-  const currentMenuItem = menuItems.find((item) =>
-    location.pathname.includes(item.path),
+  const currentMenuItem = menuItems.find(
+    (item) => location.pathname === item.path,
   )
   const demoPath = `${location.pathname.replace('/demo/', '').replaceAll('/', '.')}${currentMenuItem?.ext ?? '.tsx'}`
   const codeURL =
     currentMenuItem &&
     `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/demo+/${demoPath}`
+
+  const navigate = useNavigate()
 
   return (
     <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4">
@@ -73,7 +75,10 @@ export default function DemoPage() {
           <h1 className="mx-4 my-2 text-2xl font-bold">TechTalk demos</h1>
         </Link>
 
-        <Menubar className="rounded-none border-b border-l-0 border-r-0 border-t shadow-none">
+        <Menubar
+          onValueChange={(value) => console.log(value)}
+          className="rounded-none border-b border-l-0 border-r-0 border-t shadow-none"
+        >
           {Object.keys(demoPages).map((demoMenu) => (
             <MenubarMenu key={demoMenu}>
               <MenubarTrigger
@@ -85,9 +90,10 @@ export default function DemoPage() {
               >
                 {demoMenu}
               </MenubarTrigger>
-              <MenubarContent>
+
+              <MenubarContent key={demoMenu}>
                 {demoPages[demoMenu]?.map(({ path, title }) => (
-                  <MenubarItem key={path} asChild>
+                  <MenubarItem key={`${demoMenu}-${path}`} asChild>
                     <Link to={path}>{title}</Link>
                   </MenubarItem>
                 ))}
