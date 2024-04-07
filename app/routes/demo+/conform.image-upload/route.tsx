@@ -17,7 +17,6 @@ import {
   TableRow,
 } from '~/components/ui'
 import { ImageEndpointUrl, list, upload } from './services/r2.server'
-import { resizeImage } from './services/sharp.server'
 
 const schema = z.object({
   file: z.instanceof(File),
@@ -34,8 +33,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ lastResult: submission.reply() })
   }
 
-  const image = await resizeImage(submission.value.file, { width: 1920 })
-  await upload(image)
+  // const image = await resizeImage(submission.value.file, { width: 1920 })
+  await upload(submission.value.file)
 
   return json({ lastResult: submission.reply({ resetForm: true }) })
 }
