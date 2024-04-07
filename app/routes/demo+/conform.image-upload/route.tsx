@@ -1,10 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import {
-  json,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-} from '@remix-run/node'
+import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import dayjs from 'dayjs'
 import { z } from 'zod'
@@ -27,7 +23,7 @@ const schema = z.object({
   file: z.instanceof(File),
 })
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async () => {
   const objects = await list()
   return json({ objects, ImageEndpointUrl })
 }
@@ -38,10 +34,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ lastResult: submission.reply() })
   }
 
-  // Resize and convert to webp
   const image = await resizeImage(submission.value.file, { width: 1920 })
-
-  // Upload
   await upload(image)
 
   return json({ lastResult: submission.reply({ resetForm: true }) })
