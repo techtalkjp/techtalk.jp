@@ -1,5 +1,5 @@
-import type { MetaFunction } from '@remix-run/node'
-import { Link, Outlet, useLocation, useNavigate } from '@remix-run/react'
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
+import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { ExternalLinkIcon } from 'lucide-react'
 import {
   Card,
@@ -19,6 +19,8 @@ export const meta: MetaFunction = () => {
   return [{ title: 'TechTalk Demos' }]
 }
 
+export const shouldRevalidate = () => true
+
 const demoPages: {
   [demoPage: string]: { path: string; title: string; ext?: string }[]
 } = {
@@ -34,7 +36,7 @@ const demoPages: {
     },
     {
       path: '/demo/conform/image-upload',
-      title: 'Cloudflare R2 サーバサイドアップロード',
+      title: 'Cloudflare R2 サーバ経由アップロード',
       ext: '/route.tsx',
     },
     {
@@ -59,19 +61,21 @@ const demoPages: {
   about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
 }
 
-export default function DemoPage() {
-  const location = useLocation()
-  const menu = location.pathname.split('/')[2]
+export const loader = ({ request }: LoaderFunctionArgs) => {
+  const { pathname } = new URL(request.url)
+  const menu = pathname.split('/')[2]
   const menuItems = menu ? demoPages[menu] ?? [] : []
-  const currentMenuItem = menuItems.find(
-    (item) => location.pathname === item.path,
-  )
-  const demoPath = `${location.pathname.replace('/demo/', '').replaceAll('/', '.')}${currentMenuItem?.ext ?? '.tsx'}`
+  const currentMenuItem = menuItems.find((item) => pathname === item.path)
+  const demoPath = `${pathname.replace('/demo/', '').replaceAll('/', '.')}${currentMenuItem?.ext ?? '.tsx'}`
   const codeURL =
     currentMenuItem &&
     `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/demo+/${demoPath}`
 
-  const navigate = useNavigate()
+  return { menu, currentMenuItem, codeURL }
+}
+
+export default function DemoPage() {
+  const { menu, currentMenuItem, codeURL } = useLoaderData<typeof loader>()
 
   return (
     <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4">
@@ -135,7 +139,10 @@ export default function DemoPage() {
       </main>
 
       <footer className="px-4 py-2 text-center">
-        Copyright&copy; TechTalk inc.
+        Copyright&copy;{' '}
+        <Link to="/" className="hover:underline">
+          TechTalk inc.
+        </Link>
       </footer>
     </div>
   )

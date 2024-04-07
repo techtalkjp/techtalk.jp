@@ -39,12 +39,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   // Resize and convert to webp
-  const arrayBuffer = await submission.value.file.arrayBuffer()
-  const image = await resizeImage(Buffer.from(arrayBuffer), 1920, 1080)
-  const filename = submission.value.file.name.replace(/\.\w+$/, '.webp')
+  const image = await resizeImage(submission.value.file, { width: 1920 })
 
   // Upload
-  await upload(new File([image], filename, { type: 'image/webp' }))
+  await upload(image)
 
   return json({ lastResult: submission.reply({ resetForm: true }) })
 }
@@ -87,30 +85,35 @@ export default function ImageUploadDemoPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {objects?.map((object) => (
-              <TableRow key={object.Key}>
-                <TableCell>
-                  <div className="relative">
-                    <span className="absolute bottom-2 right-2 text-sm text-white drop-shadow">
-                      {object.Key}
-                    </span>
-                    <img
-                      className="rounded"
-                      loading="lazy"
-                      src={`${ImageEndpointUrl}${object.Key}`}
-                      alt={object.Key}
-                    />
-                  </div>
-                </TableCell>
-                <TableCell>
-                  {dayjs(object.LastModified).format('YYYY-MM-DD HH:mm')}
-                </TableCell>
-                <TableCell>
-                  {object.Size?.toLocaleString()}
-                  <small> bytes</small>
-                </TableCell>
-              </TableRow>
-            ))}
+            {objects?.map((object) => {
+              const imageUrl = `${ImageEndpointUrl}${object.Key}`
+              return (
+                <TableRow key={object.Key}>
+                  <TableCell>
+                    <div className="relative">
+                      <span className="absolute bottom-2 left-2 right-2 text-right text-sm text-white drop-shadow">
+                        {object.Key}
+                      </span>
+                      <a href={imageUrl} target="_blank" rel="noreferrer">
+                        <img
+                          className="rounded"
+                          loading="lazy"
+                          src={imageUrl}
+                          alt={object.Key}
+                        />
+                      </a>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {dayjs(object.LastModified).format('YYYY-MM-DD HH:mm')}
+                  </TableCell>
+                  <TableCell>
+                    {object.Size?.toLocaleString()}
+                    <small> bytes</small>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </div>

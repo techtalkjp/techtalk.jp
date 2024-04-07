@@ -36,6 +36,7 @@ export const upload = async (file: File) => {
       Body: stream,
       Bucket: BUKET_NAME,
       Key: name,
+      ContentType: file.type,
     },
     // 性能改善用の細かなパラメータ
     queueSize: 10, // アップロードの並列数

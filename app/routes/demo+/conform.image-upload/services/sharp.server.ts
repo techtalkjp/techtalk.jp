@@ -2,12 +2,13 @@ import { default as Sharp } from 'sharp'
 
 // sharp で画像をリサイズ・圧縮する
 export const resizeImage = async (
-  buffer: Buffer,
-  width: number,
-  height: number,
+  file: File,
+  { width, height }: { width: number; height?: number },
 ) => {
-  return await Sharp(buffer)
+  const filename = file.name.replace(/\.\w+$/, '.webp')
+  const resizedBuffer = await Sharp(Buffer.from(await file.arrayBuffer()))
     .resize(width, height)
     .webp({ quality: 80 })
     .toBuffer()
+  return await new File([resizedBuffer], filename, { type: 'image/webp' })
 }
