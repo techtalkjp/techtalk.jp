@@ -1,9 +1,9 @@
 import { createClient } from '@libsql/client'
 import { setInterval } from 'node:timers'
 
-export const useTurso = process.env.NODE_ENV === 'production'
+export const useTurso = true
 export const useEmbeddedReplica =
-  useTurso && !!process.env.TURSO_USE_EMBEDDED_REPLICA
+  useTurso && process.env.TURSO_USE_EMBEDDED_REPLICA === '1'
 
 console.log({ useTurso, useEmbeddedReplica })
 
