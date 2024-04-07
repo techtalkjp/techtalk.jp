@@ -37,6 +37,11 @@ const demoPages: {
       title: 'Cloudflare R2 サーバサイドアップロード',
       ext: '/route.tsx',
     },
+    {
+      path: '/demo/conform/direct-image-upload',
+      title: 'Cloudflare R2 ダイレクトアップロード',
+      ext: '/route.tsx',
+    },
   ],
   db: [
     {
@@ -75,10 +80,7 @@ export default function DemoPage() {
           <h1 className="mx-4 my-2 text-2xl font-bold">TechTalk demos</h1>
         </Link>
 
-        <Menubar
-          onValueChange={(value) => console.log(value)}
-          className="rounded-none border-b border-l-0 border-r-0 border-t shadow-none"
-        >
+        <Menubar className="rounded-none border-b border-l-0 border-r-0 border-t shadow-none">
           {Object.keys(demoPages).map((demoMenu) => (
             <MenubarMenu key={demoMenu}>
               <MenubarTrigger
