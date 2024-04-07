@@ -1,10 +1,6 @@
 import { createClient } from '@libsql/client'
 
-export const useTurso = true
-export const useEmbeddedReplica =
-  useTurso && process.env.TURSO_USE_EMBEDDED_REPLICA === '1'
-
-console.log({ useTurso, useEmbeddedReplica })
+export const useEmbeddedReplica = process.env.TURSO_USE_EMBEDDED_REPLICA === '1'
 
 export const libsql = createClient(
   useEmbeddedReplica
