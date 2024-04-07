@@ -1,5 +1,4 @@
 import { createClient } from '@libsql/client'
-import { setInterval } from 'node:timers'
 
 export const useTurso = true
 export const useEmbeddedReplica =
@@ -14,6 +13,7 @@ export const libsql = createClient(
         url: process.env.DATABASE_URL,
         syncUrl: process.env.TURSO_DATABASE_URL,
         authToken: process.env.TURSO_AUTH_TOKEN,
+        syncInterval: 1000 * 60 * 5, // 5分ごとに同期
       }
     : {
         // embedded replica を使わない
@@ -21,25 +21,3 @@ export const libsql = createClient(
         authToken: process.env.TURSO_AUTH_TOKEN,
       },
 )
-
-const syncReplica = async () => {
-  // 立ち上げ時に同期
-  console.time('libsql sync intial')
-  await libsql.sync()
-  console.timeEnd('libsql sync intial')
-
-  // 定期的に同期
-  setInterval(
-    async () => {
-      const label = `libsql sync ${new Date().toISOString()}`
-      console.time(label)
-      await libsql.sync()
-      console.timeEnd(label)
-    },
-    1000 * 60 * 5,
-  ) // 5分ごとに同期
-}
-
-if (useEmbeddedReplica) {
-  syncReplica()
-}
