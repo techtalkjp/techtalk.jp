@@ -56,7 +56,12 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <Meta />
         <Links />
       </head>
-      <body className={cn('scroll-smooth', isDemo ? 'bg-white' : 'bg-black')}>
+      <body
+        className={cn(
+          'scroll-smooth',
+          isDemo ? 'bg-background text-foreground' : 'bg-black text-white',
+        )}
+      >
         <Toaster />
         {children}
         <ScrollRestoration />
