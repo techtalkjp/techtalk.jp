@@ -33,12 +33,12 @@ const PrivacyPolicyDialog = () => {
       </span>
 
       <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
-        <DialogContent className="flex max-h-[32rem] flex-col gap-4">
+        <DialogContent className="flex max-h-[32rem] flex-col gap-4 text-black">
           <DialogHeader className="text-xl font-bold">
             {t('privacy.dialog.title', 'TechTalk プライバシーポリシー')}
           </DialogHeader>
 
-          <div className="markdown flex-1 overflow-auto">
+          <div className="markdown flex-1 overflow-auto ">
             <Content />
           </div>
           <DialogFooter>
