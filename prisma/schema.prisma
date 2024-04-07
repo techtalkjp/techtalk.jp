@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "env(DATABASE_URL)"
+  url      = "file:../data/dev.db" // turso のマイグレーションは手動でやるので、ここは開発環境でしか使われない。
 }
 model SampleOrder {
   id           String @id @default(cuid())

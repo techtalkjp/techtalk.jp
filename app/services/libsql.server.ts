@@ -13,11 +13,11 @@ export const libsql = createClient(
         url: process.env.DATABASE_URL,
         syncUrl: process.env.TURSO_DATABASE_URL,
         authToken: process.env.TURSO_AUTH_TOKEN,
-        syncInterval: 1000 * 60 * 5, // 5分ごとに同期
+        syncInterval: 60 * 5, // 5分ごとに同期
       }
     : {
         // embedded replica を使わない
-        url: process.env.TURSO_DATABASE_URL,
+        url: process.env.DATABASE_URL,
         authToken: process.env.TURSO_AUTH_TOKEN,
       },
 )
