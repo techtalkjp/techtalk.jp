@@ -46,14 +46,14 @@ export type ContactFormData = z.infer<typeof schema>
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return json(submission.reply())
+    return json({ lastResult: submission.reply(), sent: null })
   }
 
   const check = ok(submission.value)
     .andThen(checkHoneypot)
     .andThen(checkTestEmail)
   if (check.isErr()) {
-    return json(submission.reply()) // make it look like success
+    return json({ lastResult: submission.reply(), sent: submission.value }) // make it look like success
   }
 
   const [result] = await Promise.all([
@@ -62,19 +62,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   ])
 
   if (result.isErr()) {
-    return json(submission.reply({ formErrors: [result.error] }))
+    return json({
+      lastResult: submission.reply({ formErrors: [result.error] }),
+      sent: null,
+    })
   }
 
-  return json(submission.reply())
+  return json({ lastResult: submission.reply(), sent: submission.value })
 }
 
-export const ContactSentMessage = ({
-  data,
-}: {
-  data: Partial<ContactFormData>
-}) => {
+export const ContactSentMessage = ({ data }: { data: ContactFormData }) => {
   return (
-    <div className="mt-4 grid grid-cols-1 gap-4">
+    <Stack className="mx-auto items-center">
       <div>
         お問い合わせありがとうございます。
         <br />
@@ -83,7 +82,7 @@ export const ContactSentMessage = ({
         お返事をお待ち下さい。
       </div>
 
-      <div className="grid grid-cols-2 justify-items-start gap-4 rounded bg-black bg-opacity-50 p-4">
+      <div className="grid max-h-96 w-full max-w-md grid-cols-[auto_1fr]  justify-items-start gap-4 overflow-auto rounded bg-black bg-opacity-50 p-4">
         <div>お名前</div>
         <div>{data.name}</div>
         <div>会社名</div>
@@ -99,7 +98,7 @@ export const ContactSentMessage = ({
       <Link to="." reloadDocument>
         <Button>OK</Button>
       </Link>
-    </div>
+    </Stack>
   )
 }
 
@@ -107,20 +106,20 @@ type ContactFormProps = React.HTMLAttributes<HTMLFormElement>
 export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   const { t, locale } = useLocale()
   const fetcher = useFetcher<typeof action>()
-  const lastResult = fetcher.data
+  const actionData = fetcher.data
   const [
     form,
     { name, company, phone, email, message, companyPhone, privacyPolicy },
   ] = useForm({
-    lastResult,
+    lastResult: actionData?.lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
     shouldValidate: 'onSubmit',
     shouldRevalidate: 'onInput',
   })
 
-  if (lastResult?.status === 'success' && lastResult.initialValue) {
-    return <ContactSentMessage data={lastResult.initialValue} />
+  if (actionData?.sent) {
+    return <ContactSentMessage data={actionData.sent} />
   }
 
   return (
