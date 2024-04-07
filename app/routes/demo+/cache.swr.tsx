@@ -3,10 +3,9 @@ import {
   type HeadersFunction,
   type LoaderFunctionArgs,
 } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData, type ClientLoaderFunctionArgs } from '@remix-run/react'
 import dayjs from 'dayjs'
 import { setTimeout } from 'node:timers/promises'
-import { useEffect, useState } from 'react'
 import {
   Stack,
   Table,
@@ -24,7 +23,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  await setTimeout(5000)
+  await setTimeout(1000)
 
   const serverTime = new Date().toISOString()
   const cacheControl = defaultCacheControl
@@ -34,15 +33,23 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   )
 }
 
+export const clientLoader = async ({
+  serverLoader,
+}: ClientLoaderFunctionArgs) => {
+  const serverData = await serverLoader<typeof loader>()
+  const clientTime = new Date().toISOString()
+  const diff = dayjs(clientTime).diff(dayjs(serverData.serverTime), 'second')
+  return {
+    ...serverData,
+    clientTime,
+    diff,
+  }
+}
+clientLoader.hydrate = true
+
 export default function DemoConformAlert() {
-  const { serverTime, cacheControl } = useLoaderData<typeof loader>()
-  const [clientTime, setClientTime] = useState<string>('-')
-
-  useEffect(() => {
-    setClientTime(new Date().toISOString())
-  }, [])
-
-  const diff = dayjs(clientTime).diff(dayjs(serverTime), 'second')
+  const { serverTime, clientTime, diff, cacheControl } =
+    useLoaderData<typeof clientLoader>()
 
   return (
     <Stack>
