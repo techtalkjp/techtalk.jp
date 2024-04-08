@@ -1,6 +1,7 @@
 import mdx from '@mdx-js/rollup'
 import { vitePlugin as remix } from '@remix-run/dev'
 import { installGlobals } from '@remix-run/node'
+import { vercelPreset } from '@vercel/remix/vite'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { flatRoutes } from 'remix-flat-routes'
@@ -17,6 +18,7 @@ export default defineConfig({
       remix({
         ignoredRouteFiles: ['**/.*'],
         routes: (defineRoutes) => flatRoutes('routes', defineRoutes),
+        presets: [vercelPreset()],
       }),
     tsconfigPaths(),
   ],
