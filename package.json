@@ -3,7 +3,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "prisma generate && remix vite:build",
+    "build": "remix vite:build",
     "dev": "remix vite:dev",
     "start": "remix-serve ./build/server/index.js",
     "lint": "biome lint .",
@@ -84,6 +84,7 @@
     "prettier-plugin-organize-imports": "3.2.4",
     "prettier-plugin-tailwindcss": "0.5.13",
     "prisma": "5.12.1",
+    "prisma-kysely": "1.8.0",
     "remark-frontmatter": "5.0.0",
     "remark-mdx-frontmatter": "4.0.0",
     "remix-flat-routes": "0.6.4",
