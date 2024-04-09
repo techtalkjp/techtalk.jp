@@ -14,8 +14,7 @@ import {
   Stack,
   Textarea,
 } from '~/components/ui'
-import { prisma } from '~/services/prisma.server'
-
+import { getSampleOrder } from './queries'
 const defaultCacheControl = 's-maxage=60, stale-while-revalidate=120'
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -26,12 +25,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const region = process.env.VERCEL_REGION ?? 'N/A'
 
   const timeStart = Date.now()
-  const order = await prisma.sampleOrder.findUnique({
-    where: { id: String(params.id) },
-  })
-  if (!order) {
-    throw json({ order: null, message: 'Order not found' }, { status: 404 })
-  }
+  const order = await getSampleOrder(String(params.id))
   const timeEnd = Date.now()
 
   return json(
@@ -73,7 +67,7 @@ export default function OrderDetailPage() {
         </div>
         <div>
           <Label>Created At</Label>
-          <Input disabled value={order.createdAt} />
+          <Input disabled value={order.created_at} />
         </div>
         <div>
           <Label>Name</Label>

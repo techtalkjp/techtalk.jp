@@ -132,9 +132,12 @@ export default function DemoPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="mx-auto text-center">
-            <Outlet />
-          </div>
+          <Card className="mx-auto max-w-2xl">
+            <CardHeader />
+            <CardContent>
+              <Outlet />
+            </CardContent>
+          </Card>
         )}
       </main>
 

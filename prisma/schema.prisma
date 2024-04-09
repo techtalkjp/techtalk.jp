@@ -1,12 +1,15 @@
-generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+
+generator kysely {
+    provider = "prisma-kysely"
+    output = "../app/services"
+    fileName = "types.ts"
 }
 
 datasource db {
   provider = "sqlite"
   url      = "file:../data/dev.db" // turso のマイグレーションは手動でやるので、ここは開発環境でしか使われない。
 }
+
 model SampleOrder {
   id           String @id @default(cuid())
   region       String @map("region")

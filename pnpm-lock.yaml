@@ -14,6 +14,9 @@ dependencies:
   '@aws-sdk/s3-request-presigner':
     specifier: 3.550.0
     version: 3.550.0
+  '@coji/kysely-libsql':
+    specifier: 0.3.0
+    version: 0.3.0(@libsql/client@0.5.6)(kysely@0.27.3)
   '@conform-to/react':
     specifier: 1.0.6
     version: 1.0.6(react@18.3.0-canary-47beb96cc-20240222)
@@ -98,9 +101,15 @@ dependencies:
   isbot:
     specifier: 5.1.4
     version: 5.1.4
+  kysely:
+    specifier: 0.27.3
+    version: 0.27.3
   lucide-react:
     specifier: 0.365.0
     version: 0.365.0(react@18.3.0-canary-47beb96cc-20240222)
+  nanoid:
+    specifier: 5.0.7
+    version: 5.0.7
   neverthrow:
     specifier: 6.1.0
     version: 6.1.0
@@ -1316,6 +1325,16 @@ packages:
     dependencies:
       statuses: 2.0.1
     dev: true
+
+  /@coji/kysely-libsql@0.3.0(@libsql/client@0.5.6)(kysely@0.27.3):
+    resolution: {integrity: sha512-rOzmxda2QWnd9emW1PUaCelQx/oh5Nl+OlSeArHP/rVVLZR9T4Bj61ttXLnL0Tgf3BWfJkFZSP2Hccf7qksFfA==}
+    peerDependencies:
+      '@libsql/client': '*'
+      kysely: '*'
+    dependencies:
+      '@libsql/client': 0.5.6
+      kysely: 0.27.3
+    dev: false
 
   /@conform-to/dom@1.0.6:
     resolution: {integrity: sha512-24teTftuAfcjv+SiaFYb9msjdQA7Kq8Yk9QkMPrkF8LETl80+i5fpCaIG8V91KyTitBeBcc80gg9HuPuuq3dqQ==}
@@ -6699,6 +6718,11 @@ packages:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
 
+  /kysely@0.27.3:
+    resolution: {integrity: sha512-lG03Ru+XyOJFsjH3OMY6R/9U38IjDPfnOfDgO3ynhbDr+Dz8fak+X6L62vqu3iybQnj+lG84OttBuU9KY3L9kA==}
+    engines: {node: '>=14.0.0'}
+    dev: false
+
   /libsql@0.3.10:
     resolution: {integrity: sha512-/8YMTbwWFPmrDWY+YFK3kYqVPFkMgQre0DGmBaOmjogMdSe+7GHm1/q9AZ61AWkEub/vHmi+bA4tqIzVhKnqzg==}
     cpu: [x64, arm64, wasm32]
@@ -7846,6 +7870,12 @@ packages:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  /nanoid@5.0.7:
+    resolution: {integrity: sha512-oLxFY2gd2IqnjcYyOXD8XGCftpGtZP2AbHbOkthDkvRywH5ayNtPVy9YlOPcHckXzbLTCHpkb7FB+yuxKV13pQ==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+    dev: false
 
   /negotiator@0.6.3:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}

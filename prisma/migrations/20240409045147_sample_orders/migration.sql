@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "sample_orders" (
+CREATE TABLE IF NOT EXISTS "sample_orders" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "region" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -13,3 +13,6 @@ CREATE TABLE "sample_orders" (
     "note" TEXT,
     "created_at" TEXT NOT NULL
 );
+
+-- CreateIndex
+CREATE INDEX IF NOT EXISTS "sample_orders_created_at_idx" ON "sample_orders"("created_at");

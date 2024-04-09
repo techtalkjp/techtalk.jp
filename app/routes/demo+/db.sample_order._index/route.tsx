@@ -19,7 +19,6 @@ import {
   useLoaderData,
   useNavigation,
 } from '@remix-run/react'
-import dayjs from 'dayjs'
 import { jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
@@ -41,7 +40,8 @@ import {
   TabsTrigger,
   Textarea,
 } from '~/components/ui'
-import { prisma } from '~/services/prisma.server'
+import { createSampleOrder } from './mutations'
+import { listSampleOrders } from './queries'
 
 const schema = z.object({
   name: z.string().max(255),
@@ -77,10 +77,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const region = process.env.VERCEL_REGION ?? 'N/A'
   const timeStart = Date.now()
-  const sampleOrders = await prisma.sampleOrder.findMany({
-    take: 10,
-    orderBy: { createdAt: 'desc' },
-  })
+  const sampleOrders = await listSampleOrders()
 
   const dummyData = buildDummyData()
   const timeEnd = Date.now()
@@ -105,21 +102,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const timeStart = Date.now()
-  await prisma.sampleOrder.create({
-    data: {
-      region: process.env.VERCEL_REGION ?? '',
-      name: submission.value.name,
-      email: submission.value.email,
-      zip: submission.value.zip,
-      country: submission.value.country,
-      prefecture: submission.value.prefecture,
-      city: submission.value.city,
-      address: submission.value.address,
-      phone: submission.value.phone,
-      note: submission.value.note,
-      createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    },
+  await createSampleOrder({
+    region: process.env.VERCEL_REGION ?? '',
+    ...submission.value,
   })
+
   const timeEnd = Date.now()
 
   return jsonWithSuccess(
@@ -265,7 +252,7 @@ export default function RequestLogsPage() {
               {sampleOrders.map((order) => (
                 <TableRow key={order.id}>
                   <TableCell className="whitespace-nowrap">
-                    {order.createdAt}
+                    {order.created_at}
                   </TableCell>
                   <TableCell>{order.region}</TableCell>
                   <TableCell>{order.name}</TableCell>

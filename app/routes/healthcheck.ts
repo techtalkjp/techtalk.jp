@@ -1,12 +1,10 @@
 import { json, type LoaderFunctionArgs } from '@remix-run/node'
-import { prisma } from '~/services/prisma.server'
+import { db, sql } from '~/services/db.server'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const ret = await prisma.$queryRaw<
-    {
-      now: string
-    }[]
-  >`SELECT CURRENT_TIMESTAMP as now`
+  const ret = await sql<{
+    now: string
+  }>`SELECT CURRENT_TIMESTAMP as now`.execute(db)
 
-  return json({ status: 'ok', now: ret[0]?.now })
+  return json({ status: 'ok', now: ret.rows[0]?.now })
 }
