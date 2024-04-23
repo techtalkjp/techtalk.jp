@@ -1,11 +1,11 @@
-import type { ColumnType } from "kysely";
+import type { ColumnType, GeneratedAlways } from "kysely";
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export type SampleOrder = {
-    id: string;
+    id: GeneratedAlways<string>;
     region: string;
     name: string;
     email: string;
@@ -16,8 +16,8 @@ export type SampleOrder = {
     address: string;
     phone: string;
     note: string | null;
-    created_at: string;
+    createdAt: Generated<string>;
 };
 export type DB = {
-    sample_orders: SampleOrder;
+    sampleOrders: SampleOrder;
 };

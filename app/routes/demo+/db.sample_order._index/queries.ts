@@ -1,5 +1,10 @@
 import { db } from '~/services/db.server'
 
 export const listSampleOrders = async (limit = 10) => {
-  return await db.selectFrom('sample_orders').selectAll().limit(limit).execute()
+  return await db
+    .selectFrom('sampleOrders')
+    .selectAll()
+    .orderBy('createdAt desc')
+    .limit(limit)
+    .execute()
 }

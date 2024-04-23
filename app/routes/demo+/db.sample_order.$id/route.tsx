@@ -67,7 +67,7 @@ export default function OrderDetailPage() {
         </div>
         <div>
           <Label>Created At</Label>
-          <Input disabled value={order.created_at} />
+          <Input disabled value={order.createdAt} />
         </div>
         <div>
           <Label>Name</Label>

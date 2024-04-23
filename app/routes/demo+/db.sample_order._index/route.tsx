@@ -252,7 +252,7 @@ export default function RequestLogsPage() {
               {sampleOrders.map((order) => (
                 <TableRow key={order.id}>
                   <TableCell className="whitespace-nowrap">
-                    {order.created_at}
+                    {order.createdAt}
                   </TableCell>
                   <TableCell>{order.region}</TableCell>
                   <TableCell>{order.name}</TableCell>

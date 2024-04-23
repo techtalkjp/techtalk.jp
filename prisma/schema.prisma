@@ -1,8 +1,9 @@
-
 generator kysely {
-    provider = "prisma-kysely"
-    output = "../app/services"
-    fileName = "types.ts"
+  provider    = "prisma-kysely"
+  output      = "../app/services"
+  fileName    = "types.ts"
+  camelCase   = true
+  readOnlyIds = true
 }
 
 datasource db {
@@ -11,18 +12,18 @@ datasource db {
 }
 
 model SampleOrder {
-  id           String @id @default(cuid())
-  region       String @map("region")
-  name         String
-  email        String
-  zip          String
-  country      String
-  prefecture   String
-  city         String
-  address      String
-  phone        String
-  note         String?
-  createdAt    String @map("created_at")
+  id         String   @id @default(dbgenerated("(uuid())"))
+  region     String   @map("region")
+  name       String
+  email      String
+  zip        String
+  country    String
+  prefecture String
+  city       String
+  address    String
+  phone      String
+  note       String?
+  createdAt  DateTime @default(dbgenerated("CURRENT_TIMESTAMP")) @map("created_at")
 
   @@index([createdAt])
   @@map("sample_orders")

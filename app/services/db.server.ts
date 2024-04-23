@@ -1,6 +1,12 @@
 import { LibsqlDiarect } from '@coji/kysely-libsql'
 import { createClient } from '@libsql/client'
-import { Kysely, sql, type InsertType } from 'kysely'
+import {
+  CamelCasePlugin,
+  Kysely,
+  ParseJSONResultsPlugin,
+  sql,
+  type Insertable,
+} from 'kysely'
 import type { DB, SampleOrder } from './types'
 
 export const db = new Kysely<DB>({
@@ -10,8 +16,9 @@ export const db = new Kysely<DB>({
       authToken: `${process.env.TURSO_AUTH_TOKEN}`,
     }),
   }),
+  plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
 })
 
-type SampleOrderInsert = Omit<InsertType<SampleOrder>, 'id' | 'created_at'>
 export { sql }
-export type { SampleOrderInsert }
+type InsertableSampleOrder = Insertable<SampleOrder>
+export type { InsertableSampleOrder }
