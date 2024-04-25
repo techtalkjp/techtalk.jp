@@ -6,11 +6,7 @@ import {
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { fakerJA as faker } from '@faker-js/faker'
-import {
-  json,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-} from '@remix-run/node'
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import {
   Form,
   Link,
@@ -95,7 +91,7 @@ export const loader = async ({ request, response }: LoaderFunctionArgs) => {
 export const action = async ({ request, response }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return json({ result: submission.reply(), duration: null })
+    return { result: submission.reply(), duration: null }
   }
 
   const timeStart = Date.now()
@@ -103,16 +99,16 @@ export const action = async ({ request, response }: ActionFunctionArgs) => {
     region: process.env.VERCEL_REGION ?? '',
     ...submission.value,
   })
-
   const timeEnd = Date.now()
 
   const result = await jsonWithSuccess(
-    {},
+    {}, // unused
     {
       message: `${submission.value.name}@${submission.value.country} has been successfully submitted.`,
       description: `It took ${timeEnd - timeStart}ms to process the request.`,
     },
   )
+
   const cookie = result.headers.get('Set-Cookie')
   if (cookie) {
     response?.headers.set('Set-Cookie', cookie)
