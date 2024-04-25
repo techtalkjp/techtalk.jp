@@ -19,7 +19,7 @@ importers:
         version: 3.556.0
       '@coji/kysely-libsql':
         specifier: 0.3.0
-        version: 0.3.0(@libsql/client@0.6.0)(kysely@0.27.3)
+        version: 0.3.0(@libsql/client@0.5.4)(kysely@0.27.3)
       '@conform-to/react':
         specifier: 1.1.2
         version: 1.1.2(react@18.3.0-canary-47beb96cc-20240222)
@@ -30,14 +30,8 @@ importers:
         specifier: 8.4.1
         version: 8.4.1
       '@libsql/client':
-        specifier: 0.6.0
-        version: 0.6.0
-      '@prisma/adapter-libsql':
-        specifier: 5.13.0
-        version: 5.13.0(@libsql/client@0.6.0)
-      '@prisma/client':
-        specifier: 5.13.0
-        version: 5.13.0(prisma@5.13.0)
+        specifier: 0.5.4
+        version: 0.5.4
       '@radix-ui/react-alert-dialog':
         specifier: 1.0.5
         version: 1.0.5(@types/react-dom@18.2.25)(@types/react@18.2.79)(react-dom@18.3.0-canary-47beb96cc-20240222(react@18.3.0-canary-47beb96cc-20240222))(react@18.3.0-canary-47beb96cc-20240222)
@@ -1304,11 +1298,11 @@ packages:
   '@jspm/core@2.0.1':
     resolution: {integrity: sha512-Lg3PnLp0QXpxwLIAuuJboLeRaIhrgJjeuh797QADg3xz8wGLugQOS5DpsE8A6i6Adgzf+bacllkKZG3J0tGfDw==}
 
-  '@libsql/client@0.6.0':
-    resolution: {integrity: sha512-qhQzTG/y2IEVbL3+9PULDvlQFWJ/RnjFXECr/Nc3nRngGiiMysDaOV5VUzYk7DulUX98EA4wi+z3FspKrUplUA==}
+  '@libsql/client@0.5.4':
+    resolution: {integrity: sha512-mBByIBQGelU5xIETBIcgPwalEqTntey/8CxqI+0LLk5t5Q9FYHp5pLkBWhYxx/z6hiaqq+ghMN2n4+soEW1OPg==}
 
-  '@libsql/core@0.6.0':
-    resolution: {integrity: sha512-affAB8vSqQwqI9NBDJ5uJCVaHoOAS2pOpbv1kWConh1SBbmJBnHHd4KG73RAJ2sgd2+NbT9WA+XJBqxgp28YSw==}
+  '@libsql/core@0.5.6':
+    resolution: {integrity: sha512-3vicUAydq6jPth410n4AsHHm1n2psTwvkSf94nfJlSXutGSZsl0updn2N/mJBgqUHkbuFoWZtlMifF0SwBj1xQ==}
 
   '@libsql/darwin-arm64@0.3.16':
     resolution: {integrity: sha512-GPQGCulqknc4BnluNuBDK55wwAah9j3KCsRQPAAbz1XsGrPyWgXOyID6e6wNk4ZPXCFOdLs9OCUsJH6hT6dwlQ==}
@@ -1320,11 +1314,11 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@libsql/hrana-client@0.6.0':
-    resolution: {integrity: sha512-k+fqzdjqg3IvWfKmVJK5StsbjeTcyNAXFelUbXbGNz3yH1gEVT9mZ6kmhsIXP30ZSyVV0AE1Gi25p82mxC9hwg==}
+  '@libsql/hrana-client@0.5.6':
+    resolution: {integrity: sha512-mjQoAmejZ1atG+M3YR2ZW+rg6ceBByH/S/h17ZoYZkqbWrvohFhXyz2LFxj++ARMoY9m6w3RJJIRdJdmnEUlFg==}
 
-  '@libsql/isomorphic-fetch@0.2.1':
-    resolution: {integrity: sha512-Sv07QP1Aw8A5OOrmKgRUBKe2fFhF2hpGJhtHe3d1aRnTESZCGkn//0zDycMKTGamVWb3oLYRroOsCV8Ukes9GA==}
+  '@libsql/isomorphic-fetch@0.1.12':
+    resolution: {integrity: sha512-MRo4UcmjAGAa3ac56LoD5OE13m2p0lu0VEtZC2NZMcogM/jc5fU9YtMQ3qbPjFJ+u2BBjFZgMPkQaLS1dlMhpg==}
 
   '@libsql/isomorphic-ws@0.1.5':
     resolution: {integrity: sha512-DtLWIH29onUYR00i0GlQ3UdcTRC6EP4u9w/h9LxpUZJWRMARk6dQwZ6Jkd+QdwVpuAOrdxt18v0K2uIYR3fwFg==}
@@ -1425,28 +1419,11 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@prisma/adapter-libsql@5.13.0':
-    resolution: {integrity: sha512-vKzTtRwscsPRbhRb++hiJ8dXWxLELo3js7jKgJgiPzD10ybZEGgSTP4WYmivU5azVvnyN6JErgDtu4oBQZRvMA==}
-    peerDependencies:
-      '@libsql/client': ^0.3.5 || ^0.4.0 || ^0.5.0 || ^0.6.0
-
-  '@prisma/client@5.13.0':
-    resolution: {integrity: sha512-uYdfpPncbZ/syJyiYBwGZS8Gt1PTNoErNYMuqHDa2r30rNSFtgTA/LXsSk55R7pdRTMi5pHkeP9B14K6nHmwkg==}
-    engines: {node: '>=16.13'}
-    peerDependencies:
-      prisma: '*'
-    peerDependenciesMeta:
-      prisma:
-        optional: true
-
   '@prisma/debug@5.13.0':
     resolution: {integrity: sha512-699iqlEvzyCj9ETrXhs8o8wQc/eVW+FigSsHpiskSFydhjVuwTJEfj/nIYqTaWFYuxiWQRfm3r01meuW97SZaQ==}
 
   '@prisma/debug@5.3.1':
     resolution: {integrity: sha512-eYrxqslEKf+wpMFIIHgbcNYuZBXUdiJLA85Or3TwOhgPIN1ZoXT9CwJph3ynW8H1Xg0LkdYLwVmuULCwiMoU5A==}
-
-  '@prisma/driver-adapter-utils@5.13.0':
-    resolution: {integrity: sha512-SaimwvGuvXJTsWH+FOfl7PlkZZlPiRGeMEchC0kvB08Xw9B3CLYo/Q7zaY5Fp+u5D8asrpcFQmCjXEgDvOmPkg==}
 
   '@prisma/engines-version@5.13.0-23.b9a39a7ee606c28e3455d0fd60e78c3ba82b1a2b':
     resolution: {integrity: sha512-AyUuhahTINGn8auyqYdmxsN+qn0mw3eg+uhkp8zwknXYIqoT3bChG4RqNY/nfDkPvzWAPBa9mrDyBeOnWSgO6A==}
@@ -2370,6 +2347,9 @@ packages:
   '@types/mute-stream@0.0.4':
     resolution: {integrity: sha512-CPM9nzrCPPJHQNA9keH9CVkVI+WR5kMa+7XEs5jcGQ0VoAGnLv242w8lIVgwAEfmE4oufJRaTc9PNLQl0ioAow==}
 
+  '@types/node-fetch@2.6.11':
+    resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
+
   '@types/node@20.12.7':
     resolution: {integrity: sha512-wq0cICSkRLVaf3UGLMGItu/PtdY7oaXaI/RVU+xliKVOtRna3PRY57ZDfztpDL0n11vfymMUnXv8QwYCO7L1wg==}
 
@@ -2581,9 +2561,6 @@ packages:
   astring@1.8.6:
     resolution: {integrity: sha512-ISvCdHdlTDlH5IpxQJIex7BWBywFWgjJSVdwst+/iQCoEYnyOaQ95+X1JGshuBjGp6nxKUy1jMgE3zPqN7fQdg==}
     hasBin: true
-
-  async-mutex@0.5.0:
-    resolution: {integrity: sha512-1A94B18jkJ3DYq284ohPxoXbfTA5HsQ7/Mf4DEhcyLx3Bz27Rh59iScbB6EPiP+B+joue6YCxcMXSbFC1tZKwA==}
 
   async@3.2.5:
     resolution: {integrity: sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg==}
@@ -6880,9 +6857,9 @@ snapshots:
 
   '@chevrotain/utils@10.5.0': {}
 
-  '@coji/kysely-libsql@0.3.0(@libsql/client@0.6.0)(kysely@0.27.3)':
+  '@coji/kysely-libsql@0.3.0(@libsql/client@0.5.4)(kysely@0.27.3)':
     dependencies:
-      '@libsql/client': 0.6.0
+      '@libsql/client': 0.5.4
       kysely: 0.27.3
 
   '@conform-to/dom@1.1.2': {}
@@ -7268,17 +7245,18 @@ snapshots:
 
   '@jspm/core@2.0.1': {}
 
-  '@libsql/client@0.6.0':
+  '@libsql/client@0.5.4':
     dependencies:
-      '@libsql/core': 0.6.0
-      '@libsql/hrana-client': 0.6.0
+      '@libsql/core': 0.5.6
+      '@libsql/hrana-client': 0.5.6
       js-base64: 3.7.7
       libsql: 0.3.16
     transitivePeerDependencies:
       - bufferutil
+      - encoding
       - utf-8-validate
 
-  '@libsql/core@0.6.0':
+  '@libsql/core@0.5.6':
     dependencies:
       js-base64: 3.7.7
 
@@ -7288,17 +7266,23 @@ snapshots:
   '@libsql/darwin-x64@0.3.16':
     optional: true
 
-  '@libsql/hrana-client@0.6.0':
+  '@libsql/hrana-client@0.5.6':
     dependencies:
-      '@libsql/isomorphic-fetch': 0.2.1
+      '@libsql/isomorphic-fetch': 0.1.12
       '@libsql/isomorphic-ws': 0.1.5
       js-base64: 3.7.7
       node-fetch: 3.3.2
     transitivePeerDependencies:
       - bufferutil
+      - encoding
       - utf-8-validate
 
-  '@libsql/isomorphic-fetch@0.2.1': {}
+  '@libsql/isomorphic-fetch@0.1.12':
+    dependencies:
+      '@types/node-fetch': 2.6.11
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
 
   '@libsql/isomorphic-ws@0.1.5':
     dependencies:
@@ -7460,16 +7444,6 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@prisma/adapter-libsql@5.13.0(@libsql/client@0.6.0)':
-    dependencies:
-      '@libsql/client': 0.6.0
-      '@prisma/driver-adapter-utils': 5.13.0
-      async-mutex: 0.5.0
-
-  '@prisma/client@5.13.0(prisma@5.13.0)':
-    optionalDependencies:
-      prisma: 5.13.0
-
   '@prisma/debug@5.13.0': {}
 
   '@prisma/debug@5.3.1':
@@ -7479,10 +7453,6 @@ snapshots:
       strip-ansi: 6.0.1
     transitivePeerDependencies:
       - supports-color
-
-  '@prisma/driver-adapter-utils@5.13.0':
-    dependencies:
-      '@prisma/debug': 5.13.0
 
   '@prisma/engines-version@5.13.0-23.b9a39a7ee606c28e3455d0fd60e78c3ba82b1a2b': {}
 
@@ -8727,6 +8697,11 @@ snapshots:
     dependencies:
       '@types/node': 20.12.7
 
+  '@types/node-fetch@2.6.11':
+    dependencies:
+      '@types/node': 20.12.7
+      form-data: 4.0.0
+
   '@types/node@20.12.7':
     dependencies:
       undici-types: 5.26.5
@@ -8786,7 +8761,7 @@ snapshots:
       '@babel/plugin-syntax-typescript': 7.24.1(@babel/core@7.24.4)
       '@vanilla-extract/babel-plugin-debug-ids': 1.0.5
       '@vanilla-extract/css': 1.14.2
-      esbuild: 0.17.6
+      esbuild: 0.17.19
       eval: 0.1.8
       find-up: 5.0.0
       javascript-stringify: 2.1.0
@@ -9023,10 +8998,6 @@ snapshots:
   astral-regex@2.0.0: {}
 
   astring@1.8.6: {}
-
-  async-mutex@0.5.0:
-    dependencies:
-      tslib: 2.6.2
 
   async@3.2.5: {}
 
