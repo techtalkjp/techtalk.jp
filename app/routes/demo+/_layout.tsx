@@ -1,5 +1,5 @@
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
-import { Link, Outlet, useLoaderData } from '@remix-run/react'
+import type { MetaFunction } from '@remix-run/node'
+import { Link, Outlet, useLocation } from '@remix-run/react'
 import { ExternalLinkIcon } from 'lucide-react'
 import {
   Card,
@@ -18,8 +18,6 @@ import { cn } from '~/libs/utils'
 export const meta: MetaFunction = () => {
   return [{ title: 'TechTalk Demos' }]
 }
-
-export const shouldRevalidate = () => true
 
 const demoPages: {
   [demoPage: string]: { path: string; title: string; ext?: string }[]
@@ -61,8 +59,8 @@ const demoPages: {
   about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
 }
 
-export const loader = ({ request }: LoaderFunctionArgs) => {
-  const { pathname } = new URL(request.url)
+const useCurrentMenu = () => {
+  const { pathname } = useLocation()
   const menu = pathname.split('/')[2]
   const menuItems = menu ? demoPages[menu] ?? [] : []
   const currentMenuItem = menuItems.find((item) => pathname === item.path)
@@ -75,7 +73,7 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
 }
 
 export default function DemoPage() {
-  const { menu, currentMenuItem, codeURL } = useLoaderData<typeof loader>()
+  const { menu, currentMenuItem, codeURL } = useCurrentMenu()
 
   return (
     <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4">
