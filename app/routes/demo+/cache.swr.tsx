@@ -1,8 +1,4 @@
-import {
-  json,
-  type HeadersFunction,
-  type LoaderFunctionArgs,
-} from '@remix-run/node'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData, type ClientLoaderFunctionArgs } from '@remix-run/react'
 import dayjs from 'dayjs'
 import { setTimeout } from 'node:timers/promises'
@@ -16,21 +12,14 @@ import {
   TableRow,
 } from '~/components/ui'
 
-const defaultCacheControl = 's-maxage=60, stale-while-revalidate=120'
-
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
-  return loaderHeaders
-}
-
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ response }: LoaderFunctionArgs) => {
   await setTimeout(1000)
 
   const serverTime = new Date().toISOString()
-  const cacheControl = defaultCacheControl
-  return json(
-    { serverTime, cacheControl },
-    { headers: { 'Cache-Control': cacheControl } },
-  )
+  const cacheControl = 's-maxage=60, stale-while-revalidate=120'
+  response?.headers.set('Cache-Control', cacheControl)
+
+  return { serverTime, cacheControl }
 }
 
 export const clientLoader = async ({
