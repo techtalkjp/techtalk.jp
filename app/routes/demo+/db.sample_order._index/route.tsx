@@ -92,7 +92,7 @@ export const loader = async ({ request, response }: LoaderFunctionArgs) => {
   }
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, response }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return json({ result: submission.reply(), duration: null })
@@ -106,16 +106,22 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const timeEnd = Date.now()
 
-  return jsonWithSuccess(
-    {
-      result: submission.reply({ resetForm: true }),
-      duration: timeEnd - timeStart,
-    },
+  const result = await jsonWithSuccess(
+    {},
     {
       message: `${submission.value.name}@${submission.value.country} has been successfully submitted.`,
       description: `It took ${timeEnd - timeStart}ms to process the request.`,
     },
   )
+  const cookie = result.headers.get('Set-Cookie')
+  if (cookie) {
+    response?.headers.set('Set-Cookie', cookie)
+  }
+
+  return {
+    result: submission.reply({ resetForm: true }),
+    duration: timeEnd - timeStart,
+  }
 }
 
 export default function RequestLogsPage() {
