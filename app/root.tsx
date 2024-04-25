@@ -41,8 +41,8 @@ export const links: LinksFunction = () => {
 export const loader = async ({ request, response }: LoaderFunctionArgs) => {
   const { toast, headers } = await getToast(request)
   const toastCookie = headers.get('Set-Cookie')
-  if (toast && toastCookie) {
-    response?.headers.append('Set-Cookie', toastCookie)
+  if (toast && toastCookie && response) {
+    response.headers.append('Set-Cookie', toastCookie)
   }
   return { toastData: toast } // , { headers: toast ? headers : undefined })
 }

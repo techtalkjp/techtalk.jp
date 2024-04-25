@@ -5,7 +5,7 @@ import {
   useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { json, type ActionFunctionArgs } from '@remix-run/node'
+import type { ActionFunctionArgs } from '@remix-run/node'
 import { Link, useFetcher } from '@remix-run/react'
 import { ok } from 'neverthrow'
 import { z } from 'zod'
@@ -46,14 +46,14 @@ export type ContactFormData = z.infer<typeof schema>
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return json({ lastResult: submission.reply(), sent: null })
+    return { lastResult: submission.reply(), sent: null }
   }
 
   const check = ok(submission.value)
     .andThen(checkHoneypot)
     .andThen(checkTestEmail)
   if (check.isErr()) {
-    return json({ lastResult: submission.reply(), sent: submission.value }) // make it look like success
+    return { lastResult: submission.reply(), sent: submission.value } // make it look like success
   }
 
   const [result] = await Promise.all([
@@ -62,13 +62,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   ])
 
   if (result.isErr()) {
-    return json({
+    return {
       lastResult: submission.reply({ formErrors: [result.error] }),
       sent: null,
-    })
+    }
   }
 
-  return json({ lastResult: submission.reply(), sent: submission.value })
+  return { lastResult: submission.reply(), sent: submission.value }
 }
 
 export const ContactSentMessage = ({ data }: { data: ContactFormData }) => {

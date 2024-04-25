@@ -24,7 +24,7 @@ const schema = z.object({
 
 export const loader = async () => {
   const objects = await list()
-  return json({ objects, ImageEndpointUrl })
+  return { objects, ImageEndpointUrl }
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {

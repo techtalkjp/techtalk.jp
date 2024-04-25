@@ -9,7 +9,6 @@ import { fakerJA as faker } from '@faker-js/faker'
 import {
   json,
   type ActionFunctionArgs,
-  type HeadersFunction,
   type LoaderFunctionArgs,
 } from '@remix-run/node'
 import {
@@ -55,10 +54,6 @@ const schema = z.object({
   note: z.string().max(1000),
 })
 
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
-  return loaderHeaders
-}
-
 const buildDummyData = () => ({
   name: faker.person.fullName(),
   email: faker.internet.email(),
@@ -71,7 +66,7 @@ const buildDummyData = () => ({
   note: faker.lorem.paragraph(),
 })
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request, response }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
   const tab = url.searchParams.get('tab') ?? 'new'
 
@@ -82,17 +77,19 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const dummyData = buildDummyData()
   const timeEnd = Date.now()
 
-  return json(
-    {
-      tab,
-      region,
-      dummyData,
-      sampleOrders,
-      duration: timeEnd - timeStart,
-      now: new Date().toISOString(),
-    },
-    { headers: { 'Cache-Control': 'public, max-age=0, no-cache' } }, // キャッシュさせない
-  )
+  if (response) {
+    // キャッシュさせない
+    response.headers.set('Cache-Control', 'public, max-age=0, no-cache')
+  }
+
+  return {
+    tab,
+    region,
+    dummyData,
+    sampleOrders,
+    duration: timeEnd - timeStart,
+    now: new Date().toISOString(),
+  }
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
