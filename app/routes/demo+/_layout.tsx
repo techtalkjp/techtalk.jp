@@ -19,6 +19,8 @@ export const meta: MetaFunction = () => {
   return [{ title: 'TechTalk Demos' }]
 }
 
+export const shouldRevalidate = () => true
+
 const demoPages: {
   [demoPage: string]: { path: string; title: string; ext?: string }[]
 } = {
