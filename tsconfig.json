@@ -1,5 +1,11 @@
 {
-  "include": ["*.js", "**/*.ts", "**/*.tsx", "env.d.ts"],
+  "include": [
+    "*.js",
+    "**/*.ts",
+    "**/*.tsx",
+    "env.d.ts",
+    "node_modules/@remix-run/react/future/single-fetch.d.ts"
+  ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["@types/node"],

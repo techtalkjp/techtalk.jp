@@ -9,7 +9,7 @@ import { flatRoutes } from 'remix-flat-routes'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
-installGlobals()
+installGlobals({ nativeFetch: true })
 
 export default defineConfig({
   server: { port: 3000 },
@@ -20,6 +20,7 @@ export default defineConfig({
           ignoredRouteFiles: ['**/.*'],
           routes: (defineRoutes) => flatRoutes('routes', defineRoutes),
           presets: [vercelPreset()],
+          future: { unstable_singleFetch: true },
         })
       : react(),
     tsconfigPaths(),
