@@ -1,8 +1,7 @@
-import {
-  json,
-  type LinksFunction,
-  type LoaderFunctionArgs,
-  type MetaFunction,
+import type {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
 } from '@remix-run/node'
 import {
   Links,
@@ -39,9 +38,13 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request, response }: LoaderFunctionArgs) => {
   const { toast, headers } = await getToast(request)
-  return json({ toastData: toast }, { headers: toast ? headers : undefined })
+  const toastCookie = headers.get('Set-Cookie')
+  if (toastCookie) {
+    response?.headers.append('Set-Cookie', toastCookie)
+  }
+  return { toastData: toast } // , { headers: toast ? headers : undefined })
 }
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
