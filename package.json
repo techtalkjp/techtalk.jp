@@ -13,9 +13,9 @@
     "validate": "run-p format lint && run-p typecheck test"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "3.556.0",
-    "@aws-sdk/lib-storage": "3.556.0",
-    "@aws-sdk/s3-request-presigner": "3.556.0",
+    "@aws-sdk/client-s3": "3.563.0",
+    "@aws-sdk/lib-storage": "3.563.0",
+    "@aws-sdk/s3-request-presigner": "3.563.0",
     "@coji/kysely-libsql": "0.3.0",
     "@conform-to/react": "1.1.2",
     "@conform-to/zod": "1.1.2",
@@ -42,14 +42,14 @@
     "clsx": "2.1.1",
     "dayjs": "1.11.10",
     "framer-motion": "11.1.7",
-    "isbot": "5.1.4",
+    "isbot": "5.1.5",
     "kysely": "0.27.3",
     "lucide-react": "0.373.0",
     "nanoid": "5.0.7",
     "neverthrow": "6.2.1",
     "next-themes": "0.3.0",
-    "react": "18.3.0-canary-47beb96cc-20240222",
-    "react-dom": "18.3.0-canary-47beb96cc-20240222",
+    "react": "18.3.0",
+    "react-dom": "18.3.0",
     "react-twc": "1.4.1",
     "remeda": "1.61.0",
     "remix-sitemap": "3.2.0",
@@ -71,10 +71,10 @@
     "@testing-library/jest-dom": "6.4.2",
     "@testing-library/user-event": "14.5.2",
     "@types/node": "20.12.7",
-    "@types/react": "18.2.79",
-    "@types/react-dom": "18.2.25",
+    "@types/react": "18.3.0",
+    "@types/react-dom": "18.3.0",
     "@vitejs/plugin-react": "4.2.1",
-    "@vitest/coverage-v8": "1.5.1",
+    "@vitest/coverage-v8": "1.5.2",
     "jsdom": "24.0.0",
     "msw": "2.2.14",
     "npm-run-all": "4.1.5",
@@ -91,7 +91,7 @@
     "typescript": "5.4.5",
     "vite": "5.2.10",
     "vite-tsconfig-paths": "4.3.2",
-    "vitest": "1.5.1"
+    "vitest": "1.5.2"
   },
   "overrides": {
     "@libsql/client": "0.5.6"
