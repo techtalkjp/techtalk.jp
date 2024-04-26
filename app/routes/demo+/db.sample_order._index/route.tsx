@@ -14,7 +14,6 @@ import {
   useLoaderData,
   useNavigation,
 } from '@remix-run/react'
-import { jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   Badge,
@@ -35,6 +34,7 @@ import {
   TabsTrigger,
   Textarea,
 } from '~/components/ui'
+import { jsonWithSuccess } from '~/services/single-fetch-toast'
 import { createSampleOrder } from './mutations'
 import { listSampleOrders } from './queries'
 
@@ -101,23 +101,17 @@ export const action = async ({ request, response }: ActionFunctionArgs) => {
   })
   const timeEnd = Date.now()
 
-  const result = await jsonWithSuccess(
-    {}, // unused
+  return await jsonWithSuccess(
+    response,
+    {
+      result: submission.reply({ resetForm: true }),
+      duration: timeEnd - timeStart,
+    },
     {
       message: `${submission.value.name}@${submission.value.country} has been successfully submitted.`,
       description: `It took ${timeEnd - timeStart}ms to process the request.`,
     },
   )
-
-  const cookie = result.headers.get('Set-Cookie')
-  if (cookie) {
-    response?.headers.set('Set-Cookie', cookie)
-  }
-
-  return {
-    result: submission.reply({ resetForm: true }),
-    duration: timeEnd - timeStart,
-  }
 }
 
 export default function RequestLogsPage() {

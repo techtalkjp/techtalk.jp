@@ -1,11 +1,11 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { json, type ActionFunction } from '@remix-run/node'
+import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
-import { jsonWithToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button, HStack, Input, Label } from '~/components/ui'
+import { jsonWithSuccess } from '~/services/single-fetch-toast'
 
 // フォーム要素のスキーマ定義
 const schema = z.object({
@@ -38,16 +38,15 @@ const lookupAddress = async (postalCode: string) => {
   }
 }
 
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request, response }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return json(submission.reply())
   }
 
-  return jsonWithToast(submission.reply(), {
+  return jsonWithSuccess(response, submission.reply(), {
     message: '登録しました！',
     description: `${submission.value.prefecture}${submission.value.city}${submission.value.street ?? ''}`,
-    type: 'success',
   })
 }
 
