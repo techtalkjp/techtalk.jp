@@ -107,7 +107,7 @@ export default function DemoConformAlert() {
               type="submit"
               name="intent"
               value="submit"
-              disabled={navigation.state === 'submitting'}
+              isLoading={navigation.state === 'submitting'}
               form={form.id}
             >
               {navigation.state === 'submitting' ? '削除しています...' : '削除'}

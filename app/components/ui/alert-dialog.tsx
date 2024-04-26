@@ -1,4 +1,5 @@
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
+import { Slottable } from '@radix-ui/react-slot'
 import * as React from 'react'
 
 import { buttonVariants } from '~/components/ui/button'
@@ -98,13 +99,21 @@ AlertDialogDescription.displayName =
 
 const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Action>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>
->(({ className, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action> & {
+    isLoading?: boolean
+  }
+>(({ className, children, isLoading = false, ...props }, ref) => (
   <AlertDialogPrimitive.Action
     ref={ref}
     className={cn(buttonVariants(), className)}
+    {...(isLoading === true && { disabled: true })}
     {...props}
-  />
+  >
+    {isLoading && (
+      <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent" />
+    )}
+    <Slottable>{children}</Slottable>
+  </AlertDialogPrimitive.Action>
 ))
 AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName
 

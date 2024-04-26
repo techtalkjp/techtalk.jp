@@ -1,8 +1,14 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import { useLoaderData, type ClientLoaderFunctionArgs } from '@remix-run/react'
+import {
+  Form,
+  useLoaderData,
+  useNavigation,
+  type ClientLoaderFunctionArgs,
+} from '@remix-run/react'
 import dayjs from 'dayjs'
 import { setTimeout } from 'node:timers/promises'
 import {
+  Button,
   Stack,
   Table,
   TableBody,
@@ -39,6 +45,7 @@ clientLoader.hydrate = true
 export default function DemoConformAlert() {
   const { serverTime, clientTime, diff, cacheControl } =
     useLoaderData<typeof clientLoader>()
+  const navigation = useNavigation()
 
   return (
     <Stack>
@@ -72,6 +79,12 @@ export default function DemoConformAlert() {
           </TableRow>
         </TableBody>
       </Table>
+
+      <Form>
+        <Button isLoading={navigation.state === 'loading'} className="w-full">
+          Revalidate
+        </Button>
+      </Form>
     </Stack>
   )
 }

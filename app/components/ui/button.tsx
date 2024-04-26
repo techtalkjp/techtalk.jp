@@ -1,4 +1,4 @@
-import { Slot } from '@radix-ui/react-slot'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 
@@ -27,10 +27,14 @@ const buttonVariants = cva(
         lg: 'h-10 rounded-md px-8',
         icon: 'h-9 w-9',
       },
+      isLoading: {
+        true: 'cursor-progress',
+      },
     },
     defaultVariants: {
       variant: 'default',
       size: 'default',
+      isLoading: false,
     },
   },
 )
@@ -39,17 +43,38 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  leftIcon?: React.ReactNode
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      isLoading,
+      children,
+      leftIcon,
+      asChild = false,
+      ...props
+    },
+    ref,
+  ) => {
     const Comp = asChild ? Slot : 'button'
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, size, isLoading, className }))}
         ref={ref}
+        {...(isLoading === true && { disabled: true })}
         {...props}
-      />
+      >
+        {isLoading ? (
+          <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent" />
+        ) : (
+          leftIcon
+        )}
+        <Slottable>{children}</Slottable>
+      </Comp>
     )
   },
 )

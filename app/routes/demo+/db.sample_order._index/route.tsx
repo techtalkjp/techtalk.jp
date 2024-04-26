@@ -220,8 +220,8 @@ export default function RequestLogsPage() {
             <div className="col-span-2">
               <Button
                 className="w-full"
-                disabled={
-                  navigation.state !== 'idle' &&
+                isLoading={
+                  navigation.state === 'submitting' &&
                   navigation.location.pathname === '/demo/db/sample_order'
                 }
               >

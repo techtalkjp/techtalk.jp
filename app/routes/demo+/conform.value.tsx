@@ -1,7 +1,8 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { json, type ActionFunctionArgs } from '@remix-run/node'
-import { Form, useActionData } from '@remix-run/react'
+import { Form, useActionData, useNavigation } from '@remix-run/react'
+import { setTimeout } from 'node:timers/promises'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button, HStack, Input, Label } from '~/components/ui'
@@ -44,6 +45,8 @@ export const action = async ({ request, response }: ActionFunctionArgs) => {
     return json(submission.reply())
   }
 
+  await setTimeout(200)
+
   return jsonWithSuccess(response, submission.reply(), {
     message: '登録しました！',
     description: `${submission.value.prefecture}${submission.value.city}${submission.value.street ?? ''}`,
@@ -57,6 +60,7 @@ export default function ConformValueDemoPage() {
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
+  const navigation = useNavigation()
 
   // value はレンダリングのときに都度参照していないと更新されず undefined になるので、ここで参照しておく
   // ref: https://github.com/edmundhung/conform/pull/467
@@ -128,7 +132,12 @@ export default function ConformValueDemoPage() {
         <div className="text-sm text-destructive">{street.errors}</div>
       </div>
 
-      <Button className="mt-2 w-full">登録</Button>
+      <Button
+        className="mt-2 w-full"
+        isLoading={navigation.state === 'submitting'}
+      >
+        登録
+      </Button>
     </Form>
   )
 }
