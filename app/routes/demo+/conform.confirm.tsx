@@ -1,6 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { json, type ActionFunctionArgs } from '@remix-run/node'
+import type { ActionFunctionArgs } from '@remix-run/node'
 import {
   Form,
   useActionData,
@@ -32,12 +32,12 @@ const schema = z.object({
 export const action = async ({ request, response }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return json({ result: submission.reply(), shouldConfirm: false })
+    return { result: submission.reply(), shouldConfirm: false }
   }
 
   // intent=confirm で submit された場合は確認ダイアログを表示させるように戻す
   if (submission.value.intent === 'confirm') {
-    return json({ result: submission.reply(), shouldConfirm: true })
+    return { result: submission.reply(), shouldConfirm: true }
   }
 
   // intent=submit で submit された場合は実際に削除

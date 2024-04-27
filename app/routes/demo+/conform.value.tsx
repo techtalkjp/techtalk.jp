@@ -1,6 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { json, type ActionFunctionArgs } from '@remix-run/node'
+import type { ActionFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useNavigation } from '@remix-run/react'
 import { setTimeout } from 'node:timers/promises'
 import { toast } from 'sonner'
@@ -42,7 +42,7 @@ const lookupAddress = async (postalCode: string) => {
 export const action = async ({ request, response }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return json(submission.reply())
+    return submission.reply()
   }
 
   await setTimeout(200)
