@@ -1,6 +1,7 @@
 import { fromPromise, type ResultAsync } from 'neverthrow'
-import type { ContactFormData, SendSlackError } from '../types'
+import type { ContactFormData } from '../types'
 
+type SendSlackError = { type: 'SendSlackError'; message: string }
 const sendSlackImpl = async (data: ContactFormData) => {
   await fetch(process.env.SLACK_WEBHOOK, {
     method: 'POST',

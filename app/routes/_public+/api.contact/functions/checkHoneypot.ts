@@ -1,6 +1,7 @@
 import { err, ok, type Result } from 'neverthrow'
-import type { ContactFormData, HoneypotError } from '../types'
+import type { ContactFormData } from '../types'
 
+type HoneypotError = { type: 'HoneypotError'; message: string }
 export const checkHoneypot = (
   form: ContactFormData,
 ): Result<ContactFormData, HoneypotError> => {

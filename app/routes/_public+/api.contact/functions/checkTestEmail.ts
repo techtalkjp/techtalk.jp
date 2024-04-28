@@ -1,6 +1,7 @@
 import { err, ok, type Result } from 'neverthrow'
-import type { ContactFormData, TestEmailError } from '../types'
+import type { ContactFormData } from '../types'
 
+type TestEmailError = { type: 'TestEmailError'; message: string }
 export const checkTestEmail = (
   form: ContactFormData,
 ): Result<ContactFormData, TestEmailError> => {

@@ -1,6 +1,7 @@
 import { fromPromise, type ResultAsync } from 'neverthrow'
-import type { ContactFormData, SendEmailError } from '../types'
+import type { ContactFormData } from '../types'
 
+type SendEmailError = { type: 'SendEmailError'; message: string }
 const sendEmailImpl = async (form: ContactFormData) => {
   const sendForm = { ...form }
   sendForm.message = sendForm.message.replace(/\r\n/g, '<br />')
