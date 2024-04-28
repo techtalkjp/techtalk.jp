@@ -42,7 +42,7 @@ export const loader = async ({ request, response }: LoaderFunctionArgs) => {
   const { toast, headers } = await getToast(request)
   const toastCookie = headers.get('Set-Cookie')
   if (toast && toastCookie && response) {
-    response.headers.append('Set-Cookie', toastCookie)
+    response.headers.set('Set-Cookie', toastCookie)
   }
   return { toastData: toast } // , { headers: toast ? headers : undefined })
 }
