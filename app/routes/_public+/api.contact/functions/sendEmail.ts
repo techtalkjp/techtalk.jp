@@ -1,5 +1,5 @@
-import { fromPromise } from 'neverthrow'
-import type { ContactFormData } from '../types'
+import { fromPromise, type ResultAsync } from 'neverthrow'
+import type { ContactFormData, SendEmailError } from '../types'
 
 const sendEmailImpl = async (form: ContactFormData) => {
   const sendForm = { ...form }
@@ -36,6 +36,11 @@ const sendEmailImpl = async (form: ContactFormData) => {
   return form
 }
 
-export const sendEmail = (form: ContactFormData) => {
-  return fromPromise(sendEmailImpl(form), (e) => String(e))
+export const sendEmail = (
+  form: ContactFormData,
+): ResultAsync<ContactFormData, SendEmailError> => {
+  return fromPromise(sendEmailImpl(form), (e) => ({
+    type: 'SendEmailError',
+    message: String(e),
+  }))
 }

@@ -12,3 +12,8 @@ export const schema = z.object({
 })
 
 export type ContactFormData = z.infer<typeof schema>
+
+export type HoneypotError = { type: 'HoneypotError'; message: string }
+export type TestEmailError = { type: 'TestEmailError'; message: string }
+export type SendEmailError = { type: 'SendEmailError'; message: string }
+export type SendSlackError = { type: 'SendSlackError'; message: string }

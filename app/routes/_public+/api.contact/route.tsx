@@ -8,6 +8,7 @@ import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs } from '@remix-run/node'
 import { Link, useFetcher } from '@remix-run/react'
 import { ok } from 'neverthrow'
+import { match } from 'ts-pattern'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
 import {
   Alert,
@@ -43,10 +44,24 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     .andThen(sendSlack)
 
   if (result.isErr()) {
-    return {
-      lastResult: submission.reply({ formErrors: [result.error] }),
-      sent: null,
-    }
+    return match(result.error)
+      .with({ type: 'HoneypotError' }, () => ({
+        lastResult: submission.reply({ resetForm: true }),
+        sent: submission.value,
+      }))
+      .with({ type: 'TestEmailError' }, () => ({
+        lastResult: submission.reply({ resetForm: true }),
+        sent: submission.value,
+      }))
+      .with({ type: 'SendEmailError' }, (val) => ({
+        lastResult: submission.reply({ formErrors: [val.message] }),
+        sent: null,
+      }))
+      .with({ type: 'SendSlackError' }, (val) => ({
+        lastResult: submission.reply({ formErrors: [val.message] }),
+        sent: null,
+      }))
+      .exhaustive()
   }
 
   return {
