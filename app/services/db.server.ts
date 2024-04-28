@@ -20,5 +20,5 @@ export const db = new Kysely<DB>({
 })
 
 export { sql }
-type InsertableSampleOrder = Insertable<SampleOrder>
+type InsertableSampleOrder = Omit<Insertable<SampleOrder>, 'id'>
 export type { InsertableSampleOrder }
