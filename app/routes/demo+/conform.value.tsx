@@ -47,7 +47,7 @@ export const action = async ({ request, response }: ActionFunctionArgs) => {
 
   await setTimeout(200)
 
-  return jsonWithSuccess(response, submission.reply(), {
+  return jsonWithSuccess(response, submission.reply({ resetForm: true }), {
     message: '登録しました！',
     description: `${submission.value.prefecture}${submission.value.city}${submission.value.street ?? ''}`,
   })

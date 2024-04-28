@@ -34,7 +34,7 @@ export const action = async ({ request, response }: ActionFunctionArgs) => {
       message: 'エラーが発生しました',
     })
   }
-  return jsonWithSuccess(response, submission.reply(), {
+  return jsonWithSuccess(response, submission.reply({ resetForm: true }), {
     message: '登録しました！',
   })
 }
