@@ -1,11 +1,11 @@
-import { ResultAsync } from 'neverthrow'
-import type { ContactFormData } from '../route'
+import { fromPromise } from 'neverthrow'
+import type { ContactFormData } from '../types'
 
 export const sendSlack = (data: ContactFormData) =>
-  ResultAsync.fromPromise(
+  fromPromise(
     fetch(process.env.SLACK_WEBHOOK, {
       method: 'POST',
       body: JSON.stringify({ data }),
     }),
-    (e) => e as Error,
+    (e) => String(e),
   )

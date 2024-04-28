@@ -1,5 +1,5 @@
 import { err, ok } from 'neverthrow'
-import type { ContactFormData } from '../route'
+import type { ContactFormData } from '../types'
 
 export const checkTestEmail = (form: ContactFormData) => {
   if (form.email === 'test@example.com') {

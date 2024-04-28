@@ -8,7 +8,6 @@ import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs } from '@remix-run/node'
 import { Link, useFetcher } from '@remix-run/react'
 import { ok } from 'neverthrow'
-import { z } from 'zod'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
 import {
   Alert,
@@ -28,20 +27,8 @@ import {
   checkTestEmail,
   sendEmail,
   sendSlack,
-} from './functions/index.server'
-
-export const schema = z.object({
-  name: z.string().max(100),
-  company: z.string().max(100).optional(),
-  phone: z.string().max(20).optional(),
-  email: z.string().max(100).email(),
-  message: z.string().max(10000),
-  companyPhone: z.string().max(20).optional(),
-  privacyPolicy: z.string().transform((value) => value === 'on'),
-  locale: z.string(),
-})
-
-export type ContactFormData = z.infer<typeof schema>
+} from './functions.server'
+import { schema, type ContactFormData } from './types'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
@@ -49,17 +36,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return { lastResult: submission.reply(), sent: null }
   }
 
-  const check = ok(submission.value)
+  const result = await ok(submission.value)
     .andThen(checkHoneypot)
     .andThen(checkTestEmail)
-  if (check.isErr()) {
-    return { lastResult: submission.reply(), sent: submission.value } // make it look like success
-  }
-
-  const [result] = await Promise.all([
-    sendEmail(submission.value),
-    sendSlack(submission.value),
-  ])
+    .asyncAndThen(sendEmail)
+    .andThen(sendSlack)
 
   if (result.isErr()) {
     return {
@@ -68,7 +49,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
   }
 
-  return { lastResult: submission.reply(), sent: submission.value }
+  return {
+    lastResult: submission.reply({ resetForm: true }),
+    sent: submission.value,
+  }
 }
 
 export const ContactSentMessage = ({ data }: { data: ContactFormData }) => {
