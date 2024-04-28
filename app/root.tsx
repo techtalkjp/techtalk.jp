@@ -44,7 +44,7 @@ export const loader = async ({ request, response }: LoaderFunctionArgs) => {
   if (toast && toastCookie && response) {
     response.headers.set('Set-Cookie', toastCookie)
   }
-  return { toastData: toast } // , { headers: toast ? headers : undefined })
+  return { toastData: toast }
 }
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
