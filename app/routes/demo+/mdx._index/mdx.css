@@ -1,0 +1,7 @@
+.mdx {
+  @apply bg-slate-200 p-4;
+}
+
+.mdx h1 {
+  @apply text-2xl font-bold;
+}

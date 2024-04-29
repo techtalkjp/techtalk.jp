@@ -50,6 +50,12 @@ const demoPages: {
       title: 'DB - Sample Order',
     },
   ],
+  mdx: [
+    {
+      path: '/demo/mdx',
+      title: 'MDX - Markdown',
+    },
+  ],
   cache: [
     {
       path: '/demo/cache/swr',
