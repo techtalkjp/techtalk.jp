@@ -46,14 +46,14 @@ const demoPages: {
   db: [
     {
       path: '/demo/db/sample_order',
-      ext: '._index.tsx',
+      ext: '._index/route.tsx',
       title: 'DB - Sample Order',
     },
   ],
   mdx: [
     {
       path: '/demo/mdx',
-      ext: '._index.tsx',
+      ext: '._index/route.tsx',
       title: 'MDX - Markdown',
     },
   ],
