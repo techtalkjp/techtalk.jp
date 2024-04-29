@@ -53,6 +53,7 @@ const demoPages: {
   mdx: [
     {
       path: '/demo/mdx',
+      ext: '._index.tsx',
       title: 'MDX - Markdown',
     },
   ],
