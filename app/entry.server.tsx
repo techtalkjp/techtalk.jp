@@ -1,16 +1,10 @@
 import type { AppLoadContext, EntryContext } from '@remix-run/node'
-import {
-  createReadableStreamFromReadable,
-  installGlobals,
-} from '@remix-run/node'
+import { createReadableStreamFromReadable } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
 import { isbot } from 'isbot'
 import { PassThrough } from 'node:stream'
 import { renderToPipeableStream } from 'react-dom/server'
 import { createSitemapGenerator } from 'remix-sitemap'
-
-console.log('install globals with native fetch')
-installGlobals({ nativeFetch: true })
 
 const { isSitemapUrl, sitemap } = createSitemapGenerator({
   siteUrl: 'https://www.techtalk.jp',
