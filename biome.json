@@ -13,7 +13,8 @@
     "rules": {
       "recommended": true,
       "suspicious": {
-        "useAwait": "error"
+        "useAwait": "error",
+        "noRedeclare": "off"
       }
     }
   },

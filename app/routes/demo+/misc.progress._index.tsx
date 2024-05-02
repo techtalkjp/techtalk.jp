@@ -35,7 +35,9 @@ export default function ProgressIndexPage() {
           >
             <Await resolve={p}>
               {(p) => {
+                // @ts-ignore
                 setProgress(p)
+                // @ts-ignore
                 return <span className="mr-1">{p}</span>
               }}
             </Await>
