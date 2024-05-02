@@ -2,6 +2,8 @@ import { RemixServer } from '@remix-run/react'
 import { handleRequest, type EntryContext } from '@vercel/remix'
 import { createSitemapGenerator } from 'remix-sitemap'
 
+export const streamTimeout = 11 * 1000
+
 const { isSitemapUrl, sitemap } = createSitemapGenerator({
   siteUrl: 'https://www.techtalk.jp',
   generateRobotsTxt: true,

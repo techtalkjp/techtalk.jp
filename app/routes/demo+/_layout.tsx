@@ -63,6 +63,13 @@ const demoPages: {
       title: 'Cache Control - stale-while-revalidate',
     },
   ],
+  misc: [
+    {
+      path: '/demo/misc/progress',
+      title: 'Misc - Action Progress',
+      ext: '._index.tsx',
+    },
+  ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
 }
 
