@@ -24,7 +24,7 @@ import {
 
 const schema = z.object({
   type: z.enum(['inside-form', 'outside-form']),
-  option: z.enum(['option1', 'option2']).optional(),
+  option: z.enum(['option1', 'option2']),
 })
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -64,23 +64,23 @@ const ActionResult = ({
 }
 
 const InsideForm = () => {
+  const TYPE = 'inside-form'
   const actionData = useActionData<typeof action>()
   const [form, { option }] = useForm({
     lastResult: actionData?.lastResult,
     defaultValue: {
-      type: 'inside-form',
-      option:
-        actionData?.type === 'inside-form'
-          ? actionData.option ?? ''
-          : 'option1',
+      type: TYPE,
+      option: actionData?.type === TYPE ? actionData.option ?? '' : 'option1',
     },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
     constraint: getZodConstraint(schema),
   })
 
+  console.log(option.value)
+
   return (
     <Form method="POST" {...getFormProps(form)}>
-      <input name="type" value="inside-form" type="hidden" />
+      <input name="type" value={TYPE} type="hidden" />
       <Card>
         <CardHeader>Inside Form</CardHeader>
         <CardContent>
@@ -126,7 +126,7 @@ const InsideForm = () => {
 
             <Button disabled={!form.dirty}>Submit</Button>
 
-            {actionData?.type === 'inside-form' && (
+            {actionData?.type === TYPE && (
               <ActionResult actionData={actionData} />
             )}
           </Stack>
@@ -137,15 +137,13 @@ const InsideForm = () => {
 }
 
 const OutsideForm = () => {
+  const TYPE = 'outside-form'
   const actionData = useActionData<typeof action>()
   const [form, { option }] = useForm({
     lastResult: actionData?.lastResult,
     defaultValue: {
-      type: 'outside-form',
-      option:
-        actionData?.type === 'outside-form'
-          ? actionData.option ?? ''
-          : 'option1',
+      type: TYPE,
+      option: actionData?.type === TYPE ? actionData.option ?? '' : 'option1',
     },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
     constraint: getZodConstraint(schema),
@@ -156,7 +154,7 @@ const OutsideForm = () => {
   return (
     <Card>
       <Form method="POST" {...getFormProps(form)}>
-        <input name="type" value="outside-form" type="hidden" />
+        <input name="type" value={TYPE} type="hidden" />
       </Form>
       <CardHeader>Outside Form</CardHeader>
       <CardContent>
@@ -205,7 +203,7 @@ const OutsideForm = () => {
             Submit
           </Button>
 
-          {actionData?.type === 'outside-form' && (
+          {actionData?.type === TYPE && (
             <ActionResult actionData={actionData} />
           )}
         </Stack>
