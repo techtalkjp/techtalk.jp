@@ -16,6 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
   Stack,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
 } from '~/components/ui'
 
 const schema = z.object({
@@ -26,13 +30,37 @@ const schema = z.object({
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return { type: null, option: null, lastResult: submission.reply() }
+    return {
+      type: null,
+      option: null,
+      now: new Date().toISOString(),
+      lastResult: submission.reply(),
+    }
   }
 
   return {
     ...submission.value,
+    now: new Date().toISOString(),
     lastResult: submission.reply({ resetForm: true }),
   }
+}
+
+const ActionResult = ({
+  actionData,
+}: {
+  actionData: Awaited<ReturnType<typeof action>>
+}) => {
+  return (
+    <div className="grid grid-cols-[auto_1fr] gap-4 rounded-md border p-4">
+      <div className="col-span-2">Result</div>
+      <div className="capitalize text-foreground/50">type</div>
+      <div>{actionData.type}</div>
+      <div className="capitalize text-foreground/50">now</div>
+      <div>{actionData.now}</div>
+      <div className="capitalize text-foreground/50">option</div>
+      <div>{actionData.option ?? 'undefined'}</div>
+    </div>
+  )
 }
 
 const InsideForm = () => {
@@ -63,6 +91,7 @@ const InsideForm = () => {
               <HStack>
                 <Select
                   name={option.name}
+                  defaultValue={option.initialValue}
                   value={option.value}
                   onValueChange={optionControl.change}
                 >
@@ -87,16 +116,14 @@ const InsideForm = () => {
                   </Button>
                 )}
               </HStack>
-
               <div className="text-sm text-destructive">{option.errors}</div>
             </div>
 
             <Button disabled={!form.dirty}>Submit</Button>
 
-            <div>
-              {actionData?.type === 'inside-form' &&
-                `action ${actionData?.type} executed: ${actionData?.option}`}
-            </div>
+            {actionData?.type === 'inside-form' && (
+              <ActionResult actionData={actionData} />
+            )}
           </Stack>
         </CardContent>
       </Card>
@@ -128,46 +155,47 @@ const OutsideForm = () => {
       <CardHeader>Outside Form</CardHeader>
       <CardContent>
         <Stack>
-          <Label>Option</Label>
-          <HStack>
-            <Select
-              value={optionControl.value}
-              onValueChange={optionControl.change}
-            >
-              <SelectTrigger
-                form={form.id}
-                name={option.name}
+          <div>
+            <Label>Option</Label>
+            <HStack>
+              <Select
                 value={optionControl.value}
-                onBlur={optionControl.blur}
-                onFocus={optionControl.focus}
+                onValueChange={optionControl.change}
               >
-                <SelectValue placeholder="Unselected" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="option1">Option1</SelectItem>
-                <SelectItem value="option2">Option2</SelectItem>
-              </SelectContent>
-            </Select>
-            {option.value && (
-              <Button
-                type="button"
-                variant="link"
-                onClick={() => optionControl.change('')}
-              >
-                Clear
-              </Button>
-            )}
-          </HStack>
-          <div className="text-sm text-destructive">{option.errors}</div>
+                <SelectTrigger
+                  form={form.id}
+                  name={option.name}
+                  value={optionControl.value}
+                  onBlur={optionControl.blur}
+                  onFocus={optionControl.focus}
+                >
+                  <SelectValue placeholder="Unselected" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="option1">Option1</SelectItem>
+                  <SelectItem value="option2">Option2</SelectItem>
+                </SelectContent>
+              </Select>
+              {option.value && (
+                <Button
+                  type="button"
+                  variant="link"
+                  onClick={() => optionControl.change('')}
+                >
+                  Clear
+                </Button>
+              )}
+            </HStack>
+            <div className="text-sm text-destructive">{option.errors}</div>
+          </div>
 
           <Button form={form.id} disabled={!form.dirty}>
             Submit
           </Button>
 
-          <div>
-            {actionData?.type === 'outside-form' &&
-              `action ${actionData?.type} executed: ${actionData?.option}`}
-          </div>
+          {actionData?.type === 'outside-form' && (
+            <ActionResult actionData={actionData} />
+          )}
         </Stack>
       </CardContent>
     </Card>
@@ -177,8 +205,18 @@ const OutsideForm = () => {
 export default function ConformSelect() {
   return (
     <Stack>
-      <InsideForm />
-      <OutsideForm />
+      <Tabs defaultValue="inside-form">
+        <TabsList>
+          <TabsTrigger value="inside-form">Inside Form</TabsTrigger>
+          <TabsTrigger value="outside-form">Outside Form</TabsTrigger>
+        </TabsList>
+        <TabsContent value="inside-form">
+          <InsideForm />
+        </TabsContent>
+        <TabsContent value="outside-form">
+          <OutsideForm />
+        </TabsContent>
+      </Tabs>
     </Stack>
   )
 }
