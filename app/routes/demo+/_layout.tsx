@@ -42,6 +42,11 @@ const demoPages: {
       title: 'Cloudflare R2 ダイレクトアップロード',
       ext: '/route.tsx',
     },
+    {
+      path: '/demo/conform/select',
+      title: 'Select and conform in shadcn/ui',
+      ext: '.tsx',
+    },
   ],
   db: [
     {
