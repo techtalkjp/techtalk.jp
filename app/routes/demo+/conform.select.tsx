@@ -43,7 +43,7 @@ const InsideForm = () => {
       type: 'inside-form',
       option:
         actionData?.option && actionData.type === 'inside-form'
-          ? actionData.option
+          ? actionData.option ?? ''
           : 'option1',
     },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
@@ -112,7 +112,7 @@ const OutsideForm = () => {
       type: 'outside-form',
       option:
         actionData?.option && actionData.type === 'outside-form'
-          ? actionData.option
+          ? actionData.option ?? ''
           : 'option1',
     },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
