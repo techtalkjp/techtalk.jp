@@ -1,4 +1,4 @@
-import { getFormProps, useForm, useInputControl } from '@conform-to/react'
+import { getFormProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
@@ -70,14 +70,13 @@ const InsideForm = () => {
     defaultValue: {
       type: 'inside-form',
       option:
-        actionData?.option && actionData.type === 'inside-form'
+        actionData?.type === 'inside-form'
           ? actionData.option ?? ''
           : 'option1',
     },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
     constraint: getZodConstraint(schema),
   })
-  const optionControl = useInputControl(option)
 
   return (
     <Form method="POST" {...getFormProps(form)}>
@@ -87,21 +86,21 @@ const InsideForm = () => {
         <CardContent>
           <Stack>
             <div>
-              <Label>Option</Label>
+              <Label htmlFor={option.id}>Option</Label>
               <HStack>
                 <Select
-                  name={option.name}
                   value={option.value ?? ''}
                   onValueChange={(value) => {
-                    // なぜか name を指定していると初期状態で onValueChange で '' が渡されるので無視する
-                    if (value !== '') {
-                      optionControl.change(value)
-                    }
+                    form.update({
+                      name: option.name,
+                      value,
+                    })
                   }}
                 >
                   <SelectTrigger
-                    onBlur={optionControl.blur}
-                    onFocus={optionControl.focus}
+                    id={option.id}
+                    name={option.name}
+                    value={option.value ?? ''}
                   >
                     <SelectValue placeholder="Unselected" />
                   </SelectTrigger>
@@ -112,9 +111,11 @@ const InsideForm = () => {
                 </Select>
                 {option.value && (
                   <Button
-                    type="button"
                     variant="link"
-                    onClick={() => optionControl.change('')}
+                    {...form.update.getButtonProps({
+                      name: option.name,
+                      value: '',
+                    })}
                   >
                     Clear
                   </Button>
@@ -142,14 +143,15 @@ const OutsideForm = () => {
     defaultValue: {
       type: 'outside-form',
       option:
-        actionData?.option && actionData.type === 'outside-form'
+        actionData?.type === 'outside-form'
           ? actionData.option ?? ''
           : 'option1',
     },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
     constraint: getZodConstraint(schema),
   })
-  const optionControl = useInputControl(option)
+
+  console.log(option.value)
 
   return (
     <Card>
@@ -160,18 +162,22 @@ const OutsideForm = () => {
       <CardContent>
         <Stack>
           <div>
-            <Label>Option</Label>
+            <Label htmlFor={option.id}>Option</Label>
             <HStack>
               <Select
-                value={optionControl.value}
-                onValueChange={optionControl.change}
+                value={option.value ?? ''}
+                onValueChange={(value) => {
+                  form.update({
+                    name: option.name,
+                    value,
+                  })
+                }}
               >
                 <SelectTrigger
                   form={form.id}
+                  id={option.id}
                   name={option.name}
-                  value={optionControl.value ?? ''}
-                  onBlur={optionControl.blur}
-                  onFocus={optionControl.focus}
+                  value={option.value}
                 >
                   <SelectValue placeholder="Unselected" />
                 </SelectTrigger>
@@ -182,9 +188,11 @@ const OutsideForm = () => {
               </Select>
               {option.value && (
                 <Button
-                  type="button"
                   variant="link"
-                  onClick={() => optionControl.change('')}
+                  {...form.update.getButtonProps({
+                    name: option.name,
+                    value: '',
+                  })}
                 >
                   Clear
                 </Button>
