@@ -91,13 +91,8 @@ const InsideForm = () => {
               <HStack>
                 <Select
                   name={option.name}
-                  defaultValue={option.initialValue}
                   value={option.value ?? ''}
                   onValueChange={(value) => {
-                    console.log('onValueChange', {
-                      value,
-                      option: option.value,
-                    })
                     // なぜか name を指定していると初期状態で onValueChange で '' が渡されるので無視する
                     if (value !== '') {
                       optionControl.change(value)
