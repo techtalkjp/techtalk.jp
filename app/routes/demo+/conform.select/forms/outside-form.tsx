@@ -17,16 +17,18 @@ import {
 } from '~/components/ui'
 import { ActionResult } from '../components'
 import type { action } from '../route'
-import { schema } from '../types'
+import { FormType, schema } from '../types'
 
 export const OutsideForm = () => {
-  const TYPE = 'outside-form'
   const actionData = useActionData<typeof action>()
   const [form, { option }] = useForm({
     lastResult: actionData?.lastResult,
     defaultValue: {
-      type: TYPE,
-      option: actionData?.type === TYPE ? actionData.option ?? '' : 'option1',
+      formType: FormType.OUTSIDE_FORM,
+      option:
+        actionData?.formType === FormType.OUTSIDE_FORM
+          ? actionData.option ?? ''
+          : 'option1',
     },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
     constraint: getZodConstraint(schema),
@@ -35,7 +37,7 @@ export const OutsideForm = () => {
   return (
     <Card>
       <Form method="POST" {...getFormProps(form)}>
-        <input name="type" value={TYPE} type="hidden" />
+        <input name="type" value={FormType.OUTSIDE_FORM} type="hidden" />
         <input
           name={option.name}
           value={option.value}
@@ -52,7 +54,6 @@ export const OutsideForm = () => {
               <Select
                 value={option.value ?? ''}
                 onValueChange={(value) => {
-                  console.log(TYPE, 'onValueChange', value)
                   form.update({
                     name: option.name,
                     value,
@@ -86,7 +87,7 @@ export const OutsideForm = () => {
             Submit
           </Button>
 
-          {actionData?.type === TYPE && (
+          {actionData?.formType === FormType.OUTSIDE_FORM && (
             <ActionResult actionData={actionData} />
           )}
         </Stack>

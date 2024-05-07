@@ -14,7 +14,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return {
-      type: null,
+      formType: null,
       option: null,
       now: new Date().toISOString(),
       lastResult: submission.reply(),

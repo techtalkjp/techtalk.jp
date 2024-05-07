@@ -17,16 +17,18 @@ import {
 } from '~/components/ui'
 import { ActionResult } from '../components'
 import type { action } from '../route'
-import { schema } from '../types'
+import { FormType, schema } from '../types'
 
 export const InsideForm = () => {
-  const TYPE = 'inside-form'
   const actionData = useActionData<typeof action>()
   const [form, { option }] = useForm({
     lastResult: actionData?.lastResult,
     defaultValue: {
-      type: TYPE,
-      option: actionData?.type === TYPE ? actionData.option ?? '' : 'option1',
+      formType: FormType.INSIDE_FORM,
+      option:
+        actionData?.formType === FormType.INSIDE_FORM
+          ? actionData.option ?? ''
+          : 'option1',
     },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
     constraint: getZodConstraint(schema),
@@ -35,7 +37,7 @@ export const InsideForm = () => {
 
   return (
     <Form method="POST" {...getFormProps(form)}>
-      <input name="type" value={TYPE} type="hidden" />
+      <input name="type" value={FormType.INSIDE_FORM} type="hidden" />
       <input
         name={option.name}
         value={option.value}
@@ -83,7 +85,7 @@ export const InsideForm = () => {
 
             <Button disabled={!form.dirty}>Submit</Button>
 
-            {actionData?.type === TYPE && (
+            {actionData?.formType === FormType.INSIDE_FORM && (
               <ActionResult actionData={actionData} />
             )}
           </Stack>
