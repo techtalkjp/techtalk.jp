@@ -74,13 +74,18 @@ const InsideForm = () => {
     },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
     constraint: getZodConstraint(schema),
+    shouldValidate: 'onBlur',
   })
-
-  console.log(option.value)
 
   return (
     <Form method="POST" {...getFormProps(form)}>
       <input name="type" value={TYPE} type="hidden" />
+      <input
+        name={option.name}
+        value={option.value}
+        type="hidden"
+        key={option.key}
+      />
       <Card>
         <CardHeader>Inside Form</CardHeader>
         <CardContent>
@@ -97,11 +102,7 @@ const InsideForm = () => {
                     })
                   }}
                 >
-                  <SelectTrigger
-                    id={option.id}
-                    name={option.name}
-                    value={option.value ?? ''}
-                  >
+                  <SelectTrigger id={option.id}>
                     <SelectValue placeholder="Unselected" />
                   </SelectTrigger>
                   <SelectContent>
@@ -149,12 +150,16 @@ const OutsideForm = () => {
     constraint: getZodConstraint(schema),
   })
 
-  console.log(option.value)
-
   return (
     <Card>
       <Form method="POST" {...getFormProps(form)}>
         <input name="type" value={TYPE} type="hidden" />
+        <input
+          name={option.name}
+          value={option.value}
+          type="hidden"
+          key={option.key}
+        />
       </Form>
       <CardHeader>Outside Form</CardHeader>
       <CardContent>
@@ -165,18 +170,14 @@ const OutsideForm = () => {
               <Select
                 value={option.value ?? ''}
                 onValueChange={(value) => {
+                  console.log(TYPE, 'onValueChange', value)
                   form.update({
                     name: option.name,
                     value,
                   })
                 }}
               >
-                <SelectTrigger
-                  form={form.id}
-                  id={option.id}
-                  name={option.name}
-                  value={option.value}
-                >
+                <SelectTrigger id={option.id}>
                   <SelectValue placeholder="Unselected" />
                 </SelectTrigger>
                 <SelectContent>
