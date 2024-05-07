@@ -37,7 +37,7 @@ export const OutsideForm = () => {
   return (
     <Card>
       <Form method="POST" {...getFormProps(form)}>
-        <input name="type" value={FormType.OUTSIDE_FORM} type="hidden" />
+        <input name="formType" value={FormType.OUTSIDE_FORM} type="hidden" />
         <input
           name={option.name}
           value={option.value}
