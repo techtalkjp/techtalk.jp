@@ -45,7 +45,7 @@ const demoPages: {
     {
       path: '/demo/conform/select',
       title: 'Select and conform in shadcn/ui',
-      ext: '.tsx',
+      ext: '/',
     },
   ],
   db: [
