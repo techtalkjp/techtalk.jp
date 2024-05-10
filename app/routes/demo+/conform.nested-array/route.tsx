@@ -48,7 +48,6 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   }))
 
   const defaultPersons = [fakePersons[0]]
-  console.log(fakePersons)
   return { defaultPersons, fakePersons }
 }
 
