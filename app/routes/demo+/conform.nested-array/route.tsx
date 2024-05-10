@@ -1,5 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
+import { fakerJA as faker } from '@faker-js/faker'
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import { TrashIcon } from 'lucide-react'
@@ -37,13 +38,15 @@ const schema = z.object({
   ),
 })
 
+const generatePerson = () => {}
+
 export const loader = ({ request }: LoaderFunctionArgs) => {
   const defaultPersons = [
     {
-      name: 'coji',
-      zip: '123-4567',
-      tel: '090-1234-5678',
-      email: 'coji@techtalk.jp',
+      name: faker.person.fullName(),
+      zip: faker.location.zipCode({ format: '###-####' }),
+      tel: faker.helpers.fromRegExp(/[0-9]{3}-[0-9]{4}-[0-9]{4}/),
+      email: faker.internet.email(),
     },
   ]
   return { defaultPersons }
@@ -178,10 +181,10 @@ export default function ConformNestedArrayDemo() {
           {...form.insert.getButtonProps({
             name: fields.persons.name,
             defaultValue: {
-              name: `やまだたろう ${fields.persons.getFieldList().length + 1}`,
-              zip: '100-0000',
-              tel: '080-1234-5678',
-              email: `example-${fields.persons.getFieldList().length + 1}@example.com`,
+              name: faker.person.fullName(),
+              zip: faker.location.zipCode({ format: '###-####' }),
+              tel: faker.helpers.fromRegExp(/[0-9]{3}-[0-9]{4}-[0-9]{4}/),
+              email: faker.internet.email(),
             },
           })}
         >
