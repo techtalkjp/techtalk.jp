@@ -17,7 +17,7 @@ import {
 import { useEffect } from 'react'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
-import { Toaster } from '~/components/ui'
+import { Toaster, TooltipProvider } from '~/components/ui'
 import { cn } from './libs/utils'
 import biographyStyle from './styles/biography.css?url'
 import globalStyles from './styles/globals.css?url'
@@ -66,7 +66,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         )}
       >
         <Toaster />
-        {children}
+        <TooltipProvider>{children}</TooltipProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

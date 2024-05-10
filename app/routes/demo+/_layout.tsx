@@ -45,7 +45,12 @@ const demoPages: {
     {
       path: '/demo/conform/select',
       title: 'Select and conform in shadcn/ui',
-      ext: '/',
+      ext: '/route.tsx',
+    },
+    {
+      path: '/demo/conform/nested-array',
+      title: 'Conform オブジェクトの配列フォーム',
+      ext: '/route.tsx',
     },
   ],
   db: [
