@@ -1,6 +1,5 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import { fakerJA as faker } from '@faker-js/faker'
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import { TrashIcon } from 'lucide-react'
@@ -20,6 +19,7 @@ import {
   TooltipTrigger,
 } from '~/components/ui'
 import { jsonWithSuccess } from '~/services/single-fetch-toast'
+import { fakeEmail, fakeName, fakeTel, fakeZip } from './faker.server'
 
 const schema = z.object({
   persons: z.array(
@@ -39,15 +39,17 @@ const schema = z.object({
 })
 
 export const loader = ({ request }: LoaderFunctionArgs) => {
-  const defaultPersons = [
-    {
-      name: faker.person.fullName(),
-      zip: faker.location.zipCode({ format: '###-####' }),
-      tel: faker.helpers.fromRegExp(/[0-9]{3}-[0-9]{4}-[0-9]{4}/),
-      email: faker.internet.email(),
-    },
-  ]
-  return { defaultPersons }
+  // ブラウザバンドルが巨大になってしまうので、faker はサーバサイドでのみ使用
+  const fakePersons = Array.from({ length: 30 }, () => ({
+    name: fakeName(),
+    zip: fakeZip(),
+    tel: fakeTel(),
+    email: fakeEmail(),
+  }))
+
+  const defaultPersons = [fakePersons[0]]
+  console.log(fakePersons)
+  return { defaultPersons, fakePersons }
 }
 
 export const action = async ({ request, response }: ActionFunctionArgs) => {
@@ -73,7 +75,7 @@ export const action = async ({ request, response }: ActionFunctionArgs) => {
 }
 
 export default function ConformNestedArrayDemo() {
-  const { defaultPersons } = useLoaderData<typeof loader>()
+  const { defaultPersons, fakePersons } = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const [form, fields] = useForm({
     lastResult: actionData?.lastResult,
@@ -176,13 +178,11 @@ export default function ConformNestedArrayDemo() {
         <Button
           size="xs"
           variant="outline"
+          disabled={persons.length >= fakePersons.length}
           {...form.insert.getButtonProps({
             name: fields.persons.name,
             defaultValue: {
-              name: faker.person.fullName(),
-              zip: faker.location.zipCode({ format: '###-####' }),
-              tel: faker.helpers.fromRegExp(/[0-9]{3}-[0-9]{4}-[0-9]{4}/),
-              email: faker.internet.email(),
+              ...fakePersons[persons.length],
             },
           })}
         >
