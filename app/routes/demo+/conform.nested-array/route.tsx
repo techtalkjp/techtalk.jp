@@ -38,8 +38,6 @@ const schema = z.object({
   ),
 })
 
-const generatePerson = () => {}
-
 export const loader = ({ request }: LoaderFunctionArgs) => {
   const defaultPersons = [
     {
