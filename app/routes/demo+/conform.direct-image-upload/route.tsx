@@ -1,10 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import {
-  json,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-} from '@remix-run/node'
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import {
   Form,
   useActionData,
@@ -43,14 +39,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return json({ lastResult: submission.reply(), presignedUrl: null })
+    return { lastResult: submission.reply(), presignedUrl: null }
   }
 
   const presignedUrl = await createPresignedUrl(submission.value.file.name)
-  return json({
+  return {
     lastResult: submission.reply({ resetForm: true }),
     presignedUrl,
-  })
+  }
 }
 
 export const clientAction = async ({

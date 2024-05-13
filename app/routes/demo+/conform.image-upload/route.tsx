@@ -1,6 +1,6 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import { json, type ActionFunctionArgs } from '@remix-run/node'
+import type { ActionFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import dayjs from 'dayjs'
 import { z } from 'zod'
@@ -30,13 +30,13 @@ export const loader = async () => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return json({ lastResult: submission.reply() })
+    return { lastResult: submission.reply() }
   }
 
   // const image = await resizeImage(submission.value.file, { width: 1920 })
   await upload(submission.value.file)
 
-  return json({ lastResult: submission.reply({ resetForm: true }) })
+  return { lastResult: submission.reply({ resetForm: true }) }
 }
 
 export default function ImageUploadDemoPage() {
