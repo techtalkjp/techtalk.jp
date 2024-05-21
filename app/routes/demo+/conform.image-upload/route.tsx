@@ -2,7 +2,6 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
-import type { File } from '@web-std/file'
 import dayjs from 'dayjs'
 import { z } from 'zod'
 import {
