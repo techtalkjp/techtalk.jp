@@ -2,6 +2,7 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
+import type { File } from '@web-std/file'
 import dayjs from 'dayjs'
 import { z } from 'zod'
 import {
@@ -19,7 +20,7 @@ import {
 import { ImageEndpointUrl, list, upload } from './services/r2.server'
 
 const schema = z.object({
-  file: z.instanceof(File),
+  file: z.instanceof(Blob),
 })
 
 export const loader = async () => {
@@ -33,8 +34,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return { lastResult: submission.reply() }
   }
 
-  // const image = await resizeImage(submission.value.file, { width: 1920 })
-  await upload(submission.value.file)
+  await upload(submission.value.file as File)
 
   return { lastResult: submission.reply({ resetForm: true }) }
 }
