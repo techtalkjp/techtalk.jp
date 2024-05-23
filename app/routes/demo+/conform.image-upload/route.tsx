@@ -19,7 +19,7 @@ import {
 import { ImageEndpointUrl, list, upload } from './services/r2.server'
 
 const schema = z.object({
-  file: z.custom<File>(),
+  file: z.custom<File>((file) => file instanceof File),
 })
 
 export const loader = async () => {
