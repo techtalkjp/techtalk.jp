@@ -60,13 +60,6 @@ const demoPages: {
       title: 'DB - Sample Order',
     },
   ],
-  mdx: [
-    {
-      path: '/demo/mdx',
-      ext: '._index/route.tsx',
-      title: 'MDX - Markdown',
-    },
-  ],
   cache: [
     {
       path: '/demo/cache/swr',
