@@ -25,8 +25,11 @@ import privacyStyles from './styles/privacy.css?url'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: '株式会社TechTalk' },
-    { name: 'description', content: '株式会社TechTalkの公式サイトです。' },
+    { title: 'TechTalk' },
+    {
+      name: 'description',
+      content: 'The official website of TechTalk, Inc.',
+    },
   ]
 }
 
