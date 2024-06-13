@@ -18,6 +18,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '~/components/ui'
+import { ZipInput } from '~/routes/demo+/resources.zip-input/route'
 import { jsonWithSuccess } from '~/services/single-fetch-toast'
 import { fakeEmail, fakeName, fakeTel, fakeZip } from './faker.server'
 
@@ -57,6 +58,20 @@ export const action = async ({ request, response }: ActionFunctionArgs) => {
     return { lastResult: submission.reply(), result: null }
   }
 
+  // 0 で始まる郵便番号は存在しないのでエラーにする
+  const zipErrors: Record<string, string[]> = {}
+  for (const [idx, person] of submission.value.persons.entries()) {
+    if (person.zip.startsWith('0')) {
+      zipErrors[`persons[${idx}].zip`] = ['郵便番号が存在しません']
+    }
+  }
+  if (Object.keys(zipErrors).length > 0) {
+    return {
+      lastResult: submission.reply({ fieldErrors: zipErrors }),
+      result: null,
+    }
+  }
+
   return jsonWithSuccess(
     response,
     {
@@ -80,7 +95,7 @@ export default function ConformNestedArrayDemo() {
     lastResult: actionData?.lastResult,
     defaultValue: { persons: defaultPersons },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
-    shouldValidate: 'onSubmit',
+    shouldValidate: 'onInput',
     shouldRevalidate: 'onInput',
   })
   const persons = fields.persons.getFieldList()
@@ -116,9 +131,18 @@ export default function ConformNestedArrayDemo() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Input
-                      {...getInputProps(personFields.zip, { type: 'text' })}
+                    <input
+                      {...getInputProps(personFields.zip, { type: 'hidden' })}
                       key={personFields.zip.key}
+                    />
+                    <ZipInput
+                      defaultValue={personFields.zip.value}
+                      onChange={(value) => {
+                        form.update({
+                          name: personFields.zip.name,
+                          value,
+                        })
+                      }}
                     />
                     <div
                       id={personFields.zip.errorId}

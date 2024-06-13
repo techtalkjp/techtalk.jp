@@ -44,6 +44,7 @@
     "@vercel/remix": "2.9.2-patch.2",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",
+    "cmdk": "1.0.0",
     "dayjs": "1.11.11",
     "framer-motion": "11.2.10",
     "isbot": "5.1.9",
