@@ -42,7 +42,9 @@ interface ZipInputProps {
   onChange?: (value: string) => void
 }
 export const ZipInput = ({ defaultValue = '', onChange }: ZipInputProps) => {
-  const fetcher = useFetcher<typeof loader>()
+  const fetcher = useFetcher<typeof loader>({
+    key: '/demo/resources/zip-input',
+  })
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState(defaultValue)
 
@@ -55,6 +57,7 @@ export const ZipInput = ({ defaultValue = '', onChange }: ZipInputProps) => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   React.useEffect(() => {
+    if (fetcher.data) return
     fetcher.load('/demo/resources/zip-input')
   }, [])
 
