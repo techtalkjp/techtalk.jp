@@ -52,7 +52,7 @@ export default function DemoConformAlert() {
       <div>
         <div>Cache Control:</div>
         <div className="prose">
-          <pre className=" overflow-auto whitespace-nowrap">{cacheControl}</pre>
+          <pre className="overflow-auto whitespace-nowrap">{cacheControl}</pre>
         </div>
       </div>
 

@@ -20,7 +20,7 @@ const PrivacyPolicyDialog = () => {
         <Button
           type="button"
           variant="link"
-          className="p-0.5 "
+          className="p-0.5"
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()
@@ -38,7 +38,7 @@ const PrivacyPolicyDialog = () => {
             {t('privacy.dialog.title', 'TechTalk プライバシーポリシー')}
           </DialogHeader>
 
-          <div className="markdown flex-1 overflow-auto ">
+          <div className="markdown flex-1 overflow-auto">
             <Content />
           </div>
           <DialogFooter>

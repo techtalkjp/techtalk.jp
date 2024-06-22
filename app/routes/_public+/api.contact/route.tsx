@@ -81,7 +81,7 @@ export const ContactSentMessage = ({ data }: { data: ContactFormData }) => {
         お返事をお待ち下さい。
       </div>
 
-      <div className="grid max-h-96 w-full max-w-md grid-cols-[auto_1fr]  justify-items-start gap-4 overflow-auto rounded bg-black bg-opacity-50 p-4">
+      <div className="grid max-h-96 w-full max-w-md grid-cols-[auto_1fr] justify-items-start gap-4 overflow-auto rounded bg-black bg-opacity-50 p-4">
         <div>お名前</div>
         <div>{data.name}</div>
         <div>会社名</div>
