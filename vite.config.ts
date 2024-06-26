@@ -20,7 +20,13 @@ export default defineConfig({
           ignoredRouteFiles: ['**/.*'],
           routes: (defineRoutes) => flatRoutes('routes', defineRoutes),
           presets: [vercelPreset()],
-          future: { unstable_singleFetch: true },
+          future: {
+            v3_fetcherPersist: true,
+            v3_relativeSplatPath: true,
+            v3_throwAbortReason: true,
+            unstable_singleFetch: true,
+            unstable_fogOfWar: true,
+          },
         })
       : react(),
     tsconfigPaths(),
