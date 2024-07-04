@@ -1,0 +1,14 @@
+diff --git a/server.js b/server.js
+index 1e6138e1a042e0f429998214b28592652381de98..838ccf24ace1c6d4262fe6c163206e13241e5939 100644
+--- a/server.js
++++ b/server.js
+@@ -12,8 +12,8 @@
+ 
+ Object.defineProperty(exports, '__esModule', { value: true });
+ 
+-require('./globals.js');
+ var node = require('@remix-run/node');
++node.installGlobals({ nativeFetch: true });
+ 
+ /**
+  * A function that returns the value to use as `context` in route `loader` and
