@@ -31,4 +31,7 @@ export default defineConfig({
     tsconfigPaths(),
   ],
   test: { environment: 'jsdom', setupFiles: ['./test/setup.ts'] },
+  ssr: {
+    noExternal: ['tailwind-merge'],
+  },
 })
