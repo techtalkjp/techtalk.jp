@@ -27,7 +27,7 @@ export const InsideForm = () => {
       formType: FormType.INSIDE_FORM,
       option:
         actionData?.formType === FormType.INSIDE_FORM
-          ? actionData.option ?? ''
+          ? (actionData.option ?? '')
           : 'option1',
     },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),

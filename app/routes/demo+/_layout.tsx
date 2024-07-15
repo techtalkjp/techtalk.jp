@@ -79,7 +79,7 @@ const demoPages: {
 const useCurrentMenu = () => {
   const { pathname } = useLocation()
   const menu = pathname.split('/')[2]
-  const menuItems = menu ? demoPages[menu] ?? [] : []
+  const menuItems = menu ? (demoPages[menu] ?? []) : []
   const currentMenuItem = menuItems.find((item) => pathname === item.path)
   const demoPath = `${pathname.replace('/demo/', '').replaceAll('/', '.')}${currentMenuItem?.ext ?? '.tsx'}`
   const codeURL =
