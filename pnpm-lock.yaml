@@ -19,7 +19,7 @@ importers:
         version: 3.614.0
       '@coji/kysely-libsql':
         specifier: 0.3.0
-        version: 0.3.0(@libsql/client@0.7.0)(kysely@0.27.4)
+        version: 0.3.0(@libsql/client@0.5.6)(kysely@0.27.4)
       '@conform-to/react':
         specifier: 1.1.5
         version: 1.1.5(react@18.3.1)
@@ -30,8 +30,8 @@ importers:
         specifier: 8.4.1
         version: 8.4.1
       '@libsql/client':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.5.6
+        version: 0.5.6
       '@radix-ui/react-alert-dialog':
         specifier: 1.1.1
         version: 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1184,11 +1184,11 @@ packages:
   '@jspm/core@2.0.1':
     resolution: {integrity: sha512-Lg3PnLp0QXpxwLIAuuJboLeRaIhrgJjeuh797QADg3xz8wGLugQOS5DpsE8A6i6Adgzf+bacllkKZG3J0tGfDw==}
 
-  '@libsql/client@0.7.0':
-    resolution: {integrity: sha512-1aLDtWzsErr68GZ640TVyOLkL/+lB2YK8cYvJIfiI7Mt+DEPB22Jkoz2QfBDg5PVGX/efeRHog2j/oVbUhxO8Q==}
+  '@libsql/client@0.5.6':
+    resolution: {integrity: sha512-UBjmDoxz75Z2sHdP+ETCROpeLA/77VMesiff8R4UWK1rnaWbh6/YoCLDILMJL3Rh0udQeKxjL8MjXthqohax+g==}
 
-  '@libsql/core@0.7.0':
-    resolution: {integrity: sha512-hCYfXa0S4t9CJtxZIWacboylrcx94ZQO0dEngH4f0f/LHg6ymHSZiubbojAwD7tNy94ahICoGPjEi6aEIyhlcQ==}
+  '@libsql/core@0.5.6':
+    resolution: {integrity: sha512-3vicUAydq6jPth410n4AsHHm1n2psTwvkSf94nfJlSXutGSZsl0updn2N/mJBgqUHkbuFoWZtlMifF0SwBj1xQ==}
 
   '@libsql/darwin-arm64@0.3.19':
     resolution: {integrity: sha512-rmOqsLcDI65zzxlUOoEiPJLhqmbFsZF6p4UJQ2kMqB+Kc0Rt5/A1OAdOZ/Wo8fQfJWjR1IbkbpEINFioyKf+nQ==}
@@ -1200,11 +1200,11 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@libsql/hrana-client@0.6.2':
-    resolution: {integrity: sha512-MWxgD7mXLNf9FXXiM0bc90wCjZSpErWKr5mGza7ERy2FJNNMXd7JIOv+DepBA1FQTIfI8TFO4/QDYgaQC0goNw==}
+  '@libsql/hrana-client@0.5.6':
+    resolution: {integrity: sha512-mjQoAmejZ1atG+M3YR2ZW+rg6ceBByH/S/h17ZoYZkqbWrvohFhXyz2LFxj++ARMoY9m6w3RJJIRdJdmnEUlFg==}
 
-  '@libsql/isomorphic-fetch@0.2.1':
-    resolution: {integrity: sha512-Sv07QP1Aw8A5OOrmKgRUBKe2fFhF2hpGJhtHe3d1aRnTESZCGkn//0zDycMKTGamVWb3oLYRroOsCV8Ukes9GA==}
+  '@libsql/isomorphic-fetch@0.1.12':
+    resolution: {integrity: sha512-MRo4UcmjAGAa3ac56LoD5OE13m2p0lu0VEtZC2NZMcogM/jc5fU9YtMQ3qbPjFJ+u2BBjFZgMPkQaLS1dlMhpg==}
 
   '@libsql/isomorphic-ws@0.1.5':
     resolution: {integrity: sha512-DtLWIH29onUYR00i0GlQ3UdcTRC6EP4u9w/h9LxpUZJWRMARk6dQwZ6Jkd+QdwVpuAOrdxt18v0K2uIYR3fwFg==}
@@ -2437,6 +2437,9 @@ packages:
 
   '@types/mute-stream@0.0.4':
     resolution: {integrity: sha512-CPM9nzrCPPJHQNA9keH9CVkVI+WR5kMa+7XEs5jcGQ0VoAGnLv242w8lIVgwAEfmE4oufJRaTc9PNLQl0ioAow==}
+
+  '@types/node-fetch@2.6.11':
+    resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
 
   '@types/node@20.14.10':
     resolution: {integrity: sha512-MdiXf+nDuMvY0gJKxyfZ7/6UFsETO7mGKF54MVD/ekJS6HdFtpZFBgrh6Pseu64XTb2MLyFPlbW6hj8HYRQNOQ==}
@@ -5009,9 +5012,6 @@ packages:
       bluebird:
         optional: true
 
-  promise-limit@2.7.0:
-    resolution: {integrity: sha512-7nJ6v5lnJsXwGprnGXga4wx6d1POjvi5Qmf1ivTRxTjH4Z/9Czja/UCMLVmB9N93GeWOU93XaFaEt6jbuoagNw==}
-
   promise-retry@2.0.1:
     resolution: {integrity: sha512-y+WKFlBR8BGXnsNlIHFGPZmyDf3DFMoLhaflAnyZgV6rG6xu+JwesTo2Q9R6XwYmtmwAFCkAk3e35jEdoeh/3g==}
     engines: {node: '>=10'}
@@ -6967,9 +6967,9 @@ snapshots:
 
   '@chevrotain/utils@10.5.0': {}
 
-  '@coji/kysely-libsql@0.3.0(@libsql/client@0.7.0)(kysely@0.27.4)':
+  '@coji/kysely-libsql@0.3.0(@libsql/client@0.5.6)(kysely@0.27.4)':
     dependencies:
-      '@libsql/client': 0.7.0
+      '@libsql/client': 0.5.6
       kysely: 0.27.4
 
   '@conform-to/dom@1.1.5': {}
@@ -7273,18 +7273,18 @@ snapshots:
 
   '@jspm/core@2.0.1': {}
 
-  '@libsql/client@0.7.0':
+  '@libsql/client@0.5.6':
     dependencies:
-      '@libsql/core': 0.7.0
-      '@libsql/hrana-client': 0.6.2
+      '@libsql/core': 0.5.6
+      '@libsql/hrana-client': 0.5.6
       js-base64: 3.7.7
       libsql: 0.3.19
-      promise-limit: 2.7.0
     transitivePeerDependencies:
       - bufferutil
+      - encoding
       - utf-8-validate
 
-  '@libsql/core@0.7.0':
+  '@libsql/core@0.5.6':
     dependencies:
       js-base64: 3.7.7
 
@@ -7294,17 +7294,23 @@ snapshots:
   '@libsql/darwin-x64@0.3.19':
     optional: true
 
-  '@libsql/hrana-client@0.6.2':
+  '@libsql/hrana-client@0.5.6':
     dependencies:
-      '@libsql/isomorphic-fetch': 0.2.1
+      '@libsql/isomorphic-fetch': 0.1.12
       '@libsql/isomorphic-ws': 0.1.5
       js-base64: 3.7.7
       node-fetch: 3.3.2
     transitivePeerDependencies:
       - bufferutil
+      - encoding
       - utf-8-validate
 
-  '@libsql/isomorphic-fetch@0.2.1': {}
+  '@libsql/isomorphic-fetch@0.1.12':
+    dependencies:
+      '@types/node-fetch': 2.6.11
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
 
   '@libsql/isomorphic-ws@0.1.5':
     dependencies:
@@ -8876,6 +8882,11 @@ snapshots:
     dependencies:
       '@types/node': 20.14.10
 
+  '@types/node-fetch@2.6.11':
+    dependencies:
+      '@types/node': 20.14.10
+      form-data: 4.0.0
+
   '@types/node@20.14.10':
     dependencies:
       undici-types: 5.26.5
@@ -8937,7 +8948,7 @@ snapshots:
       '@babel/plugin-syntax-typescript': 7.24.7(@babel/core@7.24.8)
       '@vanilla-extract/babel-plugin-debug-ids': 1.0.6
       '@vanilla-extract/css': 1.15.3
-      esbuild: 0.17.6
+      esbuild: 0.17.19
       eval: 0.1.8
       find-up: 5.0.0
       javascript-stringify: 2.1.0
@@ -12005,8 +12016,6 @@ snapshots:
   progress@2.0.3: {}
 
   promise-inflight@1.0.1: {}
-
-  promise-limit@2.7.0: {}
 
   promise-retry@2.0.1:
     dependencies:
