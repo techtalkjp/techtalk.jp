@@ -24,7 +24,9 @@ import {
   RadioGroupItem,
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
   Stack,
@@ -84,6 +86,10 @@ const schema = z.object({
   f17_color: z.string({ required_error: '必須' }),
   f18_textarea: z.string({ required_error: '必須' }).min(1).max(1000, {
     message: '1000文字以内で入力してください',
+  }),
+  f19_select: z.enum(['Apple', 'Banana', 'Orange'], {
+    required_error: '必須',
+    message: 'Apple, Banana, Orangeのいずれかを選択してください',
   }),
 })
 
@@ -190,6 +196,10 @@ export default function ShadcnUiPage() {
                 name: fields.f18_textarea.name,
                 value: 'テキスト\nエ\nリ\nア\n',
               })
+              form.update({
+                name: fields.f19_select.name,
+                value: 'Banana',
+              })
               toast.info('フォームにテストデータを入力しました')
             }}
           >
@@ -218,8 +228,7 @@ export default function ShadcnUiPage() {
               {...getInputProps(fields.f1_text, { type: 'text' })}
               key={fields.f1_text.key}
             />
-            <div className="text-destructive-foreground">
-              {' '}
+            <div id={fields.f1_text.errorId} className="text-destructive">
               {fields.f1_text.errors}
             </div>
           </div>
@@ -234,7 +243,7 @@ export default function ShadcnUiPage() {
               {...getInputProps(fields.f2_email, { type: 'email' })}
               key={fields.f2_email.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f2_email.errorId} className="text-destructive">
               {fields.f2_email.errors}
             </div>
           </div>
@@ -249,7 +258,7 @@ export default function ShadcnUiPage() {
               {...getInputProps(fields.f3_search, { type: 'search' })}
               key={fields.f3_search.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f3_search.errorId} className="text-destructive">
               {fields.f3_search.errors}
             </div>
           </div>
@@ -264,7 +273,7 @@ export default function ShadcnUiPage() {
               {...getInputProps(fields.f4_password, { type: 'password' })}
               key={fields.f4_password.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f4_password.errorId} className="text-destructive">
               {fields.f4_password.errors}
             </div>
           </div>
@@ -279,7 +288,7 @@ export default function ShadcnUiPage() {
               {...getInputProps(fields.f5_url, { type: 'url' })}
               key={fields.f5_url.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f5_url.errorId} className="text-destructive">
               {fields.f5_url.errors}
             </div>
           </div>
@@ -294,7 +303,7 @@ export default function ShadcnUiPage() {
               {...getInputProps(fields.f6_phone, { type: 'tel' })}
               key={fields.f6_phone.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f6_phone.errorId} className="text-destructive">
               {fields.f6_phone.errors}
             </div>
           </div>
@@ -315,7 +324,7 @@ export default function ShadcnUiPage() {
               {...getInputProps(fields.f7_number, { type: 'number' })}
               key={fields.f7_number.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f7_number.errorId} className="text-destructive">
               {fields.f7_number.errors}
             </div>
           </div>
@@ -336,7 +345,7 @@ export default function ShadcnUiPage() {
               />
               <div>{fields.f8_range.value}</div>
             </HStack>
-            <div className="text-destructive-foreground">
+            <div id={fields.f8_range.errorId} className="text-destructive">
               {fields.f8_range.errors}
             </div>
           </div>
@@ -359,7 +368,7 @@ export default function ShadcnUiPage() {
               {...getInputProps(fields.f9_date, { type: 'date' })}
               key={fields.f9_date.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f9_date.errorId} className="text-destructive">
               {fields.f9_date.errors}
             </div>
           </div>
@@ -376,7 +385,7 @@ export default function ShadcnUiPage() {
               step={1}
               key={fields.f10_datetime.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f10_datetime.errorId} className="text-destructive">
               {fields.f10_datetime.errors}
             </div>
           </div>
@@ -391,7 +400,7 @@ export default function ShadcnUiPage() {
               step={1}
               key={fields.f11_time.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f11_time.errorId} className="text-destructive">
               {fields.f11_time.errors}
             </div>
           </div>
@@ -405,7 +414,7 @@ export default function ShadcnUiPage() {
               {...getInputProps(fields.f12_month, { type: 'month' })}
               key={fields.f12_month.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f12_month.errorId} className="text-destructive">
               {fields.f12_month.errors}
             </div>
           </div>
@@ -419,7 +428,7 @@ export default function ShadcnUiPage() {
               {...getInputProps(fields.f13_week, { type: 'week' })}
               key={fields.f13_week.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f13_week.errorId} className="text-destructive">
               {fields.f13_week.errors}
             </div>
           </div>
@@ -438,13 +447,13 @@ export default function ShadcnUiPage() {
             <h3>Checkbox</h3>
             <HStack>
               <Input
-                className="h-auto w-auto shadow-none"
+                className="h-auto w-auto cursor-pointer shadow-none"
                 {...getInputProps(fields.f14_checkbox, { type: 'checkbox' })}
                 key={fields.f14_checkbox.key}
               />
               <Label htmlFor={fields.f14_checkbox.id}>確認しました</Label>
             </HStack>
-            <div className="text-destructive-foreground">
+            <div id={fields.f14_checkbox.errorId} className="text-destructive">
               {fields.f14_checkbox.errors}
             </div>
           </div>
@@ -455,7 +464,7 @@ export default function ShadcnUiPage() {
             <fieldset>
               <HStack>
                 <Input
-                  className="h-auto w-auto shadow-none"
+                  className="h-auto w-auto cursor-pointer shadow-none"
                   {...getInputProps(fields.f15_radio, {
                     type: 'radio',
                     value: 'A',
@@ -467,7 +476,7 @@ export default function ShadcnUiPage() {
               </HStack>
               <HStack>
                 <Input
-                  className="h-auto w-auto shadow-none"
+                  className="h-auto w-auto cursor-pointer shadow-none"
                   {...getInputProps(fields.f15_radio, {
                     type: 'radio',
                     value: 'B',
@@ -479,7 +488,7 @@ export default function ShadcnUiPage() {
               </HStack>
               <HStack>
                 <Input
-                  className="h-auto w-auto shadow-none"
+                  className="h-auto w-auto cursor-pointer shadow-none"
                   {...getInputProps(fields.f15_radio, {
                     type: 'radio',
                     value: 'C',
@@ -490,7 +499,7 @@ export default function ShadcnUiPage() {
                 <Label htmlFor={`${fields.f15_radio.id}-C`}>C</Label>
               </HStack>
             </fieldset>
-            <div className="text-destructive-foreground">
+            <div id={fields.f15_radio.errorId} className="text-destructive">
               {fields.f15_radio.errors}
             </div>
           </div>
@@ -498,10 +507,11 @@ export default function ShadcnUiPage() {
           <div>
             <h3>File</h3>
             <Input
+              className="cursor-pointer"
               {...getInputProps(fields.f16_file, { type: 'file' })}
               key={fields.f16_file.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f16_file.errorId} className="text-destructive">
               {fields.f16_file.errors}
             </div>
           </div>
@@ -509,42 +519,74 @@ export default function ShadcnUiPage() {
           <div>
             <h3>Color</h3>
             <Input
+              className="cursor-pointer"
               {...getInputProps(fields.f17_color, { type: 'color' })}
               key={fields.f17_color.key}
             />
-            <div className="text-destructive-foreground">
+            <div id={fields.f17_color.errorId} className="text-destructive">
               {fields.f17_color.errors}
             </div>
           </div>
         </Stack>
 
-        <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
-          Textarea
-        </h2>
-        {/* Textarea */}
-        <div>
-          <h3>Textarea</h3>
-          <Textarea
-            placeholder="テキストエリア"
-            {...getTextareaProps(fields.f18_textarea)}
-            key={fields.f18_textarea.key}
-          />
-          <div className="text-destructive-foreground">
-            {fields.f18_textarea.errors}
-          </div>
-        </div>
+        <Stack>
+          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
+            Textarea
+          </h2>
 
-        <div>
-          <h3>select</h3>
-          <Select>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="a">a </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+          {/* Textarea */}
+          <div>
+            <h3>Textarea</h3>
+            <Textarea
+              placeholder="テキストエリア"
+              {...getTextareaProps(fields.f18_textarea)}
+              key={fields.f18_textarea.key}
+            />
+            <div id={fields.f18_textarea.errorId} className="text-destructive">
+              {fields.f18_textarea.errors}
+            </div>
+          </div>
+        </Stack>
+
+        <Stack>
+          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
+            Select
+          </h2>
+
+          {/* Select */}
+          <div>
+            <h3>Select</h3>
+
+            <Select
+              name={fields.f19_select.name}
+              defaultValue={fields.f19_select.initialValue ?? ''}
+              key={fields.f19_select.key}
+              onValueChange={(value) => {
+                console.log('onValueChange', value)
+                form.update({
+                  name: fields.f19_select.name,
+                  value,
+                })
+              }}
+            >
+              <SelectTrigger id={fields.f19_select.id}>
+                <SelectValue placeholder="選択してください" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Fruits</SelectLabel>
+                  <SelectItem value="Invalid">Invalid</SelectItem>
+                  <SelectItem value="Apple">Apple</SelectItem>
+                  <SelectItem value="Banana">Banana</SelectItem>
+                  <SelectItem value="Orange">Orange</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            <div id={fields.f19_select.errorId} className="text-destructive">
+              {fields.f19_select.errors}
+            </div>
+          </div>
+        </Stack>
 
         <div>
           <h3>checkbox</h3>
