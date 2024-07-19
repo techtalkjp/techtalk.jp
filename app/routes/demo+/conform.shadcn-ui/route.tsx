@@ -114,7 +114,10 @@ export default function ShadcnUiPage() {
   const actionData = useActionData<typeof action>()
   const [form, fields] = useForm({
     lastResult: actionData?.lastResult,
-    onValidate: ({ formData }) => parseWithZod(formData, { schema }),
+    onValidate: ({ formData }) => {
+      console.log('onValidate', Object.fromEntries(formData.entries()))
+      return parseWithZod(formData, { schema })
+    },
     constraint: getZodConstraint(schema),
     shouldValidate: 'onBlur',
     shouldRevalidate: 'onInput',
@@ -557,31 +560,47 @@ export default function ShadcnUiPage() {
           <div>
             <h3>Select</h3>
 
-            <Select
-              name={fields.f19_select.name}
-              defaultValue={fields.f19_select.initialValue ?? ''}
-              key={fields.f19_select.key}
-              onValueChange={(value) => {
-                console.log('onValueChange', value)
-                form.update({
-                  name: fields.f19_select.name,
-                  value,
-                })
-              }}
-            >
-              <SelectTrigger id={fields.f19_select.id}>
-                <SelectValue placeholder="選択してください" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Fruits</SelectLabel>
-                  <SelectItem value="Invalid">Invalid</SelectItem>
-                  <SelectItem value="Apple">Apple</SelectItem>
-                  <SelectItem value="Banana">Banana</SelectItem>
-                  <SelectItem value="Orange">Orange</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <HStack>
+              <Select
+                name={fields.f19_select.name}
+                defaultValue={fields.f19_select.initialValue}
+                key={fields.f19_select.key}
+                onValueChange={(value) => {
+                  console.log('onValueChange', value)
+                  form.update({
+                    name: fields.f19_select.name,
+                    value,
+                  })
+                }}
+              >
+                <SelectTrigger id={fields.f19_select.id}>
+                  <SelectValue placeholder="選択してください" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Fruits</SelectLabel>
+                    <SelectItem value="Apple">Apple</SelectItem>
+                    <SelectItem value="Banana">Banana</SelectItem>
+                    <SelectItem value="Orange">Orange</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {fields.f19_select.value && (
+                <Button
+                  type="button"
+                  variant="link"
+                  size="xs"
+                  onClick={() => {
+                    form.update({
+                      name: fields.f19_select.name,
+                      value: '',
+                    })
+                  }}
+                >
+                  Clear
+                </Button>
+              )}
+            </HStack>
             <div id={fields.f19_select.errorId} className="text-destructive">
               {fields.f19_select.errors}
             </div>
