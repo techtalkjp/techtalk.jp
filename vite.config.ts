@@ -17,7 +17,10 @@ export default defineConfig({
     !process.env.VITEST
       ? remix({
           ignoredRouteFiles: ['**/.*'],
-          routes: (defineRoutes) => flatRoutes('routes', defineRoutes),
+          routes: (defineRoutes) =>
+            flatRoutes('routes', defineRoutes, {
+              ignoredRouteFiles: ['**/index.ts'],
+            }),
           presets: [vercelPreset()],
           future: {
             v3_fetcherPersist: true,
