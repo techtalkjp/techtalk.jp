@@ -52,6 +52,11 @@ const demoPages: {
       title: 'Conform オブジェクトの配列フォーム',
       ext: '/route.tsx',
     },
+    {
+      path: '/demo/conform/shadcn-ui',
+      title: 'shadcn/ui を使ったフォーム',
+      ext: '/route.tsx',
+    },
   ],
   db: [
     {
