@@ -54,7 +54,7 @@ const demoPages: {
     },
     {
       path: '/demo/conform/shadcn-ui',
-      title: 'shadcn/ui を使ったフォーム',
+      title: 'shadcn/ui フォームバリデーション',
       ext: '/route.tsx',
     },
   ],
