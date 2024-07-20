@@ -700,7 +700,7 @@ export default function ShadcnUiPage() {
             </div>
           </div>
 
-          {/* Select with controll */}
+          {/* Select with helper */}
           <div>
             <Label htmlFor={fields.f20_selectWithHelper.id}>
               Select <small>with helper</small>
