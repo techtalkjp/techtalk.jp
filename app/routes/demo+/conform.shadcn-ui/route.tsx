@@ -797,7 +797,7 @@ export default function ShadcnUiPage() {
           </div>
           <div>
             <h3>
-              Checkbox <small>withHelper</small>
+              Checkbox <small>with helper</small>
             </h3>
             <HStack>
               <Checkbox
@@ -866,7 +866,7 @@ export default function ShadcnUiPage() {
 
           <div>
             <h3>
-              Switch <small>withHelper</small>
+              Switch <small>with helper</small>
             </h3>
             <HStack>
               <Switch
