@@ -7,6 +7,7 @@ import {
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
+import { twc } from 'react-twc'
 import { jsonWithSuccess } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -34,6 +35,9 @@ import {
   getSelectTriggerProps,
   getSwitchProps,
 } from './helper'
+
+const Section = twc(Stack)``
+const SectionHeading = twc.h2`mt-4 w-full flex-1 border-b text-2xl font-bold`
 
 const schema = z.object({
   f1_text: z
@@ -296,13 +300,13 @@ export default function ShadcnUiPage() {
           </Button>
         </HStack>
 
-        <Stack>
-          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
+        <Section>
+          <SectionHeading>
             Input{' '}
             <small className="text-muted-foreground">
               text, email, search, password, url, tel
             </small>
-          </h2>
+          </SectionHeading>
 
           {/* input text */}
           <div>
@@ -393,12 +397,12 @@ export default function ShadcnUiPage() {
               {fields.f6_phone.errors}
             </div>
           </div>
-        </Stack>
+        </Section>
 
-        <Stack>
-          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
+        <Section>
+          <SectionHeading>
             Input <small className="text-muted-foreground">number, range</small>
-          </h2>
+          </SectionHeading>
 
           {/* input number */}
           <div>
@@ -435,15 +439,15 @@ export default function ShadcnUiPage() {
               {fields.f8_range.errors}
             </div>
           </div>
-        </Stack>
+        </Section>
 
-        <Stack>
-          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
+        <Section>
+          <SectionHeading>
             Input{' '}
             <small className="text-muted-foreground">
               date, datetime-local, time, month, week
             </small>
-          </h2>
+          </SectionHeading>
 
           {/* input date */}
           <div>
@@ -518,15 +522,15 @@ export default function ShadcnUiPage() {
               {fields.f13_week.errors}
             </div>
           </div>
-        </Stack>
+        </Section>
 
-        <Stack>
-          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
+        <Section>
+          <SectionHeading>
             Input{' '}
             <small className="text-muted-foreground">
               checkbox, radio, file, color
             </small>
-          </h2>
+          </SectionHeading>
 
           {/* input checkbox */}
           <div>
@@ -634,12 +638,10 @@ export default function ShadcnUiPage() {
               {fields.f17_color.errors}
             </div>
           </div>
-        </Stack>
+        </Section>
 
-        <Stack>
-          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
-            Textarea
-          </h2>
+        <Section>
+          <SectionHeading>Textarea</SectionHeading>
 
           {/* Textarea */}
           <div>
@@ -653,12 +655,10 @@ export default function ShadcnUiPage() {
               {fields.f18_textarea.errors}
             </div>
           </div>
-        </Stack>
+        </Section>
 
-        <Stack>
-          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
-            Select
-          </h2>
+        <Section>
+          <SectionHeading>Select</SectionHeading>
           {/* Select */}
           <div>
             <Label htmlFor={fields.f19_select.id}>Select</Label>
@@ -773,12 +773,10 @@ export default function ShadcnUiPage() {
               {fields.f20_selectWithHelper.errors}
             </div>
           </div>
-        </Stack>
+        </Section>
 
-        <Stack>
-          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
-            Checkbox
-          </h2>
+        <Section>
+          <SectionHeading>Checkbox</SectionHeading>
           <div>
             <h3>Checkbox</h3>
             <HStack>
@@ -845,12 +843,10 @@ export default function ShadcnUiPage() {
               {fields.f22_checkboxWithHelper.errors}
             </div>
           </div>
-        </Stack>
+        </Section>
 
-        <Stack>
-          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
-            Switch
-          </h2>
+        <Section>
+          <SectionHeading>Switch</SectionHeading>
           <div>
             <h3>Switch</h3>
             <HStack>
@@ -914,12 +910,10 @@ export default function ShadcnUiPage() {
               {fields.f24_switchWithHelper.errors}
             </div>
           </div>
-        </Stack>
+        </Section>
 
-        <Stack>
-          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
-            RadioGroup
-          </h2>
+        <Section>
+          <SectionHeading>RadioGroup</SectionHeading>
           <div>
             <h3>Radio Group</h3>
             <RadioGroup
@@ -1046,12 +1040,10 @@ export default function ShadcnUiPage() {
               {fields.f26_radioGroupWithHelper.errors}
             </div>
           </div>
-        </Stack>
+        </Section>
 
-        <Stack>
-          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
-            Debug
-          </h2>
+        <Section>
+          <SectionHeading>Debug</SectionHeading>
           <div>
             <h3>form value</h3>
             <div className="overflow-auto rounded-md border p-4">
@@ -1065,7 +1057,7 @@ export default function ShadcnUiPage() {
               <div>{JSON.stringify(form.allErrors, null, 2)}</div>
             </div>
           </div>
-        </Stack>
+        </Section>
 
         <Button>Submit</Button>
       </Stack>
