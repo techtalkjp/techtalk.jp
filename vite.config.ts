@@ -1,6 +1,5 @@
 import mdx from '@mdx-js/rollup'
 import { vitePlugin as remix } from '@remix-run/dev'
-import { installGlobals } from '@remix-run/node'
 import { vercelPreset } from '@vercel/remix/vite'
 import react from '@vitejs/plugin-react'
 import remarkFrontmatter from 'remark-frontmatter'
