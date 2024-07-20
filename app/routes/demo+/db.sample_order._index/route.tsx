@@ -14,6 +14,7 @@ import {
   useLoaderData,
   useNavigation,
 } from '@remix-run/react'
+import { jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   Badge,
@@ -34,7 +35,6 @@ import {
   TabsTrigger,
   Textarea,
 } from '~/components/ui'
-import { jsonWithSuccess } from '~/services/single-fetch-toast'
 import { createSampleOrder } from './mutations'
 import { listSampleOrders } from './queries'
 
@@ -88,7 +88,7 @@ export const loader = async ({ request, response }: LoaderFunctionArgs) => {
   }
 }
 
-export const action = async ({ request, response }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { result: submission.reply(), duration: null }
@@ -102,7 +102,6 @@ export const action = async ({ request, response }: ActionFunctionArgs) => {
   const timeEnd = Date.now()
 
   return await jsonWithSuccess(
-    response,
     {
       result: submission.reply({ resetForm: true }),
       duration: timeEnd - timeStart,

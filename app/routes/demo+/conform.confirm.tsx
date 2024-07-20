@@ -8,6 +8,7 @@ import {
   useRevalidator,
 } from '@remix-run/react'
 import { setTimeout } from 'node:timers/promises'
+import { jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   AlertDialog,
@@ -22,14 +23,13 @@ import {
   Input,
   Label,
 } from '~/components/ui'
-import { jsonWithSuccess } from '~/services/single-fetch-toast'
 
 const schema = z.object({
   intent: z.enum(['confirm', 'submit']),
   email: z.string().email(),
 })
 
-export const action = async ({ request, response }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { result: submission.reply(), shouldConfirm: false }
@@ -45,7 +45,6 @@ export const action = async ({ request, response }: ActionFunctionArgs) => {
 
   // 成功: resetForm: true でフォームをリセットさせる
   return jsonWithSuccess(
-    response,
     { result: submission.reply({ resetForm: true }), shouldConfirm: false },
     { message: '削除しました', description: submission.value.email }, // toast 表示
   )

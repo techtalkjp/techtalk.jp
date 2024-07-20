@@ -3,6 +3,7 @@ import { parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import { TrashIcon } from 'lucide-react'
+import { jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   Button,
@@ -19,7 +20,6 @@ import {
   TooltipTrigger,
 } from '~/components/ui'
 import { ZipInput } from '~/routes/demo+/resources.zip-input/route'
-import { jsonWithSuccess } from '~/services/single-fetch-toast'
 import { fakeEmail, fakeName, fakeTel, fakeZip } from './faker.server'
 
 const schema = z.object({
@@ -52,7 +52,7 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   return { defaultPersons, fakePersons }
 }
 
-export const action = async ({ request, response }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), result: null }
@@ -73,7 +73,6 @@ export const action = async ({ request, response }: ActionFunctionArgs) => {
   }
 
   return jsonWithSuccess(
-    response,
     {
       lastResult: submission.reply({ resetForm: true }),
       result: submission.value.persons.map((person, idx) => ({

@@ -2,6 +2,7 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
+import { jsonWithError, jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   Button,
@@ -13,7 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/ui'
-import { jsonWithError, jsonWithSuccess } from '~/services/single-fetch-toast'
 
 export const meta: MetaFunction = () => {
   return [
@@ -27,14 +27,14 @@ const schema = z.object({
   message: z.string(),
 })
 
-export const action = async ({ request, response }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return jsonWithError(response, submission.reply(), {
+    return jsonWithError(submission.reply(), {
       message: 'エラーが発生しました',
     })
   }
-  return jsonWithSuccess(response, submission.reply({ resetForm: true }), {
+  return jsonWithSuccess(submission.reply({ resetForm: true }), {
     message: '登録しました！',
   })
 }

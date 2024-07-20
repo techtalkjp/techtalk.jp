@@ -3,10 +3,10 @@ import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useNavigation } from '@remix-run/react'
 import { setTimeout } from 'node:timers/promises'
+import { jsonWithSuccess } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button, HStack, Input, Label } from '~/components/ui'
-import { jsonWithSuccess } from '~/services/single-fetch-toast'
 
 // フォーム要素のスキーマ定義
 const schema = z.object({
@@ -47,7 +47,7 @@ export const action = async ({ request, response }: ActionFunctionArgs) => {
 
   await setTimeout(200)
 
-  return jsonWithSuccess(response, submission.reply({ resetForm: true }), {
+  return jsonWithSuccess(submission.reply({ resetForm: true }), {
     message: '登録しました！',
     description: `${submission.value.prefecture}${submission.value.city}${submission.value.street ?? ''}`,
   })
