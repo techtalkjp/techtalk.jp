@@ -5,8 +5,8 @@ import {
   useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs } from '@remix-run/node'
-import { Form, useActionData } from '@remix-run/react'
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
+import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import { jsonWithSuccess } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -24,9 +24,7 @@ import {
   RadioGroupItem,
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
   Stack,
@@ -36,6 +34,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '~/components/ui'
+import { getSelectProps, getSelectTriggerProps } from './helper'
 
 const schema = z.object({
   f1_text: z
@@ -87,11 +86,44 @@ const schema = z.object({
   f18_textarea: z.string({ required_error: '必須' }).min(1).max(1000, {
     message: '1000文字以内で入力してください',
   }),
-  f19_select: z.enum(['Apple', 'Banana', 'Orange'], {
+  f19_select: z.enum(['apple', 'peach', 'strawberry', 'cherry', 'plum'], {
     required_error: '必須',
-    message: 'Apple, Banana, Orangeのいずれかを選択してください',
+    message: 'いずれかを選択してください',
   }),
+  f20_selectWithHelper: z.enum(
+    ['apple', 'peach', 'strawberry', 'cherry', 'plum'],
+    {
+      required_error: '必須',
+      message: 'いずれかを選択してください',
+    },
+  ),
 })
+
+const testData = {
+  f1_text: 'テキスト',
+  f2_email: 'test@example.com',
+  f3_search: '検索キーワード',
+  f4_password: 'password',
+  f5_url: 'https://example.com',
+  f6_phone: '080-1234-5678',
+  f7_number: 123,
+  f8_range: 50,
+  f9_date: '2022-01-01',
+  f10_datetime: '2022-01-01T12:23:45',
+  f11_time: '12:00:00',
+  f12_month: '2022-01',
+  f13_week: '2022-W01',
+  f14_checkbox: true,
+  f15_radio: 'B',
+  f17_color: '#ff0000',
+  f18_textarea: 'テキスト\nエ\nリ\nア\n',
+  f19_select: 'apple',
+  f20_selectWithHelper: 'apple',
+}
+
+export const loader = ({ request }: LoaderFunctionArgs) => {
+  return { defaultValue: {} }
+}
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
@@ -111,17 +143,96 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 export default function ShadcnUiPage() {
+  const { defaultValue } = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const [form, fields] = useForm({
+    defaultValue: { ...defaultValue },
     lastResult: actionData?.lastResult,
-    onValidate: ({ formData }) => {
-      console.log('onValidate', Object.fromEntries(formData.entries()))
-      return parseWithZod(formData, { schema })
-    },
+    onValidate: ({ formData }) => parseWithZod(formData, { schema }),
     constraint: getZodConstraint(schema),
     shouldValidate: 'onBlur',
     shouldRevalidate: 'onInput',
   })
+
+  const handleClickSetTestData = () => {
+    form.update({
+      name: fields.f1_text.name,
+      value: testData.f1_text,
+    })
+    form.update({
+      name: fields.f2_email.name,
+      value: testData.f2_email,
+    })
+    form.update({
+      name: fields.f3_search.name,
+      value: testData.f3_search,
+    })
+    form.update({
+      name: fields.f4_password.name,
+      value: testData.f4_password,
+    })
+    form.update({
+      name: fields.f5_url.name,
+      value: testData.f5_url,
+    })
+    form.update({
+      name: fields.f6_phone.name,
+      value: testData.f6_phone,
+    })
+    form.update({
+      name: fields.f7_number.name,
+      value: testData.f7_number,
+    })
+    form.update({
+      name: fields.f8_range.name,
+      value: testData.f8_range,
+    })
+    form.update({
+      name: fields.f9_date.name,
+      value: testData.f9_date,
+    })
+    form.update({
+      name: fields.f10_datetime.name,
+      value: testData.f10_datetime,
+    })
+    form.update({
+      name: fields.f11_time.name,
+      value: testData.f11_time,
+    })
+    form.update({
+      name: fields.f12_month.name,
+      value: testData.f12_month,
+    })
+    form.update({
+      name: fields.f13_week.name,
+      value: testData.f13_week,
+    })
+    form.update({
+      name: fields.f14_checkbox.name,
+      value: testData.f14_checkbox,
+    })
+    form.update({
+      name: fields.f15_radio.name,
+      value: testData.f15_radio,
+    })
+    form.update({
+      name: fields.f17_color.name,
+      value: testData.f17_color,
+    })
+    form.update({
+      name: fields.f18_textarea.name,
+      value: testData.f18_textarea,
+    })
+    form.update({
+      name: fields.f19_select.name,
+      value: testData.f19_select,
+    })
+    form.update({
+      name: fields.f20_selectWithHelper.name,
+      value: testData.f20_selectWithHelper,
+    })
+    toast.info('フォームにテストデータを入力しました')
+  }
 
   return (
     <Form {...getFormProps(form)} method="post">
@@ -130,81 +241,7 @@ export default function ShadcnUiPage() {
           <Button
             type="button"
             size="xs"
-            onClick={() => {
-              form.update({
-                name: fields.f1_text.name,
-                value: 'テキスト',
-              })
-              form.update({
-                name: fields.f2_email.name,
-                value: 'test@example.com',
-              })
-              form.update({
-                name: fields.f3_search.name,
-                value: '検索キーワード',
-              })
-              form.update({
-                name: fields.f4_password.name,
-                value: 'password',
-              })
-              form.update({
-                name: fields.f5_url.name,
-                value: 'https://example.com',
-              })
-              form.update({
-                name: fields.f6_phone.name,
-                value: '080-1234-5678',
-              })
-              form.update({
-                name: fields.f7_number.name,
-                value: 123,
-              })
-              form.update({
-                name: fields.f8_range.name,
-                value: 50,
-              })
-              form.update({
-                name: fields.f9_date.name,
-                value: '2022-01-01',
-              })
-              form.update({
-                name: fields.f10_datetime.name,
-                value: '2022-01-01T12:23:45',
-              })
-              form.update({
-                name: fields.f11_time.name,
-                value: '12:00:00',
-              })
-              form.update({
-                name: fields.f12_month.name,
-                value: '2022-01',
-              })
-              form.update({
-                name: fields.f13_week.name,
-                value: '2022-W01',
-              })
-              form.update({
-                name: fields.f14_checkbox.name,
-                value: true,
-              })
-              form.update({
-                name: fields.f15_radio.name,
-                value: 'B',
-              })
-              form.update({
-                name: fields.f17_color.name,
-                value: '#ff0000',
-              })
-              form.update({
-                name: fields.f18_textarea.name,
-                value: 'テキスト\nエ\nリ\nア\n',
-              })
-              form.update({
-                name: fields.f19_select.name,
-                value: 'Banana',
-              })
-              toast.info('フォームにテストデータを入力しました')
-            }}
+            onClick={() => handleClickSetTestData()}
           >
             テストデータ入力
           </Button>
@@ -223,9 +260,9 @@ export default function ShadcnUiPage() {
 
           {/* input text */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f1_text.id}>
               Input <small>text</small>
-            </h3>
+            </Label>
             <Input
               placeholder="テキスト"
               {...getInputProps(fields.f1_text, { type: 'text' })}
@@ -238,9 +275,9 @@ export default function ShadcnUiPage() {
 
           {/* input email */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f2_email.id}>
               Input <small>email</small>
-            </h3>
+            </Label>
             <Input
               placeholder="test@example.com"
               {...getInputProps(fields.f2_email, { type: 'email' })}
@@ -253,9 +290,9 @@ export default function ShadcnUiPage() {
 
           {/* input search */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f3_search.id}>
               Input <small>search</small>
-            </h3>
+            </Label>
             <Input
               placeholder="検索キーワード"
               {...getInputProps(fields.f3_search, { type: 'search' })}
@@ -268,9 +305,9 @@ export default function ShadcnUiPage() {
 
           {/* input password */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f4_password.id}>
               Input <small>password</small>
-            </h3>
+            </Label>
             <Input
               placeholder="パスワード"
               {...getInputProps(fields.f4_password, { type: 'password' })}
@@ -283,9 +320,9 @@ export default function ShadcnUiPage() {
 
           {/* input url */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f5_url.id}>
               Input <small>url</small>
-            </h3>
+            </Label>
             <Input
               placeholder="https://example.com"
               {...getInputProps(fields.f5_url, { type: 'url' })}
@@ -298,9 +335,9 @@ export default function ShadcnUiPage() {
 
           {/* input tel */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f6_phone.id}>
               Input <small>tel</small>
-            </h3>
+            </Label>
             <Input
               placeholder="080-1234-5678"
               {...getInputProps(fields.f6_phone, { type: 'tel' })}
@@ -319,9 +356,9 @@ export default function ShadcnUiPage() {
 
           {/* input number */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f7_number.id}>
               Input <small>number</small>
-            </h3>
+            </Label>
             <Input
               placeholder="123"
               {...getInputProps(fields.f7_number, { type: 'number' })}
@@ -334,9 +371,9 @@ export default function ShadcnUiPage() {
 
           {/* input range */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f8_range.id}>
               Input <small>range</small>
-            </h3>
+            </Label>
             <HStack>
               <Input
                 {...getInputProps(fields.f8_range, { type: 'range' })}
@@ -364,9 +401,9 @@ export default function ShadcnUiPage() {
 
           {/* input date */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f9_date.id}>
               Input <small>date</small>
-            </h3>
+            </Label>
             <Input
               {...getInputProps(fields.f9_date, { type: 'date' })}
               key={fields.f9_date.key}
@@ -378,9 +415,9 @@ export default function ShadcnUiPage() {
 
           {/* input datetime-local */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f10_datetime.id}>
               Input <small>datetime-local</small>
-            </h3>
+            </Label>
             <Input
               {...getInputProps(fields.f10_datetime, {
                 type: 'datetime-local',
@@ -395,9 +432,9 @@ export default function ShadcnUiPage() {
 
           {/* input time */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f11_time.id}>
               Input <small>time</small>
-            </h3>
+            </Label>
             <Input
               {...getInputProps(fields.f11_time, { type: 'time' })}
               step={1}
@@ -410,9 +447,9 @@ export default function ShadcnUiPage() {
 
           {/* input month */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f12_month.id}>
               Input <small>month</small>
-            </h3>
+            </Label>
             <Input
               {...getInputProps(fields.f12_month, { type: 'month' })}
               key={fields.f12_month.key}
@@ -424,9 +461,9 @@ export default function ShadcnUiPage() {
 
           {/* input week */}
           <div>
-            <h3>
+            <Label htmlFor={fields.f13_week.id}>
               Input <small>week</small>
-            </h3>
+            </Label>
             <Input
               {...getInputProps(fields.f13_week, { type: 'week' })}
               key={fields.f13_week.key}
@@ -447,7 +484,7 @@ export default function ShadcnUiPage() {
 
           {/* input checkbox */}
           <div>
-            <h3>Checkbox</h3>
+            <div>Checkbox</div>
             <HStack>
               <Input
                 className="h-auto w-auto cursor-pointer shadow-none"
@@ -463,8 +500,9 @@ export default function ShadcnUiPage() {
 
           {/* input radio */}
           <div>
-            <h3>Radio</h3>
+            <div>Radio</div>
             <fieldset>
+              <legend>ラジオボタン</legend>
               <HStack>
                 <Input
                   className="h-auto w-auto cursor-pointer shadow-none"
@@ -508,7 +546,7 @@ export default function ShadcnUiPage() {
           </div>
 
           <div>
-            <h3>File</h3>
+            <Label htmlFor={fields.f16_file.id}>File</Label>
             <Input
               className="cursor-pointer"
               {...getInputProps(fields.f16_file, { type: 'file' })}
@@ -520,7 +558,7 @@ export default function ShadcnUiPage() {
           </div>
 
           <div>
-            <h3>Color</h3>
+            <Label htmlFor={fields.f17_color.id}>Color</Label>
             <Input
               className="cursor-pointer"
               {...getInputProps(fields.f17_color, { type: 'color' })}
@@ -539,7 +577,7 @@ export default function ShadcnUiPage() {
 
           {/* Textarea */}
           <div>
-            <h3>Textarea</h3>
+            <Label htmlFor={fields.f18_textarea.id}>Textarea</Label>
             <Textarea
               placeholder="テキストエリア"
               {...getTextareaProps(fields.f18_textarea)}
@@ -555,36 +593,44 @@ export default function ShadcnUiPage() {
           <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
             Select
           </h2>
-
           {/* Select */}
           <div>
-            <h3>Select</h3>
-
+            <Label htmlFor={fields.f19_select.id}>Select</Label>
             <HStack>
               <Select
                 name={fields.f19_select.name}
+                required={fields.f19_select.required}
                 defaultValue={fields.f19_select.initialValue}
                 key={fields.f19_select.key}
                 onValueChange={(value) => {
-                  console.log('onValueChange', value)
                   form.update({
                     name: fields.f19_select.name,
                     value,
                   })
                 }}
               >
-                <SelectTrigger id={fields.f19_select.id}>
+                <SelectTrigger
+                  id={fields.f19_select.id}
+                  className={'aria-invalid:border-destructive'}
+                  aria-invalid={!fields.f19_select.valid || undefined}
+                  aria-describedby={
+                    !fields.f19_select.valid
+                      ? fields.f19_select.errorId
+                      : undefined
+                  }
+                >
                   <SelectValue placeholder="選択してください" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Fruits</SelectLabel>
-                    <SelectItem value="Apple">Apple</SelectItem>
-                    <SelectItem value="Banana">Banana</SelectItem>
-                    <SelectItem value="Orange">Orange</SelectItem>
-                  </SelectGroup>
+                  <SelectItem value="apple">りんご</SelectItem>
+                  <SelectItem value="peach">もも</SelectItem>
+                  <SelectItem value="strawberry">いちご</SelectItem>
+                  <SelectItem value="cherry">さくらんぼ</SelectItem>
+                  <SelectItem value="plum">うめ</SelectItem>
                 </SelectContent>
               </Select>
+
+              {/* 選択解除 */}
               {fields.f19_select.value && (
                 <Button
                   type="button"
@@ -605,13 +651,71 @@ export default function ShadcnUiPage() {
               {fields.f19_select.errors}
             </div>
           </div>
+
+          {/* Select with controll */}
+          <div>
+            <Label htmlFor={fields.f20_selectWithHelper.id}>
+              Select <small>Control</small>
+            </Label>
+            <HStack>
+              <Select
+                {...getSelectProps(fields.f20_selectWithHelper)}
+                key={fields.f20_selectWithHelper.key}
+                onValueChange={(value) => {
+                  form.update({
+                    name: fields.f20_selectWithHelper.name,
+                    value,
+                  })
+                }}
+              >
+                <SelectTrigger
+                  {...getSelectTriggerProps(fields.f20_selectWithHelper)}
+                  className={
+                    fields.f20_selectWithHelper.errors && 'border-destructive'
+                  }
+                >
+                  <SelectValue placeholder="選択してください" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="apple">りんご</SelectItem>
+                  <SelectItem value="peach">もも</SelectItem>
+                  <SelectItem value="strawberry">いちご</SelectItem>
+                  <SelectItem value="cherry">さくらんぼ</SelectItem>
+                  <SelectItem value="plum">うめ</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* 選択解除 */}
+              {fields.f20_selectWithHelper.value && (
+                <Button
+                  type="button"
+                  variant="link"
+                  size="xs"
+                  onClick={() => {
+                    form.update({
+                      name: fields.f20_selectWithHelper.name,
+                      value: '',
+                    })
+                  }}
+                >
+                  Clear
+                </Button>
+              )}
+            </HStack>
+            <div
+              id={fields.f20_selectWithHelper.errorId}
+              className="text-destructive"
+            >
+              {fields.f20_selectWithHelper.errors}
+            </div>
+          </div>
         </Stack>
 
         <div>
           <h3>checkbox</h3>
           <HStack>
-            <Checkbox />
-            <Label>hoge</Label>
+            <Checkbox id="hoge" />
+            <Label htmlFor="hoge">hoge</Label>
           </HStack>
         </div>
 
