@@ -30,11 +30,13 @@ import {
   Stack,
   Switch,
   Textarea,
-  Toggle,
-  ToggleGroup,
-  ToggleGroupItem,
 } from '~/components/ui'
-import { getSelectProps, getSelectTriggerProps } from './helper'
+import {
+  getCheckboxProps,
+  getSelectProps,
+  getSelectTriggerProps,
+  getSwitchProps,
+} from './helper'
 
 const schema = z.object({
   f1_text: z
@@ -97,6 +99,10 @@ const schema = z.object({
       message: 'いずれかを選択してください',
     },
   ),
+  f21_checkbox: z.boolean({ required_error: '必須' }),
+  f22_checkboxWithHelper: z.boolean({ required_error: '必須' }),
+  f23_switch: z.boolean({ required_error: '必須' }),
+  f24_switchWithHelper: z.boolean({ required_error: '必須' }),
 })
 
 const testData = {
@@ -119,10 +125,16 @@ const testData = {
   f18_textarea: 'テキスト\nエ\nリ\nア\n',
   f19_select: 'apple',
   f20_selectWithHelper: 'apple',
+  f21_checkbox: 'on',
+  f22_checkboxWithHelper: 'on',
+  f23_switch: 'on',
+  f24_switchWithHelper: 'on',
 }
 
 export const loader = ({ request }: LoaderFunctionArgs) => {
-  return { defaultValue: {} }
+  return {
+    defaultValue: {},
+  }
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -230,6 +242,22 @@ export default function ShadcnUiPage() {
     form.update({
       name: fields.f20_selectWithHelper.name,
       value: testData.f20_selectWithHelper,
+    })
+    form.update({
+      name: fields.f21_checkbox.name,
+      value: testData.f21_checkbox,
+    })
+    form.update({
+      name: fields.f22_checkboxWithHelper.name,
+      value: testData.f22_checkboxWithHelper,
+    })
+    form.update({
+      name: fields.f23_switch.name,
+      value: testData.f23_switch,
+    })
+    form.update({
+      name: fields.f24_switchWithHelper.name,
+      value: testData.f24_switchWithHelper,
     })
     toast.info('フォームにテストデータを入力しました')
   }
@@ -491,7 +519,12 @@ export default function ShadcnUiPage() {
                 {...getInputProps(fields.f14_checkbox, { type: 'checkbox' })}
                 key={fields.f14_checkbox.key}
               />
-              <Label htmlFor={fields.f14_checkbox.id}>確認しました</Label>
+              <Label
+                htmlFor={fields.f14_checkbox.id}
+                className="cursor-pointer"
+              >
+                確認しました
+              </Label>
             </HStack>
             <div id={fields.f14_checkbox.errorId} className="text-destructive">
               {fields.f14_checkbox.errors}
@@ -513,7 +546,12 @@ export default function ShadcnUiPage() {
                   id={`${fields.f15_radio.id}-A`}
                   key={fields.f15_radio.key}
                 />
-                <Label htmlFor={`${fields.f15_radio.id}-A`}>A</Label>
+                <Label
+                  htmlFor={`${fields.f15_radio.id}-A`}
+                  className="cursor-pointer"
+                >
+                  A
+                </Label>
               </HStack>
               <HStack>
                 <Input
@@ -525,7 +563,12 @@ export default function ShadcnUiPage() {
                   id={`${fields.f15_radio.id}-B`}
                   key={fields.f15_radio.key}
                 />
-                <Label htmlFor={`${fields.f15_radio.id}-B`}>B</Label>
+                <Label
+                  htmlFor={`${fields.f15_radio.id}-B`}
+                  className="cursor-pointer"
+                >
+                  B
+                </Label>
               </HStack>
               <HStack>
                 <Input
@@ -537,7 +580,12 @@ export default function ShadcnUiPage() {
                   id={`${fields.f15_radio.id}-C`}
                   key={fields.f15_radio.key}
                 />
-                <Label htmlFor={`${fields.f15_radio.id}-C`}>C</Label>
+                <Label
+                  htmlFor={`${fields.f15_radio.id}-C`}
+                  className="cursor-pointer"
+                >
+                  C
+                </Label>
               </HStack>
             </fieldset>
             <div id={fields.f15_radio.errorId} className="text-destructive">
@@ -655,7 +703,7 @@ export default function ShadcnUiPage() {
           {/* Select with controll */}
           <div>
             <Label htmlFor={fields.f20_selectWithHelper.id}>
-              Select <small>Control</small>
+              Select <small>with helper</small>
             </Label>
             <HStack>
               <Select
@@ -670,9 +718,7 @@ export default function ShadcnUiPage() {
               >
                 <SelectTrigger
                   {...getSelectTriggerProps(fields.f20_selectWithHelper)}
-                  className={
-                    fields.f20_selectWithHelper.errors && 'border-destructive'
-                  }
+                  className="aria-invalid:border-destructive"
                 >
                   <SelectValue placeholder="選択してください" />
                 </SelectTrigger>
@@ -711,13 +757,146 @@ export default function ShadcnUiPage() {
           </div>
         </Stack>
 
-        <div>
-          <h3>checkbox</h3>
-          <HStack>
-            <Checkbox id="hoge" />
-            <Label htmlFor="hoge">hoge</Label>
-          </HStack>
-        </div>
+        <Stack>
+          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
+            Checkbox
+          </h2>
+          <div>
+            <h3>Checkbox</h3>
+            <HStack>
+              <Checkbox
+                key={fields.f21_checkbox.key}
+                id={fields.f21_checkbox.id}
+                name={fields.f21_checkbox.name}
+                required={fields.f21_checkbox.required}
+                defaultChecked={fields.f21_checkbox.initialValue === 'on'}
+                aria-invalid={!fields.f21_checkbox.valid || undefined}
+                aria-describedby={
+                  !fields.f21_checkbox.valid
+                    ? fields.f21_checkbox.errorId
+                    : undefined
+                }
+                className="aria-invalid:border-destructive"
+                onCheckedChange={(value) => {
+                  form.update({
+                    name: fields.f21_checkbox.name,
+                    value,
+                  })
+                }}
+              />
+              <Label
+                htmlFor={fields.f21_checkbox.id}
+                className="cursor-pointer"
+              >
+                確認しました
+              </Label>
+            </HStack>
+            <div id={fields.f21_checkbox.errorId} className="text-destructive">
+              {fields.f21_checkbox.errors}
+            </div>
+          </div>
+          <div>
+            <h3>
+              Checkbox <small>withHelper</small>
+            </h3>
+            <HStack>
+              <Checkbox
+                {...getCheckboxProps(fields.f22_checkboxWithHelper, {
+                  ariaAttributes: true,
+                })}
+                key={fields.f22_checkboxWithHelper.key}
+                className="aria-invalid:border-destructive"
+                onCheckedChange={(value) => {
+                  form.update({
+                    name: fields.f22_checkboxWithHelper.name,
+                    value,
+                  })
+                }}
+              />
+              <Label
+                htmlFor={fields.f22_checkboxWithHelper.id}
+                className="cursor-pointer"
+              >
+                確認しました
+              </Label>
+            </HStack>
+            <div
+              id={fields.f22_checkboxWithHelper.errorId}
+              className="text-destructive"
+            >
+              {fields.f22_checkboxWithHelper.errors}
+            </div>
+          </div>
+        </Stack>
+
+        <Stack>
+          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
+            Switch
+          </h2>
+          <div>
+            <h3>Switch</h3>
+            <HStack>
+              <Switch
+                key={fields.f23_switch.key}
+                id={fields.f23_switch.id}
+                name={fields.f23_switch.name}
+                aria-invalid={!fields.f23_switch.valid || undefined}
+                aria-describedby={
+                  !fields.f23_switch.valid
+                    ? fields.f23_switch.errorId
+                    : undefined
+                }
+                defaultChecked={fields.f23_switch.initialValue === 'on'}
+                className="aria-invalid:border-destructive"
+                onCheckedChange={(value) => {
+                  form.update({
+                    name: fields.f23_switch.name,
+                    value,
+                  })
+                }}
+              />
+              <Label htmlFor={fields.f23_switch.id} className="cursor-pointer">
+                OK
+              </Label>
+            </HStack>
+            <div id={fields.f23_switch.errorId} className="text-destructive">
+              {fields.f23_switch.errors}
+            </div>
+          </div>
+
+          <div>
+            <h3>
+              Switch <small>withHelper</small>
+            </h3>
+            <HStack>
+              <Switch
+                {...getSwitchProps(fields.f24_switchWithHelper, {
+                  ariaAttributes: true,
+                })}
+                key={fields.f24_switchWithHelper.key}
+                className="aria-invalid:border-destructive"
+                onCheckedChange={(value) => {
+                  form.update({
+                    name: fields.f24_switchWithHelper.name,
+                    value,
+                  })
+                }}
+              />
+              <Label
+                htmlFor={fields.f24_switchWithHelper.id}
+                className="cursor-pointer"
+              >
+                OK
+              </Label>
+            </HStack>
+            <div
+              id={fields.f24_switchWithHelper.errorId}
+              className="text-destructive"
+            >
+              {fields.f24_switchWithHelper.errors}
+            </div>
+          </div>
+        </Stack>
 
         <div>
           <h3>Radio Group</h3>
@@ -738,43 +917,8 @@ export default function ShadcnUiPage() {
         </div>
 
         <div>
-          <h3>Switch</h3>
-          <HStack>
-            <Switch />
-            <Label>Hoge</Label>
-          </HStack>
-        </div>
-
-        <div>
-          <h3>Toggle</h3>
-          <Toggle>hogehoge</Toggle>
-        </div>
-
-        <div>
-          <h3>
-            Toggle Group <small>multiple</small>
-          </h3>
-          <ToggleGroup type="multiple">
-            <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
-            <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
-            <ToggleGroupItem value="underline">Underline</ToggleGroupItem>
-          </ToggleGroup>
-        </div>
-
-        <div>
-          <h3>
-            Toggle Group <small>single</small>
-          </h3>
-          <ToggleGroup type="single">
-            <ToggleGroupItem value="start">Start</ToggleGroupItem>
-            <ToggleGroupItem value="center">Center</ToggleGroupItem>
-            <ToggleGroupItem value="end">End</ToggleGroupItem>
-          </ToggleGroup>
-        </div>
-
-        <div>
           <h3>Input OTP</h3>
-          <InputOTP maxLength={6}>
+          <InputOTP name="hoge" maxLength={6}>
             <InputOTPGroup>
               <InputOTPSlot index={0} />
               <InputOTPSlot index={1} />
@@ -789,7 +933,19 @@ export default function ShadcnUiPage() {
           </InputOTP>
         </div>
 
-        <div>{JSON.stringify(form.value)}</div>
+        <div>
+          <h3>form value</h3>
+          <div className="overflow-auto">
+            <pre>{JSON.stringify(form.value, null, 2)}</pre>
+          </div>
+        </div>
+
+        <div className="text-destructive">
+          <h3>form errors</h3>
+          <div className="overflow-auto">
+            <div>{JSON.stringify(form.allErrors, null, 2)}</div>
+          </div>
+        </div>
 
         <Button>Submit</Button>
       </Stack>
