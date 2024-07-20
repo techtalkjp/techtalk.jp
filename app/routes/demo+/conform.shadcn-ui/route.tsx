@@ -8,7 +8,6 @@ import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import { twc } from 'react-twc'
-import { jsonWithSuccess } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import {
@@ -28,6 +27,7 @@ import {
   Switch,
   Textarea,
 } from '~/components/ui'
+import { jsonWithSuccess } from '~/services/single-fetch-toast'
 import {
   getCheckboxProps,
   getRadioGroupProps,
@@ -151,7 +151,7 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   }
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, response }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
@@ -160,6 +160,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   console.log(submission.value)
 
   return jsonWithSuccess(
+    response,
     { lastResult: submission.reply() },
     {
       message: 'フォームを送信しました',
