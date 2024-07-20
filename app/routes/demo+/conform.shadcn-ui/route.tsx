@@ -15,10 +15,6 @@ import {
   Checkbox,
   HStack,
   Input,
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
   Label,
   RadioGroup,
   RadioGroupItem,
@@ -33,6 +29,7 @@ import {
 } from '~/components/ui'
 import {
   getCheckboxProps,
+  getRadioGroupProps,
   getSelectProps,
   getSelectTriggerProps,
   getSwitchProps,
@@ -82,7 +79,10 @@ const schema = z.object({
     .refine((value) => !Number.isNaN(new Date(value).getMonth())),
   f13_week: z.string({ required_error: '必須' }),
   f14_checkbox: z.boolean({ required_error: '必須' }),
-  f15_radio: z.string({ required_error: '必須' }),
+  f15_radio: z.enum(['all', 'mention', 'nothing'], {
+    required_error: '必須',
+    message: 'いずれかを選択してください',
+  }),
   f16_file: z.instanceof(File).optional(),
   f17_color: z.string({ required_error: '必須' }),
   f18_textarea: z.string({ required_error: '必須' }).min(1).max(1000, {
@@ -103,6 +103,14 @@ const schema = z.object({
   f22_checkboxWithHelper: z.boolean({ required_error: '必須' }),
   f23_switch: z.boolean({ required_error: '必須' }),
   f24_switchWithHelper: z.boolean({ required_error: '必須' }),
+  f25_radioGroup: z.enum(['all', 'mention', 'nothing'], {
+    required_error: '必須',
+    message: 'いずれかを選択してください',
+  }),
+  f26_radioGroupWithHelper: z.enum(['all', 'mention', 'nothing'], {
+    required_error: '必須',
+    message: 'いずれかを選択してください',
+  }),
 })
 
 const testData = {
@@ -120,7 +128,7 @@ const testData = {
   f12_month: '2022-01',
   f13_week: '2022-W01',
   f14_checkbox: true,
-  f15_radio: 'B',
+  f15_radio: 'all',
   f17_color: '#ff0000',
   f18_textarea: 'テキスト\nエ\nリ\nア\n',
   f19_select: 'apple',
@@ -129,6 +137,8 @@ const testData = {
   f22_checkboxWithHelper: 'on',
   f23_switch: 'on',
   f24_switchWithHelper: 'on',
+  f25_radioGroup: 'all',
+  f26_radioGroupWithHelper: 'all',
 }
 
 export const loader = ({ request }: LoaderFunctionArgs) => {
@@ -258,6 +268,14 @@ export default function ShadcnUiPage() {
     form.update({
       name: fields.f24_switchWithHelper.name,
       value: testData.f24_switchWithHelper,
+    })
+    form.update({
+      name: fields.f25_radioGroup.name,
+      value: testData.f25_radioGroup,
+    })
+    form.update({
+      name: fields.f26_radioGroupWithHelper.name,
+      value: testData.f26_radioGroupWithHelper,
     })
     toast.info('フォームにテストデータを入力しました')
   }
@@ -535,22 +553,22 @@ export default function ShadcnUiPage() {
           <div>
             <div>Radio</div>
             <fieldset>
-              <legend>ラジオボタン</legend>
+              <legend>通知設定</legend>
               <HStack>
                 <Input
                   className="h-auto w-auto cursor-pointer shadow-none"
                   {...getInputProps(fields.f15_radio, {
                     type: 'radio',
-                    value: 'A',
+                    value: 'all',
                   })}
-                  id={`${fields.f15_radio.id}-A`}
+                  id={`${fields.f15_radio.id}-all`}
                   key={fields.f15_radio.key}
                 />
                 <Label
-                  htmlFor={`${fields.f15_radio.id}-A`}
+                  htmlFor={`${fields.f15_radio.id}-all`}
                   className="cursor-pointer"
                 >
-                  A
+                  すべての新着メッセージ
                 </Label>
               </HStack>
               <HStack>
@@ -558,16 +576,16 @@ export default function ShadcnUiPage() {
                   className="h-auto w-auto cursor-pointer shadow-none"
                   {...getInputProps(fields.f15_radio, {
                     type: 'radio',
-                    value: 'B',
+                    value: 'mention',
                   })}
-                  id={`${fields.f15_radio.id}-B`}
+                  id={`${fields.f15_radio.id}-mention`}
                   key={fields.f15_radio.key}
                 />
                 <Label
-                  htmlFor={`${fields.f15_radio.id}-B`}
+                  htmlFor={`${fields.f15_radio.id}-mention`}
                   className="cursor-pointer"
                 >
-                  B
+                  DMとメンション
                 </Label>
               </HStack>
               <HStack>
@@ -575,16 +593,16 @@ export default function ShadcnUiPage() {
                   className="h-auto w-auto cursor-pointer shadow-none"
                   {...getInputProps(fields.f15_radio, {
                     type: 'radio',
-                    value: 'C',
+                    value: 'nothing',
                   })}
-                  id={`${fields.f15_radio.id}-C`}
+                  id={`${fields.f15_radio.id}-nothing`}
                   key={fields.f15_radio.key}
                 />
                 <Label
-                  htmlFor={`${fields.f15_radio.id}-C`}
+                  htmlFor={`${fields.f15_radio.id}-nothing`}
                   className="cursor-pointer"
                 >
-                  C
+                  なし
                 </Label>
               </HStack>
             </fieldset>
@@ -898,54 +916,156 @@ export default function ShadcnUiPage() {
           </div>
         </Stack>
 
-        <div>
-          <h3>Radio Group</h3>
-          <RadioGroup>
-            <HStack>
-              <RadioGroupItem value="a" />
-              <Label>A</Label>
-            </HStack>
-            <HStack>
-              <RadioGroupItem value="b" />
-              <Label>B</Label>
-            </HStack>
-            <HStack>
-              <RadioGroupItem value="c" />
-              <Label>C</Label>
-            </HStack>
-          </RadioGroup>
-        </div>
-
-        <div>
-          <h3>Input OTP</h3>
-          <InputOTP name="hoge" maxLength={6}>
-            <InputOTPGroup>
-              <InputOTPSlot index={0} />
-              <InputOTPSlot index={1} />
-              <InputOTPSlot index={2} />
-            </InputOTPGroup>
-            <InputOTPSeparator />
-            <InputOTPGroup>
-              <InputOTPSlot index={3} />
-              <InputOTPSlot index={4} />
-              <InputOTPSlot index={5} />
-            </InputOTPGroup>
-          </InputOTP>
-        </div>
-
-        <div>
-          <h3>form value</h3>
-          <div className="overflow-auto">
-            <pre>{JSON.stringify(form.value, null, 2)}</pre>
+        <Stack>
+          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
+            RadioGroup
+          </h2>
+          <div>
+            <h3>Radio Group</h3>
+            <RadioGroup
+              key={fields.f25_radioGroup.key}
+              name={fields.f25_radioGroup.name}
+              aria-invalid={!fields.f25_radioGroup.valid || undefined}
+              aria-describedby={
+                !fields.f25_radioGroup.valid
+                  ? fields.f25_radioGroup.errorId
+                  : undefined
+              }
+              defaultValue={fields.f25_radioGroup.initialValue}
+              className="aria-invalid:border aria-invalid:border-destructive"
+              onValueChange={(value) => {
+                form.update({
+                  name: fields.f25_radioGroup.name,
+                  value,
+                })
+              }}
+            >
+              <div>通知設定</div>
+              <HStack>
+                <RadioGroupItem
+                  id={`${fields.f25_radioGroup.id}_all`}
+                  value="all"
+                />
+                <Label
+                  htmlFor={`${fields.f25_radioGroup.id}_all`}
+                  className="cursor-pointer"
+                >
+                  すべての新着メッセージ
+                </Label>
+              </HStack>
+              <HStack>
+                <RadioGroupItem
+                  id={`${fields.f25_radioGroup.id}_mention`}
+                  value="mention"
+                />
+                <Label
+                  htmlFor={`${fields.f25_radioGroup.id}_mention`}
+                  className="cursor-pointer"
+                >
+                  DMとメンション
+                </Label>
+              </HStack>
+              <HStack>
+                <RadioGroupItem
+                  id={`${fields.f25_radioGroup.id}_nothing`}
+                  value="nothing"
+                />
+                <Label
+                  htmlFor={`${fields.f25_radioGroup.id}_nothing`}
+                  className="cursor-pointer"
+                >
+                  なし
+                </Label>
+              </HStack>
+            </RadioGroup>
+            <div
+              id={fields.f25_radioGroup.errorId}
+              className="text-destructive"
+            >
+              {fields.f25_radioGroup.errors}
+            </div>
           </div>
-        </div>
 
-        <div className="text-destructive">
-          <h3>form errors</h3>
-          <div className="overflow-auto">
-            <div>{JSON.stringify(form.allErrors, null, 2)}</div>
+          <div>
+            <h3>
+              Radio Group <small>with helper</small>
+            </h3>
+            <RadioGroup
+              {...getRadioGroupProps(fields.f26_radioGroupWithHelper)}
+              key={fields.f26_radioGroupWithHelper.key}
+              className="aria-invalid:border aria-invalid:border-destructive"
+              onValueChange={(value) => {
+                form.update({
+                  name: fields.f26_radioGroupWithHelper.name,
+                  value,
+                })
+              }}
+            >
+              <div>通知設定</div>
+              <HStack>
+                <RadioGroupItem
+                  id={`${fields.f26_radioGroupWithHelper.id}_all`}
+                  value="all"
+                />
+                <Label
+                  htmlFor={`${fields.f26_radioGroupWithHelper.id}_all`}
+                  className="cursor-pointer"
+                >
+                  すべての新着メッセージ
+                </Label>
+              </HStack>
+              <HStack>
+                <RadioGroupItem
+                  id={`${fields.f26_radioGroupWithHelper.id}_mention`}
+                  value="mention"
+                />
+                <Label
+                  htmlFor={`${fields.f26_radioGroupWithHelper.id}_mention`}
+                  className="cursor-pointer"
+                >
+                  DMとメンション
+                </Label>
+              </HStack>
+              <HStack>
+                <RadioGroupItem
+                  id={`${fields.f26_radioGroupWithHelper.id}_nothing`}
+                  value="nothing"
+                />
+                <Label
+                  htmlFor={`${fields.f26_radioGroupWithHelper.id}_nothing`}
+                  className="cursor-pointer"
+                >
+                  なし
+                </Label>
+              </HStack>
+            </RadioGroup>
+            <div
+              id={fields.f26_radioGroupWithHelper.errorId}
+              className="text-destructive"
+            >
+              {fields.f26_radioGroupWithHelper.errors}
+            </div>
           </div>
-        </div>
+        </Stack>
+
+        <Stack>
+          <h2 className="mt-4 w-full flex-1 border-b text-2xl font-bold">
+            Debug
+          </h2>
+          <div>
+            <h3>form value</h3>
+            <div className="overflow-auto rounded-md border p-4">
+              <pre>{JSON.stringify(form.value, null, 2)}</pre>
+            </div>
+          </div>
+
+          <div className="text-destructive">
+            <h3>form all errors</h3>
+            <div className="overflow-auto rounded-md border border-destructive p-4">
+              <div>{JSON.stringify(form.allErrors, null, 2)}</div>
+            </div>
+          </div>
+        </Stack>
 
         <Button>Submit</Button>
       </Stack>

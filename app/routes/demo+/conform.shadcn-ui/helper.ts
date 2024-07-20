@@ -142,3 +142,51 @@ export const getSwitchProps = <Schema>(
 ) => {
   return getCheckboxProps(metadata, options)
 }
+
+export const getRadioGroupProps = <Schema>(
+  metadata: FieldMetadata<Schema>,
+  options:
+    | {
+        ariaAttributes?: true
+        ariaInvalid?: 'errors' | 'allErrors'
+        ariaDescribedBy?: string
+        value?: boolean
+      }
+    | {
+        ariaAttributes: false
+        value?: boolean
+      } = {
+    ariaAttributes: true,
+  },
+) => {
+  const props: {
+    key?: string
+    required?: boolean
+    name: string
+    defaultValue?: string
+    'aria-invalid'?: boolean
+    'aria-describedby'?: string
+  } = {
+    key: metadata.key,
+    required: metadata.required,
+    name: metadata.name,
+  }
+
+  if (typeof options.value === 'undefined' || options.value) {
+    props.defaultValue = metadata.initialValue?.toString()
+  }
+
+  if (options.ariaAttributes) {
+    const invalid =
+      options.ariaInvalid === 'allErrors'
+        ? !metadata.valid
+        : typeof metadata.errors !== 'undefined'
+    const ariaDescribedBy = options.ariaDescribedBy
+    props['aria-invalid'] = invalid || undefined
+    props['aria-describedby'] = invalid
+      ? `${metadata.errorId} ${ariaDescribedBy ?? ''}`.trim()
+      : ariaDescribedBy
+  }
+
+  return simplify(props)
+}
