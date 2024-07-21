@@ -8,6 +8,11 @@ import { z } from 'zod'
 import {
   Button,
   Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Stack,
   Table,
   TableBody,
@@ -20,12 +25,22 @@ import {
   TooltipTrigger,
 } from '~/components/ui'
 import { ZipInput } from '~/routes/demo+/resources.zip-input/route'
-import { fakeEmail, fakeName, fakeTel, fakeZip } from './faker.server'
+import {
+  fakeEmail,
+  fakeGender,
+  fakeName,
+  fakeTel,
+  fakeZip,
+} from './faker.server'
 
 const schema = z.object({
   persons: z.array(
     z.object({
       name: z.string({ required_error: '必須' }),
+      gender: z.enum(['male', 'female', 'others'], {
+        required_error: '必須',
+        message: '性別を選択してください',
+      }),
       zip: z
         .string({ required_error: '必須' })
         .regex(/^\d{3}-\d{4}$/, { message: '000-0000形式' }),
@@ -43,6 +58,7 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   // ブラウザバンドルが巨大になってしまうので、faker はサーバサイドでのみ使用
   const fakePersons = Array.from({ length: 30 }, () => ({
     name: fakeName(),
+    gender: fakeGender(),
     zip: fakeZip(),
     tel: fakeTel(),
     email: fakeEmail(),
@@ -106,6 +122,7 @@ export default function ConformNestedArrayDemo() {
           <TableHeader>
             <TableRow>
               <TableHead>名前</TableHead>
+              <TableHead>性別</TableHead>
               <TableHead>郵便番号</TableHead>
               <TableHead>電話番号</TableHead>
               <TableHead>Email</TableHead>
@@ -128,6 +145,27 @@ export default function ConformNestedArrayDemo() {
                     >
                       {personFields.name.errors}
                     </div>
+                  </TableCell>
+                  <TableCell>
+                    <Select
+                      name={personFields.gender.name}
+                      defaultValue={personFields.gender.initialValue}
+                      onValueChange={(value) => {
+                        form.update({
+                          name: personFields.gender.name,
+                          value,
+                        })
+                      }}
+                    >
+                      <SelectTrigger id={personFields.gender.id}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="male">男性</SelectItem>
+                        <SelectItem value="female">女性</SelectItem>
+                        <SelectItem value="non-binary">その他</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </TableCell>
                   <TableCell>
                     <input

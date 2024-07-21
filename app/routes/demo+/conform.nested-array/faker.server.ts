@@ -5,3 +5,5 @@ export const fakeZip = () => faker.location.zipCode({ format: '###-####' })
 export const fakeTel = () =>
   faker.helpers.fromRegExp(/[0-9]{3}-[0-9]{4}-[0-9]{4}/)
 export const fakeEmail = () => faker.internet.email()
+export const fakeGender = () =>
+  faker.helpers.arrayElement(['male', 'female', 'non-binary'])
