@@ -259,6 +259,7 @@ export default function ConformNestedArrayDemo() {
                 <TableRow>
                   <TableHead>ID</TableHead>
                   <TableHead>名前</TableHead>
+                  <TableHead>性別</TableHead>
                   <TableHead>郵便番号</TableHead>
                   <TableHead>電話番号</TableHead>
                   <TableHead>Email</TableHead>
@@ -269,6 +270,11 @@ export default function ConformNestedArrayDemo() {
                   <TableRow key={person.id}>
                     <TableCell>{person.id}</TableCell>
                     <TableCell>{person.name}</TableCell>
+                    <TableCell>
+                      {person.gender === 'male' && '男性'}
+                      {person.gender === 'female' && '女性'}
+                      {person.gender === 'non-binary' && 'その他'}
+                    </TableCell>
                     <TableCell>{person.zip}</TableCell>
                     <TableCell>{person.tel}</TableCell>
                     <TableCell>{person.email}</TableCell>
