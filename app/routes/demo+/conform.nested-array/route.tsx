@@ -48,7 +48,7 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
     email: fakeEmail(),
   }))
 
-  const defaultPersons = [fakePersons[0]]
+  const defaultPersons = [...fakePersons.slice(0, 5)] // デフォルトで5件表示
   return { defaultPersons, fakePersons }
 }
 
