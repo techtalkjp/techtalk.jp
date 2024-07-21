@@ -37,7 +37,7 @@ const schema = z.object({
   persons: z.array(
     z.object({
       name: z.string({ required_error: '必須' }),
-      gender: z.enum(['male', 'female', 'others'], {
+      gender: z.enum(['male', 'female', 'non-binary'], {
         required_error: '必須',
         message: '性別を選択してください',
       }),
