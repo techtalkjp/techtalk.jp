@@ -6,7 +6,11 @@ import {
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { fakerJA as faker } from '@faker-js/faker'
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
+import type {
+  ActionFunctionArgs,
+  HeadersFunction,
+  LoaderFunctionArgs,
+} from '@remix-run/node'
 import {
   Form,
   Link,
@@ -62,7 +66,14 @@ const buildDummyData = () => ({
   note: faker.lorem.paragraph(),
 })
 
-export const loader = async ({ request, response }: LoaderFunctionArgs) => {
+export const headers: HeadersFunction = () => {
+  // キャッシュさせない
+  return {
+    'Cache-Control': 'public, max-age=0, no-cache',
+  }
+}
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
   const tab = url.searchParams.get('tab') ?? 'new'
 
@@ -72,11 +83,6 @@ export const loader = async ({ request, response }: LoaderFunctionArgs) => {
 
   const dummyData = buildDummyData()
   const timeEnd = Date.now()
-
-  if (response) {
-    // キャッシュさせない
-    response.headers.set('Cache-Control', 'public, max-age=0, no-cache')
-  }
 
   return {
     tab,

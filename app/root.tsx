@@ -1,7 +1,8 @@
-import type {
-  LinksFunction,
-  LoaderFunctionArgs,
-  MetaFunction,
+import {
+  type LinksFunction,
+  type MetaFunction,
+  unstable_defineLoader as defineLoader,
+  json,
 } from '@remix-run/node'
 import {
   Links,
@@ -41,14 +42,10 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const loader = async ({ request, response }: LoaderFunctionArgs) => {
+export const loader = defineLoader(async ({ request }) => {
   const { toast, headers } = await getToast(request)
-  const toastCookie = headers.get('Set-Cookie')
-  if (toast && toastCookie && response) {
-    response.headers.set('Set-Cookie', toastCookie)
-  }
-  return { toastData: toast }
-}
+  return json({ toastData: toast }, { headers })
+})
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation()
@@ -81,18 +78,19 @@ export default function App() {
   const { toastData } = useLoaderData<typeof loader>()
 
   useEffect(() => {
-    if (toastData) {
-      let toastFn = toast.info
-      if (toastData.type === 'error') {
-        toastFn = toast.error
-      } else if (toastData.type === 'success') {
-        toastFn = toast.success
-      }
-      toastFn(toastData.message, {
-        description: toastData.description,
-        position: 'top-right',
-      })
+    if (!toastData) {
+      return
     }
+    let toastFn = toast.info
+    if (toastData.type === 'error') {
+      toastFn = toast.error
+    } else if (toastData.type === 'success') {
+      toastFn = toast.success
+    }
+    toastFn(toastData.message, {
+      description: toastData.description,
+      position: 'top-right',
+    })
   }, [toastData])
 
   return <Outlet />

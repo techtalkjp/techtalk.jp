@@ -24,7 +24,7 @@ export default defineConfig({
             v3_relativeSplatPath: true,
             v3_throwAbortReason: true,
             unstable_singleFetch: true,
-            unstable_fogOfWar: true,
+            unstable_lazyRouteDiscovery: true,
           },
         })
       : react(),

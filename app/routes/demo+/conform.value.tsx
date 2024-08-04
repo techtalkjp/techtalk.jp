@@ -39,7 +39,7 @@ const lookupAddress = async (postalCode: string) => {
   }
 }
 
-export const action = async ({ request, response }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return submission.reply()
