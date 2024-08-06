@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from '@remix-run/node'
+import type { HeadersFunction } from '@remix-run/node'
 import {
   Form,
   useLoaderData,
@@ -18,14 +18,18 @@ import {
   TableRow,
 } from '~/components/ui'
 
-export const loader = async ({ response }: LoaderFunctionArgs) => {
+const cacheControl = 's-maxage=60, stale-while-revalidate=120'
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return {
+    'Cache-Control': cacheControl,
+  }
+}
+
+export const loader = async () => {
   await setTimeout(1000)
 
   const serverTime = new Date().toISOString()
-  const cacheControl = 's-maxage=60, stale-while-revalidate=120'
-  response?.headers.set('Cache-Control', cacheControl)
-
-  return { serverTime, cacheControl }
+  return { serverTime }
 }
 
 export const clientLoader = async ({
@@ -43,8 +47,7 @@ export const clientLoader = async ({
 clientLoader.hydrate = true
 
 export default function DemoConformAlert() {
-  const { serverTime, clientTime, diff, cacheControl } =
-    useLoaderData<typeof clientLoader>()
+  const { serverTime, clientTime, diff } = useLoaderData<typeof clientLoader>()
   const navigation = useNavigation()
 
   return (

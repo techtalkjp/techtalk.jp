@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from '@remix-run/node'
+import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { ArrowLeftIcon } from 'lucide-react'
 import {
@@ -13,16 +13,16 @@ import {
 import { getSampleOrder } from './queries'
 const defaultCacheControl = 's-maxage=60, stale-while-revalidate=120'
 
-export const loader = async ({ params, response }: LoaderFunctionArgs) => {
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return { 'Cache-Control': defaultCacheControl }
+}
+
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const region = process.env.VERCEL_REGION ?? 'N/A'
 
   const timeStart = Date.now()
   const order = await getSampleOrder(String(params.id))
   const timeEnd = Date.now()
-
-  if (response) {
-    response.headers.set('Cache-Control', defaultCacheControl)
-  }
 
   return { order, region, duration: timeEnd - timeStart }
 }
