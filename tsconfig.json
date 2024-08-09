@@ -1,24 +1,23 @@
 {
   "include": ["*.js", "**/*.ts", "**/*.tsx", "env.d.ts"],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "lib": ["DOM", "DOM.Iterable", "ES2023"],
     "types": [
       "@types/node",
       "@remix-run/node",
-      "vite/client"
-      // "@remix-run/react/future/single-fetch.d.ts"
+      "vite/client",
+      "@remix-run/react/future/single-fetch.d.ts"
     ],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-    "target": "ES2022",
+    "target": "ES2023",
     "strict": true,
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"]
     },
