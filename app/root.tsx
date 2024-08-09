@@ -2,7 +2,7 @@ import {
   type LinksFunction,
   type MetaFunction,
   unstable_defineLoader as defineLoader,
-  json,
+  unstable_data,
 } from '@remix-run/node'
 import {
   Links,
@@ -44,7 +44,7 @@ export const links: LinksFunction = () => {
 
 export const loader = defineLoader(async ({ request }) => {
   const { toast, headers } = await getToast(request)
-  return json({ toastData: toast }, { headers })
+  return unstable_data({ toastData: toast }, { headers })
 })
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
