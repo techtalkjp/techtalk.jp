@@ -1,0 +1,62 @@
+diff --git a/node.js b/node.js
+index d78c30db34f4daf2786331a910eafb9962deb310..970aad755437157ac15da26bf7d772c0022821fa 100644
+--- a/node.js
++++ b/node.js
+@@ -1,22 +1,42 @@
+-import http from 'http';
+-import https from 'https';
++import http from 'http'
++import https from 'https'
+ 
+-const _Request = Request;
+-const _Headers = Headers;
++const _Request = Request
++const _Headers = Headers
+ 
+-const httpAgent = new http.Agent({ keepAlive: true });
+-const httpsAgent = new https.Agent({ keepAlive: true });
++const httpAgent = new http.Agent({ keepAlive: true })
++const httpsAgent = new https.Agent({ keepAlive: true })
+ 
+ function agentSelector(parsedUrl) {
+-    if (parsedUrl.protocol === 'https:') {
+-        return httpsAgent;
+-    } else {
+-        return httpAgent;
+-    }
++  if (parsedUrl.protocol === 'https:') {
++    return httpsAgent
++  } else {
++    return httpAgent
++  }
+ }
+ 
+ function fetchWithAgentSelection(resource, options = {}) {
+-    return fetch(resource, { agent: agentSelector, ...options });
+-}
++  let url = resource
++  let fetchOptions = options
++
++  if (resource.constructor.name === 'Request') {
++    url = resource.url
++    fetchOptions = {
++      method: resource.method,
++      headers: resource.headers,
++      body: resource.body,
++      duplex: 'half',
++      ...options,
++    }
++  }
+ 
+-export { fetchWithAgentSelection as fetch, _Request as Request, _Headers as Headers};
+\ No newline at end of file
++  const parsedUrl = new URL(url)
++  const agent = agentSelector(parsedUrl)
++
++  return fetch(url, { agent, ...fetchOptions })
++}
++export {
++  _Headers as Headers,
++  _Request as Request,
++  fetchWithAgentSelection as fetch,
++}
