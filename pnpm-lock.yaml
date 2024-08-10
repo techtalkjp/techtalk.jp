@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@libsql/isomorphic-fetch':
-    hash: iuhjtq7556mjpfs7s7yuispipi
+    hash: cfltdvgkzhfeelnwh5bsyw525u
     path: patches/@libsql__isomorphic-fetch.patch
 
 importers:
@@ -39,7 +39,7 @@ importers:
         version: 0.9.0
       '@libsql/isomorphic-fetch':
         specifier: 0.2.1
-        version: 0.2.1(patch_hash=iuhjtq7556mjpfs7s7yuispipi)
+        version: 0.2.1(patch_hash=cfltdvgkzhfeelnwh5bsyw525u)
       '@radix-ui/react-alert-dialog':
         specifier: 1.1.1
         version: 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -7377,7 +7377,7 @@ snapshots:
 
   '@libsql/hrana-client@0.6.2':
     dependencies:
-      '@libsql/isomorphic-fetch': 0.2.1(patch_hash=iuhjtq7556mjpfs7s7yuispipi)
+      '@libsql/isomorphic-fetch': 0.2.1(patch_hash=cfltdvgkzhfeelnwh5bsyw525u)
       '@libsql/isomorphic-ws': 0.1.5
       js-base64: 3.7.7
       node-fetch: 3.3.2
@@ -7385,7 +7385,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@libsql/isomorphic-fetch@0.2.1(patch_hash=iuhjtq7556mjpfs7s7yuispipi)': {}
+  '@libsql/isomorphic-fetch@0.2.1(patch_hash=cfltdvgkzhfeelnwh5bsyw525u)': {}
 
   '@libsql/isomorphic-ws@0.1.5':
     dependencies:
