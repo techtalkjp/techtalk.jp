@@ -4,10 +4,8 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  '@libsql/isomorphic-fetch':
-    hash: cfltdvgkzhfeelnwh5bsyw525u
-    path: patches/@libsql__isomorphic-fetch.patch
+overrides:
+  '@libsql/isomorphic-fetch': 0.2.3
 
 importers:
 
@@ -37,9 +35,6 @@ importers:
       '@libsql/client':
         specifier: 0.9.0
         version: 0.9.0
-      '@libsql/isomorphic-fetch':
-        specifier: 0.2.1
-        version: 0.2.1(patch_hash=cfltdvgkzhfeelnwh5bsyw525u)
       '@radix-ui/react-alert-dialog':
         specifier: 1.1.1
         version: 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1225,8 +1220,9 @@ packages:
   '@libsql/hrana-client@0.6.2':
     resolution: {integrity: sha512-MWxgD7mXLNf9FXXiM0bc90wCjZSpErWKr5mGza7ERy2FJNNMXd7JIOv+DepBA1FQTIfI8TFO4/QDYgaQC0goNw==}
 
-  '@libsql/isomorphic-fetch@0.2.1':
-    resolution: {integrity: sha512-Sv07QP1Aw8A5OOrmKgRUBKe2fFhF2hpGJhtHe3d1aRnTESZCGkn//0zDycMKTGamVWb3oLYRroOsCV8Ukes9GA==}
+  '@libsql/isomorphic-fetch@0.2.3':
+    resolution: {integrity: sha512-WUc3wVcAo1ZpTulhKHRx8OGVWU9qu/zV9rPXmxncG+258zf/wZHi1g7KFK8LOuD98WDLjWcJF6xOTZgwdEH1sQ==}
+    engines: {node: '>=18.0.0'}
 
   '@libsql/isomorphic-ws@0.1.5':
     resolution: {integrity: sha512-DtLWIH29onUYR00i0GlQ3UdcTRC6EP4u9w/h9LxpUZJWRMARk6dQwZ6Jkd+QdwVpuAOrdxt18v0K2uIYR3fwFg==}
@@ -7377,7 +7373,7 @@ snapshots:
 
   '@libsql/hrana-client@0.6.2':
     dependencies:
-      '@libsql/isomorphic-fetch': 0.2.1(patch_hash=cfltdvgkzhfeelnwh5bsyw525u)
+      '@libsql/isomorphic-fetch': 0.2.3
       '@libsql/isomorphic-ws': 0.1.5
       js-base64: 3.7.7
       node-fetch: 3.3.2
@@ -7385,7 +7381,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@libsql/isomorphic-fetch@0.2.1(patch_hash=cfltdvgkzhfeelnwh5bsyw525u)': {}
+  '@libsql/isomorphic-fetch@0.2.3': {}
 
   '@libsql/isomorphic-ws@0.1.5':
     dependencies:
