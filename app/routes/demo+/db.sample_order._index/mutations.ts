@@ -7,3 +7,7 @@ export const createSampleOrder = async (data: InsertableSampleOrder) => {
     .values({ ...data, id: nanoid() })
     .execute()
 }
+
+export const deleteSampleOrder = async (id: string) => {
+  return await db.deleteFrom('sampleOrders').where('id', '==', id).execute()
+}
