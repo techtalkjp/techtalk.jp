@@ -6,7 +6,7 @@ import {
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs } from '@remix-run/node'
-import { Link, json, useFetcher } from '@remix-run/react'
+import { Link, useFetcher } from '@remix-run/react'
 import { ok } from 'neverthrow'
 import { match } from 'ts-pattern'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
@@ -64,10 +64,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       .exhaustive()
   }
 
-  return json({
+  return {
     lastResult: submission.reply({ resetForm: true }),
     sent: submission.value,
-  })
+  }
 }
 
 export const ContactSentMessage = ({ data }: { data: ContactFormData }) => {
@@ -200,7 +200,6 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
           <HStack className="items-center">
             <Checkbox
               id={privacyPolicy.id}
-              key={privacyPolicy.key}
               name={privacyPolicy.name}
               aria-invalid={privacyPolicy.errors ? true : undefined}
               aria-describedby={

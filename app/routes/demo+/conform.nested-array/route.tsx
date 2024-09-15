@@ -3,7 +3,6 @@ import { parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import { TrashIcon } from 'lucide-react'
-import { jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   Button,
@@ -88,19 +87,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
   }
 
-  return jsonWithSuccess(
-    {
-      lastResult: submission.reply({ resetForm: true }),
-      result: submission.value.persons.map((person, idx) => ({
-        id: idx + 1, // IDを振る
-        ...person,
-      })),
-    },
-    {
-      message: 'Success!',
-      description: `${submission.value.persons.length} persons submitted`,
-    },
-  )
+  return {
+    lastResult: submission.reply({ resetForm: true }),
+    result: submission.value.persons.map((person, idx) => ({
+      id: idx + 1, // IDを振る
+      ...person,
+    })),
+  }
 }
 
 export default function ConformNestedArrayDemo() {
@@ -137,7 +130,6 @@ export default function ConformNestedArrayDemo() {
                   <TableCell>
                     <Input
                       {...getInputProps(personFields.name, { type: 'text' })}
-                      key={personFields.name.key}
                     />
                     <div
                       id={personFields.name.errorId}
@@ -170,7 +162,6 @@ export default function ConformNestedArrayDemo() {
                   <TableCell>
                     <input
                       {...getInputProps(personFields.zip, { type: 'hidden' })}
-                      key={personFields.zip.key}
                     />
                     <ZipInput
                       defaultValue={personFields.zip.value}
@@ -191,7 +182,6 @@ export default function ConformNestedArrayDemo() {
                   <TableCell>
                     <Input
                       {...getInputProps(personFields.tel, { type: 'text' })}
-                      key={personFields.tel.key}
                     />
                     <div
                       id={personFields.tel.errorId}
@@ -203,7 +193,6 @@ export default function ConformNestedArrayDemo() {
                   <TableCell>
                     <Input
                       {...getInputProps(personFields.email, { type: 'text' })}
-                      key={personFields.email.key}
                     />
                     <div
                       id={personFields.email.errorId}

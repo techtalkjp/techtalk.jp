@@ -1,6 +1,6 @@
 import { createRemixStub } from '@remix-run/testing'
 import { render, screen, waitFor } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event'
 import { expect, test } from 'vitest'
 import { action } from '~/routes/_public+/api.contact/route'
 import Component from './route'
@@ -9,14 +9,12 @@ test('test', async () => {
   // arrange
   const RemixStub = createRemixStub([
     { path: '/', Component },
-    {
-      path: '/api/contact',
-      action,
-    },
+    { path: '/api/contact', action },
   ])
 
   // act
   render(<RemixStub />)
+
   await waitFor(() => {
     expect(screen.getByText("Let's talk")).toBeInTheDocument()
   })
@@ -44,10 +42,13 @@ test('test', async () => {
   await userEvent.click(screen.getByRole('checkbox', { name: 'privacy' }))
   await userEvent.click(screen.getByRole('button', { name: "Let's talk" }))
 
-  // assert
-  await waitFor(() => {
-    expect(
-      screen.getByText('以下のメッセージを受付けました。', { exact: false }),
-    ).toBeInTheDocument()
+  const ret = await screen.findByText('以下のメッセージを受付けました。', {
+    exact: false,
   })
+
+  expect(
+    await screen.findByText('以下のメッセージを受付けました。', {
+      exact: false,
+    }),
+  ).toBeInTheDocument()
 })

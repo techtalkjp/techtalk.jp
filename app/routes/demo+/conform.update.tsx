@@ -54,7 +54,6 @@ export default function TestPage() {
         <Input
           className="w-full"
           {...getInputProps(message, { type: 'text' })}
-          key={message.initialValue}
         />
       </div>
       <div className="text-sm text-destructive">{message.errors}</div>

@@ -8,7 +8,6 @@ import {
   useRevalidator,
 } from '@remix-run/react'
 import { setTimeout } from 'node:timers/promises'
-import { jsonWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   AlertDialog,
@@ -44,10 +43,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   await setTimeout(1000) // simulate server delay
 
   // 成功: resetForm: true でフォームをリセットさせる
-  return jsonWithSuccess(
-    { result: submission.reply({ resetForm: true }), shouldConfirm: false },
-    { message: '削除しました', description: submission.value.email }, // toast 表示
-  )
+  return { result: submission.reply({ resetForm: true }), shouldConfirm: false }
 }
 
 export default function DemoConformAlert() {

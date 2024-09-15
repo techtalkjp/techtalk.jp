@@ -8,7 +8,6 @@ import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import { twc } from 'react-twc'
-import { jsonWithSuccess } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import {
@@ -159,13 +158,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   console.log(submission.value)
 
-  return jsonWithSuccess(
-    { lastResult: submission.reply() },
-    {
-      message: 'フォームを送信しました',
-      description: JSON.stringify(submission.value, null, 2),
-    },
-  )
+  return { lastResult: submission.reply() }
 }
 
 export default function ShadcnUiPage() {
@@ -220,7 +213,6 @@ export default function ShadcnUiPage() {
             <Input
               placeholder="テキスト"
               {...getInputProps(fields.f1_text, { type: 'text' })}
-              key={fields.f1_text.key}
             />
             <div id={fields.f1_text.errorId} className="text-destructive">
               {fields.f1_text.errors}
@@ -235,7 +227,6 @@ export default function ShadcnUiPage() {
             <Input
               placeholder="test@example.com"
               {...getInputProps(fields.f2_email, { type: 'email' })}
-              key={fields.f2_email.key}
             />
             <div id={fields.f2_email.errorId} className="text-destructive">
               {fields.f2_email.errors}
@@ -250,7 +241,6 @@ export default function ShadcnUiPage() {
             <Input
               placeholder="検索キーワード"
               {...getInputProps(fields.f3_search, { type: 'search' })}
-              key={fields.f3_search.key}
             />
             <div id={fields.f3_search.errorId} className="text-destructive">
               {fields.f3_search.errors}
@@ -265,7 +255,6 @@ export default function ShadcnUiPage() {
             <Input
               placeholder="パスワード"
               {...getInputProps(fields.f4_password, { type: 'password' })}
-              key={fields.f4_password.key}
             />
             <div id={fields.f4_password.errorId} className="text-destructive">
               {fields.f4_password.errors}
@@ -280,7 +269,6 @@ export default function ShadcnUiPage() {
             <Input
               placeholder="https://example.com"
               {...getInputProps(fields.f5_url, { type: 'url' })}
-              key={fields.f5_url.key}
             />
             <div id={fields.f5_url.errorId} className="text-destructive">
               {fields.f5_url.errors}
@@ -295,7 +283,6 @@ export default function ShadcnUiPage() {
             <Input
               placeholder="080-1234-5678"
               {...getInputProps(fields.f6_phone, { type: 'tel' })}
-              key={fields.f6_phone.key}
             />
             <div id={fields.f6_phone.errorId} className="text-destructive">
               {fields.f6_phone.errors}
@@ -316,7 +303,6 @@ export default function ShadcnUiPage() {
             <Input
               placeholder="123"
               {...getInputProps(fields.f7_number, { type: 'number' })}
-              key={fields.f7_number.key}
             />
             <div id={fields.f7_number.errorId} className="text-destructive">
               {fields.f7_number.errors}
@@ -335,7 +321,6 @@ export default function ShadcnUiPage() {
                 step={25}
                 min={0}
                 max={100}
-                key={fields.f8_range.key}
               />
               <div>{fields.f8_range.value}</div>
             </HStack>
@@ -358,10 +343,7 @@ export default function ShadcnUiPage() {
             <Label htmlFor={fields.f9_date.id}>
               Input <small>date</small>
             </Label>
-            <Input
-              {...getInputProps(fields.f9_date, { type: 'date' })}
-              key={fields.f9_date.key}
-            />
+            <Input {...getInputProps(fields.f9_date, { type: 'date' })} />
             <div id={fields.f9_date.errorId} className="text-destructive">
               {fields.f9_date.errors}
             </div>
@@ -377,7 +359,6 @@ export default function ShadcnUiPage() {
                 type: 'datetime-local',
               })}
               step={1}
-              key={fields.f10_datetime.key}
             />
             <div id={fields.f10_datetime.errorId} className="text-destructive">
               {fields.f10_datetime.errors}
@@ -392,7 +373,6 @@ export default function ShadcnUiPage() {
             <Input
               {...getInputProps(fields.f11_time, { type: 'time' })}
               step={1}
-              key={fields.f11_time.key}
             />
             <div id={fields.f11_time.errorId} className="text-destructive">
               {fields.f11_time.errors}
@@ -404,10 +384,7 @@ export default function ShadcnUiPage() {
             <Label htmlFor={fields.f12_month.id}>
               Input <small>month</small>
             </Label>
-            <Input
-              {...getInputProps(fields.f12_month, { type: 'month' })}
-              key={fields.f12_month.key}
-            />
+            <Input {...getInputProps(fields.f12_month, { type: 'month' })} />
             <div id={fields.f12_month.errorId} className="text-destructive">
               {fields.f12_month.errors}
             </div>
@@ -418,10 +395,7 @@ export default function ShadcnUiPage() {
             <Label htmlFor={fields.f13_week.id}>
               Input <small>week</small>
             </Label>
-            <Input
-              {...getInputProps(fields.f13_week, { type: 'week' })}
-              key={fields.f13_week.key}
-            />
+            <Input {...getInputProps(fields.f13_week, { type: 'week' })} />
             <div id={fields.f13_week.errorId} className="text-destructive">
               {fields.f13_week.errors}
             </div>
@@ -443,7 +417,6 @@ export default function ShadcnUiPage() {
               <Input
                 className="h-auto w-auto cursor-pointer shadow-none"
                 {...getInputProps(fields.f14_checkbox, { type: 'checkbox' })}
-                key={fields.f14_checkbox.key}
               />
               <Label
                 htmlFor={fields.f14_checkbox.id}
@@ -470,7 +443,6 @@ export default function ShadcnUiPage() {
                     value: 'all',
                   })}
                   id={`${fields.f15_radio.id}-all`}
-                  key={fields.f15_radio.key}
                 />
                 <Label
                   htmlFor={`${fields.f15_radio.id}-all`}
@@ -487,7 +459,6 @@ export default function ShadcnUiPage() {
                     value: 'mention',
                   })}
                   id={`${fields.f15_radio.id}-mention`}
-                  key={fields.f15_radio.key}
                 />
                 <Label
                   htmlFor={`${fields.f15_radio.id}-mention`}
@@ -504,7 +475,6 @@ export default function ShadcnUiPage() {
                     value: 'nothing',
                   })}
                   id={`${fields.f15_radio.id}-nothing`}
-                  key={fields.f15_radio.key}
                 />
                 <Label
                   htmlFor={`${fields.f15_radio.id}-nothing`}
@@ -524,7 +494,6 @@ export default function ShadcnUiPage() {
             <Input
               className="cursor-pointer"
               {...getInputProps(fields.f16_file, { type: 'file' })}
-              key={fields.f16_file.key}
             />
             <div id={fields.f16_file.errorId} className="text-destructive">
               {fields.f16_file.errors}
@@ -536,7 +505,6 @@ export default function ShadcnUiPage() {
             <Input
               className="cursor-pointer"
               {...getInputProps(fields.f17_color, { type: 'color' })}
-              key={fields.f17_color.key}
             />
             <div id={fields.f17_color.errorId} className="text-destructive">
               {fields.f17_color.errors}
@@ -553,7 +521,6 @@ export default function ShadcnUiPage() {
             <Textarea
               placeholder="テキストエリア"
               {...getTextareaProps(fields.f18_textarea)}
-              key={fields.f18_textarea.key}
             />
             <div id={fields.f18_textarea.errorId} className="text-destructive">
               {fields.f18_textarea.errors}
@@ -571,7 +538,6 @@ export default function ShadcnUiPage() {
                 name={fields.f19_select.name}
                 required={fields.f19_select.required}
                 defaultValue={fields.f19_select.initialValue}
-                key={fields.f19_select.key}
                 onValueChange={(value) => {
                   form.update({
                     name: fields.f19_select.name,
@@ -630,7 +596,6 @@ export default function ShadcnUiPage() {
             <HStack>
               <Select
                 {...getSelectProps(fields.f20_selectWithHelper)}
-                key={fields.f20_selectWithHelper.key}
                 onValueChange={(value) => {
                   form.update({
                     name: fields.f20_selectWithHelper.name,
@@ -685,7 +650,6 @@ export default function ShadcnUiPage() {
             <h3>Checkbox</h3>
             <HStack>
               <Checkbox
-                key={fields.f21_checkbox.key}
                 id={fields.f21_checkbox.id}
                 name={fields.f21_checkbox.name}
                 required={fields.f21_checkbox.required}
@@ -724,7 +688,6 @@ export default function ShadcnUiPage() {
                 {...getCheckboxProps(fields.f22_checkboxWithHelper, {
                   ariaAttributes: true,
                 })}
-                key={fields.f22_checkboxWithHelper.key}
                 className="aria-invalid:border-destructive"
                 onCheckedChange={(value) => {
                   form.update({
@@ -755,7 +718,6 @@ export default function ShadcnUiPage() {
             <h3>Switch</h3>
             <HStack>
               <Switch
-                key={fields.f23_switch.key}
                 id={fields.f23_switch.id}
                 name={fields.f23_switch.name}
                 aria-invalid={!fields.f23_switch.valid || undefined}
@@ -791,7 +753,6 @@ export default function ShadcnUiPage() {
                 {...getSwitchProps(fields.f24_switchWithHelper, {
                   ariaAttributes: true,
                 })}
-                key={fields.f24_switchWithHelper.key}
                 className="aria-invalid:border-destructive"
                 onCheckedChange={(value) => {
                   form.update({
@@ -821,7 +782,6 @@ export default function ShadcnUiPage() {
           <div>
             <h3>Radio Group</h3>
             <RadioGroup
-              key={fields.f25_radioGroup.key}
               name={fields.f25_radioGroup.name}
               aria-invalid={!fields.f25_radioGroup.valid || undefined}
               aria-describedby={
@@ -890,7 +850,6 @@ export default function ShadcnUiPage() {
             </h3>
             <RadioGroup
               {...getRadioGroupProps(fields.f26_radioGroupWithHelper)}
-              key={fields.f26_radioGroupWithHelper.key}
               className="aria-invalid:border aria-invalid:border-destructive"
               onValueChange={(value) => {
                 form.update({

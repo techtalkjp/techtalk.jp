@@ -1,7 +1,7 @@
 import {
   type LinksFunction,
+  type LoaderFunctionArgs,
   type MetaFunction,
-  unstable_defineLoader as defineLoader,
   unstable_data,
 } from '@remix-run/node'
 import {
@@ -42,10 +42,10 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const loader = defineLoader(async ({ request }) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { toast, headers } = await getToast(request)
   return unstable_data({ toastData: toast }, { headers })
-})
+}
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation()

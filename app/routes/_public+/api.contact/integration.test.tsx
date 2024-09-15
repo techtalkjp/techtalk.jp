@@ -1,5 +1,5 @@
 import { createRemixStub } from '@remix-run/testing'
-import { render, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { HttpResponse, http } from 'msw'
 import { setupServer } from 'msw/node'
@@ -22,39 +22,40 @@ test('お問い合わせフォーム_メール送信成功', async () => {
   const RemixStub = createRemixStub([
     { path: '/api/contact', Component: () => <ContactForm />, action },
   ])
-  const { getByRole, getByText } = render(
-    <RemixStub initialEntries={['/api/contact']} />,
-  )
+  render(<RemixStub initialEntries={['/api/contact']} />)
 
   // フォーム入力
-  await userEvent.type(getByRole('textbox', { name: 'お名前' }), 'テスト太郎')
   await userEvent.type(
-    getByRole('textbox', { name: '会社名' }),
+    screen.getByRole('textbox', { name: 'お名前' }),
+    'テスト太郎',
+  )
+  await userEvent.type(
+    screen.getByRole('textbox', { name: '会社名' }),
     'テスト株式会社',
   )
   await userEvent.type(
-    getByRole('textbox', { name: '電話番号' }),
+    screen.getByRole('textbox', { name: '電話番号' }),
     '09012345678',
   )
   await userEvent.type(
-    getByRole('textbox', { name: 'メール' }),
+    screen.getByRole('textbox', { name: 'メール' }),
     'coji@techtalk.jp',
   )
   await userEvent.type(
-    getByRole('textbox', { name: 'メッセージ' }),
+    screen.getByRole('textbox', { name: 'メッセージ' }),
     'こんにちは！',
   )
-  await userEvent.click(getByRole('checkbox', { name: 'privacy' }))
+  await userEvent.click(screen.getByRole('checkbox', { name: 'privacy' }))
 
   // 送信
-  await userEvent.click(getByRole('button', { name: "Let's talk" }))
+  await userEvent.click(screen.getByRole('button', { name: "Let's talk" }))
 
   // 送信完了の確認
-  await waitFor(() =>
-    expect(
-      getByText('以下のメッセージを受付けました。', { exact: false }),
-    ).toBeInTheDocument(),
-  )
+  expect(
+    await screen.findByText('以下のメッセージを受付けました。', {
+      exact: false,
+    }),
+  ).toBeInTheDocument()
 
   // mock server のクリーンアップ
   mockServer.close()
@@ -76,39 +77,38 @@ test('お問い合わせフォーム_メール送信エラー', async () => {
   const RemixStub = createRemixStub([
     { path: '/api/contact', Component: () => <ContactForm />, action },
   ])
-  const { getByRole, getByText } = render(
-    <RemixStub initialEntries={['/api/contact']} />,
-  )
+  render(<RemixStub initialEntries={['/api/contact']} />)
 
   // フォーム入力
-  await userEvent.type(getByRole('textbox', { name: 'お名前' }), 'テスト太郎')
   await userEvent.type(
-    getByRole('textbox', { name: '会社名' }),
+    screen.getByRole('textbox', { name: 'お名前' }),
+    'テスト太郎',
+  )
+  await userEvent.type(
+    screen.getByRole('textbox', { name: '会社名' }),
     'テスト株式会社',
   )
   await userEvent.type(
-    getByRole('textbox', { name: '電話番号' }),
+    screen.getByRole('textbox', { name: '電話番号' }),
     '09012345678',
   )
   await userEvent.type(
-    getByRole('textbox', { name: 'メール' }),
+    screen.getByRole('textbox', { name: 'メール' }),
     'coji@techtalk.jp',
   )
   await userEvent.type(
-    getByRole('textbox', { name: 'メッセージ' }),
+    screen.getByRole('textbox', { name: 'メッセージ' }),
     'こんにちは！',
   )
-  await userEvent.click(getByRole('checkbox', { name: 'privacy' }))
+  await userEvent.click(screen.getByRole('checkbox', { name: 'privacy' }))
 
   // 送信
-  await userEvent.click(getByRole('button', { name: "Let's talk" }))
+  await userEvent.click(screen.getByRole('button', { name: "Let's talk" }))
 
   // 送信完了の確認
-  await waitFor(() =>
-    expect(
-      getByText('500 Internal Server Error: NG', { exact: false }),
-    ).toBeInTheDocument(),
-  )
+  expect(
+    await screen.findByText('500 Internal Server Error: NG', { exact: false }),
+  ).toBeInTheDocument()
 
   mockServer.close()
 })

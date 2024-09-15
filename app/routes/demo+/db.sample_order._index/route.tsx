@@ -1,11 +1,11 @@
 import { parseWithZod } from '@conform-to/zod'
-import type {
-  ActionFunctionArgs,
-  HeadersFunction,
-  LoaderFunctionArgs,
+import {
+  type ActionFunctionArgs,
+  type HeadersFunction,
+  type LoaderFunctionArgs,
+  redirect,
 } from '@remix-run/node'
 import { Link, useActionData, useLoaderData } from '@remix-run/react'
-import { jsonWithSuccess, redirectWithSuccess } from 'remix-toast'
 import {
   Stack,
   Tabs,
@@ -66,25 +66,17 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       ...rest,
     })
     const timeEnd = Date.now()
-    return await jsonWithSuccess(
-      {
-        result: submission.reply({ resetForm: true }),
-        duration: timeEnd - timeStart,
-      },
-      {
-        message: `${submission.value.name}@${submission.value.country} has been successfully submitted.`,
-        description: `It took ${timeEnd - timeStart}ms to process the request.`,
-      },
-    )
+    return {
+      result: submission.reply({ resetForm: true }),
+      duration: timeEnd - timeStart,
+    }
   }
 
   if (submission.value.intent === 'del') {
     await deleteSampleOrder(submission.value.id)
 
     // delete order
-    return await redirectWithSuccess('/demo/db/sample_order?tab=list', {
-      message: 'Order has been successfully deleted.',
-    })
+    throw redirect('/demo/db/sample_order?tab=list')
   }
 }
 
