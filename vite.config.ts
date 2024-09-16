@@ -17,8 +17,9 @@ declare module '@remix-run/server-runtime' {
 export default defineConfig({
   plugins: [
     mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter] }),
-    !process.env.VITEST
-      ? remix({
+    process.env.VITEST
+      ? react()
+      : remix({
           ignoredRouteFiles: ['**/.*'],
           routes: (defineRoutes) =>
             flatRoutes('routes', defineRoutes, {
@@ -31,9 +32,9 @@ export default defineConfig({
             v3_throwAbortReason: true,
             unstable_singleFetch: true,
             unstable_lazyRouteDiscovery: true,
+            unstable_optimizeDeps: true,
           },
-        })
-      : react(),
+        }),
     tsconfigPaths(),
   ],
   test: { environment: 'jsdom', setupFiles: ['./test/setup.ts'] },

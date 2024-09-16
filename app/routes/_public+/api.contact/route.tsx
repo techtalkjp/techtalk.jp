@@ -191,7 +191,6 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
           </div>
         </div>
 
-        <input type="hidden" name="locale" value={locale} />
         <div className="hidden">
           <input {...getInputProps(companyPhone, { type: 'tel' })} />
         </div>
