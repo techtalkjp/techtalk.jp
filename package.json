@@ -13,9 +13,6 @@
     "validate": "run-p format lint && run-p typecheck test"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "3.651.1",
-    "@aws-sdk/lib-storage": "3.651.1",
-    "@aws-sdk/s3-request-presigner": "3.651.1",
     "@coji/kysely-libsql": "0.3.0",
     "@conform-to/react": "1.2.1",
     "@conform-to/zod": "1.2.1",
@@ -54,6 +51,7 @@
     "isbot": "5.1.17",
     "kysely": "0.27.4",
     "lucide-react": "0.441.0",
+    "minio": "8.0.1",
     "nanoid": "5.0.7",
     "neverthrow": "8.0.0",
     "next-themes": "0.3.0",

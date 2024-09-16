@@ -25,7 +25,7 @@ import {
   ImageEndpointUrl,
   createPresignedUrl,
   list,
-} from './services/r2.server'
+} from '~/services/r2.server'
 
 const schema = z.object({
   file: z.instanceof(File),
@@ -111,25 +111,25 @@ export default function ImageUploadDemoPage() {
           </TableHeader>
           <TableBody>
             {objects?.map((object) => (
-              <TableRow key={object.Key}>
+              <TableRow key={object.name}>
                 <TableCell>
                   <div className="relative">
                     <span className="absolute bottom-2 right-2 text-sm text-white drop-shadow">
-                      {object.Key}
+                      {object.name}
                     </span>
                     <img
                       className="rounded"
                       loading="lazy"
-                      src={`${ImageEndpointUrl}${object.Key}`}
-                      alt={object.Key}
+                      src={`${ImageEndpointUrl}${object.name}`}
+                      alt={object.name}
                     />
                   </div>
                 </TableCell>
                 <TableCell>
-                  {dayjs(object.LastModified).format('YYYY-MM-DD HH:mm')}
+                  {dayjs(object.lastModified).format('YYYY-MM-DD HH:mm')}
                 </TableCell>
                 <TableCell>
-                  {object.Size?.toLocaleString()}
+                  {object.size?.toLocaleString()}
                   <small> bytes</small>
                 </TableCell>
               </TableRow>

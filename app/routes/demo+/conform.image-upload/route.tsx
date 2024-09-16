@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import { ImageEndpointUrl, list, upload } from './services/r2.server'
+import { ImageEndpointUrl, list, upload } from '~/services/r2.server'
 
 const schema = z.object({
   file: z.custom<File>((file) => file instanceof File),
@@ -77,29 +77,29 @@ export default function ImageUploadDemoPage() {
           </TableHeader>
           <TableBody>
             {objects?.map((object) => {
-              const imageUrl = `${ImageEndpointUrl}${object.Key}`
+              const imageUrl = `${ImageEndpointUrl}${object.name}`
               return (
-                <TableRow key={object.Key}>
+                <TableRow key={object.name}>
                   <TableCell>
                     <div className="relative">
                       <span className="absolute bottom-2 left-2 right-2 text-right text-sm text-white drop-shadow">
-                        {object.Key}
+                        {object.name}
                       </span>
                       <a href={imageUrl} target="_blank" rel="noreferrer">
                         <img
                           className="rounded"
                           loading="lazy"
                           src={imageUrl}
-                          alt={object.Key}
+                          alt={object.name}
                         />
                       </a>
                     </div>
                   </TableCell>
                   <TableCell>
-                    {dayjs(object.LastModified).format('YYYY-MM-DD HH:mm')}
+                    {dayjs(object.lastModified).format('YYYY-MM-DD HH:mm')}
                   </TableCell>
                   <TableCell>
-                    {object.Size?.toLocaleString()}
+                    {object.size?.toLocaleString()}
                     <small> bytes</small>
                   </TableCell>
                 </TableRow>
