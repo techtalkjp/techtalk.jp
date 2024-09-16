@@ -103,13 +103,25 @@ export const ContactSentMessage = ({ data }: { data: ContactFormData }) => {
 
 type ContactFormProps = React.HTMLAttributes<HTMLFormElement>
 export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
-  const { t, locale } = useLocale()
+  const { t, locale: userLocale } = useLocale()
   const fetcher = useFetcher<typeof action>()
   const actionData = fetcher.data
   const [
     form,
-    { name, company, phone, email, message, companyPhone, privacyPolicy },
+    {
+      name,
+      company,
+      phone,
+      email,
+      message,
+      companyPhone,
+      privacyPolicy,
+      locale,
+    },
   ] = useForm({
+    defaultValue: {
+      locale: userLocale,
+    },
     lastResult: actionData?.lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
@@ -215,6 +227,8 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             {privacyPolicy.errors}
           </div>
         </div>
+
+        <input {...getInputProps(locale, { type: 'hidden' })} />
 
         {form.errors && (
           <Alert variant="destructive">

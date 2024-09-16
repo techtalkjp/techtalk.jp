@@ -8,6 +8,7 @@ export const schema = z.object({
   message: z.string().max(10000),
   companyPhone: z.string().max(20).optional(),
   privacyPolicy: z.string().transform((value) => value === 'on'),
+  locale: z.string(),
 })
 
 export type ContactFormData = z.infer<typeof schema>
