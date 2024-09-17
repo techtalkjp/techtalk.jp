@@ -1,4 +1,4 @@
-import { Client, type BucketItem } from 'minio'
+import { Client } from 'minio'
 import { Readable } from 'node:stream'
 
 const BUCKET_NAME = 'techtalk' as const
@@ -14,16 +14,9 @@ const client = new Client({
 export const ImageEndpointUrl = process.env.IMAGE_ENDPOINT_URL
 
 export const list = async () => {
-  const objectsList = await new Promise<BucketItem[]>((resolve, reject) => {
-    const objectsListTemp: BucketItem[] = []
-    const stream = client.listObjectsV2(BUCKET_NAME, '', true, '')
-
-    stream.on('data', (obj) => obj.name && objectsListTemp.push({ ...obj }))
-    stream.on('error', reject)
-    stream.on('end', () => {
-      resolve(objectsListTemp)
-    })
-  })
+  const objectsList = await client
+    .listObjectsV2(BUCKET_NAME, '', true, '')
+    .toArray()
   return objectsList
 }
 
