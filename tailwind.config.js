@@ -4,16 +4,22 @@ export default {
   content: ['./app/**/*.{ts,tsx}'],
   theme: {
     container: {
-      center: true,
+      center: 'true',
       padding: '2rem',
       screens: {
         '2xl': '1400px',
       },
     },
     extend: {
-      height: { screen: ['100vh', '100dvh'] },
-      minHeight: { screen: ['100vh', '100dvh'] },
-      maxHeight: { screen: ['100vh', '100dvh'] },
+      height: {
+        screen: ['100vh', '100dvh'],
+      },
+      minHeight: {
+        screen: ['100vh', '100dvh'],
+      },
+      maxHeight: {
+        screen: ['100vh', '100dvh'],
+      },
       colors: {
         github: '#181717',
         facebook: '#1877f2',
@@ -59,12 +65,12 @@ export default {
       },
       keyframes: {
         'accordion-down': {
-          from: { height: 0 },
+          from: { height: '0' },
           to: { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: 0 },
+          to: { height: '0' },
         },
       },
       animation: {

@@ -10,7 +10,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandLoading,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -83,9 +82,6 @@ export const ZipInput = ({ defaultValue = '', onChange }: ZipInputProps) => {
           <CommandEmpty>No zip address found.</CommandEmpty>
           <CommandGroup>
             <CommandList>
-              {zipAddresses === undefined && (
-                <CommandLoading>Loading...</CommandLoading>
-              )}
               {zipAddresses?.map((zipAddress) => (
                 <CommandItem
                   key={zipAddress.zip}
