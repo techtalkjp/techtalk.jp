@@ -1,6 +1,6 @@
-import type { MetaFunction } from '@remix-run/node'
-import { Link, Outlet, useLocation } from '@remix-run/react'
 import { ExternalLinkIcon } from 'lucide-react'
+import type { MetaFunction } from 'react-router'
+import { Link, Outlet, useLocation } from 'react-router'
 import {
   Card,
   CardContent,

@@ -1,13 +1,13 @@
-import { createRemixStub } from '@remix-run/testing'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { createRoutesStub } from 'react-router'
 import { expect, test } from 'vitest'
 import { action } from '~/routes/_public+/api.contact/route'
 import Component from './route'
 
 test('test', async () => {
   // arrange
-  const RemixStub = createRemixStub([
+  const RemixStub = createRoutesStub([
     { path: '/', Component },
     { path: '/api/contact', action },
   ])

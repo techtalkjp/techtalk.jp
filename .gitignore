@@ -21,3 +21,5 @@ node_modules
 data
 .vercel
 coverage
+
+.react-router

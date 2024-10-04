@@ -1,13 +1,7 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs } from '@remix-run/node'
-import {
-  Form,
-  useActionData,
-  useNavigation,
-  useRevalidator,
-} from '@remix-run/react'
 import { setTimeout } from 'node:timers/promises'
+import { Form, useNavigation, useRevalidator } from 'react-router'
 import { z } from 'zod'
 import {
   AlertDialog,
@@ -22,34 +16,37 @@ import {
   Input,
   Label,
 } from '~/components/ui'
+import type * as Route from './+types.conform.confirm'
 
 const schema = z.object({
   intent: z.enum(['confirm', 'submit']),
   email: z.string().email(),
 })
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return { result: submission.reply(), shouldConfirm: false }
+    return { lastResult: submission.reply(), shouldConfirm: false }
   }
 
   // intent=confirm で submit された場合は確認ダイアログを表示させるように戻す
   if (submission.value.intent === 'confirm') {
-    return { result: submission.reply(), shouldConfirm: true }
+    return { lastResult: submission.reply(), shouldConfirm: true }
   }
 
   // intent=submit で submit された場合は実際に削除
   await setTimeout(1000) // simulate server delay
 
   // 成功: resetForm: true でフォームをリセットさせる
-  return { result: submission.reply({ resetForm: true }), shouldConfirm: false }
+  return {
+    lastResult: submission.reply({ resetForm: true }),
+    shouldConfirm: false,
+  }
 }
 
-export default function DemoConformAlert() {
-  const actionData = useActionData<typeof action>()
+export default function DemoConformAlert({ actionData }: Route.ComponentProps) {
   const [form, { email }] = useForm({
-    lastResult: actionData?.result,
+    lastResult: actionData?.lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })

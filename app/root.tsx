@@ -1,24 +1,21 @@
-import {
-  type LinksFunction,
-  type LoaderFunctionArgs,
-  type MetaFunction,
-  unstable_data,
-} from '@remix-run/node'
+import { useEffect } from 'react'
 import {
   Links,
+  type LinksFunction,
   Meta,
+  type MetaFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
+  data,
   isRouteErrorResponse,
-  useLoaderData,
   useLocation,
   useRouteError,
-} from '@remix-run/react'
-import { useEffect } from 'react'
+} from 'react-router'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { Toaster, TooltipProvider } from '~/components/ui'
+import type * as Route from './+types.root'
 import { cn } from './libs/utils'
 import biographyStyle from './styles/biography.css?url'
 import globalStyles from './styles/globals.css?url'
@@ -42,9 +39,9 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
   const { toast, headers } = await getToast(request)
-  return unstable_data({ toastData: toast }, { headers })
+  return data({ toastData: toast }, { headers })
 }
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -69,9 +66,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default function App() {
-  const { toastData } = useLoaderData<typeof loader>()
-
+export default function App({
+  loaderData: { toastData },
+}: Route.ComponentProps) {
   useEffect(() => {
     if (!toastData) {
       return

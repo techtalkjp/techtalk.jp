@@ -1,13 +1,7 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
-import {
-  Form,
-  useActionData,
-  useLoaderData,
-  type ClientActionFunctionArgs,
-} from '@remix-run/react'
 import dayjs from 'dayjs'
+import { Form } from 'react-router'
 import { z } from 'zod'
 import {
   Button,
@@ -26,17 +20,18 @@ import {
   createPresignedUrl,
   list,
 } from '~/services/r2.server'
+import type * as Route from './+types.route'
 
 const schema = z.object({
   file: z.instanceof(File),
 })
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
   const objects = await list()
   return { objects, ImageEndpointUrl }
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), presignedUrl: null }
@@ -52,13 +47,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export const clientAction = async ({
   request,
   serverAction,
-}: ClientActionFunctionArgs) => {
+}: Route.ClientActionArgs) => {
   const submission = parseWithZod(await request.clone().formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), presignedUrl: null }
   }
 
-  const actionData = await serverAction<typeof action>()
+  const actionData = await serverAction()
   if (!actionData.presignedUrl) {
     return actionData
   }
@@ -72,9 +67,10 @@ export const clientAction = async ({
   return actionData
 }
 
-export default function ImageUploadDemoPage() {
-  const { objects, ImageEndpointUrl } = useLoaderData<typeof loader>()
-  const actionData = useActionData<typeof action>()
+export default function ImageUploadDemoPage({
+  loaderData: { objects, ImageEndpointUrl },
+  actionData,
+}: Route.ComponentProps) {
   const [form, { file }] = useForm({
     lastResult: actionData?.lastResult,
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),

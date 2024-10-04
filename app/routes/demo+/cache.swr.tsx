@@ -1,12 +1,7 @@
-import type { HeadersFunction } from '@remix-run/node'
-import {
-  Form,
-  useLoaderData,
-  useNavigation,
-  type ClientLoaderFunctionArgs,
-} from '@remix-run/react'
 import dayjs from 'dayjs'
 import { setTimeout } from 'node:timers/promises'
+import type { HeadersFunction } from 'react-router'
+import { Form, useNavigation } from 'react-router'
 import {
   Button,
   Stack,
@@ -17,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
+import type * as Route from './+types.cache.swr'
 
 const cacheControl = 's-maxage=60, stale-while-revalidate=120'
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -29,13 +25,13 @@ export const loader = async () => {
   await setTimeout(1000)
 
   const serverTime = new Date().toISOString()
-  return { serverTime }
+  return { serverTime, clientTime: null, diff: null }
 }
 
 export const clientLoader = async ({
   serverLoader,
-}: ClientLoaderFunctionArgs) => {
-  const serverData = await serverLoader<typeof loader>()
+}: Route.ClientLoaderArgs) => {
+  const serverData = await serverLoader()
   const clientTime = new Date().toISOString()
   const diff = dayjs(clientTime).diff(dayjs(serverData.serverTime), 'second')
   return {
@@ -46,8 +42,8 @@ export const clientLoader = async ({
 }
 clientLoader.hydrate = true
 
-export default function DemoConformAlert() {
-  const { serverTime, clientTime, diff } = useLoaderData<typeof clientLoader>()
+export default function DemoConformAlert({ loaderData }: Route.ComponentProps) {
+  const { serverTime, clientTime, diff } = loaderData
   const navigation = useNavigation()
 
   return (

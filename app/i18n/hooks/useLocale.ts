@@ -1,4 +1,4 @@
-import { useLocation } from '@remix-run/react'
+import { useLocation } from 'react-router'
 import en from '../assets/locales/en.json'
 import ja from '../assets/locales/ja.json'
 import zhls from '../assets/locales/zhls.json'

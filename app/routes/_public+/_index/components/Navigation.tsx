@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react'
+import { Link } from 'react-router'
 import { TextReveal } from '~/components/TextRevail'
 import { Button, HStack, Spacer } from '~/components/ui'
 import LanguageSwitcher from '~/i18n/components/LanguageSwitcher'

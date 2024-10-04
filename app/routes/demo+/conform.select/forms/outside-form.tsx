@@ -1,6 +1,6 @@
 import { getFormProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { Form, useActionData } from '@remix-run/react'
+import { Form, useActionData } from 'react-router'
 import {
   Button,
   Card,
@@ -15,12 +15,12 @@ import {
   SelectValue,
   Stack,
 } from '~/components/ui'
+import type * as Route from '../+types.route'
 import { ActionResult } from '../components'
-import type { action } from '../route'
 import { FormType, schema } from '../types'
 
 export const OutsideForm = () => {
-  const actionData = useActionData<typeof action>()
+  const actionData = useActionData() as Route.ActionData
   const [form, { option }] = useForm({
     lastResult: actionData?.lastResult,
     defaultValue: {

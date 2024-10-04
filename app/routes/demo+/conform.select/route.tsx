@@ -1,5 +1,5 @@
 import { parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs } from '@remix-run/node'
+import type { ActionFunctionArgs } from 'react-router'
 import {
   Stack,
   Tabs,

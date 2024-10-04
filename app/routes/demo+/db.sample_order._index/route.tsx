@@ -1,11 +1,5 @@
 import { parseWithZod } from '@conform-to/zod'
-import {
-  type ActionFunctionArgs,
-  type HeadersFunction,
-  type LoaderFunctionArgs,
-  redirect,
-} from '@remix-run/node'
-import { Link, useActionData, useLoaderData } from '@remix-run/react'
+import { type HeadersFunction, Link, redirect } from 'react-router'
 import {
   Stack,
   Tabs,
@@ -13,6 +7,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '~/components/ui'
+import type * as Route from './+types.route'
 import { DeleteOrderDialog, NewOrderForm, OrderList } from './components'
 import { Header } from './components/header'
 import { createSampleOrder, deleteSampleOrder } from './mutations'
@@ -27,7 +22,7 @@ export const headers: HeadersFunction = () => {
   }
 }
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
   const url = new URL(request.url)
   const tab = url.searchParams.get('tab') ?? 'new'
 
@@ -52,10 +47,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   }
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return { result: submission.reply(), duration: null }
+    return { lastResult: submission.reply(), duration: null }
   }
 
   if (submission.value.intent === 'new') {
@@ -67,7 +62,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     })
     const timeEnd = Date.now()
     return {
-      result: submission.reply({ resetForm: true }),
+      lastResult: submission.reply({ resetForm: true }),
       duration: timeEnd - timeStart,
     }
   }
@@ -80,8 +75,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 }
 
-export default function RequestLogsPage() {
-  const {
+export default function RequestLogsPage({
+  loaderData: {
     tab,
     deletingOrder,
     region,
@@ -89,9 +84,9 @@ export default function RequestLogsPage() {
     sampleOrders,
     duration: selectDuration,
     now,
-  } = useLoaderData<typeof loader>()
-  const actionData = useActionData<typeof action>()
-
+  },
+  actionData,
+}: Route.ComponentProps) {
   return (
     <Stack>
       <Header

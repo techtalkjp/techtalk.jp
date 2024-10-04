@@ -1,10 +1,10 @@
-import type { ActionFunctionArgs } from '@remix-run/node'
-import { Await, Form, useActionData } from '@remix-run/react'
 import { setTimeout } from 'node:timers/promises'
 import { Suspense, useState } from 'react'
+import { Await, Form } from 'react-router'
 import { Button, Progress, Stack } from '~/components/ui'
+import type * as Route from './+types.misc.progress._index'
 
-export const action = ({ request }: ActionFunctionArgs) => {
+export const action = ({ request }: Route.ActionArgs) => {
   const progress = Array.from({ length: 100 }, (_, i) => i + 1).map(
     (i) =>
       new Promise<number>((resolve) =>
@@ -14,8 +14,9 @@ export const action = ({ request }: ActionFunctionArgs) => {
   return { progress }
 }
 
-export default function ProgressIndexPage() {
-  const actionData = useActionData<typeof action>()
+export default function ProgressIndexPage({
+  actionData,
+}: Route.ComponentProps) {
   const [progress, setProgress] = useState(0)
   return (
     <Stack>

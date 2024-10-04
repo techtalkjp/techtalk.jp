@@ -1,6 +1,6 @@
-import type { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
 import { ArrowLeftIcon } from 'lucide-react'
+import type { HeadersFunction } from 'react-router'
+import { Link } from 'react-router'
 import {
   Badge,
   Button,
@@ -10,14 +10,16 @@ import {
   Stack,
   Textarea,
 } from '~/components/ui'
+import type * as Route from './+types.route'
 import { getSampleOrder } from './queries'
+
 const defaultCacheControl = 's-maxage=60, stale-while-revalidate=120'
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return { 'Cache-Control': defaultCacheControl }
 }
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ params }: Route.LoaderArgs) => {
   const region = process.env.VERCEL_REGION ?? 'N/A'
 
   const timeStart = Date.now()
@@ -27,9 +29,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return { order, region, duration: timeEnd - timeStart }
 }
 
-export default function OrderDetailPage() {
-  const { order, region, duration } = useLoaderData<typeof loader>()
-
+export default function OrderDetailPage({
+  loaderData: { order, region, duration },
+}: Route.ComponentProps) {
   return (
     <Stack>
       <HStack className="text-sm text-foreground/50">

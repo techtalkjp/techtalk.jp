@@ -1,8 +1,7 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import { Form, useActionData, useLoaderData } from '@remix-run/react'
-import type { ActionFunctionArgs } from '@vercel/remix'
 import dayjs from 'dayjs'
+import { Form } from 'react-router'
 import { z } from 'zod'
 import {
   Button,
@@ -17,6 +16,7 @@ import {
   TableRow,
 } from '~/components/ui'
 import { ImageEndpointUrl, list, upload } from '~/services/r2.server'
+import type * as Route from './+types.route'
 
 const schema = z.object({
   file: z.custom<File>((file) => file instanceof File),
@@ -27,7 +27,7 @@ export const loader = async () => {
   return { objects, ImageEndpointUrl }
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
@@ -38,9 +38,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return { lastResult: submission.reply({ resetForm: true }) }
 }
 
-export default function ImageUploadDemoPage() {
-  const { objects, ImageEndpointUrl } = useLoaderData<typeof loader>()
-  const actionData = useActionData<typeof action>()
+export default function ImageUploadDemoPage({
+  loaderData: { objects, ImageEndpointUrl },
+  actionData,
+}: Route.ComponentProps) {
   const [form, { file }] = useForm({
     lastResult: actionData?.lastResult,
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),

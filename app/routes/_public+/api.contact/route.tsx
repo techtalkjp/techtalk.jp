@@ -5,9 +5,8 @@ import {
   useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs } from '@remix-run/node'
-import { Link, useFetcher } from '@remix-run/react'
 import { ok } from 'neverthrow'
+import { Link, useFetcher } from 'react-router'
 import { match } from 'ts-pattern'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
 import {
@@ -23,6 +22,7 @@ import {
   Textarea,
 } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
+import type * as Route from './+types.route'
 import {
   checkHoneypot,
   checkTestEmail,
@@ -31,7 +31,7 @@ import {
 } from './functions.server'
 import { schema, type ContactFormData } from './types'
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), sent: null }
@@ -104,7 +104,7 @@ export const ContactSentMessage = ({ data }: { data: ContactFormData }) => {
 type ContactFormProps = React.HTMLAttributes<HTMLFormElement>
 export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   const { t, locale: userLocale } = useLocale()
-  const fetcher = useFetcher<typeof action>()
+  const fetcher = useFetcher<Route.ActionData>()
   const actionData = fetcher.data
   const [
     form,

@@ -5,9 +5,9 @@ import {
   useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { Form, useActionData, useNavigation } from '@remix-run/react'
+import { Form, useActionData, useNavigation } from 'react-router'
 import { Button, Input, Label, Textarea } from '~/components/ui'
-import type { action } from '../route'
+import type * as Route from '../+types.route'
 import type { DummyData } from '../schema'
 import { schema } from '../schema'
 
@@ -18,10 +18,10 @@ export function NewOrderForm({
   dummyData: DummyData
   now: string
 }) {
-  const actionData = useActionData<typeof action>()
+  const actionData = useActionData() as Route.ActionData
   const [form, fields] = useForm({
     id: now,
-    lastResult: actionData?.result,
+    lastResult: actionData?.lastResult,
     defaultValue: dummyData,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
