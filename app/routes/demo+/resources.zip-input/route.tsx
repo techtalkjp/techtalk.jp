@@ -67,7 +67,6 @@ export const ZipInput = ({ defaultValue = '', onChange }: ZipInputProps) => {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          role="combobox"
           aria-expanded={open}
           className="justify-between whitespace-nowrap"
         >
