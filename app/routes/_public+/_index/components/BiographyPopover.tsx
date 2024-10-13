@@ -1,7 +1,7 @@
 import { FacebookIcon, GithubIcon, TwitterIcon, XIcon } from 'lucide-react'
 import { useState } from 'react'
-import ArticlesContent from '~/assets/articles.md'
-import BiographyContent from '~/assets/biography.md'
+import ArticlesContent from '~/assets/articles.mdx'
+import BiographyContent from '~/assets/biography.mdx'
 import {
   Avatar,
   AvatarImage,

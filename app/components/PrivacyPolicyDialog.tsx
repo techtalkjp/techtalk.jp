@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Content from '~/assets/privacy.md'
+import Content from '~/assets/privacy.mdx'
 import {
   Button,
   Dialog,

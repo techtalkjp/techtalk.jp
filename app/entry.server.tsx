@@ -1,29 +1,35 @@
-import { RemixServer } from '@remix-run/react'
-import { handleRequest, type EntryContext } from '@vercel/remix'
-import { createSitemapGenerator } from 'remix-sitemap'
+import { isbot } from 'isbot'
+import { renderToReadableStream } from 'react-dom/server'
+import type { AppLoadContext, EntryContext } from 'react-router'
+import { ServerRouter } from 'react-router'
 
-export const streamTimeout = 11 * 1000
-
-const { isSitemapUrl, sitemap } = createSitemapGenerator({
-  siteUrl: 'https://www.techtalk.jp',
-  generateRobotsTxt: true,
-})
-
-export default async function (
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
+  loadContext: AppLoadContext,
 ) {
-  if (isSitemapUrl(request)) {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    return await sitemap(request, remixContext as any)
-  }
-  const remixServer = <RemixServer context={remixContext} url={request.url} />
-  return handleRequest(
-    request,
-    responseStatusCode,
-    responseHeaders,
-    remixServer,
+  let statusCode = responseStatusCode
+  const body = await renderToReadableStream(
+    <ServerRouter context={remixContext} url={request.url} />,
+    {
+      signal: request.signal,
+      onError(error: unknown) {
+        // Log streaming rendering errors from inside the shell
+        console.error(error)
+        statusCode = 500
+      },
+    },
   )
+
+  if (isbot(request.headers.get('user-agent') || '')) {
+    await body.allReady
+  }
+
+  responseHeaders.set('Content-Type', 'text/html')
+  return new Response(body, {
+    headers: responseHeaders,
+    status: statusCode,
+  })
 }

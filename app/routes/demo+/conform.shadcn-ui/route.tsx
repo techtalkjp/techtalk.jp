@@ -5,8 +5,7 @@ import {
   useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
-import { Form, useActionData, useLoaderData } from '@remix-run/react'
+import { Form } from 'react-router'
 import { twc } from 'react-twc'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -27,6 +26,7 @@ import {
   Switch,
   Textarea,
 } from '~/components/ui'
+import type * as Route from './+types.route'
 import {
   getCheckboxProps,
   getRadioGroupProps,
@@ -144,13 +144,13 @@ const testData = {
   f26_radioGroupWithHelper: 'all',
 }
 
-export const loader = ({ request }: LoaderFunctionArgs) => {
+export const loader = ({ request }: Route.LoaderArgs) => {
   return {
     defaultValue: {},
   }
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
@@ -161,9 +161,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return { lastResult: submission.reply() }
 }
 
-export default function ShadcnUiPage() {
-  const { defaultValue } = useLoaderData<typeof loader>()
-  const actionData = useActionData<typeof action>()
+export default function ShadcnUiPage({
+  loaderData: { defaultValue },
+  actionData,
+}: Route.ComponentProps) {
   const [form, fields] = useForm({
     defaultValue: { ...defaultValue },
     lastResult: actionData?.lastResult,

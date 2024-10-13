@@ -1,5 +1,5 @@
-import { Link } from '@remix-run/react'
 import { EllipsisVerticalIcon } from 'lucide-react'
+import { Link } from 'react-router'
 import {
   Button,
   DropdownMenu,

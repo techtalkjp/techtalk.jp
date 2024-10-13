@@ -1,6 +1,6 @@
-import type { MetaFunction } from '@remix-run/node'
-import { Link } from '@remix-run/react'
-import Content from '~/assets/privacy.md'
+import type { MetaFunction } from 'react-router'
+import { Link } from 'react-router'
+import Content from '~/assets/privacy.mdx'
 import { Button, Heading } from '~/components/ui'
 
 export const meta: MetaFunction = () => [

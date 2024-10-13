@@ -1,14 +1,28 @@
 {
-  "include": ["*.js", "**/*.ts", "**/*.tsx", "env.d.ts"],
+  "include": [
+    "worker-configuration.d.ts",
+    "env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/.server/**/*.ts",
+    "**/.server/**/*.tsx",
+    "**/.client/**/*.ts",
+    "**/.client/**/*.tsx",
+    ".react-router/types/**/*"
+  ],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2023"],
-    "types": ["@types/node", "@remix-run/node", "vite/client"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": [
+      "@react-router/cloudflare",
+      "@cloudflare/workers-types",
+      "vite/client"
+    ],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-    "target": "ES2023",
+    "target": "ES2022",
     "strict": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -19,6 +33,8 @@
 
     "noUncheckedIndexedAccess": true,
     // Remix takes care of building everything in `remix build`.
-    "noEmit": true
+    "noEmit": true,
+    "rootDirs": [".", "./.react-router/types"],
+    "plugins": [{ "name": "@react-router/dev" }]
   }
 }

@@ -1,7 +1,6 @@
-import { useFetcher } from '@remix-run/react'
 import { Check, ChevronsUpDown } from 'lucide-react'
-import { setTimeout } from 'node:timers/promises'
 import * as React from 'react'
+import { useFetcher } from 'react-router'
 import {
   Button,
   Command,
@@ -15,6 +14,7 @@ import {
   PopoverTrigger,
 } from '~/components/ui'
 import { cn } from '~/libs/utils'
+import type * as Route from './+types.route'
 
 const master = [
   {
@@ -31,8 +31,7 @@ const master = [
   },
 ]
 
-export const loader = async () => {
-  await setTimeout(500)
+export const loader = ({ request }: Route.LoaderArgs) => {
   return { zipAddresses: master }
 }
 
@@ -41,7 +40,7 @@ interface ZipInputProps {
   onChange?: (value: string) => void
 }
 export const ZipInput = ({ defaultValue = '', onChange }: ZipInputProps) => {
-  const fetcher = useFetcher<typeof loader>({
+  const fetcher = useFetcher<Route.LoaderData>({
     key: '/demo/resources/zip-input',
   })
   const [open, setOpen] = React.useState(false)

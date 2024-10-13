@@ -1,11 +1,10 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs } from '@remix-run/node'
-import { Form, useActionData, useNavigation } from '@remix-run/react'
-import { setTimeout } from 'node:timers/promises'
+import { Form, useNavigation } from 'react-router'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button, HStack, Input, Label } from '~/components/ui'
+import type * as Route from './+types.conform.value'
 
 // フォーム要素のスキーマ定義
 const schema = z.object({
@@ -38,21 +37,20 @@ const lookupAddress = async (postalCode: string) => {
   }
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return submission.reply()
+    return { lastResult: submission.reply() }
   }
 
-  await setTimeout(200)
-
-  return submission.reply({ resetForm: true })
+  return { lastResult: submission.reply({ resetForm: true }) }
 }
 
-export default function ConformValueDemoPage() {
-  const lastResult = useActionData<typeof action>()
+export default function ConformValueDemoPage({
+  actionData,
+}: Route.ComponentProps) {
   const [form, { zip1, zip2, prefecture, city, street }] = useForm({
-    lastResult,
+    lastResult: actionData?.lastResult,
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })

@@ -1,8 +1,7 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
-import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import { TrashIcon } from 'lucide-react'
+import { Form } from 'react-router'
 import { z } from 'zod'
 import {
   Button,
@@ -24,6 +23,7 @@ import {
   TooltipTrigger,
 } from '~/components/ui'
 import { ZipInput } from '~/routes/demo+/resources.zip-input/route'
+import type * as Route from './+types.route'
 import {
   fakeEmail,
   fakeGender,
@@ -53,7 +53,7 @@ const schema = z.object({
   ),
 })
 
-export const loader = ({ request }: LoaderFunctionArgs) => {
+export const loader = ({ request }: Route.LoaderArgs) => {
   // ブラウザバンドルが巨大になってしまうので、faker はサーバサイドでのみ使用
   const fakePersons = Array.from({ length: 30 }, () => ({
     name: fakeName(),
@@ -67,7 +67,7 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   return { defaultPersons, fakePersons }
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), result: null }
@@ -96,9 +96,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 }
 
-export default function ConformNestedArrayDemo() {
-  const { defaultPersons, fakePersons } = useLoaderData<typeof loader>()
-  const actionData = useActionData<typeof action>()
+export default function ConformNestedArrayDemo({
+  loaderData: { defaultPersons, fakePersons },
+  actionData,
+}: Route.ComponentProps) {
   const [form, fields] = useForm({
     lastResult: actionData?.lastResult,
     defaultValue: { persons: defaultPersons },

@@ -1,8 +1,7 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node'
-import { Form, useActionData } from '@remix-run/react'
-import { jsonWithError, jsonWithSuccess } from 'remix-toast'
+import type { MetaFunction } from 'react-router'
+import { Form } from 'react-router'
 import { z } from 'zod'
 import {
   Button,
@@ -14,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/ui'
+import type * as Route from './+types.conform.update'
 
 export const meta: MetaFunction = () => {
   return [
@@ -27,20 +27,16 @@ const schema = z.object({
   message: z.string(),
 })
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return jsonWithError(submission.reply(), {
-      message: 'エラーが発生しました',
-    })
+    return { lastResult: submission.reply() }
   }
-  return jsonWithSuccess(submission.reply({ resetForm: true }), {
-    message: '登録しました！',
-  })
+  return { lastResult: submission.reply({ resetForm: true }) }
 }
 
-export default function TestPage() {
-  const lastResult = useActionData<typeof action>()
+export default function TestPage({ actionData }: Route.ComponentProps) {
+  const lastResult = actionData?.lastResult
   const [form, { message }] = useForm({
     lastResult,
     constraint: getZodConstraint(schema),

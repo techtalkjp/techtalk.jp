@@ -19,5 +19,9 @@ node_modules
 !.env.example
 
 data
-.vercel
 coverage
+
+.react-router
+
+.wrangler
+.dev.vars
