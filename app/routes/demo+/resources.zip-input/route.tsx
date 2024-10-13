@@ -1,5 +1,4 @@
 import { Check, ChevronsUpDown } from 'lucide-react'
-import { setTimeout } from 'node:timers/promises'
 import * as React from 'react'
 import { useFetcher } from 'react-router'
 import {
@@ -32,8 +31,7 @@ const master = [
   },
 ]
 
-export const loader = async ({ request }: Route.LoaderArgs) => {
-  await setTimeout(500)
+export const loader = ({ request }: Route.LoaderArgs) => {
   return { zipAddresses: master }
 }
 

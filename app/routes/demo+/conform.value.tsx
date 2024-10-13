@@ -1,6 +1,5 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { setTimeout } from 'node:timers/promises'
 import { Form, useNavigation } from 'react-router'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -43,8 +42,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
   }
-
-  await setTimeout(200)
 
   return { lastResult: submission.reply({ resetForm: true }) }
 }

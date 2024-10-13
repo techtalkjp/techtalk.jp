@@ -2,7 +2,7 @@ import { fromPromise, type ResultAsync } from 'neverthrow'
 import type { ContactFormData } from '../types'
 
 type SendEmailError = { type: 'SendEmailError'; message: string }
-const sendEmailImpl = async (form: ContactFormData) => {
+const sendEmailImpl = async (apiKey: string, form: ContactFormData) => {
   const sendForm = { ...form }
   sendForm.message = sendForm.message.replace(/\r\n/g, '<br />')
   sendForm.message = sendForm.message.replace(/(\n|\r)/g, '<br />')
@@ -25,7 +25,7 @@ const sendEmailImpl = async (form: ContactFormData) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify(payload),
   })
@@ -38,9 +38,10 @@ const sendEmailImpl = async (form: ContactFormData) => {
 }
 
 export const sendEmail = (
+  apiKey: string,
   form: ContactFormData,
 ): ResultAsync<ContactFormData, SendEmailError> => {
-  return fromPromise(sendEmailImpl(form), (e) => ({
+  return fromPromise(sendEmailImpl(apiKey, form), (e) => ({
     type: 'SendEmailError',
     message: String(e),
   }))

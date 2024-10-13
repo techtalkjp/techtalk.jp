@@ -15,6 +15,9 @@
       "suspicious": {
         "useAwait": "error",
         "noRedeclare": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
       }
     }
   }

@@ -1,5 +1,4 @@
 import dayjs from 'dayjs'
-import { setTimeout } from 'node:timers/promises'
 import type { HeadersFunction } from 'react-router'
 import { Form, useNavigation } from 'react-router'
 import {
@@ -21,9 +20,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
   }
 }
 
-export const loader = async () => {
-  await setTimeout(1000)
-
+export const loader = () => {
   const serverTime = new Date().toISOString()
   return { serverTime, clientTime: null, diff: null }
 }

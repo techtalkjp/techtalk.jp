@@ -1,5 +1,7 @@
 {
   "include": [
+    "worker-configuration.d.ts",
+    "env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/.server/**/*.ts",
@@ -9,14 +11,18 @@
     ".react-router/types/**/*"
   ],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2023"],
-    "types": ["@types/node", "@react-router/node", "vite/client"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": [
+      "@react-router/cloudflare",
+      "@cloudflare/workers-types",
+      "vite/client"
+    ],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-    "target": "ES2023",
+    "target": "ES2022",
     "strict": true,
     "allowJs": true,
     "skipLibCheck": true,

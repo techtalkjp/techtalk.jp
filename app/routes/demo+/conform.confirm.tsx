@@ -1,6 +1,5 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { setTimeout } from 'node:timers/promises'
 import { Form, useNavigation, useRevalidator } from 'react-router'
 import { z } from 'zod'
 import {
@@ -33,9 +32,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
   if (submission.value.intent === 'confirm') {
     return { lastResult: submission.reply(), shouldConfirm: true }
   }
-
-  // intent=submit で submit された場合は実際に削除
-  await setTimeout(1000) // simulate server delay
 
   // 成功: resetForm: true でフォームをリセットさせる
   return {

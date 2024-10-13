@@ -38,11 +38,6 @@ const demoPages: {
       ext: '/route.tsx',
     },
     {
-      path: '/demo/conform/direct-image-upload',
-      title: 'Cloudflare R2 ダイレクトアップロード',
-      ext: '/route.tsx',
-    },
-    {
       path: '/demo/conform/select',
       title: 'Select and conform in shadcn/ui',
       ext: '/route.tsx',
@@ -69,13 +64,6 @@ const demoPages: {
     {
       path: '/demo/cache/swr',
       title: 'Cache Control - stale-while-revalidate',
-    },
-  ],
-  misc: [
-    {
-      path: '/demo/misc/progress',
-      title: 'Misc - Action Progress',
-      ext: '._index.tsx',
     },
   ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],

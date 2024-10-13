@@ -1,0 +1,23 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "techtalkjp"
+
+main = "./server.ts"
+workers_dev = true
+# https://developers.cloudflare.com/workers/platform/compatibility-dates
+compatibility_flags = [ "nodejs_compat" ]
+compatibility_date = "2024-09-26"
+
+[assets]
+# https://developers.cloudflare.com/workers/static-assets/binding/
+directory = "./build/client"
+
+[observability]
+enabled = true
+
+[[r2_buckets]]
+binding = 'R2' # <~ valid JavaScript variable name
+bucket_name = 'techtalk'
+
+
+[build]
+command = "pnpm run build"

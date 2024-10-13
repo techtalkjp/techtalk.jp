@@ -31,7 +31,7 @@ import {
 } from './functions.server'
 import { schema, type ContactFormData } from './types'
 
-export const action = async ({ request }: Route.ActionArgs) => {
+export const action = async ({ request, context }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), sent: null }
@@ -40,8 +40,10 @@ export const action = async ({ request }: Route.ActionArgs) => {
   const result = await ok(submission.value)
     .andThen(checkHoneypot)
     .andThen(checkTestEmail)
-    .asyncAndThen(sendEmail)
-    .andThen(sendSlack)
+    .asyncAndThen((form) =>
+      sendEmail(context!.cloudflare.env.SENDGRID_API_KEY, form),
+    )
+    .andThen((form) => sendSlack(context!.cloudflare.env.SLACK_WEBHOOK, form))
 
   if (result.isErr()) {
     return match(result.error)

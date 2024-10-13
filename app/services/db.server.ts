@@ -7,18 +7,25 @@ import {
   sql,
   type Insertable,
 } from 'kysely'
-import type { DB, SampleOrder } from './types'
+import type { DB as Database, SampleOrder } from './types'
 
-export const db = new Kysely<DB>({
-  dialect: new LibsqlDiarect({
-    client: createClient({
-      url: `${process.env.TURSO_URL}`,
-      authToken: `${process.env.TURSO_AUTH_TOKEN}`,
+export const getDb = ({
+  url,
+  authToken,
+}: {
+  url: string
+  authToken: string
+}) => {
+  return new Kysely<Database>({
+    dialect: new LibsqlDiarect({
+      client: createClient({ url, authToken }),
     }),
-  }),
-  plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
-})
+    plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
+  })
+}
 
 export { sql }
+
 type InsertableSampleOrder = Omit<Insertable<SampleOrder>, 'id'>
-export type { InsertableSampleOrder }
+type DB = ReturnType<typeof getDb>
+export type { DB, InsertableSampleOrder }

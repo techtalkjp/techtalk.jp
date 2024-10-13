@@ -1,7 +1,13 @@
-import { json, type LoaderFunctionArgs } from 'react-router'
-import { db, sql } from '~/services/db.server'
+import { json } from 'react-router'
+import { sql } from '~/services/db.server'
+import type * as Route from './+types.healthcheck'
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ context }: Route.LoaderArgs) => {
+  const db = context?.db
+  if (!db) {
+    throw new Error('Database connection not available')
+  }
+
   const ret = await sql<{
     now: string
   }>`SELECT CURRENT_TIMESTAMP as now`.execute(db)
