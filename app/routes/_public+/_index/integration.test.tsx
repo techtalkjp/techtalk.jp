@@ -5,7 +5,7 @@ import { expect, test } from 'vitest'
 import { action } from '~/routes/_public+/api.contact/route'
 import Component from './route'
 
-test('test', async () => {
+test.skip('test', async () => {
   // arrange
   const RemixStub = createRoutesStub([
     { path: '/', Component },

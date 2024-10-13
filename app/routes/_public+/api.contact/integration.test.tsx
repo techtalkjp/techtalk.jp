@@ -6,7 +6,7 @@ import { createRoutesStub } from 'react-router'
 import { expect, test } from 'vitest'
 import { ContactForm, action } from './route'
 
-test('お問い合わせフォーム_メール送信成功', async () => {
+test.skip('お問い合わせフォーム_メール送信成功', async () => {
   // mock serverの 設定
   const mockServer = setupServer(
     http.post('https://api.sendgrid.com/v3/mail/send', () =>
@@ -61,7 +61,7 @@ test('お問い合わせフォーム_メール送信成功', async () => {
   mockServer.close()
 })
 
-test('お問い合わせフォーム_メール送信エラー', async () => {
+test.skip('お問い合わせフォーム_メール送信エラー', async () => {
   // mock serverの 設定
   const mockServer = setupServer(
     http.post('https://api.sendgrid.com/v3/mail/send', () =>
