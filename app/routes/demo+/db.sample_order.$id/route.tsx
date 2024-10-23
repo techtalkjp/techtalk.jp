@@ -21,9 +21,8 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 
 export const loader = async ({ params, context }: Route.LoaderArgs) => {
   const region = process.env.VERCEL_REGION ?? 'N/A'
-
   const timeStart = Date.now()
-  const order = await getSampleOrder(context!.db, String(params.id))
+  const order = await getSampleOrder(String(params.id))
   const timeEnd = Date.now()
 
   return { order, region, duration: timeEnd - timeStart }

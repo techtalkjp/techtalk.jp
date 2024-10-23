@@ -9,16 +9,13 @@ import {
 } from 'kysely'
 import type { DB as Database, SampleOrder } from './types'
 
-export const getDb = ({
-  url,
-  authToken,
-}: {
-  url: string
-  authToken: string
-}) => {
+export const getDb = () => {
   return new Kysely<Database>({
     dialect: new LibsqlDiarect({
-      client: createClient({ url, authToken }),
+      client: createClient({
+        url: process.env.TURSO_URL ?? '',
+        authToken: process.env.TURSO_AUTH_TOKEN ?? '',
+      }),
     }),
     plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
   })

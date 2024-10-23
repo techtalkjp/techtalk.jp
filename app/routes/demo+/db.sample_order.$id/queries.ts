@@ -1,6 +1,7 @@
-import type { DB } from '~/services/db.server'
+import { getDb } from '~/services/db.server'
 
-export const getSampleOrder = async (db: DB, id: string) => {
+export const getSampleOrder = async (id: string) => {
+  const db = getDb()
   return await db
     .selectFrom('sampleOrders')
     .where('id', '==', id)

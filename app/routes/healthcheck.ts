@@ -1,9 +1,9 @@
 import { json } from 'react-router'
-import { sql } from '~/services/db.server'
+import { getDb, sql } from '~/services/db.server'
 import type * as Route from './+types.healthcheck'
 
 export const loader = async ({ context }: Route.LoaderArgs) => {
-  const db = context?.db
+  const db = getDb()
   if (!db) {
     throw new Error('Database connection not available')
   }

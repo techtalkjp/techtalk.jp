@@ -28,7 +28,7 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
 
   const region = context?.cloudflare.cf.region ?? 'N/A'
   const timeStart = Date.now()
-  const sampleOrders = await listSampleOrders(context!.db)
+  const sampleOrders = await listSampleOrders()
 
   const dummyData = buildDummyData()
   const timeEnd = Date.now()
@@ -56,7 +56,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   if (submission.value.intent === 'new') {
     const timeStart = Date.now()
     const { intent, ...rest } = submission.value
-    await createSampleOrder(context!.db, {
+    await createSampleOrder({
       region: context!.cloudflare.cf.region ?? '',
       ...rest,
     })
@@ -68,7 +68,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'del') {
-    await deleteSampleOrder(context!.db, submission.value.id)
+    await deleteSampleOrder(submission.value.id)
 
     // delete order
     throw redirect('/demo/db/sample_order?tab=list')

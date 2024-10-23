@@ -27,6 +27,15 @@ export default {
           },
         },
       })
+
+      process.env.TURSO_URL ??= (() => {
+        if (typeof env.TURSO_URL === 'string') return env.TURSO_URL
+      })()
+      process.env.TURSO_AUTH_TOKEN ??= (() => {
+        if (typeof env.TURSO_AUTH_TOKEN === 'string')
+          return env.TURSO_AUTH_TOKEN
+      })()
+
       return await requestHandler(request, loadContext)
     } catch (error) {
       console.log(error)
