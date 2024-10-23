@@ -1,3 +1,4 @@
+import { DialogDescription } from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import Content from '~/assets/privacy.mdx'
 import {
@@ -6,6 +7,7 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
 } from '~/components/ui'
 import { useLocale } from '../i18n/hooks/useLocale'
 
@@ -35,7 +37,10 @@ const PrivacyPolicyDialog = () => {
       <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
         <DialogContent className="flex max-h-[32rem] flex-col gap-4">
           <DialogHeader className="text-xl font-bold">
-            {t('privacy.dialog.title', 'TechTalk プライバシーポリシー')}
+            <DialogTitle>
+              {t('privacy.dialog.title', 'TechTalk プライバシーポリシー')}
+            </DialogTitle>
+            <DialogDescription />
           </DialogHeader>
 
           <div className="markdown flex-1 overflow-auto">
