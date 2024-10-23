@@ -10,7 +10,7 @@ export const meta: MetaFunction = () => [
 export default function Privacy() {
   return (
     <>
-      <Heading className="my-16 text-center text-4xl font-black">
+      <Heading className="my-16 text-center text-4xl">
         TechTalkプライバシーポリシー
       </Heading>
 
