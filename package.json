@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "react-router build",
-    "deploy": "wrangler deploy",
+    "deploy": "NODE_ENV=production wrangler deploy",
     "dev": "react-router dev",
     "start": "wrangler dev",
     "typegen": "wrangler types",
