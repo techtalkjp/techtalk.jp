@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createRoutesStub } from 'react-router'
 import { expect, test } from 'vitest'
@@ -15,9 +15,7 @@ test.skip('test', async () => {
   // act
   render(<RemixStub />)
 
-  await waitFor(() => {
-    expect(screen.getByText("Let's talk")).toBeInTheDocument()
-  })
+  expect(await screen.findByText("Let's talk")).toBeInTheDocument()
 
   await userEvent.type(
     screen.getByRole('textbox', { name: 'お名前' }),
@@ -41,10 +39,6 @@ test.skip('test', async () => {
   )
   await userEvent.click(screen.getByRole('checkbox', { name: 'privacy' }))
   await userEvent.click(screen.getByRole('button', { name: "Let's talk" }))
-
-  const ret = await screen.findByText('以下のメッセージを受付けました。', {
-    exact: false,
-  })
 
   expect(
     await screen.findByText('以下のメッセージを受付けました。', {
