@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { HttpResponse, http } from 'msw'
 import { setupServer } from 'msw/node'
-import { createRoutesStub } from 'react-router'
+import { type ActionFunction, createRoutesStub } from 'react-router'
 import { expect, test } from 'vitest'
 import { ContactForm, action } from './route'
 
@@ -20,7 +20,11 @@ test.skip('お問い合わせフォーム_メール送信成功', async () => {
 
   // コンタクトフォームの action を useFetch で使うコンポーネント
   const RemixStub = createRoutesStub([
-    { path: '/api/contact', Component: () => <ContactForm />, action },
+    {
+      path: '/api/contact',
+      Component: () => <ContactForm />,
+      action: action as ActionFunction,
+    },
   ])
   render(<RemixStub initialEntries={['/api/contact']} />)
 
@@ -75,7 +79,11 @@ test.skip('お問い合わせフォーム_メール送信エラー', async () =>
 
   // コンタクトフォームの action を useFetch で使うコンポーネント
   const RemixStub = createRoutesStub([
-    { path: '/api/contact', Component: () => <ContactForm />, action },
+    {
+      path: '/api/contact',
+      Component: () => <ContactForm />,
+      action: action as ActionFunction,
+    },
   ])
   render(<RemixStub initialEntries={['/api/contact']} />)
 

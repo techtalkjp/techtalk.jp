@@ -1,4 +1,3 @@
-import { json } from 'react-router'
 import { getDb, sql } from '~/services/db.server'
 import type * as Route from './+types.healthcheck'
 
@@ -12,5 +11,5 @@ export const loader = async ({ context }: Route.LoaderArgs) => {
     now: string
   }>`SELECT CURRENT_TIMESTAMP as now`.execute(db)
 
-  return json({ status: 'ok', now: ret.rows[0]?.now })
+  return { status: 'ok', now: ret.rows[0]?.now }
 }
