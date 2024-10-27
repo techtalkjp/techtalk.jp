@@ -9,7 +9,7 @@ export const getDb = () => {
     store.db = new Kysely<DB>({
       dialect: new LibsqlDialect({
         url: store.env.TURSO_URL,
-        authToken: store.env.TURSO_AUTH_TOKEN ?? '',
+        authToken: store.env.TURSO_AUTH_TOKEN,
       }),
       plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
     })
