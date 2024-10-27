@@ -20,7 +20,7 @@ export const getDb = () => {
 export const db = new Proxy<Kysely<DB>>({} as never, {
   get(target: unknown, props: keyof Kysely<DB>) {
     const instance = getDb()
-    const value = getDb()[props]
+    const value = instance[props]
     if (typeof value === 'function') {
       return value.bind(instance)
     }
