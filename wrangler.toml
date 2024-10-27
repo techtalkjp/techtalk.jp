@@ -14,9 +14,9 @@ assets = { directory = "./build/client", binding = 'ASSETS'}
 enabled = true
 
 [[r2_buckets]]
-binding = 'R2' # <~ valid JavaScript variable name
+binding = 'R2'
 bucket_name = 'techtalk'
 
 
-[build]
-command = "pnpm run build"
+#[build]
+#command = "pnpm run build"

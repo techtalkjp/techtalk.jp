@@ -1,28 +1,29 @@
-import { LibsqlDiarect } from '@coji/kysely-libsql'
-import { createClient } from '@libsql/client'
-import {
-  CamelCasePlugin,
-  Kysely,
-  ParseJSONResultsPlugin,
-  sql,
-  type Insertable,
-} from 'kysely'
-import type { DB as Database, SampleOrder } from './types'
+import { LibsqlDialect } from '@libsql/kysely-libsql'
+import { CamelCasePlugin, Kysely, ParseJSONResultsPlugin } from 'kysely'
+import { getSessionContext } from 'session-context'
+import type { DB } from './types'
 
 export const getDb = () => {
-  return new Kysely<Database>({
-    dialect: new LibsqlDiarect({
-      client: createClient({
-        url: process.env.TURSO_URL ?? '',
-        authToken: process.env.TURSO_AUTH_TOKEN ?? '',
+  const store = getSessionContext<{ db?: Kysely<DB>; env: Env }>()
+  if (!store.db) {
+    store.db = new Kysely<DB>({
+      dialect: new LibsqlDialect({
+        url: store.env.TURSO_URL,
+        authToken: store.env.TURSO_AUTH_TOKEN ?? '',
       }),
-    }),
-    plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
-  })
+      plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
+    })
+  }
+  return store.db
 }
 
-export { sql }
-
-type InsertableSampleOrder = Omit<Insertable<SampleOrder>, 'id'>
-type DB = ReturnType<typeof getDb>
-export type { DB, InsertableSampleOrder }
+export const db = new Proxy<Kysely<DB>>({} as never, {
+  get(target: unknown, props: keyof Kysely<DB>) {
+    const instance = getDb()
+    const value = getDb()[props]
+    if (typeof value === 'function') {
+      return value.bind(instance)
+    }
+    return value
+  },
+})

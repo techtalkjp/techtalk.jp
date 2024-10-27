@@ -1,3 +1,4 @@
+import { getSessionContext } from 'session-context'
 import type { PlatformProxy } from 'wrangler'
 
 type GetLoadContextArgs = {
@@ -21,6 +22,8 @@ declare module 'react-router' {
 }
 
 export function getLoadContext({ context }: GetLoadContextArgs) {
+  const store = getSessionContext()
+  store.env = context.cloudflare.env
   return {
     ...context,
   }

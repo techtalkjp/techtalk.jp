@@ -1,8 +1,10 @@
+import type { Insertable } from 'kysely'
 import { nanoid } from 'nanoid'
-import { getDb, type InsertableSampleOrder } from '~/services/db.server'
+import { db, type DB } from '~/services/db.server'
 
-export const createSampleOrder = async (data: InsertableSampleOrder) => {
-  const db = getDb()
+export const createSampleOrder = async (
+  data: Omit<Insertable<DB['sampleOrders']>, 'id'>,
+) => {
   return await db
     .insertInto('sampleOrders')
     .values({ ...data, id: nanoid() })
@@ -10,6 +12,5 @@ export const createSampleOrder = async (data: InsertableSampleOrder) => {
 }
 
 export const deleteSampleOrder = async (id: string) => {
-  const db = getDb()
   return await db.deleteFrom('sampleOrders').where('id', '==', id).execute()
 }
