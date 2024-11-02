@@ -12,5 +12,5 @@ export const loader = async ({ context }: Route.LoaderArgs) => {
     now: string
   }>`SELECT CURRENT_TIMESTAMP as now`.execute(db)
 
-  return { status: 'ok', now: ret.rows[0]?.now }
+  return Response.json({ status: 'ok', now: ret.rows[0]?.now })
 }
