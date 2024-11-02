@@ -1,4 +1,5 @@
-import { getDb, sql } from '~/services/db.server'
+import { sql } from 'kysely'
+import { getDb } from '~/services/db.server'
 import type * as Route from './+types.healthcheck'
 
 export const loader = async ({ context }: Route.LoaderArgs) => {
