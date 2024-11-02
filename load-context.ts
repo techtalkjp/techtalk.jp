@@ -24,7 +24,5 @@ declare module 'react-router' {
 export function getLoadContext({ context }: GetLoadContextArgs) {
   const store = getSessionContext()
   store.env = context.cloudflare.env
-  return {
-    ...context,
-  }
+  return context
 }
