@@ -1,7 +1,11 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import dayjs from 'dayjs'
-import { Form } from 'react-router'
+import {
+  type ActionFunctionArgs,
+  Form,
+  type LoaderFunctionArgs,
+} from 'react-router'
 import { z } from 'zod'
 import {
   Button,
@@ -21,21 +25,21 @@ const schema = z.object({
   file: z.custom<File>((file) => file instanceof File),
 })
 
-export const loader = async ({ context }: Route.LoaderArgs) => {
-  const { objects } = await context!.cloudflare.env.R2.list()
+export const loader = async ({ context }: LoaderFunctionArgs) => {
+  const { objects } = await context.cloudflare.env.R2.list()
   return {
     objects,
-    ImageEndpointUrl: context!.cloudflare.env.IMAGE_ENDPOINT_URL,
+    ImageEndpointUrl: context.cloudflare.env.IMAGE_ENDPOINT_URL,
   }
 }
 
-export const action = async ({ request, context }: Route.ActionArgs) => {
+export const action = async ({ request, context }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
   }
 
-  await context!.cloudflare.env.R2.put(
+  await context.cloudflare.env.R2.put(
     submission.value.file.name,
     submission.value.file,
   )

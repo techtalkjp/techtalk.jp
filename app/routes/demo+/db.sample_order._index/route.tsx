@@ -1,5 +1,11 @@
 import { parseWithZod } from '@conform-to/zod'
-import { type HeadersFunction, Link, redirect } from 'react-router'
+import {
+  type ActionFunctionArgs,
+  type HeadersFunction,
+  Link,
+  type LoaderFunctionArgs,
+  redirect,
+} from 'react-router'
 import {
   Stack,
   Tabs,
@@ -22,7 +28,7 @@ export const headers: HeadersFunction = () => {
   }
 }
 
-export const loader = async ({ request, context }: Route.LoaderArgs) => {
+export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   const url = new URL(request.url)
   const tab = url.searchParams.get('tab') ?? 'new'
 
@@ -47,7 +53,7 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
   }
 }
 
-export const action = async ({ request, context }: Route.ActionArgs) => {
+export const action = async ({ request, context }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), duration: null }
@@ -57,7 +63,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     const timeStart = Date.now()
     const { intent, ...rest } = submission.value
     await createSampleOrder({
-      region: context!.cloudflare.cf.region ?? '',
+      region: context.cloudflare.cf.region ?? '',
       ...rest,
     })
     const timeEnd = Date.now()

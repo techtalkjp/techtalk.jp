@@ -6,7 +6,7 @@ import {
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { ok } from 'neverthrow'
-import { Link, useFetcher } from 'react-router'
+import { Link, useFetcher, type ActionFunctionArgs } from 'react-router'
 import { match } from 'ts-pattern'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
 import {
@@ -31,7 +31,7 @@ import {
 } from './functions.server'
 import { schema, type ContactFormData } from './types'
 
-export const action = async ({ request, context }: Route.ActionArgs) => {
+export const action = async ({ request, context }: ActionFunctionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), sent: null }
@@ -41,9 +41,9 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
     .andThen(checkHoneypot)
     .andThen(checkTestEmail)
     .asyncAndThen((form) =>
-      sendEmail(context!.cloudflare.env.SENDGRID_API_KEY, form),
+      sendEmail(context.cloudflare.env.SENDGRID_API_KEY, form),
     )
-    .andThen((form) => sendSlack(context!.cloudflare.env.SLACK_WEBHOOK, form))
+    .andThen((form) => sendSlack(context.cloudflare.env.SLACK_WEBHOOK, form))
 
   if (result.isErr()) {
     return match(result.error)

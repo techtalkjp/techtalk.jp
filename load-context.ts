@@ -1,4 +1,4 @@
-import { getSessionContext } from 'session-context'
+import { getSessionContext, setProcessEnv } from 'session-context'
 import type { PlatformProxy } from 'wrangler'
 
 type GetLoadContextArgs = {
@@ -19,10 +19,18 @@ declare module 'react-router' {
   interface AppLoadContext extends ReturnType<typeof getLoadContext> {
     // This will merge the result of `getLoadContext` into the `AppLoadContext`
   }
+  interface LoaderFunctionArgs {
+    context: AppLoadContext
+  }
+
+  interface ActionFunctionArgs {
+    context: AppLoadContext
+  }
 }
 
 export function getLoadContext({ context }: GetLoadContextArgs) {
   const store = getSessionContext()
   store.env = context.cloudflare.env
+  setProcessEnv(context.cloudflare.env)
   return context
 }

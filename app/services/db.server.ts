@@ -2,6 +2,7 @@ import { LibsqlDialect } from '@libsql/kysely-libsql'
 import { CamelCasePlugin, Kysely, ParseJSONResultsPlugin } from 'kysely'
 import { getSessionContext } from 'session-context'
 import type { DB } from './types'
+export type { DB }
 
 export const getDb = () => {
   const store = getSessionContext<{ db?: Kysely<DB>; env: Env }>()
