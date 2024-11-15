@@ -22,7 +22,7 @@ import {
   Textarea,
 } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
-import type * as Route from './+types.route'
+import type { Route } from './+types.route'
 import {
   checkHoneypot,
   checkTestEmail,

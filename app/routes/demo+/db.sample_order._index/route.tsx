@@ -13,7 +13,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '~/components/ui'
-import type * as Route from './+types.route'
+import type { Route } from './+types.route'
 import { DeleteOrderDialog, NewOrderForm, OrderList } from './components'
 import { Header } from './components/header'
 import { createSampleOrder, deleteSampleOrder } from './mutations'

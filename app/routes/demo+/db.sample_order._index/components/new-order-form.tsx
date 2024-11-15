@@ -7,7 +7,7 @@ import {
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { Form, useActionData, useNavigation } from 'react-router'
 import { Button, Input, Label, Textarea } from '~/components/ui'
-import type * as Route from '../+types.route'
+import type { Route } from '../+types.route'
 import type { DummyData } from '../schema'
 import { schema } from '../schema'
 

@@ -23,7 +23,7 @@ import {
   TooltipTrigger,
 } from '~/components/ui'
 import { ZipInput } from '~/routes/demo+/resources.zip-input/route'
-import type * as Route from './+types.route'
+import type { Route } from './+types.route'
 import {
   fakeEmail,
   fakeGender,

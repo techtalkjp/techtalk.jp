@@ -15,7 +15,7 @@ import {
   SelectValue,
   Stack,
 } from '~/components/ui'
-import type * as Route from '../+types.route'
+import type { Route } from '../+types.route'
 import { ActionResult } from '../components'
 import { FormType, schema } from '../types'
 

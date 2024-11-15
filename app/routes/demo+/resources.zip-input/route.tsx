@@ -14,7 +14,7 @@ import {
   PopoverTrigger,
 } from '~/components/ui'
 import { cn } from '~/libs/utils'
-import type * as Route from './+types.route'
+import type { Route } from './+types.route'
 
 const master = [
   {

@@ -15,7 +15,7 @@ import {
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { Toaster, TooltipProvider } from '~/components/ui'
-import type * as Route from './+types.root'
+import type { Route } from './+types.root'
 import { cn } from './libs/utils'
 import biographyStyle from './styles/biography.css?url'
 import globalStyles from './styles/globals.css?url'

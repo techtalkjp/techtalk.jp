@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import type * as Route from './+types.route'
+import type { Route } from './+types.route'
 
 const schema = z.object({
   file: z.custom<File>((file) => file instanceof File),
