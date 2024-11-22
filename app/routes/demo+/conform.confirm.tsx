@@ -15,7 +15,7 @@ import {
   Input,
   Label,
 } from '~/components/ui'
-import type { Route } from './+types.conform.confirm'
+import type { Route } from './+types/conform.confirm'
 
 const schema = z.object({
   intent: z.enum(['confirm', 'submit']),

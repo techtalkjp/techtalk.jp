@@ -4,7 +4,7 @@ import { Form, useNavigation } from 'react-router'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button, HStack, Input, Label } from '~/components/ui'
-import type { Route } from './+types.conform.value'
+import type { Route } from './+types/conform.value'
 
 // フォーム要素のスキーマ定義
 const schema = z.object({

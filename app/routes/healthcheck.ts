@@ -1,6 +1,6 @@
 import { sql } from 'kysely'
 import { getDb } from '~/services/db.server'
-import type { Route } from './+types.healthcheck'
+import type { Route } from './+types/healthcheck'
 
 export const loader = async ({ context }: Route.LoaderArgs) => {
   const db = getDb()

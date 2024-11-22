@@ -22,7 +22,6 @@ import {
   Textarea,
 } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
-import type { Route } from './+types.route'
 import {
   checkHoneypot,
   checkTestEmail,
@@ -106,7 +105,7 @@ export const ContactSentMessage = ({ data }: { data: ContactFormData }) => {
 type ContactFormProps = React.HTMLAttributes<HTMLFormElement>
 export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
   const { t, locale: userLocale } = useLocale()
-  const fetcher = useFetcher<Route.ActionData>()
+  const fetcher = useFetcher<typeof action>()
   const actionData = fetcher.data
   const [
     form,

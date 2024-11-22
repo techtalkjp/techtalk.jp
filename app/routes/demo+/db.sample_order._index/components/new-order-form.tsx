@@ -7,7 +7,7 @@ import {
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { Form, useActionData, useNavigation } from 'react-router'
 import { Button, Input, Label, Textarea } from '~/components/ui'
-import type { Route } from '../+types.route'
+import type { action } from '../route'
 import type { DummyData } from '../schema'
 import { schema } from '../schema'
 
@@ -18,7 +18,7 @@ export function NewOrderForm({
   dummyData: DummyData
   now: string
 }) {
-  const actionData = useActionData() as Route.ActionData
+  const actionData = useActionData<typeof action>()
   const [form, fields] = useForm({
     id: now,
     lastResult: actionData?.lastResult,

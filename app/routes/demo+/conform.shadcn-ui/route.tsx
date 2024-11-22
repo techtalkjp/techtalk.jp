@@ -26,7 +26,7 @@ import {
   Switch,
   Textarea,
 } from '~/components/ui'
-import type { Route } from './+types.route'
+import type { Route } from './+types/route'
 import {
   getCheckboxProps,
   getRadioGroupProps,

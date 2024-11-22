@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { locales } from '~/i18n/utils/detectLocale'
-import type { Route } from './+types.$'
+import type { Route } from './+types/$'
 import Index from './_index/route'
 
 export const loader = ({ request }: Route.LoaderArgs) => {

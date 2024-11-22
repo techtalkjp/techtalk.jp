@@ -14,7 +14,7 @@ import {
   PopoverTrigger,
 } from '~/components/ui'
 import { cn } from '~/libs/utils'
-import type { Route } from './+types.route'
+import type { Route } from './+types/route'
 
 const master = [
   {
@@ -40,7 +40,7 @@ interface ZipInputProps {
   onChange?: (value: string) => void
 }
 export const ZipInput = ({ defaultValue = '', onChange }: ZipInputProps) => {
-  const fetcher = useFetcher<Route.LoaderData>({
+  const fetcher = useFetcher<typeof loader>({
     key: '/demo/resources/zip-input',
   })
   const [open, setOpen] = React.useState(false)

@@ -15,12 +15,12 @@ import {
   SelectValue,
   Stack,
 } from '~/components/ui'
-import type { Route } from '../+types.route'
 import { ActionResult } from '../components'
+import type { action } from '../route'
 import { FormType, schema } from '../types'
 
 export const OutsideForm = () => {
-  const actionData = useActionData() as Route.ActionData
+  const actionData = useActionData<typeof action>()
   const [form, { option }] = useForm({
     lastResult: actionData?.lastResult,
     defaultValue: {

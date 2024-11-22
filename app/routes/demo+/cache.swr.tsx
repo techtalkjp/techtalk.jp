@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import type { Route } from './+types.cache.swr'
+import type { Route } from './+types/cache.swr'
 
 const cacheControl = 's-maxage=60, stale-while-revalidate=120'
 export const headers: HeadersFunction = ({ loaderHeaders }) => {

@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/ui'
-import type { Route } from './+types.conform.update'
+import type { Route } from './+types/conform.update'
 
 export const meta: MetaFunction = () => {
   return [
