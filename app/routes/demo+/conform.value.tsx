@@ -70,6 +70,9 @@ export default function ConformValueDemoPage({
     // 郵便番号から住所を取得
     const address = await lookupAddress(postalCode)
     if (!address) {
+      toast.error('郵便番号から住所が見つかりませんでした', {
+        description: postalCode,
+      })
       return
     }
 
@@ -86,7 +89,9 @@ export default function ConformValueDemoPage({
       name: street.name,
       value: address.street_address ?? '',
     })
-    toast.info('郵便番号をもとに住所を更新しました')
+    toast.info('郵便番号をもとに住所を更新しました', {
+      description: `${postalCode} -> ${address.prefecture ?? ''}${address.city ?? ''}${address.suburb ?? ''}${address.street_address ?? ''}`,
+    })
   }
 
   return (
