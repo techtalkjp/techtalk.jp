@@ -1,6 +1,7 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { Form, useNavigation, useRevalidator } from 'react-router'
+import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   AlertDialog,
@@ -34,10 +35,15 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   // 成功: resetForm: true でフォームをリセットさせる
-  return {
-    lastResult: submission.reply({ resetForm: true }),
-    shouldConfirm: false,
-  }
+  return dataWithSuccess(
+    {
+      lastResult: submission.reply({ resetForm: true }),
+      shouldConfirm: false,
+    },
+    {
+      message: '削除しました',
+    },
+  )
 }
 
 export default function DemoConformAlert({ actionData }: Route.ComponentProps) {

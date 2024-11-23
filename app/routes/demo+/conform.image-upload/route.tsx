@@ -6,6 +6,7 @@ import {
   Form,
   type LoaderFunctionArgs,
 } from 'react-router'
+import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   Button,
@@ -44,7 +45,13 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
     submission.value.file,
   )
 
-  return { lastResult: submission.reply({ resetForm: true }) }
+  return dataWithSuccess(
+    { lastResult: submission.reply({ resetForm: true }) },
+    {
+      message: 'File uploaded successfully!',
+      description: submission.value.file.name,
+    },
+  )
 }
 
 export default function ImageUploadDemoPage({

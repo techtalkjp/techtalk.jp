@@ -2,6 +2,7 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { TrashIcon } from 'lucide-react'
 import { Form } from 'react-router'
+import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   Button,
@@ -87,13 +88,19 @@ export const action = async ({ request }: Route.ActionArgs) => {
     }
   }
 
-  return {
-    lastResult: submission.reply({ resetForm: true }),
-    result: submission.value.persons.map((person, idx) => ({
-      id: idx + 1, // IDを振る
-      ...person,
-    })),
-  }
+  return dataWithSuccess(
+    {
+      lastResult: submission.reply({ resetForm: true }),
+      result: submission.value.persons.map((person, idx) => ({
+        id: idx + 1, // IDを振る
+        ...person,
+      })),
+    },
+    {
+      message: '登録しました',
+      description: '登録されたデータを確認してください',
+    },
+  )
 }
 
 export default function ConformNestedArrayDemo({

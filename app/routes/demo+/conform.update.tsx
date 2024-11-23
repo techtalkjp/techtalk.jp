@@ -2,6 +2,7 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import type { MetaFunction } from 'react-router'
 import { Form } from 'react-router'
+import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   Button,
@@ -32,7 +33,13 @@ export const action = async ({ request }: Route.ActionArgs) => {
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
   }
-  return { lastResult: submission.reply({ resetForm: true }) }
+  return dataWithSuccess(
+    { lastResult: submission.reply({ resetForm: true }) },
+    {
+      message: '登録しました',
+      description: `メッセージ: ${submission.value.message}`,
+    },
+  )
 }
 
 export default function TestPage({ actionData }: Route.ComponentProps) {

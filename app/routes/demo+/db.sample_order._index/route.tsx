@@ -4,8 +4,8 @@ import {
   type HeadersFunction,
   Link,
   type LoaderFunctionArgs,
-  redirect,
 } from 'react-router'
+import { dataWithSuccess, redirectWithSuccess } from 'remix-toast'
 import {
   Stack,
   Tabs,
@@ -67,17 +67,25 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
       ...rest,
     })
     const timeEnd = Date.now()
-    return {
-      lastResult: submission.reply({ resetForm: true }),
-      duration: timeEnd - timeStart,
-    }
+    return dataWithSuccess(
+      {
+        lastResult: submission.reply({ resetForm: true }),
+        duration: timeEnd - timeStart,
+      },
+      {
+        message: 'Order created',
+        description: JSON.stringify(submission.value),
+      },
+    )
   }
 
   if (submission.value.intent === 'del') {
     await deleteSampleOrder(submission.value.id)
 
     // delete order
-    throw redirect('/demo/db/sample_order?tab=list')
+    throw redirectWithSuccess('/demo/db/sample_order?tab=list', {
+      message: 'Order deleted',
+    })
   }
 }
 

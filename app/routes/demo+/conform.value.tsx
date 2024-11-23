@@ -1,6 +1,7 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { Form, useNavigation } from 'react-router'
+import { dataWithSuccess } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button, HStack, Input, Label } from '~/components/ui'
@@ -43,7 +44,12 @@ export const action = async ({ request }: Route.ActionArgs) => {
     return { lastResult: submission.reply() }
   }
 
-  return { lastResult: submission.reply({ resetForm: true }) }
+  return dataWithSuccess(
+    { lastResult: submission.reply({ resetForm: true }) },
+    {
+      message: '登録しました',
+    },
+  )
 }
 
 export default function ConformValueDemoPage({

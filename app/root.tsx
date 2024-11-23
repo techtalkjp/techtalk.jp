@@ -57,7 +57,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <Links />
       </head>
       <body className={cn('scroll-smooth', !isDemo && 'dark')}>
-        <Toaster />
+        <Toaster closeButton richColors />
         <TooltipProvider>{children}</TooltipProvider>
         <ScrollRestoration />
         <Scripts />

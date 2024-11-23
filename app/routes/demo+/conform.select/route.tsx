@@ -1,5 +1,6 @@
 import { parseWithZod } from '@conform-to/zod'
 import type { ActionFunctionArgs } from 'react-router'
+import { dataWithSuccess } from 'remix-toast'
 import {
   Stack,
   Tabs,
@@ -21,11 +22,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
   }
 
-  return {
-    ...submission.value,
-    now: new Date().toISOString(),
-    lastResult: submission.reply({ resetForm: true }),
-  }
+  return dataWithSuccess(
+    {
+      ...submission.value,
+      now: new Date().toISOString(),
+      lastResult: submission.reply({ resetForm: true }),
+    },
+    {
+      message: 'Form submitted successfully!',
+    },
+  )
 }
 
 export default function ConformSelect() {

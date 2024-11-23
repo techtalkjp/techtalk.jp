@@ -7,6 +7,7 @@ import {
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { Form } from 'react-router'
 import { twc } from 'react-twc'
+import { dataWithError, dataWithSuccess } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import {
@@ -153,12 +154,21 @@ export const loader = ({ request }: Route.LoaderArgs) => {
 export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
-    return { lastResult: submission.reply() }
+    return dataWithError(
+      { lastResult: submission.reply() },
+      { message: 'エラー' },
+    )
   }
 
   console.log(submission.value)
 
-  return { lastResult: submission.reply() }
+  return dataWithSuccess(
+    { lastResult: submission.reply() },
+    {
+      message: 'フォームを送信しました',
+      description: JSON.stringify(submission.value, null, 2),
+    },
+  )
 }
 
 export default function ShadcnUiPage({
