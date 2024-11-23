@@ -7,6 +7,7 @@ import {
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { ok } from 'neverthrow'
 import { Link, useFetcher, type ActionFunctionArgs } from 'react-router'
+import { dataWithSuccess } from 'remix-toast'
 import { match } from 'ts-pattern'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
 import {
@@ -65,10 +66,16 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
       .exhaustive()
   }
 
-  return {
-    lastResult: submission.reply({ resetForm: true }),
-    sent: submission.value,
-  }
+  return dataWithSuccess(
+    {
+      lastResult: submission.reply({ resetForm: true }),
+      sent: submission.value,
+    },
+    {
+      message: 'お問い合わせを受け付けました',
+      description: 'お返事をお待ちください',
+    },
+  )
 }
 
 export const ContactSentMessage = ({ data }: { data: ContactFormData }) => {
