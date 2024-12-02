@@ -8,16 +8,16 @@ export const HeroPage = () => {
   return (
     <CoverPage id="hero" bgImage="/images/hero.webp" className="text-center">
       <Heading size="5xl">
-        <TextReveal text="Technically," />
+        <TextReveal text="Technology enables," />
         <TextReveal
-          text="It's possible."
+          text="but value differentiates."
           className="text-primary"
           delay={0.5}
         />
       </Heading>
       <TextReveal
         className="text-lg"
-        text={t('hero.subcopy', 'ビジネスを可能にする、技術の話を。')}
+        text={t('hero.subcopy', '技術を語り、価値を創る')}
         delay={2}
         isLastLine
       />
