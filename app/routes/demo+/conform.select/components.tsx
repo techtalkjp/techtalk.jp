@@ -1,9 +1,14 @@
-import type { action } from './route'
+import type { FormType } from './types'
 
+interface ActionResultProps {
+  formType: FormType
+  now: string
+  option?: string
+}
 export const ActionResult = ({
   actionData,
 }: {
-  actionData: Awaited<ReturnType<typeof action>>
+  actionData: ActionResultProps
 }) => {
   return (
     <div className="grid grid-cols-[auto_1fr] gap-4 rounded-md border p-4">

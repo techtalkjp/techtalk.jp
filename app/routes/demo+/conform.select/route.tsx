@@ -1,5 +1,4 @@
 import { parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import {
   Stack,
@@ -8,10 +7,11 @@ import {
   TabsList,
   TabsTrigger,
 } from '~/components/ui'
+import type { Route } from './+types/route'
 import { InsideForm, OutsideForm } from './forms'
 import { schema } from './types'
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return {
@@ -34,7 +34,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   )
 }
 
-export default function ConformSelect() {
+export default function ConformSelect({ actionData }: Route.ComponentProps) {
   return (
     <Stack>
       <Tabs defaultValue="inside-form">
