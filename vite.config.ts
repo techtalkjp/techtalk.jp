@@ -17,5 +17,6 @@ export default defineConfig({
     sessionContextPlugin(),
     tsconfigPaths(),
   ],
+  // @ts-ignore
   test: { environment: 'jsdom', setupFiles: ['./test/setup.ts'] },
 })

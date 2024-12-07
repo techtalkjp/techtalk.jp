@@ -1,4 +1,4 @@
-import { motion, useAnimation } from 'framer-motion'
+import { motion, useAnimation } from 'motion/react'
 import { useEffect } from 'react'
 import { cn } from '~/libs/utils'
 
@@ -48,6 +48,7 @@ export const TextReveal = ({
 
   return (
     <motion.span
+      // @ts-ignore
       className={cn('flex justify-center overflow-hidden', className)}
       style={{ overflow: 'hidden', display: 'flex' }}
       variants={container}
