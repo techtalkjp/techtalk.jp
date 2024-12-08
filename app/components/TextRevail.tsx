@@ -1,4 +1,4 @@
-import { motion, useAnimation } from 'motion/react'
+import { motion, useAnimation } from 'framer-motion'
 import { useEffect } from 'react'
 import { cn } from '~/libs/utils'
 
