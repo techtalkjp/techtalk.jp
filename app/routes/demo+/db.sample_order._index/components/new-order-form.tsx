@@ -6,7 +6,14 @@ import {
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { Form, useActionData, useNavigation } from 'react-router'
-import { Button, Input, Label, Textarea } from '~/components/ui'
+import {
+  Button,
+  FormField,
+  FormMessage,
+  Input,
+  Label,
+  Textarea,
+} from '~/components/ui'
 import type { action } from '../route'
 import type { DummyData } from '../schema'
 import { schema } from '../schema'
@@ -36,69 +43,85 @@ export function NewOrderForm({
       method="POST"
       {...getFormProps(form)}
     >
-      <div>
+      <FormField>
         <Label htmlFor={fields.name.id}>Name</Label>
         <Input {...getInputProps(fields.name, { type: 'text' })} />
-        <div className="text-destructive">{fields.name.errors}</div>
-      </div>
-      <div>
+        <FormMessage id={fields.name.errorId}>{fields.name.errors}</FormMessage>
+      </FormField>
+
+      <FormField>
         <Label htmlFor={fields.phone.id}>Phone</Label>
         <Input {...getInputProps(fields.phone, { type: 'text' })} />
-        <div className="text-destructive">{fields.phone.errors}</div>
-      </div>
-      <div>
+        <FormMessage id={fields.phone.errorId}>
+          {fields.phone.errors}
+        </FormMessage>
+      </FormField>
+
+      <FormField>
         <Label htmlFor={fields.email.id}>Email</Label>
         <Input {...getInputProps(fields.email, { type: 'text' })} />
-        <div className="text-destructive">{fields.email.errors}</div>
-      </div>
-      <div>
+        <FormMessage id={fields.email.errorId}>
+          {fields.email.errors}
+        </FormMessage>
+      </FormField>
+
+      <FormField>
         <Label htmlFor={fields.zip.id}>Zip</Label>
         <Input {...getInputProps(fields.zip, { type: 'text' })} />
-        <div className="text-destructive">{fields.zip.errors}</div>
-      </div>
-      <div>
+        <FormMessage id={fields.zip.errorId}>{fields.zip.errors}</FormMessage>
+      </FormField>
+
+      <FormField>
         <Label htmlFor={fields.country.id}>Country</Label>
         <Input {...getInputProps(fields.country, { type: 'text' })} />
-        <div className="text-destructive">{fields.country.errors}</div>
-      </div>
-      <div>
+        <FormMessage id={fields.country.errorId}>
+          {fields.country.errors}
+        </FormMessage>
+      </FormField>
+
+      <FormField>
         <Label htmlFor={fields.prefecture.id}>Prefecture</Label>
         <Input {...getInputProps(fields.prefecture, { type: 'text' })} />
-        <div className="text-destructive">{fields.prefecture.errors}</div>
-      </div>
-      <div>
+        <FormMessage id={fields.prefecture.errorId}>
+          {fields.prefecture.errors}
+        </FormMessage>
+      </FormField>
+
+      <FormField>
         <Label htmlFor={fields.city.id}>City</Label>
         <Input {...getInputProps(fields.city, { type: 'text' })} />
-        <div className="text-destructive">{fields.city.errors}</div>
-      </div>
-      <div>
+        <FormMessage id={fields.city.errorId}>{fields.city.errors}</FormMessage>
+      </FormField>
+
+      <FormField>
         <Label htmlFor={fields.address.id}>Address</Label>
         <Input {...getInputProps(fields.address, { type: 'text' })} />
-        <div className="text-destructive">{fields.address.errors}</div>
-      </div>
-      <div className="col-span-2">
+        <FormMessage id={fields.address.errorId}>
+          {fields.address.errors}
+        </FormMessage>
+      </FormField>
+
+      <FormField className="col-span-2">
         <Label htmlFor={fields.note.id}>Note</Label>
         <Textarea {...getTextareaProps(fields.note)} />
-        <div className="text-destructive">{fields.note.errors}</div>
-      </div>
+        <FormMessage id={fields.note.errorId}>{fields.note.errors}</FormMessage>
+      </FormField>
 
       {form.errors && <div className="text-destructive">{form.errors}</div>}
 
-      <div className="col-span-2">
-        <Button
-          className="w-full"
-          isLoading={
-            navigation.formData?.get('intent') === 'new' &&
-            navigation.state === 'submitting' &&
-            navigation.location.pathname === '/demo/db/sample_order'
-          }
-          type="submit"
-          name="intent"
-          value="new"
-        >
-          Submit
-        </Button>
-      </div>
+      <Button
+        className="col-span-2 w-full"
+        isLoading={
+          navigation.formData?.get('intent') === 'new' &&
+          navigation.state === 'submitting' &&
+          navigation.location.pathname === '/demo/db/sample_order'
+        }
+        type="submit"
+        name="intent"
+        value="new"
+      >
+        Submit
+      </Button>
     </Form>
   )
 }
