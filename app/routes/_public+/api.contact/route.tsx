@@ -16,6 +16,8 @@ import {
   AlertTitle,
   Button,
   Checkbox,
+  FormField,
+  FormFieldError,
   HStack,
   Input,
   Label,
@@ -149,58 +151,47 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
       {...getFormProps(form)}
     >
       <Stack align="center">
-        <Stack gap="xs">
+        <FormField>
           <Label htmlFor={name.id}>{t('contact.name', 'お名前')}</Label>
           <Input
             className="bg-black bg-opacity-50"
             autoComplete="name"
             {...getInputProps(name, { type: 'text' })}
           />
-          <div id={name.errorId} className="text-sm font-medium text-red-500">
-            {name.errors}
-          </div>
-        </Stack>
+          <FormFieldError id={name.errorId}>{name.errors}</FormFieldError>
+        </FormField>
 
-        <Stack gap="xs">
+        <FormField>
           <Label htmlFor={company.id}>{t('contact.company', '会社名')}</Label>
           <Input
             className="bg-black bg-opacity-50"
             autoComplete="organization"
             {...getInputProps(company, { type: 'text' })}
           />
-          <div
-            id={company.errorId}
-            className="text-sm font-medium text-red-500"
-          >
-            {company.errors}
-          </div>
-        </Stack>
+          <FormFieldError id={company.errorId}>{company.errors}</FormFieldError>
+        </FormField>
 
-        <Stack gap="xs">
+        <FormField>
           <Label htmlFor={phone.id}>{t('contact.phone', '電話番号')}</Label>
           <Input
             className="bg-black bg-opacity-50"
             autoComplete="tel"
             {...getInputProps(phone, { type: 'tel' })}
           />
-          <div id={phone.errorId} className="text-sm font-medium text-red-500">
-            {phone.errors}
-          </div>
-        </Stack>
+          <FormFieldError id={phone.errorId}>{phone.errors}</FormFieldError>
+        </FormField>
 
-        <Stack gap="xs">
+        <FormField>
           <Label htmlFor={email.id}> {t('contact.email', 'メール')} </Label>
           <Input
             className="bg-black bg-opacity-50"
             autoComplete="email"
             {...getInputProps(email, { type: 'email' })}
           />
-          <div id={email.errorId} className="text-sm font-medium text-red-500">
-            {email.errors}
-          </div>
-        </Stack>
+          <FormFieldError id={email.errorId}>{email.errors}</FormFieldError>
+        </FormField>
 
-        <Stack gap="xs">
+        <FormField>
           <Label htmlFor={message.id}>
             {t('contact.message', 'メッセージ')}
           </Label>
@@ -209,19 +200,14 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             autoComplete="off"
             {...getTextareaProps(message)}
           />
-          <div
-            id={message.errorId}
-            className="text-sm font-medium text-red-500"
-          >
-            {message.errors}
-          </div>
-        </Stack>
+          <FormFieldError id={message.errorId}>{message.errors}</FormFieldError>
+        </FormField>
 
         <div className="hidden">
           <input {...getInputProps(companyPhone, { type: 'tel' })} />
         </div>
 
-        <Stack gap="xs">
+        <FormField>
           <HStack>
             <Checkbox
               id={privacyPolicy.id}
@@ -237,13 +223,10 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
               <PrivacyPolicyDialog />
             </label>
           </HStack>
-          <div
-            id={privacyPolicy.errorId}
-            className="text-sm font-medium text-red-500"
-          >
+          <FormFieldError id={privacyPolicy.errorId}>
             {privacyPolicy.errors}
-          </div>
-        </Stack>
+          </FormFieldError>
+        </FormField>
 
         <input {...getInputProps(locale, { type: 'hidden' })} />
 
