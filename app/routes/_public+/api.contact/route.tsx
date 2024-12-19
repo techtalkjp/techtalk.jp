@@ -219,9 +219,9 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
               defaultChecked={privacyPolicy.initialValue === 'on'}
               aria-label="privacy"
             />
-            <label htmlFor={privacyPolicy.id} className="cursor-pointer">
+            <Label htmlFor={privacyPolicy.id} className="cursor-pointer">
               <PrivacyPolicyDialog />
-            </label>
+            </Label>
           </HStack>
           <FormFieldError id={privacyPolicy.errorId}>
             {privacyPolicy.errors}
