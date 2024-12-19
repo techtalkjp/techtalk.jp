@@ -31,7 +31,7 @@ const PrivacyPolicyDialog = () => {
         >
           {t('privacy.privacy-policy', 'プライバシーポリシー')}
         </Button>
-        {t('privacy.agree-to-after', 'に 同意する。')}
+        {t('privacy.agree-to-after', 'に 同意する')}
       </span>
 
       <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>

@@ -80,7 +80,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
 export const ContactSentMessage = ({ data }: { data: ContactFormData }) => {
   return (
-    <Stack className="mx-auto items-center">
+    <Stack align="center">
       <div>
         お問い合わせありがとうございます。
         <br />
@@ -148,7 +148,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
       {...rest}
       {...getFormProps(form)}
     >
-      <Stack className="text-left">
+      <Stack align="center">
         <Stack gap="xs">
           <Label htmlFor={name.id}>{t('contact.name', 'お名前')}</Label>
           <Input

@@ -10,15 +10,30 @@ const stack = cva('flex flex-col', {
       sm: 'gap-1',
       xs: 'gap-0.5',
     },
+    align: {
+      left: 'items-start',
+      center: 'items-center',
+      right: 'items-end',
+      stretch: 'items-stretch',
+    },
+    full: {
+      true: 'w-full',
+    },
   },
   defaultVariants: {
     gap: 'md',
+    align: 'left',
+    full: true,
   },
 })
 type StackProps = TwcComponentProps<'div'> & VariantProps<typeof stack>
-export const Stack = twc.div<StackProps>(({ gap }) => stack({ gap }))
+export const Stack = twc.div.transientProps([
+  'gap',
+  'align',
+  'full',
+])<StackProps>(({ gap, align, full }) => stack({ gap, align, full }))
 
-const hstack = cva('flex flex-row items-center', {
+const hstack = cva('flex flex-row', {
   variants: {
     gap: {
       xl: 'gap-6',
@@ -27,10 +42,25 @@ const hstack = cva('flex flex-row items-center', {
       sm: 'gap-1',
       xs: 'gap-0.5',
     },
+    align: {
+      top: 'items-start',
+      center: 'items-center',
+      bottom: 'items-end',
+      stretch: 'items-stretch',
+    },
+    full: {
+      true: 'h-full',
+    },
   },
   defaultVariants: {
     gap: 'md',
+    align: 'center',
+    full: false,
   },
 })
 type HStackProps = TwcComponentProps<'div'> & VariantProps<typeof hstack>
-export const HStack = twc.div<HStackProps>(({ gap }) => hstack({ gap }))
+export const HStack = twc.div.transientProps([
+  'gap',
+  'align',
+  'full',
+])<HStackProps>(({ gap, align, full }) => hstack({ gap, align, full }))
