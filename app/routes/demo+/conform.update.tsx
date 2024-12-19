@@ -6,6 +6,8 @@ import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   Button,
+  FormField,
+  FormMessage,
   Input,
   Label,
   Select,
@@ -13,6 +15,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Stack,
 } from '~/components/ui'
 import type { Route } from './+types/conform.update'
 
@@ -52,16 +55,16 @@ export default function TestPage({ actionData }: Route.ComponentProps) {
 
   return (
     <Form method="POST" className="flex flex-col gap-4" {...getFormProps(form)}>
-      <div>
+      <FormField>
         <Label htmlFor={message.id}>Message</Label>
         <Input
           className="w-full"
           {...getInputProps(message, { type: 'text' })}
         />
-      </div>
-      <div className="text-sm text-destructive">{message.errors}</div>
+        <FormMessage id={message.errorId}>{message.errors}</FormMessage>
+      </FormField>
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-2">
+      <Stack>
         {/* getButtonProps でやる場合は type='submit' にしないと動かない */}
         <Button
           type="submit"
@@ -112,7 +115,7 @@ export default function TestPage({ actionData }: Route.ComponentProps) {
         >
           リセット
         </Button>
-      </div>
+      </Stack>
 
       {/* 登録 */}
       <Button type="submit" variant="default">

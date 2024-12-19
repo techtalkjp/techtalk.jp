@@ -17,7 +17,7 @@ import {
   Button,
   Checkbox,
   FormField,
-  FormFieldError,
+  FormMessage,
   HStack,
   Input,
   Label,
@@ -158,7 +158,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             autoComplete="name"
             {...getInputProps(name, { type: 'text' })}
           />
-          <FormFieldError id={name.errorId}>{name.errors}</FormFieldError>
+          <FormMessage id={name.errorId}>{name.errors}</FormMessage>
         </FormField>
 
         <FormField>
@@ -168,7 +168,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             autoComplete="organization"
             {...getInputProps(company, { type: 'text' })}
           />
-          <FormFieldError id={company.errorId}>{company.errors}</FormFieldError>
+          <FormMessage id={company.errorId}>{company.errors}</FormMessage>
         </FormField>
 
         <FormField>
@@ -178,7 +178,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             autoComplete="tel"
             {...getInputProps(phone, { type: 'tel' })}
           />
-          <FormFieldError id={phone.errorId}>{phone.errors}</FormFieldError>
+          <FormMessage id={phone.errorId}>{phone.errors}</FormMessage>
         </FormField>
 
         <FormField>
@@ -188,7 +188,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             autoComplete="email"
             {...getInputProps(email, { type: 'email' })}
           />
-          <FormFieldError id={email.errorId}>{email.errors}</FormFieldError>
+          <FormMessage id={email.errorId}>{email.errors}</FormMessage>
         </FormField>
 
         <FormField>
@@ -200,7 +200,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             autoComplete="off"
             {...getTextareaProps(message)}
           />
-          <FormFieldError id={message.errorId}>{message.errors}</FormFieldError>
+          <FormMessage id={message.errorId}>{message.errors}</FormMessage>
         </FormField>
 
         <div className="hidden">
@@ -223,9 +223,9 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
               <PrivacyPolicyDialog />
             </Label>
           </HStack>
-          <FormFieldError id={privacyPolicy.errorId}>
+          <FormMessage id={privacyPolicy.errorId}>
             {privacyPolicy.errors}
-          </FormFieldError>
+          </FormMessage>
         </FormField>
 
         <input {...getInputProps(locale, { type: 'hidden' })} />

@@ -102,7 +102,7 @@ export default function RequestLogsPage({
   actionData,
 }: Route.ComponentProps) {
   return (
-    <Stack>
+    <Stack align="stretch">
       <Header
         region={region}
         selectDuration={selectDuration}

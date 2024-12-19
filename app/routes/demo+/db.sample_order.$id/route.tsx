@@ -32,7 +32,7 @@ export default function OrderDetailPage({
   loaderData: { order, region, duration },
 }: Route.ComponentProps) {
   return (
-    <Stack>
+    <Stack align="stretch">
       <HStack className="text-sm text-foreground/50">
         <div>
           Region{' '}

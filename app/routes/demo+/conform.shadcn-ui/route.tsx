@@ -13,6 +13,9 @@ import { z } from 'zod'
 import {
   Button,
   Checkbox,
+  FormDescription,
+  FormField,
+  FormMessage,
   HStack,
   Input,
   Label,
@@ -217,7 +220,7 @@ export default function ShadcnUiPage({
           </SectionHeading>
 
           {/* input text */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f1_text.id}>
               Input <small>text</small>
             </Label>
@@ -225,13 +228,13 @@ export default function ShadcnUiPage({
               placeholder="テキスト"
               {...getInputProps(fields.f1_text, { type: 'text' })}
             />
-            <div id={fields.f1_text.errorId} className="text-destructive">
+            <FormMessage id={fields.f1_text.errorId}>
               {fields.f1_text.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           {/* input email */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f2_email.id}>
               Input <small>email</small>
             </Label>
@@ -239,13 +242,13 @@ export default function ShadcnUiPage({
               placeholder="test@example.com"
               {...getInputProps(fields.f2_email, { type: 'email' })}
             />
-            <div id={fields.f2_email.errorId} className="text-destructive">
+            <FormMessage id={fields.f2_email.errorId}>
               {fields.f2_email.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           {/* input search */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f3_search.id}>
               Input <small>search</small>
             </Label>
@@ -253,13 +256,13 @@ export default function ShadcnUiPage({
               placeholder="検索キーワード"
               {...getInputProps(fields.f3_search, { type: 'search' })}
             />
-            <div id={fields.f3_search.errorId} className="text-destructive">
+            <FormMessage id={fields.f3_search.errorId}>
               {fields.f3_search.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           {/* input password */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f4_password.id}>
               Input <small>password</small>
             </Label>
@@ -267,13 +270,13 @@ export default function ShadcnUiPage({
               placeholder="パスワード"
               {...getInputProps(fields.f4_password, { type: 'password' })}
             />
-            <div id={fields.f4_password.errorId} className="text-destructive">
+            <FormMessage id={fields.f4_password.errorId}>
               {fields.f4_password.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           {/* input url */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f5_url.id}>
               Input <small>url</small>
             </Label>
@@ -281,13 +284,13 @@ export default function ShadcnUiPage({
               placeholder="https://example.com"
               {...getInputProps(fields.f5_url, { type: 'url' })}
             />
-            <div id={fields.f5_url.errorId} className="text-destructive">
+            <FormMessage id={fields.f5_url.errorId}>
               {fields.f5_url.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           {/* input tel */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f6_phone.id}>
               Input <small>tel</small>
             </Label>
@@ -295,10 +298,10 @@ export default function ShadcnUiPage({
               placeholder="080-1234-5678"
               {...getInputProps(fields.f6_phone, { type: 'tel' })}
             />
-            <div id={fields.f6_phone.errorId} className="text-destructive">
+            <FormMessage id={fields.f6_phone.errorId}>
               {fields.f6_phone.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
         </Section>
 
         <Section>
@@ -307,7 +310,7 @@ export default function ShadcnUiPage({
           </SectionHeading>
 
           {/* input number */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f7_number.id}>
               Input <small>number</small>
             </Label>
@@ -315,13 +318,13 @@ export default function ShadcnUiPage({
               placeholder="123"
               {...getInputProps(fields.f7_number, { type: 'number' })}
             />
-            <div id={fields.f7_number.errorId} className="text-destructive">
+            <FormMessage id={fields.f7_number.errorId}>
               {fields.f7_number.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           {/* input range */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f8_range.id}>
               Input <small>range</small>
             </Label>
@@ -335,10 +338,10 @@ export default function ShadcnUiPage({
               />
               <div>{fields.f8_range.value}</div>
             </HStack>
-            <div id={fields.f8_range.errorId} className="text-destructive">
+            <FormMessage id={fields.f8_range.errorId}>
               {fields.f8_range.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
         </Section>
 
         <Section>
@@ -350,18 +353,18 @@ export default function ShadcnUiPage({
           </SectionHeading>
 
           {/* input date */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f9_date.id}>
               Input <small>date</small>
             </Label>
             <Input {...getInputProps(fields.f9_date, { type: 'date' })} />
-            <div id={fields.f9_date.errorId} className="text-destructive">
+            <FormMessage id={fields.f9_date.errorId}>
               {fields.f9_date.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           {/* input datetime-local */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f10_datetime.id}>
               Input <small>datetime-local</small>
             </Label>
@@ -371,13 +374,13 @@ export default function ShadcnUiPage({
               })}
               step={1}
             />
-            <div id={fields.f10_datetime.errorId} className="text-destructive">
+            <FormMessage id={fields.f10_datetime.errorId}>
               {fields.f10_datetime.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           {/* input time */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f11_time.id}>
               Input <small>time</small>
             </Label>
@@ -385,32 +388,32 @@ export default function ShadcnUiPage({
               {...getInputProps(fields.f11_time, { type: 'time' })}
               step={1}
             />
-            <div id={fields.f11_time.errorId} className="text-destructive">
+            <FormField id={fields.f11_time.errorId}>
               {fields.f11_time.errors}
-            </div>
-          </div>
+            </FormField>
+          </FormField>
 
           {/* input month */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f12_month.id}>
               Input <small>month</small>
             </Label>
             <Input {...getInputProps(fields.f12_month, { type: 'month' })} />
-            <div id={fields.f12_month.errorId} className="text-destructive">
+            <FormMessage id={fields.f12_month.errorId}>
               {fields.f12_month.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           {/* input week */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f13_week.id}>
               Input <small>week</small>
             </Label>
             <Input {...getInputProps(fields.f13_week, { type: 'week' })} />
-            <div id={fields.f13_week.errorId} className="text-destructive">
+            <FormMessage id={fields.f13_week.errorId}>
               {fields.f13_week.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
         </Section>
 
         <Section>
@@ -422,8 +425,8 @@ export default function ShadcnUiPage({
           </SectionHeading>
 
           {/* input checkbox */}
-          <div>
-            <div>Checkbox</div>
+          <FormField>
+            <FormDescription>Checkbox</FormDescription>
             <HStack>
               <Input
                 className="h-auto w-auto cursor-pointer shadow-none"
@@ -436,14 +439,14 @@ export default function ShadcnUiPage({
                 確認しました
               </Label>
             </HStack>
-            <div id={fields.f14_checkbox.errorId} className="text-destructive">
+            <FormMessage id={fields.f14_checkbox.errorId}>
               {fields.f14_checkbox.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           {/* input radio */}
-          <div>
-            <div>Radio</div>
+          <FormField>
+            <FormDescription>Radio</FormDescription>
             <fieldset>
               <legend>通知設定</legend>
               <HStack>
@@ -495,54 +498,54 @@ export default function ShadcnUiPage({
                 </Label>
               </HStack>
             </fieldset>
-            <div id={fields.f15_radio.errorId} className="text-destructive">
+            <FormMessage id={fields.f15_radio.errorId}>
               {fields.f15_radio.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
-          <div>
+          <FormField>
             <Label htmlFor={fields.f16_file.id}>File</Label>
             <Input
               className="cursor-pointer"
               {...getInputProps(fields.f16_file, { type: 'file' })}
             />
-            <div id={fields.f16_file.errorId} className="text-destructive">
+            <FormMessage id={fields.f16_file.errorId}>
               {fields.f16_file.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
-          <div>
+          <FormField>
             <Label htmlFor={fields.f17_color.id}>Color</Label>
             <Input
               className="cursor-pointer"
               {...getInputProps(fields.f17_color, { type: 'color' })}
             />
-            <div id={fields.f17_color.errorId} className="text-destructive">
+            <FormMessage id={fields.f17_color.errorId}>
               {fields.f17_color.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
         </Section>
 
         <Section>
           <SectionHeading id="textarea">Textarea</SectionHeading>
 
           {/* Textarea */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f18_textarea.id}>Textarea</Label>
             <Textarea
               placeholder="テキストエリア"
               {...getTextareaProps(fields.f18_textarea)}
             />
-            <div id={fields.f18_textarea.errorId} className="text-destructive">
+            <FormMessage id={fields.f18_textarea.errorId}>
               {fields.f18_textarea.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
         </Section>
 
         <Section>
           <SectionHeading id="select">Select</SectionHeading>
           {/* Select */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f19_select.id}>Select</Label>
             <HStack>
               <Select
@@ -594,13 +597,13 @@ export default function ShadcnUiPage({
                 </Button>
               )}
             </HStack>
-            <div id={fields.f19_select.errorId} className="text-destructive">
+            <FormMessage id={fields.f19_select.errorId}>
               {fields.f19_select.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           {/* Select with helper */}
-          <div>
+          <FormField>
             <Label htmlFor={fields.f20_selectWithHelper.id}>
               Select <small>with helper</small>
             </Label>
@@ -646,19 +649,16 @@ export default function ShadcnUiPage({
                 </Button>
               )}
             </HStack>
-            <div
-              id={fields.f20_selectWithHelper.errorId}
-              className="text-destructive"
-            >
+            <FormField id={fields.f20_selectWithHelper.errorId}>
               {fields.f20_selectWithHelper.errors}
-            </div>
-          </div>
+            </FormField>
+          </FormField>
         </Section>
 
         <Section>
           <SectionHeading id="checkbox">Checkbox</SectionHeading>
-          <div>
-            <h3>Checkbox</h3>
+          <FormField>
+            <FormDescription>Checkbox</FormDescription>
             <HStack>
               <Checkbox
                 id={fields.f21_checkbox.id}
@@ -686,14 +686,15 @@ export default function ShadcnUiPage({
                 確認しました
               </Label>
             </HStack>
-            <div id={fields.f21_checkbox.errorId} className="text-destructive">
+            <FormMessage id={fields.f21_checkbox.errorId}>
               {fields.f21_checkbox.errors}
-            </div>
-          </div>
-          <div>
-            <h3>
+            </FormMessage>
+          </FormField>
+
+          <FormField>
+            <FormDescription>
               Checkbox <small>with helper</small>
-            </h3>
+            </FormDescription>
             <HStack>
               <Checkbox
                 {...getCheckboxProps(fields.f22_checkboxWithHelper, {
@@ -714,19 +715,16 @@ export default function ShadcnUiPage({
                 確認しました
               </Label>
             </HStack>
-            <div
-              id={fields.f22_checkboxWithHelper.errorId}
-              className="text-destructive"
-            >
+            <FormMessage id={fields.f22_checkboxWithHelper.errorId}>
               {fields.f22_checkboxWithHelper.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
         </Section>
 
         <Section>
           <SectionHeading id="switch">Switch</SectionHeading>
-          <div>
-            <h3>Switch</h3>
+          <FormField>
+            <FormDescription>Switch</FormDescription>
             <HStack>
               <Switch
                 id={fields.f23_switch.id}
@@ -750,15 +748,15 @@ export default function ShadcnUiPage({
                 OK
               </Label>
             </HStack>
-            <div id={fields.f23_switch.errorId} className="text-destructive">
+            <FormMessage id={fields.f23_switch.errorId}>
               {fields.f23_switch.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
-          <div>
-            <h3>
+          <FormField>
+            <FormDescription>
               Switch <small>with helper</small>
-            </h3>
+            </FormDescription>
             <HStack>
               <Switch
                 {...getSwitchProps(fields.f24_switchWithHelper, {
@@ -779,19 +777,16 @@ export default function ShadcnUiPage({
                 OK
               </Label>
             </HStack>
-            <div
-              id={fields.f24_switchWithHelper.errorId}
-              className="text-destructive"
-            >
+            <FormMessage id={fields.f24_switchWithHelper.errorId}>
               {fields.f24_switchWithHelper.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
         </Section>
 
         <Section>
           <SectionHeading id="radiogroup">RadioGroup</SectionHeading>
-          <div>
-            <h3>Radio Group</h3>
+          <FormField>
+            <FormDescription>Radio Group</FormDescription>
             <RadioGroup
               name={fields.f25_radioGroup.name}
               aria-invalid={!fields.f25_radioGroup.valid || undefined}
@@ -847,18 +842,18 @@ export default function ShadcnUiPage({
                 </Label>
               </HStack>
             </RadioGroup>
-            <div
+            <FormMessage
               id={fields.f25_radioGroup.errorId}
               className="text-destructive"
             >
               {fields.f25_radioGroup.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
-          <div>
-            <h3>
+          <FormField>
+            <FormDescription>
               Radio Group <small>with helper</small>
-            </h3>
+            </FormDescription>
             <RadioGroup
               {...getRadioGroupProps(fields.f26_radioGroupWithHelper)}
               className="aria-invalid:border aria-invalid:border-destructive"
@@ -907,30 +902,27 @@ export default function ShadcnUiPage({
                 </Label>
               </HStack>
             </RadioGroup>
-            <div
-              id={fields.f26_radioGroupWithHelper.errorId}
-              className="text-destructive"
-            >
+            <FormMessage id={fields.f26_radioGroupWithHelper.errorId}>
               {fields.f26_radioGroupWithHelper.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
         </Section>
 
         <Section>
           <SectionHeading id="debug">Debug</SectionHeading>
-          <div>
+          <FormField>
             <h3>form value</h3>
             <div className="overflow-auto rounded-md border p-4">
               <pre>{JSON.stringify(form.value, null, 2)}</pre>
             </div>
-          </div>
+          </FormField>
 
-          <div className="text-destructive">
+          <FormField>
             <h3>form all errors</h3>
             <div className="overflow-auto rounded-md border border-destructive p-4">
               <div>{JSON.stringify(form.allErrors, null, 2)}</div>
             </div>
-          </div>
+          </FormField>
         </Section>
 
         <Button>Submit</Button>

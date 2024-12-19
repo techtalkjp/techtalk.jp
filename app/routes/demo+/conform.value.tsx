@@ -4,7 +4,14 @@ import { Form, useNavigation } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { Button, HStack, Input, Label } from '~/components/ui'
+import {
+  Button,
+  FormField,
+  FormMessage,
+  HStack,
+  Input,
+  Label,
+} from '~/components/ui'
 import type { Route } from './+types/conform.value'
 
 // フォーム要素のスキーマ定義
@@ -96,17 +103,17 @@ export default function ConformValueDemoPage({
 
   return (
     <Form method="POST" className="flex flex-col gap-4" {...getFormProps(form)}>
-      <div>
+      <FormField>
         <Label htmlFor={zip1.id}>郵便番号</Label>
-        <HStack>
+        <HStack align="top">
           <div>
             <Input className="w-16" {...getInputProps(zip1, { type: 'tel' })} />
-            <div className="text-sm text-destructive">{zip1.errors}</div>
+            <FormMessage>{zip1.errors}</FormMessage>
           </div>
           <div>-</div>
           <div>
             <Input className="w-24" {...getInputProps(zip2, { type: 'tel' })} />
-            <div className="text-sm text-destructive">{zip2.errors}</div>
+            <FormMessage>{zip2.errors}</FormMessage>
           </div>
           <Button
             type="button"
@@ -117,25 +124,25 @@ export default function ConformValueDemoPage({
             住所検索
           </Button>
         </HStack>
-      </div>
+      </FormField>
 
-      <div>
+      <FormField>
         <Label htmlFor={prefecture.id}>都道府県</Label>
         <Input {...getInputProps(prefecture, { type: 'text' })} />
-        <div className="text-sm text-destructive">{prefecture.errors}</div>
-      </div>
+        <FormMessage>{prefecture.errors}</FormMessage>
+      </FormField>
 
-      <div>
+      <FormField>
         <Label htmlFor={city.id}>市区町村</Label>
         <Input {...getInputProps(city, { type: 'text' })} />
-        <div className="text-sm text-destructive">{city.errors}</div>
-      </div>
+        <FormMessage>{city.errors}</FormMessage>
+      </FormField>
 
-      <div>
+      <FormField>
         <Label htmlFor={street.id}>番地</Label>
         <Input {...getInputProps(street, { type: 'text' })} />
-        <div className="text-sm text-destructive">{street.errors}</div>
-      </div>
+        <FormMessage>{street.errors}</FormMessage>
+      </FormField>
 
       <Button
         className="mt-2 w-full"

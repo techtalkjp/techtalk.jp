@@ -10,6 +10,8 @@ import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
   Button,
+  FormField,
+  FormMessage,
   Input,
   Label,
   Stack,
@@ -65,23 +67,19 @@ export default function ImageUploadDemoPage({
 
   return (
     <Stack>
-      <Stack asChild>
-        <Form
-          method="POST"
-          encType="multipart/form-data"
-          {...getFormProps(form)}
-        >
-          <div>
+      <Form method="POST" encType="multipart/form-data" {...getFormProps(form)}>
+        <Stack>
+          <FormField>
             <Label htmlFor={file.id}>File</Label>
             <Input {...getInputProps(file, { type: 'file' })} />
-            <div id={file.errorId} className="text-destructive">
+            <FormMessage id={file.errorId} className="text-destructive">
               {file.errors}
-            </div>
-          </div>
+            </FormMessage>
+          </FormField>
 
           <Button type="submit">Upload</Button>
-        </Form>
-      </Stack>
+        </Stack>
+      </Form>
 
       <div className="overflow-auto rounded border">
         <Table>
