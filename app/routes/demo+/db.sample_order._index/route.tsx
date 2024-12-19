@@ -101,6 +101,17 @@ export default function RequestLogsPage({
   },
   actionData,
 }: Route.ComponentProps) {
+  console.log('RequestLogPage', {
+    tab,
+    deletingOrder,
+    region,
+    dummyData,
+    sampleOrders,
+    selectDuration,
+    now,
+    actionData,
+  })
+
   return (
     <Stack align="stretch">
       <Header
