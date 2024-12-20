@@ -83,7 +83,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
     await deleteSampleOrder(submission.value.id)
 
     // delete order
-    throw redirectWithSuccess('/demo/db/sample_order?tab=list', {
+    throw await redirectWithSuccess('/demo/db/sample_order?tab=list', {
       message: 'Order deleted',
     })
   }
