@@ -3,7 +3,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
+    "build": "NODE_ENV=production react-router build",
     "deploy": "NODE_ENV=production wrangler deploy",
     "dev": "react-router dev",
     "start": "wrangler dev",
@@ -96,6 +96,7 @@
     "@types/react-dom": "19.0.2",
     "@vitejs/plugin-react": "4.3.4",
     "@vitest/coverage-v8": "2.1.8",
+    "autoprefixer": "10.4.20",
     "dotenv-cli": "8.0.0",
     "jsdom": "25.0.1",
     "msw": "2.7.0",
