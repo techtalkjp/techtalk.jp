@@ -4,14 +4,6 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
-export type Content = {
-    id: string;
-    slug: string;
-    title: string;
-    body: string;
-    updatedAt: Generated<string>;
-    createdAt: Generated<string>;
-};
 export type SampleOrder = {
     id: string;
     region: string;
@@ -24,9 +16,9 @@ export type SampleOrder = {
     address: string;
     phone: string;
     note: string | null;
+    updatedAt: Generated<string>;
     createdAt: Generated<string>;
 };
 export type DB = {
-    contents: Content;
     sampleOrders: SampleOrder;
 };

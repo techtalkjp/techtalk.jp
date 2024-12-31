@@ -55,13 +55,9 @@ export default function OrderDetailPage({
       </HStack>
 
       <div className="grid grid-cols-2 gap-4">
-        <div>
+        <div className="col-span-2">
           <Label>ID</Label>
           <Input disabled value={order.id} />
-        </div>
-        <div>
-          <Label>Created At</Label>
-          <Input disabled value={order.createdAt} />
         </div>
         <div>
           <Label>Name</Label>
@@ -98,6 +94,14 @@ export default function OrderDetailPage({
         <div className="col-span-2">
           <Label>Note</Label>
           <Textarea disabled defaultValue={order.note ?? ''} />
+        </div>
+        <div>
+          <Label>Created At</Label>
+          <Input disabled value={order.createdAt} />
+        </div>
+        <div>
+          <Label>Updated At</Label>
+          <Input disabled value={order.updatedAt} />
         </div>
       </div>
     </Stack>

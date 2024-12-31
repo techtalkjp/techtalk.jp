@@ -21,3 +21,11 @@ bucket_name = 'techtalk'
 
 #[build]
 #command = "pnpm run build"
+
+[env.development]
+name = 'techtalkjp-dev'
+vars = { ENV = 'development'}
+
+[env.production]
+name = 'techtalkjp'
+vars = { ENV = 'production'}
