@@ -5,6 +5,7 @@ import {
   type ActionFunctionArgs,
   Form,
   type LoaderFunctionArgs,
+  useNavigation,
 } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
@@ -70,6 +71,7 @@ export default function ImageUploadDemoPage({
   loaderData: { images },
   actionData,
 }: Route.ComponentProps) {
+  const navigation = useNavigation()
   const [form, { file, mimeType }] = useForm({
     lastResult: actionData?.lastResult,
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
@@ -108,7 +110,9 @@ export default function ImageUploadDemoPage({
             key={mimeType.key}
           />
 
-          <Button type="submit">Upload</Button>
+          <Button type="submit" isLoading={navigation.state === 'submitting'}>
+            Upload
+          </Button>
         </Stack>
       </Form>
 
