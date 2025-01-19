@@ -25,10 +25,17 @@ import {
 } from '~/components/ui'
 import type { Route } from './+types/route'
 
-const schema = z.object({
-  file: z.instanceof(File),
-  mimeType: z.string(),
-})
+const schema = z.discriminatedUnion('intent', [
+  z.object({
+    intent: z.literal('upload'),
+    file: z.instanceof(File),
+    mimeType: z.string(),
+  }),
+  z.object({
+    intent: z.literal('delete'),
+    key: z.string(),
+  }),
+])
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
   const { objects } = await context.cloudflare.env.R2.list()
@@ -48,23 +55,22 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
     return { lastResult: submission.reply() }
   }
 
-  console.time('upload')
-  await context.cloudflare.env.R2.put(
-    submission.value.file.name,
-    submission.value.file,
-    {
-      httpMetadata: { contentType: submission.value.mimeType },
-    },
-  )
-  console.timeEnd('upload')
-
-  return dataWithSuccess(
-    { lastResult: submission.reply({ resetForm: true }) },
-    {
-      message: 'File uploaded successfully!',
-      description: submission.value.file.name,
-    },
-  )
+  if (submission.value.intent === 'upload') {
+    await context.cloudflare.env.R2.put(
+      submission.value.file.name,
+      submission.value.file,
+      {
+        httpMetadata: { contentType: submission.value.mimeType },
+      },
+    )
+    return dataWithSuccess(
+      { lastResult: submission.reply({ resetForm: true }) },
+      {
+        message: 'File uploaded successfully!',
+        description: submission.value.file.name,
+      },
+    )
+  }
 }
 
 export default function ImageUploadDemoPage({
@@ -85,6 +91,7 @@ export default function ImageUploadDemoPage({
         {...getFormProps(form)}
         className="w-full"
       >
+        <input type="hidden" name="intent" value="upload" />
         <Stack align="stretch">
           <FormField>
             <Label htmlFor={file.id}>Image File</Label>
