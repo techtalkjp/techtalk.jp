@@ -4,7 +4,6 @@ export const loader = async ({ params, context }: Route.LoaderArgs) => {
   const key = params['*']
   const object = await context.cloudflare.env.R2.get(key)
   if (!object) {
-    console.log('object not found', key)
     return new Response(null, { status: 404 })
   }
 

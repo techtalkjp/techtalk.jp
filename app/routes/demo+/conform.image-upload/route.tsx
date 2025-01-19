@@ -38,7 +38,6 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
     uploaded: obj.uploaded,
     size: obj.size,
   }))
-  console.log({ images })
   return { images }
 }
 
