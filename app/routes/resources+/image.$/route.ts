@@ -1,0 +1,18 @@
+import type { Route } from './+types/route'
+
+export const loader = async ({ params, context }: Route.LoaderArgs) => {
+  const key = params['*']
+  const object = await context.cloudflare.env.R2.get(key)
+  if (!object) {
+    console.log('object not found', key)
+    return new Response(null, { status: 404 })
+  }
+
+  const blob = await object.blob()
+  return new Response(blob.stream(), {
+    headers: {
+      'Content-Type':
+        object?.httpMetadata?.contentType ?? 'application/octed-stream',
+    },
+  })
+}

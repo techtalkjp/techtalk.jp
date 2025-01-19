@@ -19,8 +19,8 @@ binding = 'R2'
 bucket_name = 'techtalk'
 
 
-#[build]
-#command = "pnpm run build"
+[build]
+command = "pnpm run build"
 
 [env.development]
 name = 'techtalkjp-dev'
