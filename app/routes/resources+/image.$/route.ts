@@ -11,7 +11,7 @@ export const loader = async ({ params, context }: Route.LoaderArgs) => {
   return new Response(blob.stream(), {
     headers: {
       'Content-Type':
-        object?.httpMetadata?.contentType ?? 'application/octed-stream',
+        object.httpMetadata?.contentType ?? 'application/octed-stream',
     },
   })
 }
