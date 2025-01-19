@@ -11,7 +11,7 @@ import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { getLoadContext } from './load-context'
 
-export default defineConfig(({ isSsrBuild }) => ({
+export default defineConfig({
   plugins: [
     mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter] }),
     cloudflareDevProxy({ getLoadContext }),
@@ -19,11 +19,6 @@ export default defineConfig(({ isSsrBuild }) => ({
     sessionContextPlugin(),
     tsconfigPaths(),
   ],
-  build: {
-    rollupOptions: isSsrBuild
-      ? { input: { 'index.js': 'virtual:react-router/server-build' } }
-      : undefined,
-  },
   css: {
     postcss: {
       plugins: [tailwindcss, autoprefixer],
@@ -44,4 +39,4 @@ export default defineConfig(({ isSsrBuild }) => ({
     },
   },
   test: { environment: 'jsdom', setupFiles: ['./test/setup.ts'] },
-}))
+})
