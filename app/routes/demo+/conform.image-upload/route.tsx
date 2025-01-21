@@ -67,7 +67,6 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   }
 
   if (submission.value.intent === 'upload') {
-    console.log(submission.value)
     await context.cloudflare.env.R2.put(
       submission.value.file.name,
       submission.value.file,

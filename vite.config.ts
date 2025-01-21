@@ -25,8 +25,6 @@ export default defineConfig({
     },
   },
   ssr: {
-    target: 'webworker',
-    resolve: { conditions: ['workerd', 'browser'] },
     optimizeDeps: {
       include: [
         'react',
