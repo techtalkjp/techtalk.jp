@@ -1,4 +1,4 @@
-import { getFormProps, getInputProps, useForm } from '@conform-to/react'
+import { getFormProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import dayjs from 'dayjs'
 import { EllipsisIcon } from 'lucide-react'
@@ -40,7 +40,6 @@ const schema = z.discriminatedUnion('intent', [
   z.object({
     intent: z.literal('upload'),
     file: z.instanceof(File),
-    mimeType: z.string(),
   }),
   z.object({
     intent: z.literal('delete'),
@@ -49,7 +48,11 @@ const schema = z.discriminatedUnion('intent', [
 ])
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
-  const { objects } = await context.cloudflare.env.R2.list()
+  const { objects } = await context.cloudflare.env.R2.list({
+    include: ['httpMetadata'],
+  })
+
+  console.log(objects.map((o) => o.httpMetadata))
   const images = objects.map((obj) => ({
     key: obj.key,
     type: obj.httpMetadata?.contentType,
@@ -71,7 +74,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
       submission.value.file.name,
       submission.value.file,
       {
-        httpMetadata: { contentType: submission.value.mimeType },
+        httpMetadata: { contentType: submission.value.file.type },
       },
     )
     return dataWithSuccess(
@@ -102,7 +105,7 @@ export default function ImageUploadDemoPage({
   actionData,
 }: Route.ComponentProps) {
   const navigation = useNavigation()
-  const [form, { file, mimeType }] = useForm({
+  const [form, { file }] = useForm({
     lastResult: actionData?.lastResult,
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
@@ -125,22 +128,11 @@ export default function ImageUploadDemoPage({
               id={file.id}
               name={file.name}
               mediaType="image"
-              onMetadataReady={({ file }) => {
-                form.update({
-                  name: mimeType.name,
-                  value: file.type,
-                })
-              }}
             />
             <FormMessage id={file.errorId} className="text-destructive">
               {file.errors}
             </FormMessage>
           </FormField>
-
-          <input
-            {...getInputProps(mimeType, { type: 'hidden' })}
-            key={mimeType.key}
-          />
 
           <Button type="submit" isLoading={navigation.state === 'submitting'}>
             Upload
