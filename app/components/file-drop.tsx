@@ -1,135 +1,192 @@
-import mime from 'mime'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+interface UseFileDropProps {
+  accepts: string[]
+  maxSize?: number | null
+  multiple?: boolean
+  onError: (error: { code: string; message: string }) => void
+  onSelect: (files: File[]) => void
+}
+
+export interface FileWithURL {
+  file: File
+  url: string
+}
+
+export const useFileDrop = ({
+  accepts,
+  maxSize = null,
+  multiple = false,
+  onError,
+  onSelect,
+}: UseFileDropProps) => {
+  const [fileData, setFileData] = useState<FileWithURL[]>([])
+  const [isDragging, setIsDragging] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
+
+  const validateFile = (file: File) => {
+    if (maxSize && file.size > maxSize) {
+      onError({
+        code: 'size',
+        message: `File size too large. Max size is ${maxSize} bytes`,
+      })
+      return false
+    }
+    const valid = accepts.some((acc) => file.name.endsWith(acc))
+    if (!valid) {
+      onError({ code: 'type', message: `${file.type} is not accepted` })
+    }
+    return valid
+  }
+
+  const handleFileChange = (fileList: FileList) => {
+    setIsDragging(false)
+    // 既存の URL を解放
+    for (const data of fileData) {
+      URL.revokeObjectURL(data.url)
+    }
+
+    if (!multiple && fileList.length > 1) {
+      onError({ code: 'multiple', message: 'Only one file allowed' })
+      return
+    }
+
+    const validFiles = Array.from(fileList).filter(validateFile)
+    const dt = new DataTransfer()
+    const newFileData: FileWithURL[] = []
+
+    for (const file of validFiles) {
+      dt.items.add(file)
+      newFileData.push({ file, url: URL.createObjectURL(file) })
+    }
+
+    if (fileInputRef.current) fileInputRef.current.files = dt.files
+    setFileData(newFileData)
+    onSelect(validFiles)
+  }
+
+  const removeFile = (index: number) => {
+    if (fileData[index]) {
+      URL.revokeObjectURL(fileData[index].url)
+    }
+    const newFileData = fileData.filter((_, i) => i !== index)
+    const dt = new DataTransfer()
+    for (const file of newFileData) {
+      dt.items.add(file.file)
+    }
+
+    if (fileInputRef.current) fileInputRef.current.files = dt.files
+    setFileData(newFileData)
+  }
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    return () => {
+      for (const data of fileData) {
+        URL.revokeObjectURL(data.url)
+      }
+    }
+  }, [])
+
+  return {
+    fileData,
+    isDragging,
+    setIsDragging,
+    fileInputRef,
+    handleFileChange,
+    removeFile,
+  }
+}
 
 interface FileDropProps
   extends Omit<
     React.ComponentProps<'div'>,
-    'children' | 'className' | 'onError' | 'onSelect' | 'maxSize' | 'multiple'
+    'children' | 'className' | 'onError' | 'onSelect'
   > {
   children:
     | React.ReactNode
     | ((props: {
-        files: File[]
+        fileData: FileWithURL[]
         isDragging: boolean
-        removeFile: (index: number) => void
+        removeFile: (i: number) => void
       }) => React.ReactNode)
   className:
     | string
-    | ((props: { files: File[]; isDragging: boolean }) => string)
+    | ((props: { fileData: FileWithURL[]; isDragging: boolean }) => string)
+  accepts: string[]
   onError?: (error: { code: string; message: string }) => void
   onSelect?: (files: File[]) => void
   maxSize?: number | null
   multiple?: boolean
   disabled?: boolean
-  accepts: string[]
+  id?: string
   name?: string
 }
 
 export const FileDrop = ({
   children,
   className,
-  onSelect = (files) => {},
-  onError = (error) => {},
+  onError = () => {},
+  onSelect = () => {},
   maxSize = null,
   multiple = false,
   disabled = false,
   accepts,
   id,
   name,
+  ...props
 }: FileDropProps) => {
-  const [files, setFiles] = useState<File[]>([])
-  const [isDragging, setIsDragging] = useState(false)
+  const {
+    fileData,
+    isDragging,
+    setIsDragging,
+    fileInputRef,
+    handleFileChange,
+    removeFile,
+  } = useFileDrop({
+    accepts,
+    maxSize,
+    multiple,
+    onError,
+    onSelect,
+  })
 
-  const classNameAttr =
+  const computedClassName =
     typeof className === 'function'
-      ? className({ files, isDragging })
+      ? className({ fileData, isDragging })
       : className
-  const childrenNode =
+  const content =
     typeof children === 'function'
-      ? children({ files, isDragging, removeFile })
+      ? children({ fileData, isDragging, removeFile })
       : children
-  const acceptAttr =
-    accepts.length > 0
-      ? accepts.map((accept) => mime.getType(accept) || accept).join(',')
-      : undefined
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null)
-
-  function validateFile(file: File) {
-    if (maxSize) {
-      if (file.size > maxSize) {
-        onError({
-          code: 'size',
-          message: `File size too large. Max size is ${maxSize} bytes`,
-        })
-        return false
-      }
-    }
-    const valid = accepts.some((accept) => {
-      return file.type === mime.getType(accept) || file.name.endsWith(accept)
-    })
-    if (!valid) {
-      onError({
-        code: 'type',
-        message: `${file.type} is not in ${accepts.join(', ')}`,
-      })
-    }
-    return valid
-  }
-
-  function handleFileChange(selectedFiles: FileList) {
-    setIsDragging(false)
-
-    if (!multiple && selectedFiles.length > 1)
-      return onError({ code: 'multiple', message: 'Only one file allowed' })
-
-    const newFiles = Array.from(selectedFiles).filter(validateFile)
-
-    // For drag and drop, sync files to input tag
-    const fileList = new DataTransfer()
-    for (const file of newFiles) {
-      fileList.items.add(file)
-    }
-    if (fileInputRef.current) {
-      fileInputRef.current.files = fileList.files
-    }
-
-    setFiles(newFiles)
-    onSelect(newFiles)
-  }
-
-  function removeFile(index: number) {
-    const newFiles = files.filter((_, i) => i !== index)
-    setFiles(newFiles)
-    if (fileInputRef.current) {
-      const fileList = new DataTransfer()
-      for (const file of newFiles) {
-        fileList.items.add(file)
-      }
-      fileInputRef.current.files = fileList.files
-    }
-  }
+  const acceptAttr = accepts.length > 0 ? accepts.join(',') : undefined
 
   return (
     <div
-      className={classNameAttr}
+      className={computedClassName}
       onClick={() => {
-        if (files.length === 0) fileInputRef.current?.click()
+        if (fileData.length === 0) fileInputRef.current?.click()
       }}
-      onKeyUp={() => fileInputRef.current?.click()}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          if (fileData.length === 0) fileInputRef.current?.click()
+        }
+      }}
       onDragEnter={() => setIsDragging(true)}
       onDragLeave={() => setIsDragging(false)}
       onDragOver={(e) => {
-        e.preventDefault() // Necessary. Allows us to drop.
+        e.preventDefault()
         setIsDragging(true)
       }}
       onDrop={(e) => {
-        e.preventDefault() // Necessary. Allows us to drop.
-        if (!disabled) {
-          handleFileChange(e.dataTransfer.files)
-        }
+        e.preventDefault()
+        if (!disabled) handleFileChange(e.dataTransfer.files)
       }}
-      aria-hidden="true"
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: <explanation>
+      tabIndex={0}
+      aria-label="Choose file or drag and drop"
+      {...props}
     >
       <input
         id={id}
@@ -144,7 +201,7 @@ export const FileDrop = ({
         multiple={multiple}
         disabled={disabled}
       />
-      {childrenNode}
+      {content}
     </div>
   )
 }

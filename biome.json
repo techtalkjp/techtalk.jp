@@ -18,6 +18,9 @@
       },
       "style": {
         "noNonNullAssertion": "off"
+      },
+      "a11y": {
+        "useMediaCaption": "off"
       }
     }
   }

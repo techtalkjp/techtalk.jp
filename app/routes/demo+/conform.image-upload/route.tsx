@@ -57,7 +57,6 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
     uploaded: obj.uploaded,
     size: obj.size,
   }))
-  console.log(images)
   return { images }
 }
 
@@ -68,6 +67,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   }
 
   if (submission.value.intent === 'upload') {
+    console.log(submission.value)
     await context.cloudflare.env.R2.put(
       submission.value.file.name,
       submission.value.file,
@@ -125,7 +125,7 @@ export default function ImageUploadDemoPage({
               key={file.key}
               id={file.id}
               name={file.name}
-              type="image"
+              mediaType="image"
               onMetadataReady={({ file }) => {
                 form.update({
                   name: mimeType.name,
