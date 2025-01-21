@@ -1,16 +1,27 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import dayjs from 'dayjs'
+import { EllipsisIcon } from 'lucide-react'
 import {
   type ActionFunctionArgs,
   Form,
   type LoaderFunctionArgs,
   useNavigation,
+  useSubmit,
 } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import { MediaFileDropInput } from '~/components/media-file-drop-input'
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
   Button,
   FormField,
   FormMessage,
@@ -46,6 +57,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
     uploaded: obj.uploaded,
     size: obj.size,
   }))
+  console.log(images)
   return { images }
 }
 
@@ -71,6 +83,19 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
       },
     )
   }
+
+  if (submission.value.intent === 'delete') {
+    await context.cloudflare.env.R2.delete(submission.value.key)
+    return dataWithSuccess(
+      {
+        lastResult: submission.reply({ resetForm: true }),
+      },
+      {
+        message: 'File deleted successfully!',
+        description: submission.value.key,
+      },
+    )
+  }
 }
 
 export default function ImageUploadDemoPage({
@@ -82,6 +107,7 @@ export default function ImageUploadDemoPage({
     lastResult: actionData?.lastResult,
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
+  const submit = useSubmit()
 
   return (
     <Stack gap="lg">
@@ -131,6 +157,7 @@ export default function ImageUploadDemoPage({
               <TableHead>Type</TableHead>
               <TableHead>LastModified</TableHead>
               <TableHead>Size</TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -159,6 +186,41 @@ export default function ImageUploadDemoPage({
                   <TableCell>
                     {image.size.toLocaleString()}
                     <small> bytes</small>
+                  </TableCell>
+
+                  <TableCell>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="icon" type="button">
+                          <EllipsisIcon className="h-4 w-4" />
+                          <span className="sr-only">Open menu</span>
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Are you absolutely sure?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently
+                            delete the image from the server.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => {
+                              const formData = new FormData()
+                              formData.set('key', image.key)
+                              formData.set('intent', 'delete')
+                              submit(formData, { method: 'POST' })
+                            }}
+                          >
+                            削除
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </TableCell>
                 </TableRow>
               )
