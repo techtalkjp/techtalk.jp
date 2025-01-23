@@ -12,7 +12,7 @@ import {
   Input,
   Label,
 } from '~/components/ui'
-import type { Route } from './+types/conform.value'
+import type { Route } from './+types/route'
 
 // フォーム要素のスキーマ定義
 const schema = z.object({

@@ -17,7 +17,7 @@ import {
   SelectValue,
   Stack,
 } from '~/components/ui'
-import type { Route } from './+types/conform.update'
+import type { Route } from './+types/route'
 
 export const meta: MetaFunction = () => {
   return [

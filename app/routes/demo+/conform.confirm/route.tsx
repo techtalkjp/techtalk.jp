@@ -16,7 +16,7 @@ import {
   Input,
   Label,
 } from '~/components/ui'
-import type { Route } from './+types/conform.confirm'
+import type { Route } from './+types/route'
 
 const schema = z.object({
   intent: z.enum(['confirm', 'submit']),
@@ -64,7 +64,7 @@ export default function DemoConformAlert({ actionData }: Route.ComponentProps) {
       <div>
         <Label htmlFor={email.id}>メールアドレス</Label>
         <Input {...getInputProps(email, { type: 'email' })} />
-        <div className="text-sm text-destructive">{email.errors}</div>
+        <div className="text-destructive text-sm">{email.errors}</div>
       </div>
 
       {/* intent=confirm でフォームを検証された状態で確認ダイアログを表示させる */}

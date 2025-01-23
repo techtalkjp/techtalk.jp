@@ -1,6 +1,5 @@
 import dayjs from 'dayjs'
-import type { HeadersFunction } from 'react-router'
-import { Form, useNavigation } from 'react-router'
+import { data, Form, useNavigation } from 'react-router'
 import {
   Button,
   Stack,
@@ -11,18 +10,23 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import type { Route } from './+types/cache.swr'
+import type { Route } from './+types/route'
 
 const cacheControl = 's-maxage=60, stale-while-revalidate=120'
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
-  return {
-    'Cache-Control': cacheControl,
-  }
+export const headers: Route.HeadersFunction = ({ loaderHeaders }) => {
+  return loaderHeaders
 }
 
 export const loader = () => {
   const serverTime = new Date().toISOString()
-  return { serverTime, clientTime: null, diff: null }
+  return data(
+    { serverTime, clientTime: null, diff: null },
+    {
+      headers: {
+        'Cache-Control': cacheControl,
+      },
+    },
+  )
 }
 
 export const clientLoader = async ({
@@ -45,12 +49,12 @@ export default function DemoConformAlert({ loaderData }: Route.ComponentProps) {
 
   return (
     <Stack>
-      <div>
+      <Stack>
         <div>Cache Control:</div>
-        <div className="prose">
+        <div className="prose w-full">
           <pre className="overflow-auto whitespace-nowrap">{cacheControl}</pre>
         </div>
-      </div>
+      </Stack>
 
       <Table>
         <TableHeader>

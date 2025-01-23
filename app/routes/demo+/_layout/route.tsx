@@ -1,9 +1,9 @@
 import { ExternalLinkIcon } from 'lucide-react'
-import type { MetaFunction } from 'react-router'
 import { Link, Outlet, useLocation } from 'react-router'
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
   Menubar,
@@ -14,8 +14,9 @@ import {
   Spacer,
 } from '~/components/ui'
 import { cn } from '~/libs/utils'
+import type { Route } from './+types/route'
 
-export const meta: MetaFunction = () => {
+export const meta: Route.MetaFunction = () => {
   return [{ title: 'TechTalk Demos' }]
 }
 
@@ -38,18 +39,18 @@ const demoPages: {
       ext: '/route.tsx',
     },
     {
-      path: '/demo/conform/select',
-      title: 'Select and conform in shadcn/ui',
-      ext: '/route.tsx',
-    },
-    {
       path: '/demo/conform/nested-array',
-      title: 'Conform オブジェクトの配列フォーム',
+      title: 'オブジェクトの動的オブジェクト配列フォーム',
       ext: '/route.tsx',
     },
     {
-      path: '/demo/conform/shadcn-ui',
-      title: 'shadcn/ui フォームバリデーション',
+      path: '/demo/conform/select',
+      title: 'shadcn/ui Select コンポーネント',
+      ext: '/route.tsx',
+    },
+    {
+      path: '/demo/conform/shadcn-ui-input',
+      title: 'shadcn/ui Input コンポーネント全パターン',
       ext: '/route.tsx',
     },
   ],
@@ -92,14 +93,14 @@ export default function DemoPage() {
           <h1 className="mx-4 my-2 text-2xl font-bold">TechTalk demos</h1>
         </Link>
 
-        <Menubar className="rounded-none border-b border-l-0 border-r-0 border-t shadow-none">
+        <Menubar className="rounded-none border-t border-r-0 border-b border-l-0 shadow-none">
           {Object.keys(demoPages).map((demoMenu) => (
             <MenubarMenu key={demoMenu}>
               <MenubarTrigger
                 className={cn(
                   'capitalize',
                   demoMenu === menu &&
-                    'relative after:absolute after:bottom-0 after:left-2 after:right-2 after:block after:h-1 after:rounded-md after:bg-primary',
+                    'after:bg-primary relative after:absolute after:right-2 after:bottom-0 after:left-2 after:block after:h-1 after:rounded-md',
                 )}
               >
                 {demoMenu}
@@ -125,7 +126,7 @@ export default function DemoPage() {
               <Spacer />
               {codeURL && (
                 <a
-                  className="block text-sm hover:text-primary hover:underline"
+                  className="hover:text-primary block text-sm hover:underline"
                   target="_blank"
                   rel="noreferrer noopener"
                   href={codeURL}
@@ -145,6 +146,7 @@ export default function DemoPage() {
             <CardContent>
               <Outlet />
             </CardContent>
+            <CardFooter />
           </Card>
         )}
       </main>

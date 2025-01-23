@@ -163,8 +163,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
     )
   }
 
-  console.log(submission.value)
-
   return dataWithSuccess(
     { lastResult: submission.reply() },
     {
@@ -558,6 +556,7 @@ export default function ShadcnUiPage({
                     value,
                   })
                 }}
+                key={fields.f19_select.key}
               >
                 <SelectTrigger
                   id={fields.f19_select.id}
@@ -678,6 +677,7 @@ export default function ShadcnUiPage({
                     value,
                   })
                 }}
+                key={fields.f21_checkbox.key}
               />
               <Label
                 htmlFor={fields.f21_checkbox.id}
@@ -743,6 +743,7 @@ export default function ShadcnUiPage({
                     value,
                   })
                 }}
+                key={fields.f23_switch.key}
               />
               <Label htmlFor={fields.f23_switch.id} className="cursor-pointer">
                 OK
@@ -796,13 +797,14 @@ export default function ShadcnUiPage({
                   : undefined
               }
               defaultValue={fields.f25_radioGroup.initialValue}
-              className="aria-invalid:border aria-invalid:border-destructive"
+              className="aria-invalid:border-destructive aria-invalid:border"
               onValueChange={(value) => {
                 form.update({
                   name: fields.f25_radioGroup.name,
                   value,
                 })
               }}
+              key={fields.f25_radioGroup.key}
             >
               <div>通知設定</div>
               <HStack>
@@ -856,7 +858,7 @@ export default function ShadcnUiPage({
             </FormDescription>
             <RadioGroup
               {...getRadioGroupProps(fields.f26_radioGroupWithHelper)}
-              className="aria-invalid:border aria-invalid:border-destructive"
+              className="aria-invalid:border-destructive aria-invalid:border"
               onValueChange={(value) => {
                 form.update({
                   name: fields.f26_radioGroupWithHelper.name,
@@ -919,7 +921,7 @@ export default function ShadcnUiPage({
 
           <FormField>
             <h3>form all errors</h3>
-            <div className="overflow-auto rounded-md border border-destructive p-4">
+            <div className="border-destructive overflow-auto rounded-md border p-4">
               <div>{JSON.stringify(form.allErrors, null, 2)}</div>
             </div>
           </FormField>
