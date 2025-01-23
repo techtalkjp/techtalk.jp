@@ -29,7 +29,7 @@ const NavItem = ({
       asChild
       onClick={(event) => scrollTo(id, event)}
     >
-      <Link to={`#${id}`} className="cursor-pointer hover:text-primary">
+      <Link to={`#${id}`} className="hover:text-primary cursor-pointer">
         <TextReveal text={children?.toString() ?? ''} isLastLine delay={3} />
       </Link>
     </Button>
@@ -40,7 +40,7 @@ export const Navigation = () => {
   const { t } = useLocale()
 
   return (
-    <HStack className="fixed z-10 w-full py-2 pl-4 pr-4 font-bold sm:pr-8">
+    <HStack className="fixed z-10 w-full py-2 pr-4 pl-4 font-bold sm:pr-8">
       <NavItem id="hero">{t('nav.techtalk', 'TechTalk')}</NavItem>
 
       <Spacer />

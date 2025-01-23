@@ -141,7 +141,7 @@ export default function ConformNestedArrayDemo({
                     />
                     <div
                       id={personFields.name.errorId}
-                      className="text-xs text-destructive"
+                      className="text-destructive text-xs"
                     >
                       {personFields.name.errors}
                     </div>
@@ -182,7 +182,7 @@ export default function ConformNestedArrayDemo({
                     />
                     <div
                       id={personFields.zip.errorId}
-                      className="text-xs text-destructive"
+                      className="text-destructive text-xs"
                     >
                       {personFields.zip.errors}
                     </div>
@@ -193,7 +193,7 @@ export default function ConformNestedArrayDemo({
                     />
                     <div
                       id={personFields.tel.errorId}
-                      className="text-xs text-destructive"
+                      className="text-destructive text-xs"
                     >
                       {personFields.tel.errors}
                     </div>
@@ -204,7 +204,7 @@ export default function ConformNestedArrayDemo({
                     />
                     <div
                       id={personFields.email.errorId}
-                      className="text-xs text-destructive"
+                      className="text-destructive text-xs"
                     >
                       {personFields.email.errors}
                     </div>

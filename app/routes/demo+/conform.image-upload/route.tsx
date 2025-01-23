@@ -157,7 +157,7 @@ export default function ImageUploadDemoPage({
                 <TableRow key={image.key}>
                   <TableCell>
                     <div className="relative">
-                      <span className="absolute bottom-2 left-2 right-2 text-right text-sm text-white drop-shadow-sm">
+                      <span className="absolute right-2 bottom-2 left-2 text-right text-sm text-white drop-shadow-sm">
                         {image.key}
                       </span>
                       <a href={image.url} target="_blank" rel="noreferrer">

@@ -96,7 +96,7 @@ export const ZipInput = ({ defaultValue = '', onChange }: ZipInputProps) => {
                   />
                   <div>
                     <div>{zipAddress.zip}</div>
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-muted-foreground text-xs">
                       {zipAddress.address}
                     </div>
                   </div>

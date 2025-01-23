@@ -10,7 +10,7 @@ export const Header = ({
   insertDuration?: number
 }) => {
   return (
-    <HStack className="text-sm text-foreground/50">
+    <HStack className="text-foreground/50 text-sm">
       <div>
         Region{' '}
         <Badge variant="secondary" className="text-foreground/50">

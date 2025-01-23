@@ -33,7 +33,7 @@ export default function OrderDetailPage({
 }: Route.ComponentProps) {
   return (
     <Stack align="stretch">
-      <HStack className="text-sm text-foreground/50">
+      <HStack className="text-foreground/50 text-sm">
         <div>
           Region{' '}
           <Badge variant="secondary" className="text-foreground/50">
@@ -48,7 +48,7 @@ export default function OrderDetailPage({
       <HStack>
         <Button variant="ghost" className="rounded-full px-0" size="xs" asChild>
           <Link to="..?tab=list" relative="path">
-            <ArrowLeftIcon className="text-slate-500 hover:text-foreground" />
+            <ArrowLeftIcon className="hover:text-foreground text-slate-500" />
           </Link>
         </Button>
         <h3 className="font-bold">Order Details</h3>

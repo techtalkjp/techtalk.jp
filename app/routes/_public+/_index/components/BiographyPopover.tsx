@@ -30,7 +30,7 @@ export const BiographyPopover = () => {
       <PopoverContent className="w-auto max-w-sm md:max-w-md lg:max-w-lg">
         <Stack className="relative">
           <Button
-            className="absolute right-0 top-0 h-6 w-6"
+            className="absolute top-0 right-0 h-6 w-6"
             variant="ghost"
             size="icon"
             onClick={() => setIsOpen(false)}
@@ -48,7 +48,7 @@ export const BiographyPopover = () => {
                 <Button
                   size="xs"
                   variant="default"
-                  className="bg-twitter text-white hover:bg-twitter/80 active:bg-twitter"
+                  className="bg-twitter hover:bg-twitter/80 active:bg-twitter text-white"
                   asChild
                 >
                   <a
@@ -65,7 +65,7 @@ export const BiographyPopover = () => {
                 <Button
                   size="xs"
                   variant="outline"
-                  className="bg-facebook text-white hover:bg-facebook/80 hover:text-white active:bg-facebook"
+                  className="bg-facebook hover:bg-facebook/80 active:bg-facebook text-white hover:text-white"
                   asChild
                 >
                   <a
@@ -82,7 +82,7 @@ export const BiographyPopover = () => {
                 <Button
                   size="xs"
                   variant="outline"
-                  className="bg-github text-white hover:bg-github/80 hover:text-white active:bg-github"
+                  className="bg-github hover:bg-github/80 active:bg-github text-white hover:text-white"
                   asChild
                 >
                   <a

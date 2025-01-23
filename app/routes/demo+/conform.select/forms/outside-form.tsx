@@ -80,7 +80,7 @@ export const OutsideForm = () => {
                 </Button>
               )}
             </HStack>
-            <div className="text-sm text-destructive">{option.errors}</div>
+            <div className="text-destructive text-sm">{option.errors}</div>
           </div>
 
           <Button form={form.id} disabled={!form.dirty}>
