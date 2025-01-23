@@ -14,7 +14,7 @@ import { getLoadContext } from './load-context'
 export default defineConfig({
   plugins: [
     mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter] }),
-    cloudflareDevProxy({ getLoadContext }),
+    !process.env.VITEST && cloudflareDevProxy({ getLoadContext }),
     process.env.VITEST ? react() : reactRouter(),
     sessionContextPlugin(),
     tsconfigPaths(),
