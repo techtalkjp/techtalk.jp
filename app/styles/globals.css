@@ -1,6 +1,56 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config '../../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@utility inview-fade-in {
+  /* 画面表示とともにフェードインさせる */
+  @apply opacity-0;
+  transition: opacity 0.6s ease-out;
+
+  &.visible {
+    @apply opacity-100;
+  }
+}
+
+@utility visible {
+  &.inview-fade-in {
+    @apply opacity-100;
+  }
+
+  &.scroll-fade-in {
+    @apply translate-y-0 opacity-100;
+  }
+}
+
+@utility scroll-fade-in {
+  /* スクロールでフェードインさせる */
+  @apply translate-y-12 transform opacity-0;
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+
+  &.visible {
+    @apply translate-y-0 opacity-100;
+  }
+}
 
 @layer base {
   :root {
@@ -74,29 +124,5 @@
   }
   body {
     @apply bg-background text-foreground;
-  }
-}
-
-@layer components {
-  /* 画面表示とともにフェードインさせる */
-  .inview-fade-in {
-    @apply opacity-0;
-    transition: opacity 0.6s ease-out;
-  }
-
-  .inview-fade-in.visible {
-    @apply opacity-100;
-  }
-
-  /* スクロールでフェードインさせる */
-  .scroll-fade-in {
-    @apply translate-y-12 transform opacity-0;
-    transition:
-      opacity 0.6s ease-out,
-      transform 0.6s ease-out;
-  }
-
-  .scroll-fade-in.visible {
-    @apply translate-y-0 opacity-100;
   }
 }
