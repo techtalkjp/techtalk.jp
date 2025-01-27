@@ -18,7 +18,7 @@ import { Toaster, TooltipProvider } from '~/components/ui'
 import type { Route } from './+types/root'
 import { cn } from './libs/utils'
 import biographyStyle from './styles/biography.css?url'
-import globalStyles from './styles/globals.css?url'
+import './styles/globals.css'
 import privacyStyles from './styles/privacy.css?url'
 
 export const meta: MetaFunction = () => {
@@ -33,7 +33,6 @@ export const meta: MetaFunction = () => {
 
 export const links: LinksFunction = () => {
   return [
-    { rel: 'stylesheet', href: globalStyles },
     { rel: 'stylesheet', href: privacyStyles },
     { rel: 'stylesheet', href: biographyStyle },
   ]
