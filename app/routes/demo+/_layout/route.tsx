@@ -161,7 +161,7 @@ export default function DemoPage() {
       <footer className="px-4 py-2 text-center">
         Copyright&copy;{' '}
         <Link to="/" className="hover:underline">
-          TechTalk inc.
+          TechTalk Inc.
         </Link>
       </footer>
     </div>

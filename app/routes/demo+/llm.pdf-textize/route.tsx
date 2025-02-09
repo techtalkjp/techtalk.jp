@@ -6,11 +6,21 @@ import { FileTextIcon, TrashIcon } from 'lucide-react'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Form, useNavigation } from 'react-router'
+import { toast } from 'sonner'
 import { z } from 'zod'
 import { FileDrop } from '~/components/file-drop'
-import { Button } from '~/components/ui/button'
-import { Label } from '~/components/ui/label'
-import { Stack } from '~/components/ui/stack'
+import {
+  Button,
+  HStack,
+  Label,
+  ScrollArea,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from '~/components/ui'
 import type { Route } from './+types/route'
 
 const formSchema = z.object({
@@ -31,7 +41,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
       {
         role: 'system',
         content:
-          'analyze the contents of this file and output the markdown text',
+          'Analyze the file’s content and output text in Markdown without triple backticks or page numbers.',
       },
       {
         role: 'user',
@@ -49,10 +59,33 @@ export const action = async ({ request }: Route.ActionArgs) => {
   const ret = await fetch('https://api.excelapi.org/currency/rate?pair=usd-jpy')
   const usdToJpy = Number(await ret.text())
 
+  const cost = {
+    prompt: {
+      tokens: result.usage.promptTokens,
+      usd: (result.usage.promptTokens / 1000000) * 0.1,
+      jpy: (result.usage.promptTokens / 1000000) * 0.1 * usdToJpy,
+    },
+    completion: {
+      tokens: result.usage.completionTokens,
+      usd: (result.usage.completionTokens / 1000000) * 0.4,
+      jpy: (result.usage.completionTokens / 1000000) * 0.4 * usdToJpy,
+    },
+    total: {
+      tokens: result.usage.promptTokens + result.usage.completionTokens,
+      usd:
+        (result.usage.promptTokens / 1000000) * 0.1 +
+        (result.usage.completionTokens / 1000000) * 0.4,
+      jpy:
+        ((result.usage.promptTokens / 1000000) * 0.1 +
+          (result.usage.completionTokens / 1000000) * 0.4) *
+        usdToJpy,
+    },
+  }
+
   return {
     lastResult: submission.reply(),
     result: result.text,
-    usage: result.usage,
+    cost,
     usdToJpy,
   }
 }
@@ -69,7 +102,7 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
     <Form {...getFormProps(form)} method="POST" encType="multipart/form-data">
       <Stack gap="lg">
         <Stack>
-          <Label htmlFor={fields.file.id}>File</Label>
+          <Label htmlFor={fields.file.id}>PDF File</Label>
           <FileDrop
             id={fields.file.id}
             name={fields.file.name}
@@ -84,7 +117,7 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
                       <div>
                         <FileTextIcon />
                       </div>
-                      <div className="font-medium">Drop files here</div>
+                      <div className="font-medium">Drop a PDF file here.</div>
                     </div>
                   )}
                   {fileData.length > 0 && (
@@ -119,35 +152,65 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
         </Stack>
 
         {actionData?.result && (
-          <div className="w-full overflow-auto">
-            <ReactMarkdown className="markdown prose">
-              {actionData.result}
-            </ReactMarkdown>
-          </div>
+          <Stack>
+            <HStack>
+              <h3>Result</h3>
+              <div className="flex-1" />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  // copy to clipboard
+                  navigator.clipboard.writeText(actionData.result)
+                  toast.info('Copied to clipboard')
+                }}
+              >
+                Copy
+              </Button>
+            </HStack>
+
+            <ScrollArea className="h-[400px] w-full rounded-md border p-4">
+              <ReactMarkdown className="prose">
+                {actionData.result}
+              </ReactMarkdown>
+            </ScrollArea>
+          </Stack>
         )}
 
-        {actionData?.usage && (
-          <div className="grid grid-cols-2 gap-2">
-            <div className="col-span-2">Usage</div>
-            <div>Input: {actionData.usage.promptTokens}</div>
-            <div>
-              {(
-                (actionData.usage.promptTokens / 1000000) *
-                0.1 *
-                actionData.usdToJpy
-              ).toFixed(2)}
-              <small>円</small>
-            </div>
-            <div>Output: {actionData.usage.completionTokens}</div>
-            <div>
-              {(
-                (actionData.usage.completionTokens / 1000000) *
-                0.4 *
-                actionData.usdToJpy
-              ).toFixed(2)}
-              <small>円</small>
-            </div>
-          </div>
+        {actionData?.cost && (
+          <Stack>
+            <h3>コスト</h3>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableCell>種類</TableCell>
+                  <TableCell>トークン</TableCell>
+                  <TableCell>円</TableCell>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Input</TableCell>
+                  <TableCell>
+                    {actionData.cost.prompt.tokens.toLocaleString()} tokens
+                  </TableCell>
+                  <TableCell>
+                    {actionData.cost.prompt.jpy.toFixed(2)}円
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Output</TableCell>
+                  <TableCell>
+                    {actionData.cost.completion.tokens.toLocaleString()} tokens
+                  </TableCell>
+                  <TableCell>
+                    {actionData.cost.completion.jpy.toFixed(2)}円
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Stack>
         )}
 
         <Button type="submit" isLoading={navigation.state === 'submitting'}>
