@@ -67,6 +67,13 @@ const demoPages: {
       title: 'Cache Control - stale-while-revalidate',
     },
   ],
+  llm: [
+    {
+      path: '/demo/llm/pdf-textize',
+      title: 'PDF Textize',
+      ext: '/route.tsx',
+    },
+  ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
 }
 

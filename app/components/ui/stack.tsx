@@ -15,6 +15,7 @@ const stack = cva('flex flex-col', {
       center: 'items-center',
       right: 'items-end',
       stretch: 'items-stretch',
+      auto: '',
     },
     full: {
       true: 'w-full',
@@ -22,7 +23,7 @@ const stack = cva('flex flex-col', {
   },
   defaultVariants: {
     gap: 'md',
-    align: 'left',
+    align: 'auto',
     full: true,
   },
 })

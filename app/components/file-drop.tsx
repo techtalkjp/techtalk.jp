@@ -110,7 +110,7 @@ interface FileDropProps
         isDragging: boolean
         removeFile: (i: number) => void
       }) => React.ReactNode)
-  className:
+  className?:
     | string
     | ((props: { fileData: FileWithURL[]; isDragging: boolean }) => string)
   accepts: string[]
