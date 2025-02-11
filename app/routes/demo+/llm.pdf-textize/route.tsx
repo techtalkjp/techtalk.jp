@@ -124,7 +124,7 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
                     </div>
                   )}
                   {fileData.length > 0 && (
-                    <div className="grid grid-cols-2 place-items-center gap-4">
+                    <div className="grid grid-cols-[1fr_auto] place-items-center gap-4">
                       {fileData.map((file, i) => (
                         <React.Fragment key={file.file.name}>
                           <div>{file.file.name}</div>
