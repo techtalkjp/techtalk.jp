@@ -18,6 +18,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableHead,
   TableHeader,
   TableRow,
 } from '~/components/ui'
@@ -190,9 +191,9 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableCell>種類</TableCell>
-                  <TableCell>トークン</TableCell>
-                  <TableCell>コスト</TableCell>
+                  <TableHead>種類</TableHead>
+                  <TableHead>トークン</TableHead>
+                  <TableHead>コスト</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
