@@ -36,7 +36,9 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   const result = await generateText({
-    model: google('gemini-2.0-pro-exp-02-05', { structuredOutputs: false }),
+    model: google('gemini-2.0-flash-lite-preview-02-05', {
+      structuredOutputs: false,
+    }),
     messages: [
       {
         role: 'system',
@@ -73,11 +75,11 @@ export const action = async ({ request }: Route.ActionArgs) => {
     total: {
       tokens: result.usage.promptTokens + result.usage.completionTokens,
       usd:
-        (result.usage.promptTokens / 1000000) * 0.1 +
-        (result.usage.completionTokens / 1000000) * 0.4,
+        (result.usage.promptTokens / 1000000) * 0.075 +
+        (result.usage.completionTokens / 1000000) * 0.3,
       jpy:
-        ((result.usage.promptTokens / 1000000) * 0.1 +
-          (result.usage.completionTokens / 1000000) * 0.4) *
+        ((result.usage.promptTokens / 1000000) * 0.075 +
+          (result.usage.completionTokens / 1000000) * 0.3) *
         usdToJpy,
     },
   }
@@ -180,13 +182,17 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
 
         {actionData?.cost && (
           <Stack>
-            <h3>コスト</h3>
+            <HStack>
+              <h3>コスト</h3>
+              <div className="flex-1" />
+              <small>(1ドル{actionData.usdToJpy.toFixed(1)}円)</small>
+            </HStack>
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableCell>種類</TableCell>
                   <TableCell>トークン</TableCell>
-                  <TableCell>円</TableCell>
+                  <TableCell>コスト</TableCell>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -206,6 +212,13 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
                   </TableCell>
                   <TableCell>
                     {actionData.cost.completion.jpy.toFixed(2)}円
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>合計</TableCell>
+                  <TableCell />
+                  <TableCell>
+                    {actionData.cost.total.jpy.toFixed(2)}円
                   </TableCell>
                 </TableRow>
               </TableBody>
