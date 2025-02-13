@@ -29,7 +29,7 @@ import type { Route } from './+types/route'
 
 const formSchema = z.object({
   files: z.array(z.instanceof(File)),
-  prompt: z.string(),
+  prompt: z.string().optional(),
 })
 
 export const action = async ({ request }: Route.ActionArgs) => {
@@ -86,7 +86,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
       },
       {
         role: 'user',
-        content: submission.value.prompt,
+        content: submission.value.prompt ?? '',
       },
       {
         role: 'user',
