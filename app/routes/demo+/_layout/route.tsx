@@ -70,7 +70,7 @@ const demoPages: {
   llm: [
     {
       path: '/demo/llm/pdf-textize',
-      title: 'PDF Textize',
+      title: 'Image and PDF Textize',
       ext: '/route.tsx',
     },
   ],
