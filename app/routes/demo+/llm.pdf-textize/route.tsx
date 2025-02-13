@@ -1,5 +1,5 @@
 import { google } from '@ai-sdk/google'
-import { getFormProps, useForm } from '@conform-to/react'
+import { getFormProps, getTextareaProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import type { FilePart, ImagePart } from 'ai'
 import { generateText } from 'ai'
@@ -23,11 +23,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  Textarea,
 } from '~/components/ui'
 import type { Route } from './+types/route'
 
 const formSchema = z.object({
   files: z.array(z.instanceof(File)),
+  prompt: z.string(),
 })
 
 export const action = async ({ request }: Route.ActionArgs) => {
@@ -81,6 +83,10 @@ export const action = async ({ request }: Route.ActionArgs) => {
         role: 'system',
         content:
           'Analyze the file’s content and output text in Markdown without triple backticks or page numbers.',
+      },
+      {
+        role: 'user',
+        content: submission.value.prompt,
       },
       {
         role: 'user',
@@ -192,6 +198,16 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
             }}
           </FileDrop>
           <div className="text-sm text-red-500">{fields.files.errors}</div>
+        </Stack>
+
+        <Stack>
+          <Label htmlFor={fields.prompt.id}>Extra Prompt</Label>
+          <Textarea
+            {...getTextareaProps(fields.prompt)}
+            key={fields.prompt.key}
+            placeholder="Optional prompt for the model"
+          />
+          <div className="text-sm text-red-500">{fields.prompt.errors}</div>
         </Stack>
 
         {actionData?.result && (
