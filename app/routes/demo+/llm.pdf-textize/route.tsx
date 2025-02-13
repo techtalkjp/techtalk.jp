@@ -1,12 +1,14 @@
 import { google } from '@ai-sdk/google'
 import { getFormProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
+import type { FilePart, ImagePart } from 'ai'
 import { generateText } from 'ai'
 import { FileTextIcon, TrashIcon } from 'lucide-react'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Form, useNavigation } from 'react-router'
 import { toast } from 'sonner'
+import { match } from 'ts-pattern'
 import { z } from 'zod'
 import { FileDrop } from '~/components/file-drop'
 import {
@@ -25,7 +27,7 @@ import {
 import type { Route } from './+types/route'
 
 const formSchema = z.object({
-  file: z.instanceof(File),
+  files: z.array(z.instanceof(File)),
 })
 
 export const action = async ({ request }: Route.ActionArgs) => {
@@ -34,6 +36,40 @@ export const action = async ({ request }: Route.ActionArgs) => {
   })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
+  }
+
+  const content: Array<ImagePart | FilePart> = []
+  for (const file of submission.value.files) {
+    const c: ImagePart | FilePart | null = await match(file)
+      .when(
+        (f) => f.type === 'application/pdf',
+        async (f) =>
+          ({
+            type: 'file',
+            data: await f.arrayBuffer(),
+            mimeType: 'application/pdf',
+          }) satisfies FilePart,
+      )
+      .when(
+        (f) => f.type.startsWith('image/'),
+        async (f) =>
+          ({
+            type: 'image',
+            image: await f.arrayBuffer(),
+          }) satisfies ImagePart,
+      )
+      .otherwise(() => null)
+    if (c !== null) {
+      content.push(c)
+    }
+  }
+
+  if (content.length === 0) {
+    return {
+      lastResult: submission.reply({
+        formErrors: ['Unsupported file type'],
+      }),
+    }
   }
 
   const result = await generateText({
@@ -48,13 +84,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
       },
       {
         role: 'user',
-        content: [
-          {
-            type: 'file',
-            data: await submission.value.file.arrayBuffer(),
-            mimeType: 'application/pdf',
-          },
-        ],
+        content,
       },
     ],
   })
@@ -105,12 +135,13 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
     <Form {...getFormProps(form)} method="POST" encType="multipart/form-data">
       <Stack gap="lg">
         <Stack>
-          <Label htmlFor={fields.file.id}>PDF File</Label>
+          <Label htmlFor={fields.files.id}>PDF or Image Files</Label>
           <FileDrop
-            id={fields.file.id}
-            name={fields.file.name}
-            key={fields.file.key}
-            accepts={['.pdf']}
+            multiple
+            id={fields.files.id}
+            name={fields.files.name}
+            key={fields.files.key}
+            accepts={['.pdf', '.png', '.jpg', '.jpeg', '.webp', '.heic']}
           >
             {({ fileData, removeFile }) => {
               return (
@@ -138,11 +169,20 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
                               Remove
                             </Button>
                           </div>
-                          <iframe
-                            className="col-span-2 h-90 w-full"
-                            src={file.url}
-                            title="PDF Preview"
-                          />
+                          {file.file.type === 'application/pdf' && (
+                            <iframe
+                              className="col-span-2 h-90 w-full"
+                              src={file.url}
+                              title="PDF Preview"
+                            />
+                          )}
+                          {file.file.type.startsWith('image/') && (
+                            <img
+                              className="col-span-2 h-90 w-full object-contain"
+                              src={file.url}
+                              alt="Preview"
+                            />
+                          )}
                         </React.Fragment>
                       ))}
                     </div>
@@ -151,7 +191,7 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
               )
             }}
           </FileDrop>
-          <div className="text-sm text-red-500">{fields.file.errors}</div>
+          <div className="text-sm text-red-500">{fields.files.errors}</div>
         </Stack>
 
         {actionData?.result && (
