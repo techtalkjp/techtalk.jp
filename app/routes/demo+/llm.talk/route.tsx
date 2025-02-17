@@ -6,15 +6,7 @@ import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Form, useNavigation } from 'react-router'
 import { z } from 'zod'
-import {
-  Label,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '~/components/ui'
+import { Label } from '~/components/ui'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { Stack } from '~/components/ui/stack'
@@ -66,29 +58,26 @@ export async function action({ request }: Route.ActionArgs) {
   const userMessage = submission.value.input
   const history: { role: 'user' | 'assistant'; content: string }[] =
     submission.value.history
-  console.log(submission.value)
 
   const systemPrompt = `
 あなたはユーザからの問い合わせの内容をまとめるAIアシスタントです。
-ユーザーは、問い合わせの内容のほか、名前、メールアドレス、電話番号、DMを受け取ることに同意するかどうかを提供する必要があります。
+ユーザーは、問い合わせの内容のほか、名前、Eメール、電話番号、DMを受け取ることに同意するかどうかを提供する必要があります。
 
 ユーザーはこれまで、以下のフィールドを提供しています。:
 - [${submission.value.state?.inquiry ? 'x' : ''}] 問い合わせの内容
 - [${submission.value.state?.name ? 'x' : ''}] 名前
-- [${submission.value.state?.email ? 'x' : ''}] Eメールアドレス
+- [${submission.value.state?.email ? 'x' : ''}] Eメール
 - [${submission.value.state?.phone ? 'x' : ''}] 電話番号
 - [${submission.value.state?.agreeToDM ? 'x' : ''}] DMを受け取ることに同意する
 
 不足しているフィールドをひとつづつ要求します。
-
 ユーザーが一部の情報を提供した場合は、これまでのフィールドと合わせたパラメータを出力しつつ、nextStep を \`input\` に設定して返します。
 すべてフィールドが入力済みであれば、nextStep を \`finish\` に設定して会話を終了します。
 
 出力はすべて日本語です。
 `
-  console.log('systemPrompt', { systemPrompt })
   const result = await generateObject({
-    model: google('gemini-2.0-flash-exp'),
+    model: google('gemini-2.0-pro-exp'),
     messages: [
       { role: 'system', content: systemPrompt },
       ...history,
@@ -177,52 +166,11 @@ export default function Chat({
 
       <Stack>
         <h3 className="font-medium">State</h3>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="border-r">Key</TableHead>
-              <TableHead>Value</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className="text-muted-foreground border-r font-medium">
-                問い合わせの内容
-              </TableCell>
-              <TableCell>{state.inquiry}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground border-r font-medium">
-                名前
-              </TableCell>
-              <TableCell>{state.name}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground border-r font-medium">
-                メールアドレス
-              </TableCell>
-              <TableCell>{state.email}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground border-r font-medium">
-                電話番号
-              </TableCell>
-              <TableCell>{state.phone}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground border-r font-medium">
-                DMを受け取ることに同意する
-              </TableCell>
-              <TableCell>
-                {state.agreeToDM === undefined
-                  ? ''
-                  : state.agreeToDM
-                    ? 'Yes'
-                    : 'No'}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        <div className="rounded-md bg-black p-4 text-sm text-slate-300">
+          <pre>
+            <code>{JSON.stringify(state, null, 2)}</code>
+          </pre>
+        </div>
       </Stack>
 
       <Stack>
