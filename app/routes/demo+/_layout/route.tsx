@@ -73,6 +73,11 @@ const demoPages: {
       title: 'Image and PDF Textize',
       ext: '/route.tsx',
     },
+    {
+      path: '/demo/llm/talk',
+      title: 'AI Chatbot',
+      ext: '/route.tsx',
+    },
   ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
 }
