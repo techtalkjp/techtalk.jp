@@ -1,12 +1,20 @@
 import { google } from '@ai-sdk/google'
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import { generateText, tool } from 'ai'
+import { generateObject } from 'ai'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Form, useNavigation } from 'react-router'
 import { z } from 'zod'
-import { Label } from '~/components/ui'
+import {
+  Label,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '~/components/ui'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { Stack } from '~/components/ui/stack'
@@ -22,13 +30,19 @@ const inquirySchema = z.object({
 
 const inputSchema = z.object({
   input: z.string(),
-  inquiry: inquirySchema.optional(),
+  state: inquirySchema.partial(),
   history: z.array(
     z.object({
       role: z.union([z.literal('user'), z.literal('assistant')]),
       content: z.string(),
     }),
   ),
+})
+
+const outputSchema = z.object({
+  answer: z.string(),
+  nextState: inquirySchema.partial(),
+  nextStep: z.union([z.literal('input'), z.literal('finish')]),
 })
 
 export const loader = () => {
@@ -52,79 +66,43 @@ export async function action({ request }: Route.ActionArgs) {
   const userMessage = submission.value.input
   const history: { role: 'user' | 'assistant'; content: string }[] =
     submission.value.history
+  console.log(submission.value)
 
   const systemPrompt = `
 あなたはユーザからの問い合わせの内容をまとめるAIアシスタントです。
 ユーザーは、問い合わせの内容のほか、名前、メールアドレス、電話番号、DMを受け取ることに同意するかどうかを提供する必要があります。
 
 ユーザーはこれまで、以下のフィールドを提供しています。:
-- [${submission.value.inquiry?.inquiry ? 'x' : ''}] 問い合わせの内容
-- [${submission.value.inquiry?.name ? 'x' : ''}] 名前
-- [${submission.value.inquiry?.email ? 'x' : ''}] Eメールアドレス
-- [${submission.value.inquiry?.phone ? 'x' : ''}] 電話番号
-- [${submission.value.inquiry?.agreeToDM ? 'x' : ''}] DMを受け取ることに同意する
+- [${submission.value.state?.inquiry ? 'x' : ''}] 問い合わせの内容
+- [${submission.value.state?.name ? 'x' : ''}] 名前
+- [${submission.value.state?.email ? 'x' : ''}] Eメールアドレス
+- [${submission.value.state?.phone ? 'x' : ''}] 電話番号
+- [${submission.value.state?.agreeToDM ? 'x' : ''}] DMを受け取ることに同意する
 
-不足しているフィールドをすべて要求します。
-ユーザーが一部の情報を提供した場合は、これまでのフィールドと合わせたパラメータで \`input()\`を呼び出します。
-すべてのフィールドが入力済みであれば、\`finish()\`を呼び出します。.
-ユーザーがすべての情報を提供した場合、会話を終了します。
+不足しているフィールドをひとつづつ要求します。
+
+ユーザーが一部の情報を提供した場合は、これまでのフィールドと合わせたパラメータを出力しつつ、nextStep を \`input\` に設定して返します。
+すべてフィールドが入力済みであれば、nextStep を \`finish\` に設定して会話を終了します。
 
 出力はすべて日本語です。
 `
-  const result = await generateText({
+  console.log('systemPrompt', { systemPrompt })
+  const result = await generateObject({
     model: google('gemini-2.0-flash-exp'),
     messages: [
       { role: 'system', content: systemPrompt },
       ...history,
       { role: 'user', content: userMessage },
     ],
-    toolChoice: 'auto',
-    tools: {
-      input: tool({
-        description: 'update the inquiry',
-        parameters: z.object({ inquiry: inquirySchema.optional() }),
-        // biome-ignore lint/suspicious/useAwait: <explanation>
-        execute: async (params) => {
-          console.log('input', { params })
-          return { state: 'input', params }
-        },
-      }),
-      finish: tool({
-        description: 'Finish the conversation',
-        parameters: z.object({ inquiry: inquirySchema }),
-        // biome-ignore lint/suspicious/useAwait: <explanation>
-        execute: async (params) => {
-          console.log('finish', { params })
-          return { state: 'finish', params }
-        },
-      }),
-    },
+    schema: outputSchema,
   })
   history.push({ role: 'user', content: userMessage })
-  history.push({ role: 'assistant', content: result.text })
-
-  if (result.toolResults[0]?.result.state === 'input') {
-    return {
-      inquiry: result.toolResults[0].args,
-      answer: result.text,
-      history,
-      reply: submission.reply({ resetForm: true }),
-    }
-  }
-
-  if (result.toolResults[0]?.result.state === 'finish') {
-    result.toolResults[0].result.params
-    return {
-      inquiry: result.toolResults[0].args,
-      answer: result.text,
-      history,
-      reply: submission.reply({ resetForm: true }),
-    }
-  }
+  history.push({ role: 'assistant', content: result.object.answer })
 
   return {
-    inquiry: submission.value.inquiry,
-    answer: result.text,
+    answer: result.object.answer,
+    state: result.object.nextState,
+    nextStep: result.object.nextStep,
     history,
     reply: submission.reply({ resetForm: true }),
   }
@@ -141,6 +119,13 @@ export default function Chat({
   })
   const navigation = useNavigation()
   const answer = actionData?.answer || initialAnswer
+  const state = actionData?.state || {
+    inquiry: undefined,
+    name: undefined,
+    email: undefined,
+    phone: undefined,
+    agreeToDM: undefined,
+  }
   const history = actionData?.history || [
     { role: 'assistant', content: initialAnswer },
   ]
@@ -150,6 +135,17 @@ export default function Chat({
       <ReactMarkdown>{answer}</ReactMarkdown>
 
       <Form method="post" {...getFormProps(form)}>
+        {/* state */}
+        <input type="hidden" name="state.inquiry" value={state.inquiry} />
+        <input type="hidden" name="state.name" value={state.name} />
+        <input type="hidden" name="state.email" value={state.email} />
+        <input type="hidden" name="state.phone" value={state.phone} />
+        <input
+          type="hidden"
+          name="inquiry.agreeToDM"
+          value={state.agreeToDM ? 'on' : undefined}
+        />
+
         {/* history */}
         {history.map((m, idx) => (
           <React.Fragment key={`${idx}_${m.role}_${m.content}`}>
@@ -180,7 +176,57 @@ export default function Chat({
       </Form>
 
       <Stack>
-        <h3>履歴</h3>
+        <h3 className="font-medium">State</h3>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="border-r">Key</TableHead>
+              <TableHead>Value</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="text-muted-foreground border-r font-medium">
+                問い合わせの内容
+              </TableCell>
+              <TableCell>{state.inquiry}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-muted-foreground border-r font-medium">
+                名前
+              </TableCell>
+              <TableCell>{state.name}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-muted-foreground border-r font-medium">
+                メールアドレス
+              </TableCell>
+              <TableCell>{state.email}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-muted-foreground border-r font-medium">
+                電話番号
+              </TableCell>
+              <TableCell>{state.phone}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-muted-foreground border-r font-medium">
+                DMを受け取ることに同意する
+              </TableCell>
+              <TableCell>
+                {state.agreeToDM === undefined
+                  ? ''
+                  : state.agreeToDM
+                    ? 'Yes'
+                    : 'No'}
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </Stack>
+
+      <Stack>
+        <h3 className="font-medium">History</h3>
         <div className="grid grid-cols-[auto_1fr] gap-4 rounded-md border p-4">
           {history.map((m, i) => (
             <React.Fragment key={`${i}_${m.content}`}>
