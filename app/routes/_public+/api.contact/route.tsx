@@ -25,12 +25,7 @@ import {
   Textarea,
 } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
-import {
-  checkHoneypot,
-  checkTestEmail,
-  sendEmail,
-  sendSlack,
-} from './functions.server'
+import { checkHoneypot, sendEmail, sendSlack } from './functions.server'
 import { schema, type ContactFormData } from './types'
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
@@ -41,7 +36,6 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
   const result = await ok(submission.value)
     .andThen(checkHoneypot)
-    .andThen(checkTestEmail)
     .asyncAndThen((form) =>
       sendEmail(context.cloudflare.env.SENDGRID_API_KEY, form),
     )
@@ -50,10 +44,6 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   if (result.isErr()) {
     return match(result.error)
       .with({ type: 'HoneypotError' }, () => ({
-        lastResult: submission.reply({ resetForm: true }),
-        sent: submission.value,
-      }))
-      .with({ type: 'TestEmailError' }, () => ({
         lastResult: submission.reply({ resetForm: true }),
         sent: submission.value,
       }))
