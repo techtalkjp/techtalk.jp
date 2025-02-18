@@ -1,19 +1,19 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { type ActionFunction, createRoutesStub } from 'react-router'
+import { createRoutesStub } from 'react-router'
 import { expect, test } from 'vitest'
 import { action } from '~/routes/_public+/api.contact/route'
 import Component from './route'
 
-test.skip('test', async () => {
+test('test', async () => {
   // arrange
-  const RemixStub = createRoutesStub([
+  const Stub = createRoutesStub([
     { path: '/', Component },
-    { path: '/api/contact', action: action as ActionFunction },
+    { path: '/api/contact', action },
   ])
 
   // act
-  render(<RemixStub />)
+  render(<Stub />)
 
   expect(await screen.findByText("Let's talk")).toBeInTheDocument()
 

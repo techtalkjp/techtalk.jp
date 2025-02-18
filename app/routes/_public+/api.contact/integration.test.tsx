@@ -2,11 +2,11 @@ import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { HttpResponse, http } from 'msw'
 import { setupServer } from 'msw/node'
-import { type ActionFunction, createRoutesStub } from 'react-router'
+import { createRoutesStub } from 'react-router'
 import { expect, test } from 'vitest'
 import { ContactForm, action } from './route'
 
-test.skip('お問い合わせフォーム_メール送信成功', async () => {
+test('お問い合わせフォーム_メール送信成功', async () => {
   // mock serverの 設定
   const mockServer = setupServer(
     http.post('https://api.sendgrid.com/v3/mail/send', () =>
@@ -19,13 +19,23 @@ test.skip('お問い合わせフォーム_メール送信成功', async () => {
   mockServer.listen()
 
   // コンタクトフォームの action を useFetch で使うコンポーネント
-  const RemixStub = createRoutesStub([
+  const RemixStub = createRoutesStub(
+    [
+      {
+        path: '/api/contact',
+        Component: () => <ContactForm />,
+        action,
+      },
+    ],
     {
-      path: '/api/contact',
-      Component: () => <ContactForm />,
-      action: action as ActionFunction,
+      cloudflare: {
+        env: {
+          SENDGRID_API_KEY: 'TEST_SENDGRID_API_KEY',
+          SLACK_WEBHOOK: 'https://hooks.slack.com/services/TEST_SLACK_WEBHOOK',
+        },
+      },
     },
-  ])
+  )
   render(<RemixStub initialEntries={['/api/contact']} />)
 
   // フォーム入力
@@ -65,7 +75,7 @@ test.skip('お問い合わせフォーム_メール送信成功', async () => {
   mockServer.close()
 })
 
-test.skip('お問い合わせフォーム_メール送信エラー', async () => {
+test('お問い合わせフォーム_メール送信エラー', async () => {
   // mock serverの 設定
   const mockServer = setupServer(
     http.post('https://api.sendgrid.com/v3/mail/send', () =>
@@ -78,14 +88,24 @@ test.skip('お問い合わせフォーム_メール送信エラー', async () =>
   mockServer.listen()
 
   // コンタクトフォームの action を useFetch で使うコンポーネント
-  const RemixStub = createRoutesStub([
+  const Stub = createRoutesStub(
+    [
+      {
+        path: '/api/contact',
+        Component: () => <ContactForm />,
+        action,
+      },
+    ],
     {
-      path: '/api/contact',
-      Component: () => <ContactForm />,
-      action: action as ActionFunction,
+      cloudflare: {
+        env: {
+          SENDGRID_API_KEY: 'TEST_SENDGRID_API_KEY',
+          SLACK_WEBHOOK: 'https://hooks.slack.com/services/TEST_SLACK_WEBHOOK',
+        },
+      },
     },
-  ])
-  render(<RemixStub initialEntries={['/api/contact']} />)
+  )
+  render(<Stub initialEntries={['/api/contact']} />)
 
   // フォーム入力
   await userEvent.type(
