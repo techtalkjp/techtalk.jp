@@ -2,6 +2,7 @@ import { parseWithZod } from '@conform-to/zod'
 import {
   type ActionFunctionArgs,
   type HeadersFunction,
+  href,
   Link,
   type LoaderFunctionArgs,
 } from 'react-router'
@@ -83,9 +84,12 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
     await deleteSampleOrder(submission.value.id)
 
     // delete order
-    throw await redirectWithSuccess('/demo/db/sample_order?tab=list', {
-      message: 'Order deleted',
-    })
+    throw await redirectWithSuccess(
+      `${href('/demo/db/sample_order')}?tab=list`,
+      {
+        message: 'Order deleted',
+      },
+    )
   }
 }
 

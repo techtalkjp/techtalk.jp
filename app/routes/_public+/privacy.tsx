@@ -1,5 +1,5 @@
 import type { MetaFunction } from 'react-router'
-import { Link } from 'react-router'
+import { href, Link } from 'react-router'
 import Content from '~/assets/privacy.mdx'
 import { Button, Heading } from '~/components/ui'
 
@@ -19,7 +19,7 @@ export default function Privacy() {
 
         <div className="my-16 text-center">
           <Button asChild>
-            <Link to="/">トップに戻る</Link>
+            <Link to={href('/')}>トップに戻る</Link>
           </Button>
         </div>
       </div>

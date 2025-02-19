@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { href, Link } from 'react-router'
 import {
   Button,
   DropdownMenu,
@@ -21,7 +21,10 @@ const LanguageSwitcher = () => {
       <DropdownMenuContent>
         {locales.map((e) => (
           <DropdownMenuItem key={e} asChild>
-            <Link to={e === 'ja' ? '/' : `/${e}`} reloadDocument>
+            <Link
+              to={e === 'ja' ? href('/') : href('/*', { '*': e })}
+              reloadDocument
+            >
               {t(e, e)}
             </Link>
           </DropdownMenuItem>

@@ -1,5 +1,5 @@
 import { EllipsisVerticalIcon } from 'lucide-react'
-import { Link } from 'react-router'
+import { href, Link } from 'react-router'
 import {
   Button,
   DropdownMenu,
@@ -40,7 +40,13 @@ export function OrderList({ sampleOrders }: { sampleOrders: SampleOrder[] }) {
             <TableCell>
               <HStack>
                 <Button size="xs" variant="link" asChild>
-                  <Link to={`${order.id}`}>Details</Link>
+                  <Link
+                    to={href('/demo/db/sample_order/:id', {
+                      id: order.id,
+                    })}
+                  >
+                    Details
+                  </Link>
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

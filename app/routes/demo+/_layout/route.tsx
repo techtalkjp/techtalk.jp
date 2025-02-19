@@ -1,5 +1,5 @@
 import { ExternalLinkIcon } from 'lucide-react'
-import { Link, Outlet, useLocation } from 'react-router'
+import { href, Link, Outlet, useLocation } from 'react-router'
 import {
   Card,
   CardContent,
@@ -80,7 +80,7 @@ const demoPages: {
     },
   ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
-}
+} as const
 
 const useCurrentMenu = () => {
   const { pathname } = useLocation()
@@ -101,7 +101,7 @@ export default function DemoPage() {
   return (
     <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4">
       <header className="bg-card">
-        <Link to="/demo">
+        <Link to={href('/demo')}>
           <h1 className="mx-4 my-2 text-2xl font-bold">TechTalk demos</h1>
         </Link>
 
@@ -165,7 +165,7 @@ export default function DemoPage() {
 
       <footer className="px-4 py-2 text-center">
         Copyright&copy;{' '}
-        <Link to="/" className="hover:underline">
+        <Link to={href('/')} className="hover:underline">
           TechTalk Inc.
         </Link>
       </footer>
