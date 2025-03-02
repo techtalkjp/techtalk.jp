@@ -229,10 +229,8 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
               </Button>
             </HStack>
 
-            <ScrollArea className="h-[400px] w-full rounded-md border p-4">
-              <ReactMarkdown className="prose">
-                {actionData.result}
-              </ReactMarkdown>
+            <ScrollArea className="prose h-[400px] w-full rounded-md border p-4">
+              <ReactMarkdown>{actionData.result}</ReactMarkdown>
             </ScrollArea>
           </Stack>
         )}
