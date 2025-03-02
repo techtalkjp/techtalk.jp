@@ -1,7 +1,7 @@
 import { TextReveal } from '~/components/TextRevail'
 import { Heading } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
-import CoverPage from '~/routes/_public+/_index/components/CoverPage'
+import CoverPage from '~/routes/_public+/($lang)._index/components/CoverPage'
 
 export const HeroPage = () => {
   const { t } = useLocale()

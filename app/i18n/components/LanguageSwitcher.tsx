@@ -14,7 +14,7 @@ const LanguageSwitcher = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="xs" aria-label="Language" variant="outline">
+        <Button size="sm" aria-label="Language" variant="outline">
           {t(locale, locale)}
         </Button>
       </DropdownMenuTrigger>
@@ -22,7 +22,7 @@ const LanguageSwitcher = () => {
         {locales.map((e) => (
           <DropdownMenuItem key={e} asChild>
             <Link
-              to={e === 'ja' ? href('/') : href('/*', { '*': e })}
+              to={e === 'ja' ? href('/') : href('/:lang?', { lang: e })}
               reloadDocument
             >
               {t(e, e)}
