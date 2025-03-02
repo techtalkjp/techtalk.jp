@@ -1,7 +1,7 @@
 import { Heading, HStack } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
-import { BiographyPopover } from '~/routes/_public+/_index/components/BiographyPopover'
-import CoverPage from '~/routes/_public+/_index/components/CoverPage'
+import { BiographyPopover } from '~/routes/_public+/($lang)._index/components/BiographyPopover'
+import CoverPage from '~/routes/_public+/($lang)._index/components/CoverPage'
 
 export const AboutPage = ({ className }: React.ComponentProps<'div'>) => {
   const { t } = useLocale()

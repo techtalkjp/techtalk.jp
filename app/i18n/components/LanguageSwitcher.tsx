@@ -22,7 +22,7 @@ const LanguageSwitcher = () => {
         {locales.map((e) => (
           <DropdownMenuItem key={e} asChild>
             <Link
-              to={e === 'ja' ? href('/') : href('/*', { '*': e })}
+              to={e === 'ja' ? href('/') : href('/:lang?', { lang: e })}
               reloadDocument
             >
               {t(e, e)}

@@ -1,6 +1,6 @@
 import { Heading } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
-import CoverPage from '~/routes/_public+/_index/components/CoverPage'
+import CoverPage from '~/routes/_public+/($lang)._index/components/CoverPage'
 import { ContactForm } from '~/routes/_public+/api.contact/route'
 
 export const ContactPage = ({ className }: React.ComponentProps<'div'>) => {
