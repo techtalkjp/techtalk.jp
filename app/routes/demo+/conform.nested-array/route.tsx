@@ -214,7 +214,7 @@ export default function ConformNestedArrayDemo({
                       <TooltipTrigger asChild>
                         <Button
                           variant="outline"
-                          size="xs"
+                          size="sm"
                           {...form.remove.getButtonProps({
                             name: fields.persons.name,
                             index: index,
@@ -233,7 +233,7 @@ export default function ConformNestedArrayDemo({
         </Table>
 
         <Button
-          size="xs"
+          size="sm"
           variant="outline"
           disabled={persons.length >= fakePersons.length}
           {...form.insert.getButtonProps({

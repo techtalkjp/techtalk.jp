@@ -23,7 +23,7 @@ const NavItem = ({
 
   return (
     <Button
-      size="xs"
+      size="sm"
       className="text-white"
       variant="link"
       asChild

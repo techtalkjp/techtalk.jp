@@ -23,7 +23,7 @@ export const BiographyPopover = () => {
   return (
     <Popover open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <PopoverTrigger asChild>
-        <Button size="xs" variant="outline">
+        <Button size="sm" variant="outline">
           {t('about.biography', '代表略歴')}
         </Button>
       </PopoverTrigger>
@@ -46,7 +46,7 @@ export const BiographyPopover = () => {
               <Heading size="md">溝口浩二 coji</Heading>
               <HStack>
                 <Button
-                  size="xs"
+                  size="sm"
                   variant="default"
                   className="bg-twitter hover:bg-twitter/80 active:bg-twitter text-white"
                   asChild
@@ -63,7 +63,7 @@ export const BiographyPopover = () => {
                 </Button>
 
                 <Button
-                  size="xs"
+                  size="sm"
                   variant="outline"
                   className="bg-facebook hover:bg-facebook/80 active:bg-facebook text-white hover:text-white"
                   asChild
@@ -80,7 +80,7 @@ export const BiographyPopover = () => {
                 </Button>
 
                 <Button
-                  size="xs"
+                  size="sm"
                   variant="outline"
                   className="bg-github hover:bg-github/80 active:bg-github text-white hover:text-white"
                   asChild
@@ -102,7 +102,7 @@ export const BiographyPopover = () => {
           <HStack>
             <Button
               className="flex-1"
-              size="xs"
+              size="sm"
               variant={state === 'biography' ? 'default' : 'outline'}
               onClick={() => setState('biography')}
             >
@@ -110,7 +110,7 @@ export const BiographyPopover = () => {
             </Button>
             <Button
               className="flex-1"
-              size="xs"
+              size="sm"
               variant={state === 'articles' ? 'default' : 'outline'}
               onClick={() => setState('articles')}
             >

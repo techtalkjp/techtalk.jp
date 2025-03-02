@@ -199,12 +199,12 @@ export default function ShadcnUiPage({
         <HStack className="justify-end">
           <Button
             type="button"
-            size="xs"
+            size="sm"
             onClick={() => handleClickSetTestData()}
           >
             テストデータ入力
           </Button>
-          <Button size="xs" {...form.reset.getButtonProps()}>
+          <Button size="sm" {...form.reset.getButtonProps()}>
             リセット
           </Button>
         </HStack>
@@ -584,7 +584,7 @@ export default function ShadcnUiPage({
                 <Button
                   type="button"
                   variant="link"
-                  size="xs"
+                  size="sm"
                   onClick={() => {
                     form.update({
                       name: fields.f19_select.name,
@@ -636,7 +636,7 @@ export default function ShadcnUiPage({
                 <Button
                   type="button"
                   variant="link"
-                  size="xs"
+                  size="sm"
                   onClick={() => {
                     form.update({
                       name: fields.f20_selectWithHelper.name,

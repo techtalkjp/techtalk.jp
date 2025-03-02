@@ -39,7 +39,7 @@ export function OrderList({ sampleOrders }: { sampleOrders: SampleOrder[] }) {
             <TableCell>{order.country}</TableCell>
             <TableCell>
               <HStack>
-                <Button size="xs" variant="link" asChild>
+                <Button size="sm" variant="link" asChild>
                   <Link
                     to={href('/demo/db/sample_order/:id', {
                       id: order.id,
@@ -50,7 +50,7 @@ export function OrderList({ sampleOrders }: { sampleOrders: SampleOrder[] }) {
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" type="button" size="xs">
+                    <Button variant="ghost" type="button" size="sm">
                       <EllipsisVerticalIcon size={16} />
                     </Button>
                   </DropdownMenuTrigger>
