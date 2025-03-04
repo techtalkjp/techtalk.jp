@@ -19,13 +19,13 @@ binding = 'R2'
 bucket_name = 'techtalk'
 
 [[queues.producers]]
-binding = 'MAIL_QUEUE'
 queue = 'mail-processing'
+binding = 'MAIL_QUEUE'
 
 [[queues.consumers]]
 queue = 'mail-processing'
 max_batch_size = 10
-max_batch_timeout = 30
+max_batch_timeout = 5
 max_retries = 3
 dead_letter_queue = 'mail-processing-dlq'
 
