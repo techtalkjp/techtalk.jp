@@ -1,5 +1,5 @@
 import { fromPromise, type ResultAsync } from 'neverthrow'
-import type { ContactFormData } from '../types'
+import type { ContactFormData } from '~/routes/_public+/api.contact/types'
 
 type SendSlackError = { type: 'SendSlackError'; message: string }
 const sendSlackImpl = async (webhookUrl: string, data: ContactFormData) => {

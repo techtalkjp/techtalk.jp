@@ -32,6 +32,7 @@ test('お問い合わせフォーム_メール送信成功', async () => {
         env: {
           SENDGRID_API_KEY: 'TEST_SENDGRID_API_KEY',
           SLACK_WEBHOOK: 'https://hooks.slack.com/services/TEST_SLACK_WEBHOOK',
+          CONTACT_QUEUE: { send: () => {} },
         },
       },
     },
@@ -70,23 +71,9 @@ test('お問い合わせフォーム_メール送信成功', async () => {
       exact: false,
     }),
   ).toBeInTheDocument()
-
-  // mock server のクリーンアップ
-  mockServer.close()
 })
 
 test('お問い合わせフォーム_メール送信エラー', async () => {
-  // mock serverの 設定
-  const mockServer = setupServer(
-    http.post('https://api.sendgrid.com/v3/mail/send', () =>
-      HttpResponse.text('NG', { status: 500 }),
-    ),
-    http.post('https://hooks.slack.com/services/TEST_SLACK_WEBHOOK', () =>
-      HttpResponse.text('NG', { status: 500 }),
-    ),
-  )
-  mockServer.listen()
-
   // コンタクトフォームの action を useFetch で使うコンポーネント
   const Stub = createRoutesStub(
     [
@@ -101,6 +88,11 @@ test('お問い合わせフォーム_メール送信エラー', async () => {
         env: {
           SENDGRID_API_KEY: 'TEST_SENDGRID_API_KEY',
           SLACK_WEBHOOK: 'https://hooks.slack.com/services/TEST_SLACK_WEBHOOK',
+          CONTACT_QUEUE: {
+            send: () => {
+              throw new Error('NG')
+            },
+          },
         },
       },
     },
@@ -135,8 +127,6 @@ test('お問い合わせフォーム_メール送信エラー', async () => {
 
   // 送信完了の確認
   expect(
-    await screen.findByText('500 Internal Server Error: NG', { exact: false }),
+    await screen.findByText('Error: NG', { exact: false }),
   ).toBeInTheDocument()
-
-  mockServer.close()
 })
