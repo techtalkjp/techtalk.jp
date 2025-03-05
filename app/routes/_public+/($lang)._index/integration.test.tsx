@@ -1,7 +1,5 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { http, HttpResponse } from 'msw'
-import { setupServer } from 'msw/node'
 import { createRoutesStub } from 'react-router'
 import { expect, test } from 'vitest'
 import { action } from '~/routes/_public+/api.contact/route'
@@ -9,17 +7,6 @@ import Component from './route'
 
 test('test', async () => {
   // arrange
-  // mock serverの 設定
-  const mockServer = setupServer(
-    http.post('https://api.sendgrid.com/v3/mail/send', () =>
-      HttpResponse.text('ok', { status: 200 }),
-    ),
-    http.post('https://hooks.slack.com/services/TEST_SLACK_WEBHOOK', () =>
-      HttpResponse.text('ok', { status: 200 }),
-    ),
-  )
-  mockServer.listen()
-
   const Stub = createRoutesStub(
     [
       { path: '/', Component },
@@ -30,6 +17,7 @@ test('test', async () => {
         env: {
           SENDGRID_API_KEY: 'TEST_SENDGRID_API_KEY',
           SLACK_WEBHOOK: 'https://hooks.slack.com/services/TEST_SLACK_WEBHOOK',
+          CONTACT_QUEUE: { send: () => {} },
         },
       },
     },

@@ -25,7 +25,7 @@ import {
   Textarea,
 } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
-import { checkHoneypot, sendEmail, sendSlack } from './functions.server'
+import { checkHoneypot, enqueue } from './functions.server'
 import { schema, type ContactFormData } from './types'
 
 export const action = async ({ request, context }: ActionFunctionArgs) => {
@@ -36,10 +36,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
   const result = await ok(submission.value)
     .andThen(checkHoneypot)
-    .asyncAndThen((form) =>
-      sendEmail(context.cloudflare.env.SENDGRID_API_KEY, form),
-    )
-    .andThen((form) => sendSlack(context.cloudflare.env.SLACK_WEBHOOK, form))
+    .asyncAndThen((form) => enqueue({ context, data: form }))
 
   if (result.isErr()) {
     return match(result.error)
@@ -47,11 +44,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
         lastResult: submission.reply({ resetForm: true }),
         sent: submission.value,
       }))
-      .with({ type: 'SendEmailError' }, (val) => ({
-        lastResult: submission.reply({ formErrors: [val.message] }),
-        sent: null,
-      }))
-      .with({ type: 'SendSlackError' }, (val) => ({
+      .with({ type: 'EnqueueError' }, (val) => ({
         lastResult: submission.reply({ formErrors: [val.message] }),
         sent: null,
       }))

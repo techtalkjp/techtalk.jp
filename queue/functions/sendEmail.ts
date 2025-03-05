@@ -1,5 +1,5 @@
 import { fromPromise, type ResultAsync } from 'neverthrow'
-import type { ContactFormData } from '../types'
+import type { ContactFormData } from '~/routes/_public+/api.contact/types'
 
 type SendEmailError = { type: 'SendEmailError'; message: string }
 const sendEmailImpl = async (apiKey: string, form: ContactFormData) => {

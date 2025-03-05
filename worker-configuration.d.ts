@@ -9,6 +9,6 @@ interface Env {
 	ENV: string;
 	GOOGLE_GENERATIVE_AI_API_KEY: string;
 	R2: R2Bucket;
-	MAIL_QUEUE: Queue;
+	CONTACT_QUEUE: Queue;
 	ASSETS: Fetcher;
 }
