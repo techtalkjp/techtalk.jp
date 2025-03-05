@@ -2,11 +2,11 @@ import { match } from 'ts-pattern'
 import type { ContactFormData } from '~/routes/_public+/api.contact/types'
 import { contactJob } from './contact'
 
-export const queue = (batch: MessageBatch<unknown>, env: Env): void => {
-  match(batch.queue)
-    .with('techtalk-contact-email', () => {
+export const queue = async (batch: MessageBatch<unknown>, env: Env) => {
+  await match(batch.queue)
+    .with('techtalk-contact-email', async () => {
       for (const message of batch.messages) {
-        contactJob((message as unknown as Message<ContactFormData>).body, env)
+        await contactJob((message as Message<ContactFormData>).body, env)
       }
     })
     .otherwise(() => {

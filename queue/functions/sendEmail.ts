@@ -1,8 +1,6 @@
-import { fromPromise, type ResultAsync } from 'neverthrow'
 import type { ContactFormData } from '~/routes/_public+/api.contact/types'
 
-type SendEmailError = { type: 'SendEmailError'; message: string }
-const sendEmailImpl = async (apiKey: string, form: ContactFormData) => {
+export const sendEmail = async (apiKey: string, form: ContactFormData) => {
   const sendForm = { ...form }
   sendForm.message = sendForm.message.replace(/\r\n/g, '<br />')
   sendForm.message = sendForm.message.replace(/(\n|\r)/g, '<br />')
@@ -35,14 +33,4 @@ const sendEmailImpl = async (apiKey: string, form: ContactFormData) => {
     )
   }
   return form
-}
-
-export const sendEmail = (
-  apiKey: string,
-  form: ContactFormData,
-): ResultAsync<ContactFormData, SendEmailError> => {
-  return fromPromise(sendEmailImpl(apiKey, form), (e) => ({
-    type: 'SendEmailError',
-    message: String(e),
-  }))
 }
