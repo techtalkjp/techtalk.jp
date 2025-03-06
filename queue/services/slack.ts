@@ -1,4 +1,5 @@
-import type { ContactFormData } from '~/routes/_public+/api.contact/types'
+import { err, ok } from 'neverthrow'
+import type { ContactFormData } from '../types'
 
 export const sendSlack = async (webhookUrl: string, data: ContactFormData) => {
   const response = await fetch(webhookUrl, {
@@ -6,9 +7,9 @@ export const sendSlack = async (webhookUrl: string, data: ContactFormData) => {
     body: JSON.stringify({ data }),
   })
   if (!response.ok) {
-    throw new Error(
+    return err(
       `Failed to send Slack notification: ${response.status} ${response.statusText}`,
     )
   }
-  return data
+  return ok()
 }

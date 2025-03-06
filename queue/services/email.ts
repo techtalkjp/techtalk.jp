@@ -1,4 +1,5 @@
-import type { ContactFormData } from '~/routes/_public+/api.contact/types'
+import { err, ok } from 'neverthrow'
+import type { ContactFormData } from '../types'
 
 export const sendEmail = async (apiKey: string, form: ContactFormData) => {
   const sendForm = { ...form }
@@ -28,9 +29,9 @@ export const sendEmail = async (apiKey: string, form: ContactFormData) => {
     body: JSON.stringify(payload),
   })
   if (!response.ok) {
-    throw new Error(
+    return err(
       `${response.status} ${response.statusText}: ${await response.text()}`,
     )
   }
-  return form
+  return ok()
 }

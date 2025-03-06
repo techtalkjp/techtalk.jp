@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern'
-import type { ContactFormData } from '~/routes/_public+/api.contact/types'
-import { contactJob } from './contact'
+import { contactJob } from './jobs/contact'
+import type { ContactFormData } from './types'
 
 export const queue = async (batch: MessageBatch<unknown>, env: Env) => {
   await match(batch.queue)
