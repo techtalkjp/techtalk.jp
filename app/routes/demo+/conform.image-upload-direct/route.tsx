@@ -116,7 +116,7 @@ export default function ImageUploadDemoPage({
           <Button
             type="submit"
             name="intent"
-            value="upload"
+            value="process"
             isLoading={navigation.state === 'submitting'}
           >
             Upload
@@ -170,7 +170,7 @@ export default function ImageUploadDemoPage({
                       <AlertDialogTrigger asChild>
                         <Button
                           variant="link"
-                          className="text-sm"
+                          className="cursor-pointer text-sm"
                           type="button"
                         >
                           削除
