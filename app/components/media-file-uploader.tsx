@@ -1,5 +1,6 @@
 import { CloudUploadIcon, XIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { href } from 'react-router'
 import type { action } from '~/routes/resources+/upload-urls/route'
 import { FileDrop } from './file-drop'
 import { Button, HStack, Progress, Stack } from './ui'
@@ -89,9 +90,9 @@ export const MediaFileUploader = ({
 
     try {
       // アップロードURLを取得
-      const response = await fetch('/resources/upload-urls', {
+      const response = await fetch(href('/resources/upload-urls'), {
         method: 'POST',
-        headers: { ContentType: 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           fileNames: files.map((file) => file.name),
         }),
