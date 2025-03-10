@@ -23,27 +23,7 @@ export const createMinioService = (url: string) => {
   if (!config.accessKey || !config.secretKey) {
     throw new Error('Invalid S3 URL')
   }
-  console.log({ config })
   const minioClient = new Minio.Client(config)
-
-  const list = (prefix?: string, recursive?: boolean, startAfter?: string) => {
-    return new Promise<Minio.BucketItem[]>((resolve, reject) => {
-      const objects: Minio.BucketItem[] = []
-      const stream = minioClient.listObjectsV2(
-        bucket,
-        prefix,
-        recursive,
-        startAfter,
-      )
-      stream.on('data', (obj) => objects.push(obj))
-      stream.on('error', (err) => reject(err))
-      stream.on('end', () => resolve(objects))
-    })
-  }
-
-  const remove = async (key: string) => {
-    return await minioClient.removeObject(bucket, key)
-  }
 
   const generatePresignedUrl = async (
     key: string,
@@ -67,5 +47,5 @@ export const createMinioService = (url: string) => {
     })
   }
 
-  return { list, remove, generatePresignedUrl, uploadUrl }
+  return { generatePresignedUrl, uploadUrl }
 }

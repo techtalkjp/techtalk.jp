@@ -26,7 +26,6 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import { createMinioService } from '~/services/minio.server'
 import type { Route } from './+types/route'
 
 const schema = z.discriminatedUnion('intent', [
@@ -41,17 +40,20 @@ const schema = z.discriminatedUnion('intent', [
 ])
 
 export const loader = async ({ context }: Route.LoaderArgs) => {
-  const minio = createMinioService(context.cloudflare.env.TECHTALK_S3_URL)
-  const objects = await minio.list('uploads/')
-  const images = []
+  const { objects } = await context.cloudflare.env.R2.list({
+    include: ['customMetadata'],
+  })
 
+  const images = []
   for (const obj of objects) {
     images.push({
-      key: obj.name ?? 'no key',
+      key: obj.key ?? 'no key',
       type: 'image',
-      url: await minio.generatePresignedUrl(obj.name ?? '', 'GET', 3600),
-      uploaded: obj.lastModified,
+      url: `${context.cloudflare.env.IMAGE_ENDPOINT_URL}${obj.key}`,
+      uploaded: obj.uploaded,
       size: obj.size,
+      httpMetadata: obj.httpMetadata,
+      customMetadata: obj.customMetadata,
     })
   }
   return { images }
@@ -74,8 +76,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'delete') {
-    const minio = createMinioService(context.cloudflare.env.TECHTALK_S3_URL)
-    await minio.remove(submission.value.key)
+    await context.cloudflare.env.R2.delete(submission.value.key)
     return dataWithSuccess(
       {
         lastResult: submission.reply({ resetForm: true }),
@@ -121,8 +122,6 @@ export default function ImageUploadDemoPage({
           >
             Upload
           </Button>
-
-          <div>{JSON.stringify(form.errors)}</div>
         </Stack>
       </Form>
 
@@ -156,7 +155,9 @@ export default function ImageUploadDemoPage({
                       </a>
                     </div>
                   </TableCell>
-                  <TableCell>{image.type}</TableCell>
+                  <TableCell>
+                    {image.type} {JSON.stringify(image.httpMetadata)}
+                  </TableCell>
                   <TableCell>
                     {dayjs(image.uploaded).format('YYYY-MM-DD HH:mm')}
                   </TableCell>
