@@ -205,7 +205,7 @@ export const MediaFileUploader = ({
             index
           }`}
           type="hidden"
-          name={`${name}[${index}]]}`}
+          name={`${name}[${index}]}`}
           value={JSON.stringify({
             fileKey: status.fileKey,
             fileName: status.file.name,
