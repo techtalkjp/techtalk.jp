@@ -17,11 +17,6 @@ interface FileUploadStatus {
   error?: string
   fileKey?: string
   mediaType: 'image' | 'video' | 'audio'
-  metadata?: {
-    width?: number
-    height?: number
-    duration?: number
-  }
 }
 
 const acceptMaps = {
@@ -57,12 +52,13 @@ export const MediaFileUploader = ({
     if (onChange && completedFiles.length > 0) {
       const uploadedFiles: UploadedFile[] = completedFiles
         .filter((f) => f.fileKey) // key があるもののみ
-        .map((f) => ({
-          fileKey: f.fileKey!,
-          fileName: f.file.name,
-          mediaType: f.mediaType,
-          metadata: f.metadata,
-        }))
+        .map(
+          (f) =>
+            ({
+              fileKey: f.fileKey!,
+              fileName: f.file.name,
+            }) satisfies UploadedFile,
+        )
       onChange(uploadedFiles)
     }
   }, [fileStatuses, onChange])
@@ -210,8 +206,6 @@ export const MediaFileUploader = ({
           value={JSON.stringify({
             fileKey: status.fileKey,
             fileName: status.file.name,
-            mediaType: status.mediaType,
-            metadata: status.metadata ?? {},
           })}
         />
       ))
