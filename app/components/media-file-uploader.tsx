@@ -298,6 +298,8 @@ export const MediaFileUploader = ({
                 すべてクリア
               </Button>
             )}
+
+            {generateHiddenFields()}
           </Stack>
         </Stack>
       )}
