@@ -6,10 +6,19 @@ import * as Minio from 'minio'
  * @returns
  */
 export const createMinioService = (url: string) => {
-  const s3Url = new URL(url)
+  let s3Url: URL
 
-  console.log(s3Url)
+  try {
+    s3Url = new URL(url)
+  } catch (e) {
+    throw new Error('Invalid S3 URL')
+  }
+
   const bucket = s3Url.pathname.replace(/^\/+/, '')
+  if (bucket === '') {
+    throw new Error('Missing bucket name in S3 URL path')
+  }
+
   const config = {
     endPoint: s3Url.hostname,
     port: s3Url.port !== '' ? Number(s3Url.port) : 443,
@@ -21,7 +30,7 @@ export const createMinioService = (url: string) => {
   }
 
   if (!config.accessKey || !config.secretKey) {
-    throw new Error('Invalid S3 URL')
+    throw new Error('Missing access key or secret key in S3 URL')
   }
   const minioClient = new Minio.Client(config)
 
