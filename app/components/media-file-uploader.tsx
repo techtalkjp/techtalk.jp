@@ -222,6 +222,7 @@ export const MediaFileUploader = ({
         accepts={accepts}
         maxSize={maxSize}
         onSelect={handleFilesSelected}
+        multiple
       >
         {({ fileData, removeFile }) => {
           return (
