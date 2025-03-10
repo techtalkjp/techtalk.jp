@@ -39,6 +39,11 @@ const demoPages: {
       ext: '/route.tsx',
     },
     {
+      path: '/demo/conform/image-upload-direct',
+      title: 'Cloudflare R2 ダイレクトアップロード',
+      ext: '/route.tsx',
+    },
+    {
       path: '/demo/conform/nested-array',
       title: 'オブジェクトの動的オブジェクト配列フォーム',
       ext: '/route.tsx',
