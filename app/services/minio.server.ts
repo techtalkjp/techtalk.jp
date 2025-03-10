@@ -8,10 +8,11 @@ import * as Minio from 'minio'
 export const createMinioService = (url: string) => {
   const s3Url = new URL(url)
 
+  console.log(s3Url)
   const bucket = s3Url.pathname.replace(/^\/+/, '')
   const config = {
     endPoint: s3Url.hostname,
-    port: Number(s3Url.port) ?? 443,
+    port: s3Url.port !== '' ? Number(s3Url.port) : 443,
     useSSL: s3Url.searchParams.get('useSSL') === 'true',
     region: s3Url.searchParams.get('region') ?? undefined,
     accessKey: s3Url.username,
@@ -22,13 +23,13 @@ export const createMinioService = (url: string) => {
   if (!config.accessKey || !config.secretKey) {
     throw new Error('Invalid S3 URL')
   }
-
+  console.log({ config })
   const minioClient = new Minio.Client(config)
 
   const list = (prefix?: string, recursive?: boolean, startAfter?: string) => {
-    return new Promise<Minio.BucketItemWithMetadata[]>((resolve, reject) => {
-      const objects: Minio.BucketItemWithMetadata[] = []
-      const stream = minioClient.extensions.listObjectsV2WithMetadata(
+    return new Promise<Minio.BucketItem[]>((resolve, reject) => {
+      const objects: Minio.BucketItem[] = []
+      const stream = minioClient.listObjectsV2(
         bucket,
         prefix,
         recursive,
