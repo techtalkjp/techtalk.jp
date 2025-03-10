@@ -8,6 +8,7 @@ interface Env {
 	IMAGE_ENDPOINT_URL: string;
 	ENV: string;
 	GOOGLE_GENERATIVE_AI_API_KEY: string;
+	TECHTALK_S3_URL: string;
 	R2: R2Bucket;
 	CONTACT_QUEUE: Queue;
 	ASSETS: Fetcher;
