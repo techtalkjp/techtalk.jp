@@ -24,6 +24,26 @@ export const createMinioService = (url: string) => {
   }
 
   const minioClient = new Minio.Client(config)
+
+  const list = (prefix?: string, recursive?: boolean, startAfter?: string) => {
+    return new Promise<Minio.BucketItemWithMetadata[]>((resolve, reject) => {
+      const objects: Minio.BucketItemWithMetadata[] = []
+      const stream = minioClient.extensions.listObjectsV2WithMetadata(
+        bucket,
+        prefix,
+        recursive,
+        startAfter,
+      )
+      stream.on('data', (obj) => objects.push(obj))
+      stream.on('error', (err) => reject(err))
+      stream.on('end', () => resolve(objects))
+    })
+  }
+
+  const remove = async (key: string) => {
+    return await minioClient.removeObject(bucket, key)
+  }
+
   const generatePresignedUrl = async (
     key: string,
     method: 'GET' | 'PUT',
@@ -41,10 +61,10 @@ export const createMinioService = (url: string) => {
 
   const uploadUrl = async (key: string, expires = 3600) => {
     return await generatePresignedUrl(key, 'PUT', expires, {
-      status: 'unprocessed',
-      'upload-time': new Date().toISOString(),
+      'X-Amz-Meta-Status': 'unprocessed',
+      'X-Amz-Meta-Upload-Time': new Date().toISOString(),
     })
   }
 
-  return { generatePresignedUrl, uploadUrl }
+  return { list, remove, generatePresignedUrl, uploadUrl }
 }

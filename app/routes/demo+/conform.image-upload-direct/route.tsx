@@ -1,18 +1,10 @@
 import { getFormProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import dayjs from 'dayjs'
-import { EllipsisIcon } from 'lucide-react'
-import {
-  type ActionFunctionArgs,
-  Form,
-  type LoaderFunctionArgs,
-  useNavigation,
-  useSubmit,
-} from 'react-router'
+import { Form, useFetcher, useNavigation } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
-import { toast } from 'sonner'
 import { z } from 'zod'
-import { MediaFileDropInput } from '~/components/media-file-drop-input'
+import { MediaFileUploader } from '~/components/media-file-uploader'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,6 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
+import { createMinioService } from '~/services/minio.server'
 import type { Route } from './+types/route'
 
 const schema = z.discriminatedUnion('intent', [
@@ -47,23 +40,24 @@ const schema = z.discriminatedUnion('intent', [
   }),
 ])
 
-export const loader = async ({ context }: LoaderFunctionArgs) => {
-  const { objects } = await context.cloudflare.env.R2.list({
-    include: ['httpMetadata'],
-  })
+export const loader = async ({ context }: Route.LoaderArgs) => {
+  const minio = createMinioService(context.cloudflare.env.TECHTALK_S3_URL)
+  const objects = await minio.list('uploads/')
+  const images = []
 
-  console.log(objects.map((o) => o.httpMetadata))
-  const images = objects.map((obj) => ({
-    key: obj.key,
-    type: obj.httpMetadata?.contentType,
-    url: `${context.cloudflare.env.IMAGE_ENDPOINT_URL}${obj.key}`,
-    uploaded: obj.uploaded,
-    size: obj.size,
-  }))
+  for (const obj of objects) {
+    images.push({
+      key: obj.name ?? 'no key',
+      type: 'image',
+      url: await minio.generatePresignedUrl(obj.name ?? '', 'GET', 3600),
+      uploaded: obj.lastModified,
+      size: obj.size,
+    })
+  }
   return { images }
 }
 
-export const action = async ({ request, context }: ActionFunctionArgs) => {
+export const action = async ({ request, context }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
@@ -80,7 +74,8 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   }
 
   if (submission.value.intent === 'delete') {
-    await context.cloudflare.env.R2.delete(submission.value.key)
+    const minio = createMinioService(context.cloudflare.env.TECHTALK_S3_URL)
+    await minio.remove(submission.value.key)
     return dataWithSuccess(
       {
         lastResult: submission.reply({ resetForm: true }),
@@ -101,69 +96,8 @@ export default function ImageUploadDemoPage({
   const [form] = useForm({
     lastResult: actionData?.lastResult,
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
-    onSubmit: async (event, { formData }) => {
-      toast.info('onSubmit')
-      event.preventDefault()
-
-      const files = formData.getAll('file') as File[]
-      const response = await fetch('/resources/upload-urls', {
-        method: 'POST',
-        body: JSON.stringify({ fileNames: files.map((f) => f.name) }),
-      })
-      const { uploadUrls } = (await response.json()) as {
-        id: string
-        uploadUrls: { fileName: string; uploadUrl: string; fileKey: string }[]
-      }
-
-      const uploadPromises: Promise<string>[] = files.map((file, index) => {
-        const { uploadUrl, fileKey } = uploadUrls[index]!
-        const xhr = new XMLHttpRequest()
-        xhr.upload.addEventListener('progress', (event) => {
-          if (event.lengthComputable) {
-            const percentComplete = Math.round(
-              (event.loaded / event.total) * 100,
-            )
-            console.log(file.name, percentComplete)
-          }
-        })
-
-        const promise = new Promise<string>((resolve, reject) => {
-          xhr.open('PUT', uploadUrl)
-          xhr.onload = () => {
-            if (xhr.status === 200) {
-              resolve(fileKey)
-            } else {
-              reject(new Error(`Upload failed: ${xhr.statusText}`))
-            }
-          }
-          xhr.onerror = () => reject(new Error('Network error'))
-          xhr.send(file)
-        })
-
-        return promise
-      })
-
-      // アップロード完了待ち
-      try {
-        const keys = await Promise.all(uploadPromises)
-        console.log('upload completed', uploadPromises)
-
-        //        setFileKeys(keys)
-        //        setUploadComplete(true)
-
-        // 3. Remixのフォーム送信でジョブ登録
-        //const formData = new FormData(e.target)
-        //        formData.append('fileKeys', JSON.stringify(keys))
-
-        //        submit(formData, { method: 'post' })
-      } catch (error) {
-        console.error('Upload error:', error)
-        // エラー処理
-      }
-    },
   })
-
-  const submit = useSubmit()
+  const deleteFetcher = useFetcher()
 
   return (
     <Stack gap="lg">
@@ -173,22 +107,22 @@ export default function ImageUploadDemoPage({
         {...getFormProps(form)}
         className="w-full"
       >
-        <input type="hidden" name="intent" value="upload" />
         <Stack align="stretch">
           <FormField>
             <Label htmlFor="file">Image Files</Label>
-            <MediaFileDropInput
-              name="file"
-              mediaType="image"
-              onSelect={(files) => {
-                console.log(files)
-              }}
-            />
+            <MediaFileUploader name="file" mediaType="image" />
           </FormField>
 
-          <Button type="submit" isLoading={navigation.state === 'submitting'}>
+          <Button
+            type="submit"
+            name="intent"
+            value="upload"
+            isLoading={navigation.state === 'submitting'}
+          >
             Upload
           </Button>
+
+          <div>{JSON.stringify(form.errors)}</div>
         </Stack>
       </Form>
 
@@ -234,29 +168,31 @@ export default function ImageUploadDemoPage({
                   <TableCell>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="icon" type="button">
-                          <EllipsisIcon className="h-4 w-4" />
-                          <span className="sr-only">Open menu</span>
+                        <Button
+                          variant="link"
+                          className="text-sm"
+                          type="button"
+                        >
+                          削除
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle>
-                            Are you absolutely sure?
+                            本当に削除しますか？
                           </AlertDialogTitle>
                           <AlertDialogDescription>
-                            This action cannot be undone. This will permanently
-                            delete the image from the server.
+                            このアクションは元に戻せません。サーバーから画像を永久に削除します。
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogCancel>キャンセル</AlertDialogCancel>
                           <AlertDialogAction
                             onClick={() => {
                               const formData = new FormData()
                               formData.set('key', image.key)
                               formData.set('intent', 'delete')
-                              submit(formData, { method: 'POST' })
+                              deleteFetcher.submit(formData, { method: 'POST' })
                             }}
                           >
                             削除
