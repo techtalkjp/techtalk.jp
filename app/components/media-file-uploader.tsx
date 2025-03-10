@@ -1,18 +1,12 @@
-import { XIcon } from 'lucide-react'
+import { CloudUploadIcon, XIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import type { action } from '~/routes/resources+/upload-urls/route'
-import { MediaFileDropInput } from './media-file-drop-input'
+import { FileDrop } from './file-drop'
 import { Button, HStack, Progress, Stack } from './ui'
 
 export interface UploadedFile {
   fileKey: string
   fileName: string
-  mediaType: 'image' | 'video' | 'audio'
-  metadata?: {
-    width?: number
-    height?: number
-    duration?: number
-  }
 }
 
 interface FileUploadStatus {
@@ -27,6 +21,12 @@ interface FileUploadStatus {
     height?: number
     duration?: number
   }
+}
+
+const acceptMaps = {
+  image: ['.png', '.jpg', '.jpeg', '.gif', '.webp'],
+  video: ['.mp4', '.webm'],
+  audio: ['.mp3', '.ogg', '.wav', '.m4a', '.aac', '.flac'],
 }
 
 export const MediaFileUploader = ({
@@ -181,26 +181,6 @@ export const MediaFileUploader = ({
     }
   }
 
-  // メタデータ(画像サイズなど)が準備できたときの処理
-  const handleMetadataReady = ({
-    file,
-    mediaType,
-    metadata,
-  }: {
-    file: File
-    mediaType: 'image' | 'video' | 'audio'
-    metadata: {
-      width?: number
-      height?: number
-      duration?: number
-    }
-  }) =>
-    setFileStatuses((prev) =>
-      prev.map((status) =>
-        status.file === file ? { ...status, metadata, mediaType } : status,
-      ),
-    )
-
   // ファイルの削除
   const removeFile = (index: number) => {
     setFileStatuses((prev) => prev.filter((_, i) => i !== index))
@@ -236,22 +216,42 @@ export const MediaFileUploader = ({
       ))
   }
 
+  const accepts = Array.isArray(mediaType)
+    ? mediaType.flatMap((t) => acceptMaps[t])
+    : acceptMaps[mediaType]
+
   return (
-    <div className="w-full">
-      <MediaFileDropInput
+    <div className="w-full cursor-pointer rounded-md border p-4">
+      <FileDrop
         id={id}
-        mediaType={mediaType}
+        accepts={accepts}
         maxSize={maxSize}
         onSelect={handleFilesSelected}
-        onMetadataReady={handleMetadataReady}
-      />
+      >
+        {({ fileData, removeFile }) => {
+          return (
+            <div className="flex flex-col items-center gap-2 text-center">
+              <div className="max-h-96 overflow-auto">
+                {fileData.length === 0 && (
+                  <Stack>
+                    <CloudUploadIcon className="stroke-muted-foreground mx-auto size-6" />
+                    <p className="text-muted-foreground text-sm">
+                      ファイルをここにドロップ
+                    </p>
+                  </Stack>
+                )}
+              </div>
+            </div>
+          )
+        }}
+      </FileDrop>
 
       {fileStatuses.length > 0 && (
         <Stack>
           <h3 className="text-sm font-medium">アップロード状況</h3>
           <Stack>
             {fileStatuses.map((fileStatus, index) => (
-              <li
+              <div
                 key={`${fileStatus.file.name}`}
                 className="rounded border p-2"
               >
@@ -272,17 +272,23 @@ export const MediaFileUploader = ({
                   {fileStatus.status === 'uploading' ? (
                     <Stack>
                       <Progress value={fileStatus.progress} />
-                      <span>{fileStatus.progress}%</span>
+                      <span className="text-muted-foreground text-xs">
+                        {fileStatus.progress}%
+                      </span>
                     </Stack>
                   ) : fileStatus.status === 'completed' ? (
-                    <span>完了</span>
+                    <span className="text-xs text-green-600">完了</span>
                   ) : fileStatus.status === 'error' ? (
-                    <span>エラー: {fileStatus.error}</span>
+                    <span className="text-xs text-red-600">
+                      エラー: {fileStatus.error}
+                    </span>
                   ) : (
-                    <span>準備中</span>
+                    <span className="text-muted-foreground text-xs">
+                      準備中
+                    </span>
                   )}
                 </div>
-              </li>
+              </div>
             ))}
 
             {fileStatuses.length > 0 && (
