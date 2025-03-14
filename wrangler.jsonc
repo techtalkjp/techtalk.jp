@@ -3,7 +3,10 @@
   "name": "techtalkjp",
   "main": "./server.ts",
   "compatibility_date": "2025-03-02",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat",
+    "nodejs_compat_nodejs_compat_populate_process_env"
+  ],
   "assets": {
     "directory": "./build/client",
     "binding": "ASSETS"

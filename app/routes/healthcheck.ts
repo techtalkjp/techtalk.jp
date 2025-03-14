@@ -1,9 +1,8 @@
 import { sql } from 'kysely'
-import { getDb } from '~/services/db.server'
+import { db } from '~/services/db.server'
 import type { Route } from './+types/healthcheck'
 
 export const loader = async ({ context }: Route.LoaderArgs) => {
-  const db = getDb()
   if (!db) {
     throw new Error('Database connection not available')
   }
