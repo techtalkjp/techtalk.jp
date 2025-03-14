@@ -117,6 +117,7 @@
     "vitest": "3.0.8",
     "wrangler": "4.0.0"
   },
+  "packageManager": "pnpm@10.6.2",
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
