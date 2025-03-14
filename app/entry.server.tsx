@@ -2,6 +2,9 @@ import { isbot } from 'isbot'
 import { renderToReadableStream } from 'react-dom/server'
 import type { AppLoadContext, EntryContext } from 'react-router'
 import { ServerRouter } from 'react-router'
+import { init } from './services/env.server'
+
+init()
 
 export default async function handleRequest(
   request: Request,
