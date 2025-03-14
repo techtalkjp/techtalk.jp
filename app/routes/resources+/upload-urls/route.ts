@@ -7,8 +7,6 @@ const schema = z.object({
 })
 
 export async function action({ request, context }: Route.ActionArgs) {
-  console.log(context.env)
-  console.log(process.env.TECHTALK_S3_URL)
   const { fileNames } = schema.parse(await request.json())
   const { uploadUrl } = createMinioService(process.env.TECHTALK_S3_URL!)
   const id = crypto.randomUUID()
