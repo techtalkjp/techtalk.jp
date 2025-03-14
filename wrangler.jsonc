@@ -2,10 +2,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "techtalkjp",
   "main": "./server.ts",
-  "compatibility_date": "2025-03-02",
+  "compatibility_date": "2025-04-01",
   "compatibility_flags": [
     "nodejs_compat",
-    "nodejs_compat_nodejs_compat_populate_process_env"
+    "nodejs_compat_populate_process_env"
   ],
   "assets": {
     "directory": "./build/client",
