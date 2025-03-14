@@ -1,23 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
-import { HttpResponse, http } from 'msw'
-import { setupServer } from 'msw/node'
 import { createRoutesStub } from 'react-router'
 import { expect, test } from 'vitest'
 import { ContactForm, action } from './route'
 
 test('お問い合わせフォーム_メール送信成功', async () => {
-  // mock serverの 設定
-  const mockServer = setupServer(
-    http.post('https://api.sendgrid.com/v3/mail/send', () =>
-      HttpResponse.text('ok', { status: 200 }),
-    ),
-    http.post('https://hooks.slack.com/services/TEST_SLACK_WEBHOOK', () =>
-      HttpResponse.text('ok', { status: 200 }),
-    ),
-  )
-  mockServer.listen()
-
   // コンタクトフォームの action を useFetch で使うコンポーネント
   const RemixStub = createRoutesStub(
     [
