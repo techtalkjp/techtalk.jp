@@ -8,9 +8,7 @@ const schema = z.object({
 
 export async function action({ request, context }: Route.ActionArgs) {
   const { fileNames } = schema.parse(await request.json())
-  const { uploadUrl } = createMinioService(
-    context.cloudflare.env.TECHTALK_S3_URL,
-  )
+  const { uploadUrl } = createMinioService(process.env.TECHTALK_S3_URL)
   const id = crypto.randomUUID()
 
   // アップロード用のURLを生成
