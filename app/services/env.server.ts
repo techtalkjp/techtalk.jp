@@ -1,7 +1,6 @@
 import { z } from 'zod'
 
 const schema = z.object({
-  NODE_ENV: z.enum(['development', 'production', 'test'] as const),
   SLACK_WEBHOOK: z.string(),
   SENDGRID_API_KEY: z.string(),
   TURSO_URL: z.string(),

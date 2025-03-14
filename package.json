@@ -120,9 +120,13 @@
   "packageManager": "pnpm@10.6.2",
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@biomejs/biome",
       "esbuild",
       "msw",
       "workerd"
+    ],
+    "ignoredBuiltDependencies": [
+      "sharp"
     ]
   }
 }
