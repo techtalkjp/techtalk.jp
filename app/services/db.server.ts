@@ -6,7 +6,7 @@ export type { DB }
 
 export const db = new Kysely<DB>({
   dialect: new LibsqlDialect({
-    url: process.env.TURSO_URL!,
+    url: process.env.TURSO_URL,
     authToken: process.env.TURSO_AUTH_TOKEN,
   }),
   plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
