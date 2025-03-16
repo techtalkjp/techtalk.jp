@@ -1,5 +1,5 @@
 import { CloudUploadIcon, XIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { href } from 'react-router'
 import type { action } from '~/routes/resources+/upload-urls/route'
 import { FileDrop } from './file-drop'
@@ -16,13 +16,14 @@ interface FileUploadStatus {
   status: 'pending' | 'uploading' | 'completed' | 'error'
   error?: string
   fileKey?: string
-  mediaType: 'image' | 'video' | 'audio'
+  mediaType: 'image' | 'video' | 'audio' | 'pdf'
 }
 
 const acceptMaps = {
   image: ['.png', '.jpg', '.jpeg', '.gif', '.webp'],
   video: ['.mp4', '.webm'],
   audio: ['.mp3', '.ogg', '.wav', '.m4a', '.aac', '.flac'],
+  pdf: ['.pdf'],
 }
 
 export const MediaFileUploader = ({
@@ -32,7 +33,12 @@ export const MediaFileUploader = ({
   id,
   onChange,
 }: {
-  mediaType: 'image' | 'video' | 'audio' | Array<'image' | 'video' | 'audio'>
+  mediaType:
+    | 'image'
+    | 'video'
+    | 'audio'
+    | 'pdf'
+    | Array<'image' | 'video' | 'audio' | 'pdf'>
   maxSize?: number | null
   name?: string
   id?: string
@@ -67,13 +73,16 @@ export const MediaFileUploader = ({
     if (files.length === 0) return
 
     const newFileStatuses = files.map((file) => {
+      console.log(file)
       const mediaTypeValue = file.type.startsWith('image')
         ? 'image'
         : file.type.startsWith('video')
           ? 'video'
           : file.type.startsWith('audio')
             ? 'audio'
-            : 'image'
+            : file.type === 'application/pdf'
+              ? 'pdf'
+              : 'image'
 
       return {
         file,
@@ -196,18 +205,23 @@ export const MediaFileUploader = ({
     return fileStatuses
       .filter((status) => status.status === 'completed')
       .map((status, index) => (
-        <input
-          key={`${name}-${
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            index
-          }`}
-          type="hidden"
-          name={`${name}[${index}]}`}
-          value={JSON.stringify({
-            fileKey: status.fileKey ?? '',
-            fileName: status.file.name,
-          })}
-        />
+        <React.Fragment key={name}>
+          <input
+            type="hidden"
+            name={`${name}[${index}].key`}
+            value={status.fileKey ?? ''}
+          />
+          <input
+            type="hidden"
+            name={`${name}[${index}].name`}
+            value={status.file.name}
+          />
+          <input
+            type="hidden"
+            name={`${name}[${index}].type`}
+            value={status.mediaType}
+          />
+        </React.Fragment>
       ))
   }
 

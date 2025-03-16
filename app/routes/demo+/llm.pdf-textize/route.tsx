@@ -1,34 +1,19 @@
-import { google } from '@ai-sdk/google'
 import { getFormProps, getTextareaProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import type { FilePart, ImagePart } from 'ai'
-import { generateText } from 'ai'
-import { FileTextIcon, TrashIcon } from 'lucide-react'
-import React from 'react'
-import ReactMarkdown from 'react-markdown'
 import { Form, useNavigation } from 'react-router'
-import { toast } from 'sonner'
-import { match } from 'ts-pattern'
 import { z } from 'zod'
-import { FileDrop } from '~/components/file-drop'
-import {
-  Button,
-  HStack,
-  Label,
-  ScrollArea,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  Textarea,
-} from '~/components/ui'
+import { MediaFileUploader } from '~/components/media-file-uploader'
+import { Button, Label, Stack, Textarea } from '~/components/ui'
 import type { Route } from './+types/route'
 
 const formSchema = z.object({
-  files: z.array(z.instanceof(File)),
+  files: z.array(
+    z.object({
+      key: z.string(),
+      name: z.string(),
+      type: z.string(),
+    }),
+  ),
   prompt: z.string().optional(),
 })
 
@@ -40,92 +25,10 @@ export const action = async ({ request }: Route.ActionArgs) => {
     return { lastResult: submission.reply() }
   }
 
-  const content: Array<ImagePart | FilePart> = []
-  for (const file of submission.value.files) {
-    const c: ImagePart | FilePart | null = await match(file)
-      .when(
-        (f) => f.type === 'application/pdf',
-        async (f) =>
-          ({
-            type: 'file',
-            data: await f.arrayBuffer(),
-            mimeType: 'application/pdf',
-          }) satisfies FilePart,
-      )
-      .when(
-        (f) => f.type.startsWith('image/'),
-        async (f) =>
-          ({
-            type: 'image',
-            image: await f.arrayBuffer(),
-          }) satisfies ImagePart,
-      )
-      .otherwise(() => null)
-    if (c !== null) {
-      content.push(c)
-    }
-  }
-
-  if (content.length === 0) {
-    return {
-      lastResult: submission.reply({
-        formErrors: ['Unsupported file type'],
-      }),
-    }
-  }
-
-  const result = await generateText({
-    model: google('gemini-2.0-flash-lite-preview-02-05', {
-      structuredOutputs: false,
-    }),
-    messages: [
-      {
-        role: 'system',
-        content:
-          'Analyze the file’s content and output text in Markdown without triple backticks or page numbers.',
-      },
-      {
-        role: 'user',
-        content: submission.value.prompt ?? '',
-      },
-      {
-        role: 'user',
-        content,
-      },
-    ],
-  })
-
-  const ret = await fetch('https://api.excelapi.org/currency/rate?pair=usd-jpy')
-  const usdToJpy = Number(await ret.text())
-
-  const cost = {
-    prompt: {
-      tokens: result.usage.promptTokens,
-      usd: (result.usage.promptTokens / 1000000) * 0.1,
-      jpy: (result.usage.promptTokens / 1000000) * 0.1 * usdToJpy,
-    },
-    completion: {
-      tokens: result.usage.completionTokens,
-      usd: (result.usage.completionTokens / 1000000) * 0.4,
-      jpy: (result.usage.completionTokens / 1000000) * 0.4 * usdToJpy,
-    },
-    total: {
-      tokens: result.usage.promptTokens + result.usage.completionTokens,
-      usd:
-        (result.usage.promptTokens / 1000000) * 0.075 +
-        (result.usage.completionTokens / 1000000) * 0.3,
-      jpy:
-        ((result.usage.promptTokens / 1000000) * 0.075 +
-          (result.usage.completionTokens / 1000000) * 0.3) *
-        usdToJpy,
-    },
-  }
+  console.log(submission.value)
 
   return {
     lastResult: submission.reply(),
-    result: result.text,
-    cost,
-    usdToJpy,
   }
 }
 
@@ -138,65 +41,17 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
   })
 
   return (
-    <Form {...getFormProps(form)} method="POST" encType="multipart/form-data">
+    <Form {...getFormProps(form)} method="POST">
       <Stack gap="lg">
         <Stack>
           <Label htmlFor={fields.files.id}>PDF or Image Files</Label>
-          <FileDrop
-            multiple
+          <MediaFileUploader
             id={fields.files.id}
             name={fields.files.name}
             key={fields.files.key}
-            accepts={['.pdf', '.png', '.jpg', '.jpeg', '.webp', '.heic']}
-          >
-            {({ fileData, removeFile }) => {
-              return (
-                <div className="bg-muted cursor-pointer rounded-md border-2 px-4 py-8">
-                  {fileData.length === 0 && (
-                    <div className="text-muted-foreground grid grid-cols-1 place-items-center">
-                      <div>
-                        <FileTextIcon />
-                      </div>
-                      <div className="font-medium">Drop a PDF file here.</div>
-                    </div>
-                  )}
-                  {fileData.length > 0 && (
-                    <div className="grid grid-cols-[1fr_auto] place-items-center gap-4">
-                      {fileData.map((file, i) => (
-                        <React.Fragment key={file.file.name}>
-                          <div>{file.file.name}</div>
-                          <div className="text-sm">
-                            <Button
-                              type="button"
-                              variant="link"
-                              onClick={() => removeFile(i)}
-                            >
-                              <TrashIcon className="mr-2 h-4 w-4" />
-                              Remove
-                            </Button>
-                          </div>
-                          {file.file.type === 'application/pdf' && (
-                            <iframe
-                              className="col-span-2 h-90 w-full"
-                              src={file.url}
-                              title="PDF Preview"
-                            />
-                          )}
-                          {file.file.type.startsWith('image/') && (
-                            <img
-                              className="col-span-2 h-90 w-full object-contain"
-                              src={file.url}
-                              alt="Preview"
-                            />
-                          )}
-                        </React.Fragment>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )
-            }}
-          </FileDrop>
+            mediaType="pdf"
+          />
+
           <div className="text-sm text-red-500">{fields.files.errors}</div>
         </Stack>
 
@@ -210,6 +65,7 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
           <div className="text-sm text-red-500">{fields.prompt.errors}</div>
         </Stack>
 
+        {/* 
         {actionData?.result && (
           <Stack>
             <HStack>
@@ -279,7 +135,7 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
               </TableBody>
             </Table>
           </Stack>
-        )}
+        )} */}
 
         <Button type="submit" isLoading={navigation.state === 'submitting'}>
           Submit
