@@ -264,10 +264,9 @@ export const MediaFileUploader = ({
       </FileDrop>
 
       {fileStatuses.length > 0 && (
-        <Stack>
+        <div>
           <HStack>
             <h3 className="flex-1 text-sm font-medium">選択されたファイル</h3>
-
             <Button
               type="button"
               variant="ghost"
@@ -331,7 +330,7 @@ export const MediaFileUploader = ({
 
             {generateHiddenFields()}
           </Stack>
-        </Stack>
+        </div>
       )}
     </Stack>
   )
