@@ -28,7 +28,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
   console.log(submission.value)
 
   return {
-    lastResult: submission.reply(),
+    lastResult: submission.reply({ resetForm: true }),
   }
 }
 
