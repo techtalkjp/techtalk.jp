@@ -55,7 +55,7 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
             id={fields.files.id}
             name={fields.files.name}
             key={fields.files.key}
-            mediaType="pdf"
+            mediaType={['image', 'pdf']}
           />
 
           <div className="text-sm text-red-500">{fields.files.errors}</div>

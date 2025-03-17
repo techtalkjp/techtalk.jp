@@ -1,6 +1,12 @@
-import { CloudUploadIcon, XIcon } from 'lucide-react'
+import {
+  CloudUploadIcon,
+  FileImageIcon,
+  FileTextIcon,
+  XIcon,
+} from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { href } from 'react-router'
+import { cn } from '~/libs/utils'
 import type { action } from '~/routes/resources+/upload-urls/route'
 import { FileDrop } from './file-drop'
 import { Button, HStack, Progress, Stack } from './ui'
@@ -230,44 +236,65 @@ export const MediaFileUploader = ({
     : acceptMaps[mediaType]
 
   return (
-    <div className="w-full cursor-pointer rounded-md border p-4">
+    <Stack>
       <FileDrop
         key={fileStatuses.length} // ファイルの状態が変わったら再マウント
         id={id}
         accepts={accepts}
         maxSize={maxSize}
         onSelect={handleFilesSelected}
-        multiple
-      >
-        {({ fileData, removeFile }) => {
-          return (
-            <div className="flex flex-col items-center gap-2 text-center">
-              <div className="max-h-96 overflow-auto">
-                {fileData.length === 0 && (
-                  <Stack>
-                    <CloudUploadIcon className="stroke-muted-foreground mx-auto size-6" />
-                    <p className="text-muted-foreground text-sm">
-                      ファイルをここにドロップ
-                    </p>
-                  </Stack>
-                )}
-              </div>
-            </div>
+        className={({ fileData, isDragging }) => {
+          return cn(
+            'cursor-pointer rounded-md border p-4',
+            isDragging && 'bg-secondary',
           )
         }}
+        multiple
+      >
+        <div className="flex flex-col items-center gap-2 text-center">
+          <div className="max-h-96 overflow-auto">
+            <Stack>
+              <CloudUploadIcon className="stroke-muted-foreground mx-auto size-6" />
+              <p className="text-muted-foreground text-sm">
+                ファイルをここにドロップ
+              </p>
+            </Stack>
+          </div>
+        </div>
       </FileDrop>
 
       {fileStatuses.length > 0 && (
         <Stack>
-          <h3 className="text-sm font-medium">アップロード状況</h3>
+          <HStack>
+            <h3 className="flex-1 text-sm font-medium">選択されたファイル</h3>
+
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-6"
+              onClick={clearAllFiles}
+              disabled={fileStatuses.some(
+                (status) => status.status === 'uploading',
+              )}
+            >
+              すべてクリア
+            </Button>
+          </HStack>
           <Stack>
             {fileStatuses.map((fileStatus, index) => (
               <div
-                key={`${fileStatus.file.name}`}
+                key={`${fileStatus.fileKey}-$`}
                 className="rounded border p-2"
               >
                 <HStack>
-                  <span>{fileStatus.file.name}</span>
+                  {fileStatus.mediaType === 'pdf' && <FileTextIcon size="16" />}
+                  {fileStatus.mediaType === 'image' && (
+                    <FileImageIcon size="16" />
+                  )}
+
+                  <div className="text-sm">{fileStatus.file.name}</div>
+                  <div className="flex-1" />
                   <Button
                     type="button"
                     variant="ghost"
@@ -302,24 +329,10 @@ export const MediaFileUploader = ({
               </div>
             ))}
 
-            {fileStatuses.length > 0 && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={clearAllFiles}
-                disabled={fileStatuses.some(
-                  (status) => status.status === 'uploading',
-                )}
-              >
-                すべてクリア
-              </Button>
-            )}
-
             {generateHiddenFields()}
           </Stack>
         </Stack>
       )}
-    </div>
+    </Stack>
   )
 }
