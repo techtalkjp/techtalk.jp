@@ -29,8 +29,13 @@ export const action = async ({ request }: Route.ActionArgs) => {
     return { lastResult: submission.reply() }
   }
 
-  console.log(submission.value)
-  const handle = await pdfExtractTextTask.trigger(submission.value)
+  const items = submission.value.files.map((file) => ({
+    payload: {
+      file,
+      prompt: submission.value.prompt,
+    },
+  }))
+  const handle = await pdfExtractTextTask.batchTrigger(items)
   console.log({ handle })
 
   return dataWithSuccess(
