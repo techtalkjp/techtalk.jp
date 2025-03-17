@@ -211,7 +211,7 @@ export const MediaFileUploader = ({
     return fileStatuses
       .filter((status) => status.status === 'completed')
       .map((status, index) => (
-        <React.Fragment key={name}>
+        <React.Fragment key={status.fileKey}>
           <input
             type="hidden"
             name={`${name}[${index}].key`}
@@ -243,7 +243,7 @@ export const MediaFileUploader = ({
         accepts={accepts}
         maxSize={maxSize}
         onSelect={handleFilesSelected}
-        className={({ fileData, isDragging }) => {
+        className={({ isDragging }) => {
           return cn(
             'cursor-pointer rounded-md border p-4',
             isDragging && 'bg-secondary',
@@ -282,10 +282,11 @@ export const MediaFileUploader = ({
               すべてクリア
             </Button>
           </HStack>
+
           <Stack>
             {fileStatuses.map((fileStatus, index) => (
               <div
-                key={`${fileStatus.fileKey}-$`}
+                key={`${fileStatus.file.name}-${index}`}
                 className="rounded border p-2"
               >
                 <HStack>

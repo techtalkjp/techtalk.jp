@@ -1,4 +1,4 @@
-import { task } from '@trigger.dev/sdk/v3'
+import { logger, task } from '@trigger.dev/sdk/v3'
 import { calculateCost } from './pdf-extract-text/calculate-cost'
 import { extractTextWithLLM } from './pdf-extract-text/extract-text-with-llm'
 import { prepareFileContents } from './pdf-extract-text/prepare-file-content'
@@ -15,12 +15,14 @@ export const pdfExtractTextTask = task({
   ) => {
     // Prepare the contents of the files
     const contents = await prepareFileContents(payload.files)
+    logger.info('Prepared file contents', { contents })
 
     // Extract text from the files
     const result = await extractTextWithLLM(contents, payload.prompt)
+    logger.info('Results', { result })
 
     // Calculate the cost of the extraction
-    const cost = calculateCost(result.usage)
+    const cost = await calculateCost(result.usage)
 
     return {
       text: result.text,

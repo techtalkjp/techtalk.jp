@@ -113,6 +113,9 @@ importers:
       '@react-router/cloudflare':
         specifier: 7.2.0
         version: 7.2.0(@cloudflare/workers-types@4.20250312.0)(react-router@7.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(tsup@8.3.5(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.2)(typescript@5.8.2)(yaml@2.6.1))(typescript@5.8.2)
+      '@trigger.dev/react-hooks':
+        specifier: 3.3.17
+        version: 3.3.17(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@trigger.dev/sdk':
         specifier: 3.3.17
         version: 3.3.17(zod@3.24.2)
@@ -2584,6 +2587,13 @@ packages:
   '@trigger.dev/core@3.3.17':
     resolution: {integrity: sha512-KjnRxCuHq4R+MnE0zPvIQ7EIz4QSpJL+1Yn74n2cCGjyHYgQ/g8rcARn0Nxf2s8jzE38CnyRufjUrwG8k+DJrw==}
     engines: {node: '>=18.20.0'}
+
+  '@trigger.dev/react-hooks@3.3.17':
+    resolution: {integrity: sha512-1icVcYE7fuoB912KjeUxeTBiKygW82sy1XIWsYhEr6qyj7LcmfNzkNuL4qUdbqgcwJD0z91eKskRmd7MkjQrDg==}
+    engines: {node: '>=18.20.0'}
+    peerDependencies:
+      react: ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^18.0 || ^19.0 || ^19.0.0-rc
 
   '@trigger.dev/sdk@3.3.17':
     resolution: {integrity: sha512-wjIjlQWKybYWw/J7LxFIOO1pXzxXoj9lxbFMvjb51JtfebxnQnh6aExN47nOGhVhV38wHYstfBI/8ClWwBnFYw==}
@@ -8132,6 +8142,17 @@ snapshots:
       zod: 3.23.8
       zod-error: 1.5.0
       zod-validation-error: 1.5.0(zod@3.23.8)
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+
+  '@trigger.dev/react-hooks@3.3.17(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@trigger.dev/core': 3.3.17
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      swr: 2.3.3(react@19.0.0)
     transitivePeerDependencies:
       - bufferutil
       - supports-color

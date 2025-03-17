@@ -5,7 +5,7 @@ export const calculateCost = async (usage: {
   const ret = await fetch('https://api.excelapi.org/currency/rate?pair=usd-jpy')
   const usdToJpy = Number(await ret.text())
 
-  const cost = {
+  return {
     prompt: {
       tokens: usage.promptTokens,
       usd: (usage.promptTokens / 1000000) * 0.1,

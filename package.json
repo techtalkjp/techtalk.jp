@@ -52,6 +52,7 @@
     "@radix-ui/react-toggle-group": "1.1.2",
     "@radix-ui/react-tooltip": "1.1.8",
     "@react-router/cloudflare": "7.2.0",
+    "@trigger.dev/react-hooks": "3.3.17",
     "@trigger.dev/sdk": "3.3.17",
     "ai": "4.1.61",
     "class-variance-authority": "0.7.1",
