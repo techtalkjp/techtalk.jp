@@ -5,6 +5,7 @@ import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import { MediaFileUploader } from '~/components/media-file-uploader'
 import { Button, Label, Stack, Textarea } from '~/components/ui'
+import { pdfExtractTextTask } from '~/trigger/pdf-extract-text'
 import type { Route } from './+types/route'
 
 const formSchema = z.object({
@@ -13,7 +14,7 @@ const formSchema = z.object({
       z.object({
         key: z.string(),
         name: z.string(),
-        type: z.string(),
+        type: z.union([z.literal('image'), z.literal('pdf')]),
       }),
     )
     .min(1, 'At least one file is required'),
@@ -29,9 +30,12 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   console.log(submission.value)
+  const handle = await pdfExtractTextTask.trigger(submission.value)
+  console.log({ handle })
 
   return dataWithSuccess(
     {
+      handle,
       lastResult: submission.reply({ resetForm: true }),
     },
     'File uploaded',
