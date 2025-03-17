@@ -266,12 +266,14 @@ export const MediaFileUploader = ({
       {fileStatuses.length > 0 && (
         <div>
           <HStack>
-            <h3 className="flex-1 text-sm font-medium">選択されたファイル</h3>
+            <h3 className="flex-1 text-sm font-medium">
+              選択されたファイル: {fileStatuses.length}件
+            </h3>
             <Button
               type="button"
               variant="ghost"
               size="sm"
-              className="h-6"
+              className="text-xs"
               onClick={clearAllFiles}
               disabled={fileStatuses.some(
                 (status) => status.status === 'uploading',
