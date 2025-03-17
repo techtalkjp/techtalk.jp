@@ -232,6 +232,7 @@ export const MediaFileUploader = ({
   return (
     <div className="w-full cursor-pointer rounded-md border p-4">
       <FileDrop
+        key={fileStatuses.length} // ファイルの状態が変わったら再マウント
         id={id}
         accepts={accepts}
         maxSize={maxSize}
@@ -251,74 +252,74 @@ export const MediaFileUploader = ({
                   </Stack>
                 )}
               </div>
-
-              {fileData.length > 0 && (
-                <Stack>
-                  <h3 className="text-sm font-medium">アップロード状況</h3>
-                  <Stack>
-                    {fileStatuses.map((fileStatus, index) => (
-                      <div
-                        key={`${fileStatus.file.name}`}
-                        className="rounded border p-2"
-                      >
-                        <HStack>
-                          <span>{fileStatus.file.name}</span>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => removeFile(index)}
-                            disabled={fileStatus.status === 'uploading'}
-                          >
-                            <XIcon />
-                          </Button>
-                        </HStack>
-
-                        <div>
-                          {fileStatus.status === 'uploading' ? (
-                            <Stack>
-                              <Progress value={fileStatus.progress} />
-                              <span className="text-muted-foreground text-xs">
-                                {fileStatus.progress}%
-                              </span>
-                            </Stack>
-                          ) : fileStatus.status === 'completed' ? (
-                            <span className="text-xs text-green-600">完了</span>
-                          ) : fileStatus.status === 'error' ? (
-                            <span className="text-xs text-red-600">
-                              エラー: {fileStatus.error}
-                            </span>
-                          ) : (
-                            <span className="text-muted-foreground text-xs">
-                              準備中
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-
-                    {fileStatuses.length > 0 && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={clearAllFiles}
-                        disabled={fileStatuses.some(
-                          (status) => status.status === 'uploading',
-                        )}
-                      >
-                        すべてクリア
-                      </Button>
-                    )}
-
-                    {generateHiddenFields()}
-                  </Stack>
-                </Stack>
-              )}
             </div>
           )
         }}
       </FileDrop>
+
+      {fileStatuses.length > 0 && (
+        <Stack>
+          <h3 className="text-sm font-medium">アップロード状況</h3>
+          <Stack>
+            {fileStatuses.map((fileStatus, index) => (
+              <div
+                key={`${fileStatus.file.name}`}
+                className="rounded border p-2"
+              >
+                <HStack>
+                  <span>{fileStatus.file.name}</span>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeFile(index)}
+                    disabled={fileStatus.status === 'uploading'}
+                  >
+                    <XIcon />
+                  </Button>
+                </HStack>
+
+                <div>
+                  {fileStatus.status === 'uploading' ? (
+                    <Stack>
+                      <Progress value={fileStatus.progress} />
+                      <span className="text-muted-foreground text-xs">
+                        {fileStatus.progress}%
+                      </span>
+                    </Stack>
+                  ) : fileStatus.status === 'completed' ? (
+                    <span className="text-xs text-green-600">完了</span>
+                  ) : fileStatus.status === 'error' ? (
+                    <span className="text-xs text-red-600">
+                      エラー: {fileStatus.error}
+                    </span>
+                  ) : (
+                    <span className="text-muted-foreground text-xs">
+                      準備中
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+
+            {fileStatuses.length > 0 && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={clearAllFiles}
+                disabled={fileStatuses.some(
+                  (status) => status.status === 'uploading',
+                )}
+              >
+                すべてクリア
+              </Button>
+            )}
+
+            {generateHiddenFields()}
+          </Stack>
+        </Stack>
+      )}
     </div>
   )
 }
