@@ -1,19 +1,22 @@
 import { getFormProps, getTextareaProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { Form, useNavigation } from 'react-router'
+import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import { MediaFileUploader } from '~/components/media-file-uploader'
 import { Button, Label, Stack, Textarea } from '~/components/ui'
 import type { Route } from './+types/route'
 
 const formSchema = z.object({
-  files: z.array(
-    z.object({
-      key: z.string(),
-      name: z.string(),
-      type: z.string(),
-    }),
-  ),
+  files: z
+    .array(
+      z.object({
+        key: z.string(),
+        name: z.string(),
+        type: z.string(),
+      }),
+    )
+    .min(1, 'At least one file is required'),
   prompt: z.string().optional(),
 })
 
@@ -27,9 +30,12 @@ export const action = async ({ request }: Route.ActionArgs) => {
 
   console.log(submission.value)
 
-  return {
-    lastResult: submission.reply({ resetForm: true }),
-  }
+  return dataWithSuccess(
+    {
+      lastResult: submission.reply({ resetForm: true }),
+    },
+    'File uploaded',
+  )
 }
 
 export default function PdfPage({ actionData }: Route.ComponentProps) {
