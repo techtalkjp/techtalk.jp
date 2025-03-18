@@ -5,6 +5,7 @@ import { prepareFileContents } from './pdf-extract-text/prepare-file-content'
 
 export const pdfExtractTextTask = task({
   id: 'pdf-extract-text',
+  machine: 'micro',
   maxDuration: 300, // Stop executing after 5 mins of compute
   run: async (
     payload: {

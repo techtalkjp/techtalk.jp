@@ -26,7 +26,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
     schema: formSchema,
   })
   if (submission.status !== 'success') {
-    return { lastResult: submission.reply() }
+    return { handle: null, lastResult: submission.reply() }
   }
 
   const items = submission.value.files.map((file) => ({
@@ -36,7 +36,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
     },
   }))
   const handle = await pdfExtractTextTask.batchTrigger(items)
-  console.log({ handle })
 
   return dataWithSuccess(
     {
@@ -79,6 +78,20 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
           />
           <div className="text-sm text-red-500">{fields.prompt.errors}</div>
         </Stack>
+
+        {actionData?.handle && (
+          <Stack>
+            <h3>Handle</h3>
+            <pre>{actionData.handle.batchId}</pre>
+
+            <h3>Runs</h3>
+            <ul>
+              {actionData.handle.runs.map((r) => (
+                <li key={r.id}>{r.id}</li>
+              ))}
+            </ul>
+          </Stack>
+        )}
 
         {/* 
         {actionData?.result && (
