@@ -79,7 +79,6 @@ export const MediaFileUploader = ({
     if (files.length === 0) return
 
     const newFileStatuses = files.map((file) => {
-      console.log(file)
       const mediaTypeValue = file.type.startsWith('image')
         ? 'image'
         : file.type.startsWith('video')
