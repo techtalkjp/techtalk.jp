@@ -7,6 +7,7 @@ import { MediaFileUploader } from '~/components/media-file-uploader'
 import { Button, Label, Stack, Textarea } from '~/components/ui'
 import { pdfExtractTextTask } from '~/trigger/pdf-extract-text'
 import type { Route } from './+types/route'
+import { BatchStatus } from './components/batch-status'
 
 const formSchema = z.object({
   files: z
@@ -84,12 +85,12 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
             <h3>Handle</h3>
             <pre>{actionData.handle.batchId}</pre>
 
-            <h3>Runs</h3>
-            <ul>
-              {actionData.handle.runs.map((r) => (
-                <li key={r.id}>{r.id}</li>
-              ))}
-            </ul>
+            {
+              <BatchStatus
+                batchId={actionData.handle.batchId}
+                publicAccessToken={actionData.handle.publicAccessToken}
+              />
+            }
           </Stack>
         )}
 
