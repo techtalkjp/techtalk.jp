@@ -30,9 +30,9 @@ export const action = async ({ request }: Route.ActionArgs) => {
     return { handle: null, lastResult: submission.reply() }
   }
 
-  const items = submission.value.files.map((file) => ({
+  const items = submission.value.files.map((file, index) => ({
     payload: {
-      file,
+      file: { index, ...file },
       prompt: submission.value.prompt,
     },
   }))
@@ -65,6 +65,7 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
             name={fields.files.name}
             key={fields.files.key}
             mediaType={['image', 'pdf']}
+            prefix="pdfs"
           />
 
           <div className="text-sm text-red-500">{fields.files.errors}</div>

@@ -12,8 +12,9 @@ import { FileDrop } from './file-drop'
 import { Button, HStack, Progress, Stack } from './ui'
 
 export interface UploadedFile {
-  fileKey: string
-  fileName: string
+  prefix: string
+  key: string
+  name: string
 }
 
 interface FileUploadStatus {
@@ -32,13 +33,7 @@ const acceptMaps = {
   pdf: ['.pdf'],
 }
 
-export const MediaFileUploader = ({
-  mediaType,
-  maxSize = null,
-  name,
-  id,
-  onChange,
-}: {
+interface MediaFileUploaderProps {
   mediaType:
     | 'image'
     | 'video'
@@ -48,8 +43,18 @@ export const MediaFileUploader = ({
   maxSize?: number | null
   name?: string
   id?: string
+  prefix?: string
   onChange?: (files: UploadedFile[]) => void
-}) => {
+}
+
+export const MediaFileUploader = ({
+  mediaType,
+  maxSize = null,
+  name,
+  id,
+  prefix = 'uploads',
+  onChange,
+}: MediaFileUploaderProps) => {
   const [fileStatuses, setFileStatuses] = useState<FileUploadStatus[]>([])
   const [isAllUploaded, setIsAllUploaded] = useState(false)
 
@@ -67,13 +72,14 @@ export const MediaFileUploader = ({
         .map(
           (f) =>
             ({
-              fileKey: f.fileKey!,
-              fileName: f.file.name,
+              prefix,
+              key: f.fileKey!,
+              name: f.file.name,
             }) satisfies UploadedFile,
         )
       onChange(uploadedFiles)
     }
-  }, [fileStatuses, onChange])
+  }, [fileStatuses, onChange, prefix])
 
   const handleFilesSelected = async (files: File[]) => {
     if (files.length === 0) return
@@ -104,6 +110,7 @@ export const MediaFileUploader = ({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          prefix,
           fileNames: files.map((file) => file.name),
         }),
       })
