@@ -16,7 +16,8 @@ export async function action({ request }: Route.ActionArgs) {
   const uploadUrls = await Promise.all(
     names.map(async (name) => {
       const key = `${id}-${name}`
-      const signedUrl = await uploadUrl(`${prefix}/${key}`)
+      const urlPath = prefix ? `${prefix}/${key}` : key
+      const signedUrl = await uploadUrl(urlPath)
 
       return {
         prefix,
