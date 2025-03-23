@@ -4,7 +4,6 @@
   "type": "module",
   "scripts": {
     "build": "NODE_ENV=production react-router build",
-    "deploy": "NODE_ENV=production wrangler deploy",
     "dev": "run-p dev:*",
     "dev:react-router": "react-router dev",
     "dev:trigger": "pnpm dlx trigger.dev@latest dev",
@@ -14,7 +13,10 @@
     "format": "prettier --check .",
     "typecheck": "react-router typegen && tsc",
     "test": "vitest run",
-    "validate": "run-p format lint && run-p typecheck test"
+    "validate": "run-p format lint && run-p typecheck test",
+    "deploy": "run-p deploy:*",
+    "deploy:app": "NODE_ENV=production wrangler deploy",
+    "deploy:trigger": "pnpm dlx trigger.dev@latest deploy"
   },
   "dependencies": {
     "@ai-sdk/google": "1.1.25",
