@@ -1,5 +1,4 @@
 // app/routes/demo+/conform.wizard+/_shared/storage.client.ts
-import { redirect } from 'react-router'
 import type { WizardState, WizardStep } from './schema'
 
 const WIZARD_KEY = 'wizardLocalState'
@@ -27,13 +26,10 @@ export function getWizardState(): WizardState {
 }
 
 // ウィザードの状態を更新
-export function updateWizardState(
-  updatedState: Partial<WizardState>,
-  redirectTo?: string
-): Response | null {
+export function updateWizardState(updatedState: Partial<WizardState>): WizardState {
   if (typeof window === 'undefined') {
     // サーバーサイドレンダリング中は何もしない
-    return null
+    return { currentStep: 'step1' }
   }
 
   try {
@@ -48,22 +44,11 @@ export function updateWizardState(
 
     // ローカルストレージに保存
     localStorage.setItem(WIZARD_KEY, JSON.stringify(newState))
-
-    // リダイレクトが指定されていれば実行
-    if (redirectTo) {
-      window.location.href = redirectTo
-      return new Response(null, {
-        status: 302,
-        headers: {
-          Location: redirectTo,
-        },
-      })
-    }
-
-    return null
+    
+    return newState
   } catch (error) {
     console.error('Error updating wizard state in localStorage:', error)
-    return null
+    return { currentStep: 'step1' }
   }
 }
 
@@ -103,31 +88,4 @@ export function validateStepAccess(
   }
 
   return { isAllowed, wizardState }
-}
-
-// 特定のステップを取得し、不正なアクセスの場合はリダイレクト
-export function requireValidStep(
-  requiredStep: WizardStep
-): WizardState {
-  const { isAllowed, wizardState } = validateStepAccess(requiredStep)
-
-  if (!isAllowed) {
-    let redirectToStep: WizardStep = 'step1'
-
-    // 可能な限り直近の完了したステップに戻す
-    if (requiredStep === 'step3' && wizardState.step1Data) {
-      redirectToStep = 'step2'
-    } else if (requiredStep === 'complete' && wizardState.step2Data) {
-      redirectToStep = 'step3'
-    }
-
-    const redirectPath = `/demo/conform/wizard/${redirectToStep}`
-    if (typeof window !== 'undefined') {
-      window.location.href = redirectPath
-    }
-    
-    throw redirect(redirectPath)
-  }
-
-  return wizardState
 }

@@ -1,12 +1,15 @@
 // app/routes/wizard.complete.tsx
-import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router'
-import { Form, useLoaderData } from 'react-router'
-import { requireValidStep, resetWizardState } from './_shared/session.server'
+import { Form, redirect, useNavigate } from 'react-router'
+import type { Route } from './+types/complete'
+import { resetWizardState, validateStepAccess } from './_shared/storage.client'
 
-// ローダー関数
-export async function loader({ request }: LoaderFunctionArgs) {
-  // 全てのステップが完了していることを確認
-  const wizardState = await requireValidStep(request, 'complete')
+// クライアント側のローダー - ローカルストレージから状態を読み込む
+export const clientLoader = () => {
+  const { isAllowed, wizardState } = validateStepAccess('complete')
+
+  if (!isAllowed) {
+    throw redirect('/demo/conform/wizard/step1')
+  }
 
   return {
     formData: {
@@ -14,17 +17,26 @@ export async function loader({ request }: LoaderFunctionArgs) {
       step2: wizardState.step2Data,
       step3: wizardState.step3Data,
     },
+    isValid: isAllowed,
   }
 }
+clientLoader.hydrate = true
 
-// アクション関数
-export async function action({ request }: ActionFunctionArgs) {
-  // 新しいフォームを開始
-  return await resetWizardState(request)
+// クライアント側のアクション - ローカルストレージに保存
+export const clientAction = () => {
+  // ウィザードの状態をリセット
+  resetWizardState()
+  return { success: true }
 }
 
-export default function CompleteRoute() {
-  const { formData } = useLoaderData<typeof loader>()
+export default function CompleteRoute({ loaderData }: Route.ComponentProps) {
+  const navigate = useNavigate()
+  const { formData } = loaderData
+
+  const handleReset = () => {
+    resetWizardState()
+    navigate('/demo/conform/wizard/step1')
+  }
 
   return (
     <div className="wizard-complete">
@@ -70,7 +82,13 @@ export default function CompleteRoute() {
         </div>
       </div>
 
-      <Form method="post">
+      <Form
+        method="post"
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleReset()
+        }}
+      >
         <button type="submit">新しいフォームを開始</button>
       </Form>
     </div>

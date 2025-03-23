@@ -1,65 +1,64 @@
 // app/routes/wizard.step2.tsx
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router'
-import { Form, useActionData, useLoaderData } from 'react-router'
+import { Form, redirect } from 'react-router'
+import type { Route } from './+types/step2'
 import { step2Schema } from './_shared/schema'
-import { requireValidStep, updateWizardState } from './_shared/session.server'
+import { updateWizardState, validateStepAccess } from './_shared/storage.client'
 
-// ローダー関数
-export async function loader({ request }: LoaderFunctionArgs) {
-  // ステップ1が完了していることを確認し、そうでなければリダイレクト
-  const wizardState = await requireValidStep(request, 'step2')
+// クライアント側のローダー - ローカルストレージから状態を読み込む
+export const clientLoader = () => {
+  const { isAllowed, wizardState } = validateStepAccess('step2')
+
+  if (!isAllowed) {
+    throw redirect('/demo/conform/wizard/step1')
+  }
 
   return {
-    step2Data: wizardState.step2Data,
+    step2Data: wizardState.step2Data || undefined,
+    isValid: isAllowed,
   }
 }
+clientLoader.hydrate = true
 
-// アクション関数
-export async function action({ request }: ActionFunctionArgs) {
+// クライアント側のアクション - ローカルストレージに保存
+export const clientAction = async ({ request }: Route.ClientActionArgs) => {
   const formData = await request.formData()
   const intent = formData.get('intent')
 
   // 「戻る」ボタンがクリックされた場合
   if (intent === 'back') {
-    return updateWizardState(
-      request,
-      { currentStep: 'step1' },
-      '/demo/conform/wizard/step1',
-    )
+    updateWizardState({ currentStep: 'step1' })
+    return { success: true }
   }
 
-  // Conformを使ってフォームデータをバリデーション
-  const submission = parseWithZod(formData, {
-    schema: step2Schema,
-  })
+  const submission = parseWithZod(formData, { schema: step2Schema })
 
-  // バリデーションエラーがある場合
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
   }
 
-  // ウィザードの状態を更新して次のステップへリダイレクト
-  return updateWizardState(
-    request,
-    {
-      currentStep: 'step3',
-      step2Data: submission.value,
-    },
-    '/demo/conform/wizard/step3',
-  )
+  // ウィザードの状態を更新して次のステップへ
+  updateWizardState({
+    currentStep: 'step3',
+    step2Data: submission.value,
+  })
+
+  return redirect('/demo/conform/wizard/step3')
 }
 
-export default function Step2Route() {
-  const { step2Data } = useLoaderData<typeof loader>()
-  const actionData = useActionData<typeof action>()
+export default function Step2Route({
+  loaderData,
+  actionData,
+}: Route.ComponentProps) {
+  const { step2Data } = loaderData
+  const lastResult = actionData?.lastResult
 
   // Conformを使ったフォーム管理
   const [form, fields] = useForm({
     constraint: getZodConstraint(step2Schema),
     defaultValue: step2Data,
-    lastResult: actionData?.lastResult,
+    lastResult: lastResult,
     onValidate: ({ formData }) =>
       parseWithZod(formData, { schema: step2Schema }),
   })
