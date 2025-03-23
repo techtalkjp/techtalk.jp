@@ -12,8 +12,9 @@ import { FileDrop } from './file-drop'
 import { Button, HStack, Progress, Stack } from './ui'
 
 export interface UploadedFile {
-  fileKey: string
-  fileName: string
+  prefix: string
+  key: string
+  name: string
 }
 
 interface FileUploadStatus {
@@ -21,8 +22,9 @@ interface FileUploadStatus {
   progress: number // 0-100
   status: 'pending' | 'uploading' | 'completed' | 'error'
   error?: string
-  fileKey?: string
-  mediaType: 'image' | 'video' | 'audio' | 'pdf'
+  prefix: string
+  key?: string
+  type: 'image' | 'video' | 'audio' | 'pdf'
 }
 
 const acceptMaps = {
@@ -37,6 +39,7 @@ export const MediaFileUploader = ({
   maxSize = null,
   name,
   id,
+  prefix = 'uploads',
   onChange,
 }: {
   mediaType:
@@ -48,6 +51,7 @@ export const MediaFileUploader = ({
   maxSize?: number | null
   name?: string
   id?: string
+  prefix?: string
   onChange?: (files: UploadedFile[]) => void
 }) => {
   const [fileStatuses, setFileStatuses] = useState<FileUploadStatus[]>([])
@@ -63,17 +67,18 @@ export const MediaFileUploader = ({
 
     if (onChange && completedFiles.length > 0) {
       const uploadedFiles: UploadedFile[] = completedFiles
-        .filter((f) => f.fileKey) // key があるもののみ
+        .filter((f) => f.key) // key があるもののみ
         .map(
           (f) =>
             ({
-              fileKey: f.fileKey!,
-              fileName: f.file.name,
+              prefix,
+              key: f.key!,
+              name: f.file.name,
             }) satisfies UploadedFile,
         )
       onChange(uploadedFiles)
     }
-  }, [fileStatuses, onChange])
+  }, [prefix, fileStatuses, onChange])
 
   const handleFilesSelected = async (files: File[]) => {
     if (files.length === 0) return
@@ -93,7 +98,8 @@ export const MediaFileUploader = ({
         file,
         progress: 0,
         status: 'pending',
-        mediaType: mediaTypeValue,
+        prefix,
+        type: mediaTypeValue,
       } satisfies FileUploadStatus
     })
     setFileStatuses((prev) => [...prev, ...newFileStatuses])
@@ -104,7 +110,8 @@ export const MediaFileUploader = ({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          fileNames: files.map((file) => file.name),
+          names: files.map((file) => file.name),
+          prefix,
         }),
       })
       if (!response.ok) {
@@ -116,9 +123,9 @@ export const MediaFileUploader = ({
 
       // アップロードURLを使ってファイルをアップロード
       for (const file of files) {
-        const uploadInfo = uploadUrls.find((u) => u.fileName === file.name)
+        const uploadInfo = uploadUrls.find((u) => u.name === file.name)
         if (!uploadInfo) continue
-        uploadFile(file, uploadInfo.uploadUrl, uploadInfo.fileKey)
+        uploadFile(file, uploadInfo.uploadUrl, uploadInfo.key)
       }
     } catch (error) {
       console.error('Upload preparation failed:', error)
@@ -133,13 +140,11 @@ export const MediaFileUploader = ({
     }
   }
 
-  const uploadFile = async (file: File, uploadUrl: string, fileKey: string) => {
+  const uploadFile = async (file: File, uploadUrl: string, key: string) => {
     // アップロード中状態に更新
     setFileStatuses((prev) =>
       prev.map((status) =>
-        status.file === file
-          ? { ...status, status: 'uploading', fileKey }
-          : status,
+        status.file === file ? { ...status, status: 'uploading', key } : status,
       ),
     )
 
@@ -210,11 +215,16 @@ export const MediaFileUploader = ({
     return fileStatuses
       .filter((status) => status.status === 'completed')
       .map((status, index) => (
-        <React.Fragment key={status.fileKey}>
+        <React.Fragment key={status.key}>
+          <input
+            type="hidden"
+            name={`${name}[${index}].prefix`}
+            value={status.prefix}
+          />
           <input
             type="hidden"
             name={`${name}[${index}].key`}
-            value={status.fileKey ?? ''}
+            value={status.key ?? ''}
           />
           <input
             type="hidden"
@@ -224,7 +234,7 @@ export const MediaFileUploader = ({
           <input
             type="hidden"
             name={`${name}[${index}].type`}
-            value={status.mediaType}
+            value={status.type}
           />
         </React.Fragment>
       ))
@@ -289,10 +299,8 @@ export const MediaFileUploader = ({
                 className="rounded border p-2"
               >
                 <HStack>
-                  {fileStatus.mediaType === 'pdf' && <FileTextIcon size="16" />}
-                  {fileStatus.mediaType === 'image' && (
-                    <FileImageIcon size="16" />
-                  )}
+                  {fileStatus.type === 'pdf' && <FileTextIcon size="16" />}
+                  {fileStatus.type === 'image' && <FileImageIcon size="16" />}
 
                   <div className="text-sm">{fileStatus.file.name}</div>
                   <div className="flex-1" />

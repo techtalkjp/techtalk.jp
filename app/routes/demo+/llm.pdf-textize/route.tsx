@@ -13,6 +13,7 @@ const formSchema = z.object({
   files: z
     .array(
       z.object({
+        prefix: z.string(),
         key: z.string(),
         name: z.string(),
         type: z.union([z.literal('image'), z.literal('pdf')]),
@@ -94,81 +95,11 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
           </Stack>
         )}
 
-        {/* 
-        {actionData?.result && (
-          <Stack>
-            <HStack>
-              <h3>Result</h3>
-              <div className="flex-1" />
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  // copy to clipboard
-                  navigator.clipboard.writeText(actionData.result)
-                  toast.info('Copied to clipboard')
-                }}
-              >
-                Copy
-              </Button>
-            </HStack>
-
-            <ScrollArea className="prose h-[400px] w-full rounded-md border p-4">
-              <ReactMarkdown>{actionData.result}</ReactMarkdown>
-            </ScrollArea>
-          </Stack>
-        )}
-
-        {actionData?.cost && (
-          <Stack>
-            <HStack>
-              <h3>コスト</h3>
-              <div className="flex-1" />
-              <small>(1ドル{actionData.usdToJpy.toFixed(1)}円)</small>
-            </HStack>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>種類</TableHead>
-                  <TableHead>トークン</TableHead>
-                  <TableHead>コスト</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>Input</TableCell>
-                  <TableCell>
-                    {actionData.cost.prompt.tokens.toLocaleString()} tokens
-                  </TableCell>
-                  <TableCell>
-                    {actionData.cost.prompt.jpy.toFixed(2)}円
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Output</TableCell>
-                  <TableCell>
-                    {actionData.cost.completion.tokens.toLocaleString()} tokens
-                  </TableCell>
-                  <TableCell>
-                    {actionData.cost.completion.jpy.toFixed(2)}円
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>合計</TableCell>
-                  <TableCell />
-                  <TableCell>
-                    {actionData.cost.total.jpy.toFixed(2)}円
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </Stack>
-        )} */}
-
         <Button type="submit" isLoading={navigation.state === 'submitting'}>
           Submit
         </Button>
+
+        <div>{JSON.stringify(form.allErrors)}</div>
       </Stack>
     </Form>
   )

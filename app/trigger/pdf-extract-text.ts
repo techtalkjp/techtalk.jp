@@ -9,7 +9,7 @@ export const pdfExtractTextTask = task({
   maxDuration: 300, // Stop executing after 5 mins of compute
   run: async (
     payload: {
-      file: { key: string; name: string; type: 'image' | 'pdf' }
+      file: { prefix: string; key: string; name: string; type: 'image' | 'pdf' }
       prompt?: string
     },
     { ctx },
