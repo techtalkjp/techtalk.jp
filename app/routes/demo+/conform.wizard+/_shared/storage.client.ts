@@ -26,7 +26,9 @@ export function getWizardState(): WizardState {
 }
 
 // ウィザードの状態を更新
-export function updateWizardState(updatedState: Partial<WizardState>): WizardState {
+export function updateWizardState(
+  updatedState: Partial<WizardState>,
+): WizardState {
   if (typeof window === 'undefined') {
     // サーバーサイドレンダリング中は何もしない
     return { currentStep: 'step1' }
@@ -44,7 +46,7 @@ export function updateWizardState(updatedState: Partial<WizardState>): WizardSta
 
     // ローカルストレージに保存
     localStorage.setItem(WIZARD_KEY, JSON.stringify(newState))
-    
+
     return newState
   } catch (error) {
     console.error('Error updating wizard state in localStorage:', error)
@@ -66,9 +68,10 @@ export function resetWizardState(): void {
 }
 
 // ステップアクセスを検証するヘルパー
-export function validateStepAccess(
-  requiredStep: WizardStep
-): { isAllowed: boolean; wizardState: WizardState } {
+export function validateStepAccess(requiredStep: WizardStep): {
+  isAllowed: boolean
+  wizardState: WizardState
+} {
   const wizardState = getWizardState()
   let isAllowed = true
 

@@ -26,3 +26,5 @@ coverage
 .wrangler
 .dev.vars
 .trigger
+
+__screenshots__
