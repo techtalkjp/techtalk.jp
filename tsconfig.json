@@ -16,6 +16,7 @@
       "@react-router/cloudflare",
       "vite/client",
       "./worker-configuration.d.ts",
+      "@vitest/browser/providers/playwright",
       "node"
     ],
     "isolatedModules": true,

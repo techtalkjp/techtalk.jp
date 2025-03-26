@@ -17,17 +17,13 @@ export default defineConfig({
     process.env.VITEST ? react() : reactRouter(),
     tsconfigPaths(),
   ],
-  ssr: {
-    optimizeDeps: {
-      include: [
-        'react',
-        'react/jsx-runtime',
-        'react/jsx-dev-runtime',
-        'react-dom',
-        'react-dom/server',
-        'react-router',
-      ],
+  test: {
+    browser: {
+      provider: 'playwright',
+      enabled: true,
+      headless: true,
+      instances: [{ browser: 'chromium' }],
     },
+    setupFiles: ['./test/setup.ts'],
   },
-  test: { environment: 'happy-dom', setupFiles: ['./test/setup.ts'] },
 })
