@@ -36,6 +36,7 @@ const demoPages: {
     {
       path: '/demo/conform/async-validation',
       title: '非同期バリデーション',
+      ext: '/route.tsx',
     },
     {
       path: '/demo/conform/image-upload',
