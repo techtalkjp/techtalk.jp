@@ -1,6 +1,6 @@
 import { CheckIcon, XIcon } from 'lucide-react'
 import { setTimeout } from 'node:timers/promises'
-import { useFetcher } from 'react-router'
+import { href, useFetcher } from 'react-router'
 import { cn } from '~/libs/utils'
 import type { Route } from './+types/route'
 
@@ -28,7 +28,7 @@ export function useEmailAsyncValidation() {
       { intent: 'email_validate', email },
       {
         method: 'POST',
-        action: '/demo/conform/async-validation/validate-email',
+        action: href('/demo/conform/async-validation/validate-email'),
       },
     )
   }
