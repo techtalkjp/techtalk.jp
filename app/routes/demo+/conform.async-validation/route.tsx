@@ -65,6 +65,11 @@ export async function action({ request }: Route.ActionArgs) {
     async: true,
   })
 
+  console.log({
+    status: submission.status,
+    value: submission.status === 'success' ? submission.value : null,
+  })
+
   if (submission.status === 'success') {
     return dataWithSuccess(
       {
@@ -83,12 +88,10 @@ export async function action({ request }: Route.ActionArgs) {
 export default function Signup({ actionData }: Route.ComponentProps) {
   const [form, { email }] = useForm({
     lastResult: actionData?.lastResult,
-    onValidate({ formData }) {
-      return parseWithZod(formData, {
-        // isEmailUnique()を実装せずにスキーマを作成します。
-        schema: createSchema(),
-      })
-    },
+    onValidate: ({ formData }) =>
+      parseWithZod(formData, {
+        schema: createSchema(), // isEmailUnique()を実装せずにスキーマを作成
+      }),
     shouldValidate: 'onInput',
   })
   const navigation = useNavigation()
@@ -104,14 +107,23 @@ export default function Signup({ actionData }: Route.ComponentProps) {
         </p>
         <Stack>
           <Label htmlFor={email.id}>Email</Label>
-          <Input {...getInputProps(email, { type: 'email' })} data-1p-ignore />
+          <Input
+            {...getInputProps(email, { type: 'email' })}
+            key={email.key}
+            data-1p-ignore
+          />
           <div className="text-sm text-red-500">{email.errors}</div>
         </Stack>
 
         <Button
           type="submit"
-          disabled={!form.valid}
-          isLoading={navigation.state === 'submitting'}
+          disabled={!form.valid || !form.dirty}
+          isLoading={
+            navigation.state === 'submitting' &&
+            // フォールバックの validation が通ってるとき(=email重複ないのが確認されてる)場合だけローディング表示
+            actionData?.lastResult.intent?.type === 'validate' &&
+            actionData?.lastResult.error === undefined
+          }
         >
           submit
         </Button>
