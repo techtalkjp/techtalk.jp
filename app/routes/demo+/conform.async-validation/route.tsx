@@ -1,7 +1,8 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { conformZodMessage, parseWithZod } from '@conform-to/zod'
 import { setTimeout } from 'node:timers/promises'
-import { Form } from 'react-router'
+import { Form, useNavigation } from 'react-router'
+import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import { Button, Input, Label, Stack } from '~/components/ui'
 import type { Route } from './+types/route'
@@ -19,7 +20,6 @@ function createSchema(options?: {
         // 注意：ここでのコールバックは非同期にはできません。
         // クライアント上でzodのバリデーションを同期的に実行するためです。
         z.string().superRefine((email, ctx) => {
-          console.log('super refine')
           if (typeof options?.isEmailUnique !== 'function') {
             ctx.addIssue({
               code: 'custom',
@@ -65,6 +65,18 @@ export async function action({ request }: Route.ActionArgs) {
     async: true,
   })
 
+  if (submission.status === 'success') {
+    return dataWithSuccess(
+      {
+        lastResult: submission.reply({ resetForm: true }),
+      },
+      {
+        message: '登録が完了しました。',
+        description: `email: ${submission.value.email}`,
+      },
+    )
+  }
+
   return { lastResult: submission.reply() }
 }
 
@@ -79,6 +91,7 @@ export default function Signup({ actionData }: Route.ComponentProps) {
     },
     shouldValidate: 'onInput',
   })
+  const navigation = useNavigation()
 
   return (
     <Form {...getFormProps(form)} method="post">
@@ -95,7 +108,11 @@ export default function Signup({ actionData }: Route.ComponentProps) {
           <div className="text-sm text-red-500">{email.errors}</div>
         </Stack>
 
-        <Button type="submit" disabled={!form.valid}>
+        <Button
+          type="submit"
+          disabled={!form.valid}
+          isLoading={navigation.state === 'submitting'}
+        >
           submit
         </Button>
       </Stack>
