@@ -34,6 +34,10 @@ const demoPages: {
       title: '実行確認ダイアログ付きの削除フォーム',
     },
     {
+      path: '/demo/conform/async-validation',
+      title: '非同期バリデーション',
+    },
+    {
       path: '/demo/conform/image-upload',
       title: 'Cloudflare R2 サーバ経由アップロード',
       ext: '/route.tsx',
