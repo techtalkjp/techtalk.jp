@@ -38,12 +38,7 @@ export const InsideForm = () => {
   return (
     <Form method="POST" {...getFormProps(form)}>
       <input name="formType" value={FormType.INSIDE_FORM} type="hidden" />
-      <input
-        name={option.name}
-        value={option.value}
-        type="hidden"
-        key={option.key}
-      />
+      <input name={option.name} value={option.value} type="hidden" />
       <Card>
         <CardHeader>Inside Form</CardHeader>
         <CardContent>

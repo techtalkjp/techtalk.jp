@@ -77,7 +77,6 @@ export default function Signup({ actionData }: Route.ComponentProps) {
           <HStack>
             <Input
               {...getInputProps(email, { type: 'email' })}
-              key={email.key}
               data-1p-ignore
             />
 

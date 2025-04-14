@@ -556,7 +556,6 @@ export default function ShadcnUiPage({
                     value,
                   })
                 }}
-                key={fields.f19_select.key}
               >
                 <SelectTrigger
                   id={fields.f19_select.id}
@@ -677,7 +676,6 @@ export default function ShadcnUiPage({
                     value,
                   })
                 }}
-                key={fields.f21_checkbox.key}
               />
               <Label
                 htmlFor={fields.f21_checkbox.id}
@@ -743,7 +741,6 @@ export default function ShadcnUiPage({
                     value,
                   })
                 }}
-                key={fields.f23_switch.key}
               />
               <Label htmlFor={fields.f23_switch.id} className="cursor-pointer">
                 OK
@@ -804,7 +801,6 @@ export default function ShadcnUiPage({
                   value,
                 })
               }}
-              key={fields.f25_radioGroup.key}
             >
               <div>通知設定</div>
               <HStack>

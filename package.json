@@ -22,8 +22,8 @@
   "dependencies": {
     "@ai-sdk/google": "1.2.10",
     "@coji/kysely-libsql": "0.3.0",
-    "@conform-to/react": "1.3.0",
-    "@conform-to/zod": "1.3.0",
+    "@conform-to/react": "https://pkg.pr.new/@conform-to/react@837",
+    "@conform-to/zod": "https://pkg.pr.new/@conform-to/zod@837",
     "@faker-js/faker": "9.7.0",
     "@libsql/client": "0.15.3",
     "@libsql/kysely-libsql": "0.4.1",
