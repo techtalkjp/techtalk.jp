@@ -20,12 +20,10 @@ export const getSelectProps = <Schema>(
   } = {},
 ) => {
   const props: {
-    key?: string
     required?: boolean
     name: string
     defaultValue?: string
   } = {
-    key: metadata.key,
     required: metadata.required,
     name: metadata.name,
   }
@@ -92,7 +90,6 @@ export const getCheckboxProps = <Schema>(
 ) => {
   const props: {
     id: string
-    key?: string
     required?: boolean
     name: string
     defaultChecked?: boolean
@@ -100,7 +97,6 @@ export const getCheckboxProps = <Schema>(
     'aria-describedby'?: string
   } = {
     id: metadata.id,
-    key: metadata.key,
     required: metadata.required,
     name: metadata.name,
   }
@@ -167,7 +163,6 @@ export const getRadioGroupProps = <Schema>(
     'aria-invalid'?: boolean
     'aria-describedby'?: string
   } = {
-    key: metadata.key,
     required: metadata.required,
     name: metadata.name,
   }
