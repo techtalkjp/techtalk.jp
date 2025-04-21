@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@ai-sdk/google": "1.2.12",
-    "@coji/kysely-libsql": "0.3.0",
     "@conform-to/react": "1.4.0",
     "@conform-to/zod": "1.4.0",
     "@faker-js/faker": "9.7.0",

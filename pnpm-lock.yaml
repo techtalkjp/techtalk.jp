@@ -11,9 +11,6 @@ importers:
       '@ai-sdk/google':
         specifier: 1.2.12
         version: 1.2.12(zod@3.24.3)
-      '@coji/kysely-libsql':
-        specifier: 0.3.0
-        version: 0.3.0(@libsql/client@0.15.4)(kysely@0.28.1)
       '@conform-to/react':
         specifier: 1.4.0
         version: 1.4.0(react@19.1.0)
@@ -645,12 +642,6 @@ packages:
 
   '@cloudflare/workers-types@4.20250312.0':
     resolution: {integrity: sha512-LQBDkrXxm/L0FM4NoT8EXaKCA7+2roOAZAWg+31RGxLKcoAWWSQpbf0PFMBAyFIN/eNADu5RKKrt4qHWNsztHQ==}
-
-  '@coji/kysely-libsql@0.3.0':
-    resolution: {integrity: sha512-rOzmxda2QWnd9emW1PUaCelQx/oh5Nl+OlSeArHP/rVVLZR9T4Bj61ttXLnL0Tgf3BWfJkFZSP2Hccf7qksFfA==}
-    peerDependencies:
-      '@libsql/client': '*'
-      kysely: '*'
 
   '@conform-to/dom@1.4.0':
     resolution: {integrity: sha512-BvYzotcvq6PxTmxCOV089VXzv7oij+yeGIO/Q5/K2f8s030EHzxelPHmLmdnGrKrPP4XRVaYqQHdjHExrqbkBg==}
@@ -6403,11 +6394,6 @@ snapshots:
     optional: true
 
   '@cloudflare/workers-types@4.20250312.0': {}
-
-  '@coji/kysely-libsql@0.3.0(@libsql/client@0.15.4)(kysely@0.28.1)':
-    dependencies:
-      '@libsql/client': 0.15.4
-      kysely: 0.28.1
 
   '@conform-to/dom@1.4.0': {}
 
