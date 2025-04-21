@@ -2,9 +2,9 @@ export const calculateCost = (usage: {
   promptTokens: number
   completionTokens: number
 }) => {
-  const PROMPT_TOKEN_RATE = 0.1 // $ per million tokens
-  const COMPLETION_TOKEN_RATE = 0.4 // $ per million tokens
-  const USD_TO_JPY = 150
+  const PROMPT_TOKEN_RATE = 0.15 // $ per million tokens
+  const COMPLETION_TOKEN_RATE = 0.6 // $ per million tokens
+  const USD_TO_JPY = 142.5
 
   return {
     prompt: {
