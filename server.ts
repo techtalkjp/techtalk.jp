@@ -2,7 +2,7 @@ import { createRequestHandler, type ServerBuild } from 'react-router'
 // @ts-ignore This file won’t exist if it hasn’t yet been built
 import * as build from './build/server'
 import { getLoadContext } from './load-context'
-import { queue } from './workers/queue'
+export * from './workers/workflow/contact'
 
 const requestHandler = createRequestHandler(build as unknown as ServerBuild)
 
@@ -30,5 +30,4 @@ export default {
 
     return await requestHandler(request, loadContext)
   },
-  queue,
 } satisfies ExportedHandler<Env>

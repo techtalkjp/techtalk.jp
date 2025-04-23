@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "techtalkjp",
   "main": "./server.ts",
-  "compatibility_date": "2025-03-02",
+  "compatibility_date": "2025-04-10",
   "compatibility_flags": [
     "nodejs_compat",
     "nodejs_compat_populate_process_env"
@@ -17,23 +17,13 @@
       "bucket_name": "techtalk"
     }
   ],
-  "queues": {
-    "producers": [
-      {
-        "queue": "techtalk-contact-email",
-        "binding": "CONTACT_QUEUE"
-      }
-    ],
-    "consumers": [
-      {
-        "queue": "techtalk-contact-email",
-        "max_batch_size": 10,
-        "max_batch_timeout": 5,
-        "max_retries": 3,
-        "dead_letter_queue": "mail-processing-dlq"
-      }
-    ]
-  },
+  "workflows": [
+    {
+      "name": "techtalkjp-contact-workflow",
+      "binding": "CONTACT_WORKFLOW",
+      "class_name": "ContactWorkflow"
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1

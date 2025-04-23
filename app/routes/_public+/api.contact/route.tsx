@@ -6,7 +6,7 @@ import {
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { ok } from 'neverthrow'
-import { Link, useFetcher, type ActionFunctionArgs } from 'react-router'
+import { Link, useFetcher } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { match } from 'ts-pattern'
 import PrivacyPolicyDialog from '~/components/PrivacyPolicyDialog'
@@ -25,10 +25,11 @@ import {
   Textarea,
 } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
+import type { Route } from './+types/route'
 import { checkHoneypot, enqueue } from './functions.server'
 import { schema, type ContactFormData } from './types'
 
-export const action = async ({ request, context }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), sent: null }
@@ -36,7 +37,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
 
   const result = await ok(submission.value)
     .andThen(checkHoneypot)
-    .asyncAndThen((form) => enqueue({ context, data: form }))
+    .asyncAndThen((form) => enqueue({ data: form }))
 
   if (result.isErr()) {
     return match(result.error)
