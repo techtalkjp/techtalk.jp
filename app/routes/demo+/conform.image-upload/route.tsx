@@ -1,5 +1,6 @@
 import { getFormProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
+import { env } from 'cloudflare:workers'
 import dayjs from 'dayjs'
 import { EllipsisIcon } from 'lucide-react'
 import {
@@ -48,11 +49,10 @@ const schema = z.discriminatedUnion('intent', [
 ])
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
-  const { objects } = await context.cloudflare.env.R2.list({
-    include: ['httpMetadata'],
+  const { objects } = await env.R2.list({
+    prefix: 'uploads/',
   })
 
-  console.log(objects.map((o) => o.httpMetadata))
   const images = objects.map((obj) => ({
     key: obj.key,
     type: obj.httpMetadata?.contentType,
@@ -70,8 +70,8 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   }
 
   if (submission.value.intent === 'upload') {
-    await context.cloudflare.env.R2.put(
-      submission.value.file.name,
+    await env.R2.put(
+      `uploads/${submission.value.file.name}`,
       submission.value.file,
       {
         httpMetadata: { contentType: submission.value.file.type },

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { createR2Service } from '~/services/r2.server'
+import { r2 } from '~/services/r2.server'
 import type { Route } from './+types/route'
 
 const schema = z.object({
@@ -9,7 +9,6 @@ const schema = z.object({
 
 export async function action({ request }: Route.ActionArgs) {
   const { names, prefix } = schema.parse(await request.json())
-  const { uploadUrl } = createR2Service(process.env.TECHTALK_S3_URL)
   const id = crypto.randomUUID()
 
   // アップロード用のURLを生成
@@ -17,7 +16,7 @@ export async function action({ request }: Route.ActionArgs) {
     names.map(async (name) => {
       const key = `${id}-${name}`
       const urlPath = prefix ? `${prefix}/${key}` : key
-      const signedUrl = await uploadUrl(urlPath)
+      const signedUrl = await r2.uploadUrl(urlPath)
 
       return {
         prefix,

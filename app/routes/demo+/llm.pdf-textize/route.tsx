@@ -5,9 +5,7 @@ import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import { MediaFileUploader } from '~/components/media-file-uploader'
 import { Button, Label, Stack, Textarea } from '~/components/ui'
-import { pdfExtractTextTask } from '~/trigger/pdf-extract-text'
 import type { Route } from './+types/route'
-import { BatchStatus } from './components/batch-status'
 
 const formSchema = z.object({
   files: z
@@ -37,11 +35,11 @@ export const action = async ({ request }: Route.ActionArgs) => {
       prompt: submission.value.prompt,
     },
   }))
-  const handle = await pdfExtractTextTask.batchTrigger(items)
+  //  const handle = await pdfExtractTextTask.batchTrigger(items)
 
   return dataWithSuccess(
     {
-      handle,
+      handle: null,
       lastResult: submission.reply({ resetForm: true }),
     },
     'File uploaded',
@@ -84,13 +82,13 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
         {actionData?.handle && (
           <Stack>
             <h3>Handle</h3>
-            <pre>{actionData.handle.batchId}</pre>
+            {/* <pre>{actionData.handle.batchId}</pre> */}
 
             {
-              <BatchStatus
-                batchId={actionData.handle.batchId}
-                publicAccessToken={actionData.handle.publicAccessToken}
-              />
+              // <BatchStatus
+              //   batchId={actionData.handle.batchId}
+              //   publicAccessToken={actionData.handle.publicAccessToken}
+              // />
             }
           </Stack>
         )}

@@ -1,5 +1,6 @@
 import { getFormProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
+import { env } from 'cloudflare:workers'
 import dayjs from 'dayjs'
 import { Form, useFetcher, useNavigation } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
@@ -40,7 +41,8 @@ const schema = z.discriminatedUnion('intent', [
 ])
 
 export const loader = async ({ context }: Route.LoaderArgs) => {
-  const { objects } = await context.cloudflare.env.R2.list({
+  const { objects } = await env.R2.list({
+    prefix: 'uploads/',
     include: ['customMetadata'],
   })
 
@@ -59,7 +61,7 @@ export const loader = async ({ context }: Route.LoaderArgs) => {
   return { images }
 }
 
-export const action = async ({ request, context }: Route.ActionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
@@ -76,7 +78,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'delete') {
-    await context.cloudflare.env.R2.delete(submission.value.key)
+    await env.R2.delete(submission.value.key)
     return dataWithSuccess(
       {
         lastResult: submission.reply({ resetForm: true }),
@@ -111,7 +113,11 @@ export default function ImageUploadDemoPage({
         <Stack align="stretch">
           <FormField>
             <Label htmlFor="file">Image Files</Label>
-            <MediaFileUploader name="file" mediaType="image" />
+            <MediaFileUploader
+              name="file"
+              mediaType="image"
+              prefix="uploads/"
+            />
           </FormField>
 
           <Button
