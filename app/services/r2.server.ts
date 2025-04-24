@@ -1,11 +1,6 @@
-import * as Minio from 'minio'
+import { AwsClient } from 'aws4fetch'
 
-/**
- *
- * @param url e.g. s3://techtalk:techtalk@127.0.0.1:9000/techtalk?region=auto&useSSL=true
- * @returns
- */
-export const createMinioService = (url: string) => {
+export const createR2Service = (url: string) => {
   let s3Url: URL
 
   try {
@@ -32,7 +27,11 @@ export const createMinioService = (url: string) => {
   if (!config.accessKey || !config.secretKey) {
     throw new Error('Missing access key or secret key in S3 URL')
   }
-  const minioClient = new Minio.Client(config)
+  const r2 = new AwsClient({
+    accessKeyId: config.accessKey,
+    secretAccessKey: config.secretKey,
+    region: config.region,
+  })
 
   const generatePresignedUrl = async (
     key: string,
@@ -40,13 +39,20 @@ export const createMinioService = (url: string) => {
     expires = 3600,
     metadata: Record<string, string> = {},
   ) => {
-    return await minioClient.presignedUrl(
-      method,
-      bucket,
-      key,
-      expires,
-      metadata,
+    const req = await r2.sign(
+      new Request(`https://${bucket}.${s3Url.hostname}/${key}`, {
+        method,
+        headers: {
+          'x-amz-content-sha256': 'UNSIGNED-PAYLOAD',
+          'x-amz-date': new Date().toISOString(),
+          'x-amz-meta-status': metadata['X-Amz-Meta-Status'] || 'unprocessed',
+          'x-amz-meta-upload-time':
+            metadata['X-Amz-Meta-Upload-Time'] || new Date().toISOString(),
+          ...metadata,
+        },
+      }),
     )
+    return req.url
   }
 
   const uploadUrl = async (key: string, expires = 3600) => {

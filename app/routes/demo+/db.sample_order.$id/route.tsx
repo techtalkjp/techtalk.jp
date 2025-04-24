@@ -20,7 +20,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 }
 
 export const loader = async ({ params, context }: Route.LoaderArgs) => {
-  const region = context?.cloudflare.cf.region ?? 'N/A'
+  const region = context.cloudflare.ctx.props.region ?? 'N/A'
   const timeStart = Date.now()
   const order = await getSampleOrder(String(params.id))
   const timeEnd = Date.now()

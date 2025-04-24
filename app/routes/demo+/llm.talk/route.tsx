@@ -3,7 +3,6 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { generateObject } from 'ai'
 import React from 'react'
-import ReactMarkdown from 'react-markdown'
 import { Form, useNavigation } from 'react-router'
 import { z } from 'zod'
 import { Label } from '~/components/ui'
@@ -121,7 +120,9 @@ export default function Chat({
 
   return (
     <Stack>
-      <ReactMarkdown>{answer}</ReactMarkdown>
+      <div>
+        <div>{answer}</div>
+      </div>
 
       <Form method="post" {...getFormProps(form)}>
         {/* state */}

@@ -1,11 +1,5 @@
 import { parseWithZod } from '@conform-to/zod'
-import {
-  type ActionFunctionArgs,
-  type HeadersFunction,
-  href,
-  Link,
-  type LoaderFunctionArgs,
-} from 'react-router'
+import { type HeadersFunction, href, Link } from 'react-router'
 import { dataWithSuccess, redirectWithSuccess } from 'remix-toast'
 import {
   Stack,
@@ -29,11 +23,11 @@ export const headers: HeadersFunction = () => {
   }
 }
 
-export const loader = async ({ request, context }: LoaderFunctionArgs) => {
+export const loader = async ({ request, context }: Route.LoaderArgs) => {
   const url = new URL(request.url)
   const tab = url.searchParams.get('tab') ?? 'new'
 
-  const region = context?.cloudflare.cf.region ?? 'N/A'
+  const region = context.cloudflare.ctx.props.region ?? 'N/A'
   const timeStart = Date.now()
   const sampleOrders = await listSampleOrders()
 
@@ -54,7 +48,7 @@ export const loader = async ({ request, context }: LoaderFunctionArgs) => {
   }
 }
 
-export const action = async ({ request, context }: ActionFunctionArgs) => {
+export const action = async ({ request, context }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), duration: null }
@@ -64,7 +58,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
     const timeStart = Date.now()
     const { intent, ...rest } = submission.value
     await createSampleOrder({
-      region: context.cloudflare.cf.region ?? '',
+      region: context.cloudflare.ctx.props.region ?? '',
       ...rest,
     })
     const timeEnd = Date.now()
