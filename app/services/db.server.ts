@@ -1,13 +1,11 @@
-import { LibsqlDialect } from '@libsql/kysely-libsql'
+import { env } from 'cloudflare:workers'
 import { CamelCasePlugin, Kysely, ParseJSONResultsPlugin } from 'kysely'
+import { D1Dialect } from 'kysely-d1'
 
 import type { DB } from './types'
 export type { DB }
 
 export const db = new Kysely<DB>({
-  dialect: new LibsqlDialect({
-    url: process.env.TURSO_URL,
-    authToken: process.env.TURSO_AUTH_TOKEN,
-  }),
+  dialect: new D1Dialect({ database: env.DB }),
   plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
 })

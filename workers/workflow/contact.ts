@@ -13,6 +13,7 @@ type Params = ContactFormData
 export class ContactWorkflow extends WorkflowEntrypoint<Env> {
   async run(event: WorkflowEvent<Params>, step: WorkflowStep): Promise<void> {
     const formData = event.payload
+    console.log('Received form data:', formData)
 
     await step.do('sendContactSlack', async () => {
       const result = await sendSlack(env.SLACK_WEBHOOK, formData)

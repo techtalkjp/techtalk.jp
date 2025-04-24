@@ -1,6 +1,6 @@
 import type { FilePart, ImagePart } from 'ai'
 import { match } from 'ts-pattern'
-import { createMinioService } from '~/services/minio.server'
+import { createR2Service } from '~/services/r2.server'
 
 export const prepareFileContents = async (file: {
   prefix: string
@@ -8,7 +8,7 @@ export const prepareFileContents = async (file: {
   name: string
   type: 'image' | 'pdf'
 }): Promise<ImagePart | FilePart | null> => {
-  const minio = createMinioService(process.env.TECHTALK_S3_URL)
+  const minio = createR2Service(process.env.TECHTALK_S3_URL)
 
   const url = await minio.generatePresignedUrl(
     `${file.prefix}/${file.key}`,

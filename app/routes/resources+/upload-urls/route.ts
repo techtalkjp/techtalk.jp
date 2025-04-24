@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { createMinioService } from '~/services/minio.server'
+import { createR2Service } from '~/services/r2.server'
 import type { Route } from './+types/route'
 
 const schema = z.object({
@@ -9,7 +9,7 @@ const schema = z.object({
 
 export async function action({ request }: Route.ActionArgs) {
   const { names, prefix } = schema.parse(await request.json())
-  const { uploadUrl } = createMinioService(process.env.TECHTALK_S3_URL)
+  const { uploadUrl } = createR2Service(process.env.TECHTALK_S3_URL)
   const id = crypto.randomUUID()
 
   // アップロード用のURLを生成

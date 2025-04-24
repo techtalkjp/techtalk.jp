@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "techtalkjp",
-  "main": "./server.ts",
+  "main": "./workers/app.ts",
   "compatibility_date": "2025-04-10",
   "compatibility_flags": [
     "nodejs_compat",
@@ -24,12 +24,16 @@
       "class_name": "ContactWorkflow"
     }
   ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "techtalkjp",
+      "database_id": "634e29d6-baee-4023-a402-c16cba3038af"
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
-  },
-  "build": {
-    "command": "pnpm run build"
   },
   "env": {
     "development": {
