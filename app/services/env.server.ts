@@ -3,8 +3,6 @@ import { z } from 'zod'
 const schema = z.object({
   SLACK_WEBHOOK: z.string(),
   SENDGRID_API_KEY: z.string(),
-  TURSO_URL: z.string(),
-  TURSO_AUTH_TOKEN: z.string(),
   IMAGE_ENDPOINT_URL: z.string(),
   GOOGLE_GENERATIVE_AI_API_KEY: z.string(),
   TECHTALK_S3_URL: z.string(),

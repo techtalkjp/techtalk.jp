@@ -37,29 +37,16 @@ export const createR2Service = (url: string) => {
     key: string,
     method: 'GET' | 'PUT',
     expires = 3600,
-    metadata: Record<string, string> = {},
   ) => {
     const req = await r2.sign(
-      new Request(`https://${bucket}.${s3Url.hostname}/${key}`, {
-        method,
-        headers: {
-          'x-amz-content-sha256': 'UNSIGNED-PAYLOAD',
-          'x-amz-date': new Date().toISOString(),
-          'x-amz-meta-status': metadata['X-Amz-Meta-Status'] || 'unprocessed',
-          'x-amz-meta-upload-time':
-            metadata['X-Amz-Meta-Upload-Time'] || new Date().toISOString(),
-          ...metadata,
-        },
-      }),
+      new Request(`https://${s3Url.hostname}/${bucket}/${key}`, { method }),
+      { aws: { signQuery: true } },
     )
     return req.url
   }
 
   const uploadUrl = async (key: string, expires = 3600) => {
-    return await generatePresignedUrl(key, 'PUT', expires, {
-      'X-Amz-Meta-Status': 'unprocessed',
-      'X-Amz-Meta-Upload-Time': new Date().toISOString(),
-    })
+    return await generatePresignedUrl(key, 'PUT', expires)
   }
 
   return { generatePresignedUrl, uploadUrl }
