@@ -12,13 +12,7 @@
   ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "types": [
-      "@react-router/cloudflare",
-      "vite/client",
-      "./worker-configuration.d.ts",
-      "@vitest/browser/providers/playwright",
-      "node"
-    ],
+    "types": ["./worker-configuration.d.ts", "vite/client", "node"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
