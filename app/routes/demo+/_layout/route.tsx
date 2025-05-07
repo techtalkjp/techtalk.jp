@@ -89,7 +89,7 @@ const demoPages: {
       ext: '/route.tsx',
     },
   ],
-  PDF: [
+  pdf: [
     {
       path: '/demo/pdf/viewer',
       title: 'PDF Viewer (PDF.js)',
