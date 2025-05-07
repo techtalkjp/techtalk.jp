@@ -89,6 +89,13 @@ const demoPages: {
       ext: '/route.tsx',
     },
   ],
+  PDF: [
+    {
+      path: '/demo/pdf/viewer',
+      title: 'PDF Viewer (PDF.js)',
+      ext: '/route.tsx',
+    },
+  ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
 } as const
 
