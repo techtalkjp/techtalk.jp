@@ -106,7 +106,7 @@ export const MemberListItem = ({
       <div>
         <Tooltip>
           <TooltipTrigger asChild>{removeButton}</TooltipTrigger>
-          <TooltipContent>Remove Item</TooltipContent>
+          <TooltipContent>Remove a member</TooltipContent>
         </Tooltip>
       </div>
     </div>

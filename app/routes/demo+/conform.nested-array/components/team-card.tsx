@@ -47,7 +47,10 @@ export const TeamCard = ({ formId, name, menu, className }: TeamCardProps) => {
 
           <Stack gap="sm">
             <HStack>
-              <Label htmlFor={teamFields.name.id} className="shrink-0">
+              <Label
+                htmlFor={teamFields.name.id}
+                className="text-muted-foreground shrink-0"
+              >
                 チーム名
               </Label>
               <Input {...getInputProps(teamFields.name, { type: 'text' })} />
@@ -100,7 +103,7 @@ export const TeamCard = ({ formId, name, menu, className }: TeamCardProps) => {
               name: teamFields.members.name,
             })}
           >
-            Aadd a member
+            Add a member
           </Button>
         </Stack>
       </CardContent>
