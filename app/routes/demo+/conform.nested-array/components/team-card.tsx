@@ -1,9 +1,12 @@
 import { getInputProps, useField, type FieldName } from '@conform-to/react'
 import { TrashIcon } from 'lucide-react'
 import {
+  Badge,
   Button,
   Card,
   CardContent,
+  CardHeader,
+  CardTitle,
   HStack,
   Input,
   Label,
@@ -17,14 +20,27 @@ import { MemberListItem } from './member-list-item'
 interface TeamCardProps extends React.ComponentProps<typeof Card> {
   formId: string
   name: FieldName<TeamSchema, FormSchema>
+  menu: React.ReactNode
 }
-export const TeamCard = ({ formId, name, className }: TeamCardProps) => {
+export const TeamCard = ({ formId, name, menu, className }: TeamCardProps) => {
   const [field, form] = useField(name, { formId })
   const teamFields = field.getFieldset()
   const teamMembers = teamFields.members.getFieldList()
 
   return (
     <Card className={className}>
+      <CardHeader>
+        <HStack>
+          <CardTitle>
+            <HStack>
+              <Badge variant="secondary">Team</Badge>
+              <div>{teamFields.name.value}</div>
+            </HStack>
+          </CardTitle>
+          <div className="flex-1" />
+          <div className="shrink-0">{menu}</div>
+        </HStack>
+      </CardHeader>
       <CardContent>
         <Stack>
           <input {...getInputProps(teamFields.id, { type: 'hidden' })} />

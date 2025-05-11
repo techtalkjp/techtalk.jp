@@ -1,9 +1,14 @@
 import { FormProvider, getFormProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
+import { EllipsisVerticalIcon } from 'lucide-react'
 import { Form } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import {
   Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
   Stack,
   Table,
   TableBody,
@@ -92,8 +97,32 @@ export default function ConformNestedArrayDemo({
       <FormProvider context={form.context}>
         <Form method="POST" {...getFormProps(form)}>
           <Stack>
-            {teams.map((team) => (
-              <TeamCard key={team.key} formId={form.id} name={team.name} />
+            {teams.map((team, index) => (
+              <TeamCard
+                key={team.key}
+                formId={form.id}
+                name={team.name}
+                menu={
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button type="button" variant="ghost" size="icon">
+                        <EllipsisVerticalIcon />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.preventDefault()
+                          form.remove({ name: fields.teams.name, index })
+                        }}
+                        className="text-destructive"
+                      >
+                        Remove
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                }
+              />
             ))}
 
             <Button
