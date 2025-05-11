@@ -111,8 +111,31 @@ export default function ConformNestedArrayDemo({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuItem
+                        disabled={index === 0}
+                        onClick={() => {
+                          form.reorder({
+                            name: fields.teams.name,
+                            from: index,
+                            to: index - 1,
+                          })
+                        }}
+                      >
+                        Move Up
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        disabled={index === teams.length - 1}
+                        onClick={() => {
+                          form.reorder({
+                            name: fields.teams.name,
+                            from: index,
+                            to: index + 1,
+                          })
+                        }}
+                      >
+                        Move Down
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
                         onClick={(e) => {
-                          e.preventDefault()
                           form.remove({ name: fields.teams.name, index })
                         }}
                         className="text-destructive"
