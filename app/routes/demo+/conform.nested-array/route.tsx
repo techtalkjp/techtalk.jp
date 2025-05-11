@@ -56,32 +56,15 @@ export const action = async ({ request }: Route.ActionArgs) => {
     return { lastResult: submission.reply(), result: null }
   }
 
-  // 0 で始まる郵便番号は存在しないのでエラーにする
-  // const zipErrors: Record<string, string[]> = {}
-  // for (const team of submission.value.teams) {
-  //   for (const [idx, member] of team.members.entries()) {
-  //     if (member.zip.startsWith('0')) {
-  //       zipErrors[`teams[${team.name}].members[${idx}].zip`] = [
-  //         '郵便番号が存在しません',
-  //       ]
-  //     }
-  //   }
-  // }
-  // if (Object.keys(zipErrors).length > 0) {
-  //   return {
-  //     lastResult: submission.reply({ fieldErrors: zipErrors }),
-  //     result: null,
-  //   }
-  // }
-
   return dataWithSuccess(
     {
       lastResult: submission.reply({ resetForm: true }),
       result: submission.value.teams.map((team, teamIndex) => ({
+        id: team.id ?? `${teamIndex + 1}`,
         ...team,
         members: team.members.map((member, memberIndex) => ({
           ...member,
-          id: `${teamIndex + 1}-${memberIndex + 1}`,
+          id: member.id ?? `${teamIndex + 1}-${memberIndex + 1}`,
         })),
       })),
     },
@@ -109,11 +92,9 @@ export default function ConformNestedArrayDemo({
       <FormProvider context={form.context}>
         <Form method="POST" {...getFormProps(form)}>
           <Stack>
-            {teams.map((team) => {
-              return (
-                <TeamCard key={team.key} formId={form.id} name={team.name} />
-              )
-            })}
+            {teams.map((team) => (
+              <TeamCard key={team.key} formId={form.id} name={team.name} />
+            ))}
 
             <Button
               variant="outline"
