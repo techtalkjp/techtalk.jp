@@ -1,20 +1,19 @@
-import { getFormProps, getInputProps, useForm } from '@conform-to/react'
+import {
+  FormProvider,
+  getFormProps,
+  getInputProps,
+  useForm,
+} from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { TrashIcon } from 'lucide-react'
 import { Form } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
-import { z } from 'zod'
 import {
   Button,
   Card,
   CardContent,
   Input,
   Label,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   Stack,
   Table,
   TableBody,
@@ -22,12 +21,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
 } from '~/components/ui'
-import { ZipInput } from '~/routes/demo+/resources.zip-input/route'
 import type { Route } from './+types/route'
+import { Member } from './components/member'
 import {
   fakeEmail,
   fakeGender,
@@ -35,33 +31,7 @@ import {
   fakeTel,
   fakeZip,
 } from './faker.server'
-
-const schema = z.object({
-  teams: z.array(
-    z.object({
-      id: z.string(),
-      name: z.string({ required_error: '必須' }),
-      members: z.array(
-        z.object({
-          name: z.string({ required_error: '必須' }),
-          gender: z.enum(['male', 'female', 'non-binary'], {
-            required_error: '必須',
-            message: '性別を選択してください',
-          }),
-          zip: z
-            .string({ required_error: '必須' })
-            .regex(/^\d{3}-\d{4}$/, { message: '000-0000形式' }),
-          tel: z
-            .string({ required_error: '必須' })
-            .regex(/^\d{3}-\d{4}-\d{4}$/, { message: '000-0000-0000形式' }),
-          email: z
-            .string({ required_error: '必須' })
-            .email({ message: 'メールアドレス' }),
-        }),
-      ),
-    }),
-  ),
-})
+import { formSchema } from './schema'
 
 export const loader = ({ request }: Route.LoaderArgs) => {
   // ブラウザバンドルが巨大になってしまうので、faker はサーバサイドでのみ使用
@@ -89,7 +59,9 @@ export const loader = ({ request }: Route.LoaderArgs) => {
 }
 
 export const action = async ({ request }: Route.ActionArgs) => {
-  const submission = parseWithZod(await request.formData(), { schema })
+  const submission = parseWithZod(await request.formData(), {
+    schema: formSchema,
+  })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), result: null }
   }
@@ -137,226 +109,139 @@ export default function ConformNestedArrayDemo({
   const [form, fields] = useForm({
     lastResult: actionData?.lastResult,
     defaultValue: { teams: defaultTeams },
-    onValidate: ({ formData }) => parseWithZod(formData, { schema }),
+    onValidate: ({ formData }) =>
+      parseWithZod(formData, { schema: formSchema }),
   })
   const teams = fields.teams.getFieldList()
 
   return (
-    <Form method="POST" {...getFormProps(form)}>
-      <Stack>
-        {teams.map((team) => {
-          const teamFields = team.getFieldset()
-          const teamMembers = teamFields.members.getFieldList()
-          return (
-            <Card key={teamFields.id.value}>
-              <CardContent>
-                <Stack>
-                  <input
-                    {...getInputProps(teamFields.id, { type: 'hidden' })}
-                  />
+    <Stack>
+      <FormProvider context={form.context}>
+        <Form method="POST" {...getFormProps(form)}>
+          <Stack>
+            {teams.map((team) => {
+              const teamFields = team.getFieldset()
+              const teamMembers = teamFields.members.getFieldList()
+              return (
+                <Card key={teamFields.id.value}>
+                  <CardContent>
+                    <Stack>
+                      <input
+                        {...getInputProps(teamFields.id, { type: 'hidden' })}
+                      />
 
-                  <Stack gap="sm">
-                    <Label htmlFor={teamFields.name.id}>チーム名</Label>
-                    <Input
-                      {...getInputProps(teamFields.name, { type: 'text' })}
-                    />
-                    <div
-                      id={teamFields.name.errorId}
-                      className="text-destructive text-xs"
-                    >
-                      {teamFields.name.errors}
-                    </div>
-                  </Stack>
+                      <Stack gap="sm">
+                        <Label htmlFor={teamFields.name.id}>チーム名</Label>
+                        <Input
+                          {...getInputProps(teamFields.name, { type: 'text' })}
+                        />
+                        <div
+                          id={teamFields.name.errorId}
+                          className="text-destructive text-xs"
+                        >
+                          {teamFields.name.errors}
+                        </div>
+                      </Stack>
 
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>名前</TableHead>
-                        <TableHead>性別</TableHead>
-                        <TableHead>郵便番号</TableHead>
-                        <TableHead>電話番号</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead />
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {teamMembers.map((teamMember, index) => {
-                        const teamMemberFields = teamMember.getFieldset()
+                      <div className="grid grid-cols-[auto_auto_auto_auto_auto_auto] gap-x-2 gap-y-1">
+                        <div className="text-muted-foreground col-span-full grid grid-cols-subgrid text-sm">
+                          <div>名前</div>
+                          <div>性別</div>
+                          <div>郵便番号</div>
+                          <div>電話番号</div>
+                          <div>Email</div>
+                          <div />
+                        </div>
 
-                        return (
-                          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                          <TableRow key={index + 1} className="group">
-                            <TableCell>
-                              <Input
-                                {...getInputProps(teamMemberFields.name, {
-                                  type: 'text',
+                        {teamMembers.map((teamMember, index) => (
+                          <Member
+                            formId={form.id}
+                            name={teamMember.name}
+                            key={teamMember.id}
+                            className="group"
+                            removeButton={
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="opacity-0 group-hover:opacity-100"
+                                {...form.remove.getButtonProps({
+                                  name: teamFields.members.name,
+                                  index,
                                 })}
-                              />
-                              <div
-                                id={teamMemberFields.name.errorId}
-                                className="text-destructive text-xs"
                               >
-                                {teamMemberFields.name.errors}
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <Select
-                                name={teamMemberFields.gender.name}
-                                defaultValue={
-                                  teamMemberFields.gender.initialValue
-                                }
-                                onValueChange={(value) => {
-                                  form.update({
-                                    name: teamMemberFields.gender.name,
-                                    value,
-                                  })
-                                }}
-                              >
-                                <SelectTrigger id={teamMemberFields.gender.id}>
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="male">男性</SelectItem>
-                                  <SelectItem value="female">女性</SelectItem>
-                                  <SelectItem value="non-binary">
-                                    その他
-                                  </SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </TableCell>
-                            <TableCell>
-                              <input
-                                {...getInputProps(teamMemberFields.zip, {
-                                  type: 'hidden',
-                                })}
-                              />
-                              <ZipInput
-                                defaultValue={teamMemberFields.zip.value}
-                                onChange={(value) => {
-                                  form.update({
-                                    name: teamMemberFields.zip.name,
-                                    value,
-                                  })
-                                }}
-                              />
-                              <div
-                                id={teamMemberFields.zip.errorId}
-                                className="text-destructive text-xs"
-                              >
-                                {teamMemberFields.zip.errors}
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <Input
-                                {...getInputProps(teamMemberFields.tel, {
-                                  type: 'text',
-                                })}
-                              />
-                              <div
-                                id={teamMemberFields.tel.errorId}
-                                className="text-destructive text-xs"
-                              >
-                                {teamMemberFields.tel.errors}
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <Input
-                                {...getInputProps(teamMemberFields.email, {
-                                  type: 'text',
-                                })}
-                              />
-                              <div
-                                id={teamMemberFields.email.errorId}
-                                className="text-destructive text-xs"
-                              >
-                                {teamMemberFields.email.errors}
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="opacity-0 group-hover:opacity-100"
-                                    {...form.remove.getButtonProps({
-                                      name: teamFields.members.name,
-                                      index: index,
-                                    })}
-                                  >
-                                    <TrashIcon className="h-4 w-4" />
-                                  </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>Remove Item</TooltipContent>
-                              </Tooltip>
-                            </TableCell>
-                          </TableRow>
-                        )
-                      })}
-                    </TableBody>
-                  </Table>
-                </Stack>
-              </CardContent>
-            </Card>
-          )
-        })}
+                                <TrashIcon className="h-4 w-4" />
+                              </Button>
+                            }
+                          />
+                        ))}
+                      </div>
 
-        {/* <Button
-          size="sm"
-          variant="outline"
-          disabled={teamMemberFields.length >= fakePersons.length}
-          {...form.insert.getButtonProps({
-            name: fields.persons.name,
-            defaultValue: {
-              ...fakePersons[persons.length],
-            },
-          })}
-        >
-          Append
-        </Button> */}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        {...form.insert.getButtonProps({
+                          name: teamFields.members.name,
+                        })}
+                      >
+                        Append
+                      </Button>
+                    </Stack>
+                  </CardContent>
+                </Card>
+              )
+            })}
 
-        <Button type="submit">Submit</Button>
+            <Button
+              variant="outline"
+              {...form.insert.getButtonProps({ name: fields.teams.name })}
+            >
+              Add Team
+            </Button>
 
-        {actionData?.result && (
-          <Stack className="text-xs">
-            <div>登録されました。</div>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>チーム</TableHead>
-                  <TableHead>名前</TableHead>
-                  <TableHead>性別</TableHead>
-                  <TableHead>郵便番号</TableHead>
-                  <TableHead>電話番号</TableHead>
-                  <TableHead>Email</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {actionData.result.map((team) => {
-                  return team.members.map((member, memberIndex) => {
-                    return (
-                      <TableRow key={`${team.id}-${member.id}`}>
-                        <TableCell>{member.id}</TableCell>
-                        <TableCell>{team.name}</TableCell>
-                        <TableCell>{member.name}</TableCell>
-                        <TableCell>
-                          {member.gender === 'male' && '男性'}
-                          {member.gender === 'female' && '女性'}
-                          {member.gender === 'non-binary' && 'その他'}
-                        </TableCell>
-                        <TableCell>{member.zip}</TableCell>
-                        <TableCell>{member.tel}</TableCell>
-                        <TableCell>{member.email}</TableCell>
-                      </TableRow>
-                    )
-                  })
-                })}
-              </TableBody>
-            </Table>
+            <Button type="submit">Submit</Button>
           </Stack>
-        )}
-      </Stack>
-    </Form>
+        </Form>
+      </FormProvider>
+
+      {actionData?.result && (
+        <Stack className="text-xs">
+          <div>登録されました。</div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>ID</TableHead>
+                <TableHead>チーム</TableHead>
+                <TableHead>名前</TableHead>
+                <TableHead>性別</TableHead>
+                <TableHead>郵便番号</TableHead>
+                <TableHead>電話番号</TableHead>
+                <TableHead>Email</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {actionData.result.map((team) => {
+                return team.members.map((member, memberIndex) => {
+                  return (
+                    <TableRow key={`${team.id}-${member.id}`}>
+                      <TableCell>{member.id}</TableCell>
+                      <TableCell>{team.name}</TableCell>
+                      <TableCell>{member.name}</TableCell>
+                      <TableCell>
+                        {member.gender === 'male' && '男性'}
+                        {member.gender === 'female' && '女性'}
+                        {member.gender === 'non-binary' && 'その他'}
+                      </TableCell>
+                      <TableCell>{member.zip}</TableCell>
+                      <TableCell>{member.tel}</TableCell>
+                      <TableCell>{member.email}</TableCell>
+                    </TableRow>
+                  )
+                })
+              })}
+            </TableBody>
+          </Table>
+        </Stack>
+      )}
+    </Stack>
   )
 }
