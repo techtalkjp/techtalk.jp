@@ -1,19 +1,9 @@
-import {
-  FormProvider,
-  getFormProps,
-  getInputProps,
-  useForm,
-} from '@conform-to/react'
+import { FormProvider, getFormProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import { TrashIcon } from 'lucide-react'
 import { Form } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import {
   Button,
-  Card,
-  CardContent,
-  Input,
-  Label,
   Stack,
   Table,
   TableBody,
@@ -23,9 +13,7 @@ import {
   TableRow,
 } from '~/components/ui'
 import type { Route } from './+types/route'
-import { MemberList } from './components/member-list'
-import { MemberListHeader } from './components/member-list-header'
-import { MemberListItem } from './components/member-list-item'
+import { TeamCard } from './components'
 import {
   fakeEmail,
   fakeGender,
@@ -122,74 +110,8 @@ export default function ConformNestedArrayDemo({
         <Form method="POST" {...getFormProps(form)}>
           <Stack>
             {teams.map((team) => {
-              const teamFields = team.getFieldset()
-              const teamMembers = teamFields.members.getFieldList()
               return (
-                <Card key={teamFields.id.value}>
-                  <CardContent>
-                    <Stack>
-                      <input
-                        {...getInputProps(teamFields.id, { type: 'hidden' })}
-                      />
-
-                      <Stack gap="sm">
-                        <Label htmlFor={teamFields.name.id}>チーム名</Label>
-                        <Input
-                          {...getInputProps(teamFields.name, { type: 'text' })}
-                        />
-                        <div
-                          id={teamFields.name.errorId}
-                          className="text-destructive text-xs"
-                        >
-                          {teamFields.name.errors}
-                        </div>
-                      </Stack>
-
-                      <div>
-                        <MemberList>
-                          <MemberListHeader />
-                          {teamMembers.map((teamMember, index) => (
-                            <MemberListItem
-                              key={teamMember.id}
-                              formId={form.id}
-                              name={teamMember.name}
-                              className="group"
-                              removeButton={
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="opacity-0 group-hover:opacity-100"
-                                  {...form.remove.getButtonProps({
-                                    name: teamFields.members.name,
-                                    index,
-                                  })}
-                                >
-                                  <TrashIcon className="h-4 w-4" />
-                                </Button>
-                              }
-                            />
-                          ))}
-                        </MemberList>
-                        <div
-                          id={teamFields.members.errorId}
-                          className="text-destructive text-xs"
-                        >
-                          {teamFields.members.errors}
-                        </div>
-                      </div>
-
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        {...form.insert.getButtonProps({
-                          name: teamFields.members.name,
-                        })}
-                      >
-                        Append
-                      </Button>
-                    </Stack>
-                  </CardContent>
-                </Card>
+                <TeamCard key={team.key} formId={form.id} name={team.name} />
               )
             })}
 
