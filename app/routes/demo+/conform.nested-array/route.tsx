@@ -23,7 +23,9 @@ import {
   TableRow,
 } from '~/components/ui'
 import type { Route } from './+types/route'
-import { Member } from './components/member'
+import { MemberList } from './components/member-list'
+import { MemberListHeader } from './components/member-list-header'
+import { MemberListItem } from './components/member-list-item'
 import {
   fakeEmail,
   fakeGender,
@@ -143,37 +145,37 @@ export default function ConformNestedArrayDemo({
                         </div>
                       </Stack>
 
-                      <div className="grid grid-cols-[auto_auto_auto_auto_auto_auto] gap-x-2 gap-y-1">
-                        <div className="text-muted-foreground col-span-full grid grid-cols-subgrid text-sm">
-                          <div>名前</div>
-                          <div>性別</div>
-                          <div>郵便番号</div>
-                          <div>電話番号</div>
-                          <div>Email</div>
-                          <div />
+                      <div>
+                        <MemberList>
+                          <MemberListHeader />
+                          {teamMembers.map((teamMember, index) => (
+                            <MemberListItem
+                              key={teamMember.id}
+                              formId={form.id}
+                              name={teamMember.name}
+                              className="group"
+                              removeButton={
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="opacity-0 group-hover:opacity-100"
+                                  {...form.remove.getButtonProps({
+                                    name: teamFields.members.name,
+                                    index,
+                                  })}
+                                >
+                                  <TrashIcon className="h-4 w-4" />
+                                </Button>
+                              }
+                            />
+                          ))}
+                        </MemberList>
+                        <div
+                          id={teamFields.members.errorId}
+                          className="text-destructive text-xs"
+                        >
+                          {teamFields.members.errors}
                         </div>
-
-                        {teamMembers.map((teamMember, index) => (
-                          <Member
-                            formId={form.id}
-                            name={teamMember.name}
-                            key={teamMember.id}
-                            className="group"
-                            removeButton={
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="opacity-0 group-hover:opacity-100"
-                                {...form.remove.getButtonProps({
-                                  name: teamFields.members.name,
-                                  index,
-                                })}
-                              >
-                                <TrashIcon className="h-4 w-4" />
-                              </Button>
-                            }
-                          />
-                        ))}
                       </div>
 
                       <Button

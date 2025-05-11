@@ -20,7 +20,7 @@ interface MemberProps extends React.ComponentProps<'div'> {
   name: FieldName<MemberSchema, FormSchema>
   removeButton: React.ReactNode
 }
-export const Member = memo(
+export const MemberListItem = memo(
   ({ formId, name, removeButton, className }: MemberProps) => {
     const [meta, form] = useField(name, { formId })
     const fields = meta.getFieldset()
