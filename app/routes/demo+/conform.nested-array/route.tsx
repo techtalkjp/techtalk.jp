@@ -8,8 +8,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
   Input,
   Label,
   Select,
@@ -140,8 +138,6 @@ export default function ConformNestedArrayDemo({
     lastResult: actionData?.lastResult,
     defaultValue: { teams: defaultTeams },
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
-    shouldValidate: 'onInput',
-    shouldRevalidate: 'onInput',
   })
   const teams = fields.teams.getFieldList()
 
@@ -153,9 +149,6 @@ export default function ConformNestedArrayDemo({
           const teamMembers = teamFields.members.getFieldList()
           return (
             <Card key={teamFields.id.value}>
-              <CardHeader>
-                <CardTitle>{teamFields.name.value}</CardTitle>
-              </CardHeader>
               <CardContent>
                 <Stack>
                   <input
