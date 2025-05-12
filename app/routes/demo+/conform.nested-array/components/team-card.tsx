@@ -106,27 +106,30 @@ export const TeamCard = ({ formId, name, menu, className }: TeamCardProps) => {
                 items={teamMembers.map((m) => m.id)}
                 strategy={verticalListSortingStrategy}
               >
-                {teamMembers.map((teamMember, index) => (
-                  <MemberListItem
-                    key={teamMember.id}
-                    formId={form.id}
-                    name={teamMember.name}
-                    className="group"
-                    removeButton={
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="opacity-0 group-hover:opacity-100"
-                        {...form.remove.getButtonProps({
-                          name: teamFields.members.name,
-                          index,
-                        })}
-                      >
-                        <TrashIcon className="h-4 w-4" />
-                      </Button>
-                    }
-                  />
-                ))}
+                {teamMembers.map((teamMember, index) => {
+                  const memberFields = teamMember.getFieldset()
+                  return (
+                    <MemberListItem
+                      key={memberFields.id.value}
+                      formId={form.id}
+                      name={teamMember.name}
+                      className="group"
+                      removeButton={
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="opacity-0 group-hover:opacity-100"
+                          {...form.remove.getButtonProps({
+                            name: teamFields.members.name,
+                            index,
+                          })}
+                        >
+                          <TrashIcon className="h-4 w-4" />
+                        </Button>
+                      }
+                    />
+                  )
+                })}
               </SortableContext>
             </DndContext>
           </MemberList>

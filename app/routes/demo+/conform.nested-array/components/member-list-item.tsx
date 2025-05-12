@@ -44,6 +44,7 @@ export const MemberListItem = ({
             className="text-muted-foreground cursor-grab self-center rounded-md"
           />
           <div>
+            <input {...getInputProps(fields.id, { type: 'hidden' })} />
             <Input
               {...getInputProps(fields.name, {
                 type: 'text',

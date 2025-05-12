@@ -22,6 +22,7 @@ import { TeamCard } from './components'
 import {
   fakeEmail,
   fakeGender,
+  fakeId,
   fakeName,
   fakeTel,
   fakeZip,
@@ -31,6 +32,7 @@ import { formSchema } from './schema'
 export const loader = ({ request }: Route.LoaderArgs) => {
   // ブラウザバンドルが巨大になってしまうので、faker はサーバサイドでのみ使用
   const fakeMembers = Array.from({ length: 30 }, () => ({
+    id: fakeId(),
     name: fakeName(),
     gender: fakeGender(),
     zip: fakeZip(),
@@ -90,6 +92,7 @@ export default function ConformNestedArrayDemo({
     onValidate: ({ formData }) =>
       parseWithZod(formData, { schema: formSchema }),
   })
+
   const teams = fields.teams.getFieldList()
 
   return (

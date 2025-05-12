@@ -1,5 +1,6 @@
 import { fakerJA as faker } from '@faker-js/faker'
 
+export const fakeId = () => faker.string.uuid()
 export const fakeName = () => faker.person.fullName()
 export const fakeZip = () => faker.location.zipCode({ format: '###-####' })
 export const fakeTel = () =>
