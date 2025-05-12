@@ -1,5 +1,18 @@
 import { getInputProps, useField, type FieldName } from '@conform-to/react'
+import {
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  restrictToParentElement,
+  restrictToVerticalAxis,
+} from '@dnd-kit/modifiers'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { TrashIcon } from 'lucide-react'
+import { useId } from 'react'
 import {
   Badge,
   Button,
@@ -26,6 +39,19 @@ export const TeamCard = ({ formId, name, menu, className }: TeamCardProps) => {
   const [field, form] = useField(name, { formId })
   const teamFields = field.getFieldset()
   const teamMembers = teamFields.members.getFieldList()
+
+  const id = useId()
+  const sensors = useSensors(useSensor(PointerSensor))
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    if (over && active.id !== over.id) {
+      form.reorder({
+        name: teamFields.members.name,
+        from: Number(active.id),
+        to: Number(over.id),
+      })
+    }
+  }
 
   return (
     <Card className={className}>
@@ -63,37 +89,49 @@ export const TeamCard = ({ formId, name, menu, className }: TeamCardProps) => {
             </div>
           </Stack>
 
-          <div>
-            <MemberList>
-              <MemberListHeader />
-              {teamMembers.map((teamMember, index) => (
-                <MemberListItem
-                  key={teamMember.id}
-                  formId={form.id}
-                  name={teamMember.name}
-                  className="group"
-                  removeButton={
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="opacity-0 group-hover:opacity-100"
-                      {...form.remove.getButtonProps({
-                        name: teamFields.members.name,
-                        index,
-                      })}
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </Button>
-                  }
-                />
-              ))}
-            </MemberList>
-            <div
-              id={teamFields.members.errorId}
-              className="text-destructive text-xs"
+          <MemberList>
+            <MemberListHeader />
+            <DndContext
+              id={id}
+              sensors={sensors}
+              onDragEnd={handleDragEnd}
+              modifiers={[restrictToVerticalAxis, restrictToParentElement]}
             >
-              {teamFields.members.errors}
-            </div>
+              <SortableContext
+                items={teamMembers.map((_, index) => index)}
+                strategy={verticalListSortingStrategy}
+              >
+                {teamMembers.map((teamMember, index) => (
+                  <MemberListItem
+                    key={teamMember.id}
+                    formId={form.id}
+                    name={teamMember.name}
+                    index={index}
+                    className="group"
+                    removeButton={
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="opacity-0 group-hover:opacity-100"
+                        {...form.remove.getButtonProps({
+                          name: teamFields.members.name,
+                          index,
+                        })}
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </Button>
+                    }
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+          </MemberList>
+
+          <div
+            id={teamFields.members.errorId}
+            className="text-destructive text-xs"
+          >
+            {teamFields.members.errors}
           </div>
 
           <Button

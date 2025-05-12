@@ -14,6 +14,7 @@ export const MemberListHeader = ({
       )}
       {...rest}
     >
+      <div />
       <div>名前</div>
       <div>性別</div>
       <div>郵便番号</div>
