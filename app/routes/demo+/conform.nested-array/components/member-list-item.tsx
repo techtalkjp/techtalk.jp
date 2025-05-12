@@ -1,5 +1,6 @@
 import { getInputProps, useField, type FieldName } from '@conform-to/react'
 import { DragHandleDots2Icon } from '@radix-ui/react-icons'
+import type React from 'react'
 import {
   Input,
   Select,
@@ -34,7 +35,7 @@ export const MemberListItem = ({
 
   return (
     <SortableItem
-      id={String(index)}
+      id={meta.id}
       className={cn('col-span-full grid grid-cols-subgrid', className)}
     >
       {({ attributes, listeners }) => (

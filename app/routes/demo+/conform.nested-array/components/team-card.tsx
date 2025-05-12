@@ -1,5 +1,6 @@
 import { getInputProps, useField, type FieldName } from '@conform-to/react'
 import {
+  closestCenter,
   DndContext,
   PointerSensor,
   useSensor,
@@ -45,10 +46,13 @@ export const TeamCard = ({ formId, name, menu, className }: TeamCardProps) => {
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
     if (over && active.id !== over.id) {
+      const from = teamMembers.findIndex((m) => m.id === active.id)
+      const to = teamMembers.findIndex((m) => m.id === over.id)
+      if (from === undefined || to === undefined) return
       form.reorder({
         name: teamFields.members.name,
-        from: Number(active.id),
-        to: Number(over.id),
+        from,
+        to,
       })
     }
   }
@@ -94,11 +98,12 @@ export const TeamCard = ({ formId, name, menu, className }: TeamCardProps) => {
             <DndContext
               id={id}
               sensors={sensors}
-              onDragEnd={handleDragEnd}
+              collisionDetection={closestCenter}
               modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+              onDragEnd={handleDragEnd}
             >
               <SortableContext
-                items={teamMembers.map((_, index) => index)}
+                items={teamMembers.map((m) => m.id)}
                 strategy={verticalListSortingStrategy}
               >
                 {teamMembers.map((teamMember, index) => (
