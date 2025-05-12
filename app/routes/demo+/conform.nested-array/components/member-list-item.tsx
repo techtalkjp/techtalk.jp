@@ -20,13 +20,11 @@ import { SortableItem } from './sortable-item'
 interface MemberProps extends React.ComponentProps<'div'> {
   formId: string
   name: FieldName<MemberSchema, FormSchema>
-  index: number
   removeButton: React.ReactNode
 }
 export const MemberListItem = ({
   formId,
   name,
-  index,
   removeButton,
   className,
 }: MemberProps) => {

@@ -111,7 +111,6 @@ export const TeamCard = ({ formId, name, menu, className }: TeamCardProps) => {
                     key={teamMember.id}
                     formId={form.id}
                     name={teamMember.name}
-                    index={index}
                     className="group"
                     removeButton={
                       <Button
