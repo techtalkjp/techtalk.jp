@@ -50,7 +50,7 @@ const demoPages: {
     },
     {
       path: '/demo/conform/nested-array',
-      title: 'オブジェクトの動的オブジェクト配列フォーム',
+      title: 'ドラッグ&ドロップ対応ネストされたオブジェクト配列フォーム',
       ext: '/route.tsx',
     },
     {
