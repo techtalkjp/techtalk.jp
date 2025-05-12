@@ -24,6 +24,7 @@ import {
   fakeGender,
   fakeId,
   fakeName,
+  fakeTeamName,
   fakeTel,
   fakeZip,
 } from './faker.server'
@@ -42,13 +43,13 @@ export const loader = ({ request }: Route.LoaderArgs) => {
 
   const teams = [
     {
-      id: '1',
-      name: 'team1',
+      id: fakeId(),
+      name: fakeTeamName(),
       members: fakeMembers.slice(0, 5),
     },
     {
-      id: '2',
-      name: 'team2',
+      id: fakeId(),
+      name: fakeTeamName(),
       members: fakeMembers.slice(5, 10),
     },
   ]
@@ -67,11 +68,11 @@ export const action = async ({ request }: Route.ActionArgs) => {
     {
       lastResult: submission.reply({ resetForm: true }),
       result: submission.value.teams.map((team, teamIndex) => ({
-        id: team.id ?? `${teamIndex + 1}`,
+        id: team.id ?? fakeId(),
         ...team,
         members: team.members.map((member, memberIndex) => ({
           ...member,
-          id: member.id ?? `${teamIndex + 1}-${memberIndex + 1}`,
+          id: member.id ?? fakeId(),
         })),
       })),
     },
