@@ -15,6 +15,7 @@ A modern full-stack web application built with React Router v7 and deployed on C
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **React 19** with React Router v7
 - **TypeScript** for type safety
 - **Tailwind CSS v4** with shadcn/ui components
@@ -22,6 +23,7 @@ A modern full-stack web application built with React Router v7 and deployed on C
 - **MDX** for content authoring
 
 ### Backend & Infrastructure
+
 - **Cloudflare Workers** - Edge runtime
 - **Cloudflare D1** - SQLite database
 - **Cloudflare R2** - Object storage
@@ -29,6 +31,7 @@ A modern full-stack web application built with React Router v7 and deployed on C
 - **Kysely** - Type-safe SQL query builder
 
 ### AI Integration
+
 - **AI SDK** - Multi-provider LLM integration
 - **Assistant UI** - Chat interface components
 - Support for Google Gemini and OpenAI
@@ -43,36 +46,42 @@ A modern full-stack web application built with React Router v7 and deployed on C
 ## 🚀 Quick Start
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/[your-username]/techtalk.jp.git
    cd techtalk.jp
    ```
 
 2. **Install dependencies**
+
    ```bash
    pnpm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env
    ```
-   
+
    Configure your environment variables:
+
    - `GOOGLE_GENERATIVE_AI_API_KEY` - For Google Gemini
    - `OPENAI_API_KEY` - For OpenAI
    - Database and R2 configurations (auto-configured for local development)
 
 4. **Run database migrations**
+
    ```bash
    pnpm migrations:apply
    ```
 
 5. **Start development server**
+
    ```bash
    pnpm dev
    ```
-   
+
    Visit http://localhost:5173
 
 ## 🔧 Development
@@ -113,16 +122,19 @@ techtalk.jp/
 ## 🌐 Deployment
 
 1. **Configure Cloudflare**
+
    ```bash
    pnpm wrangler login
    ```
 
 2. **Create D1 database**
+
    ```bash
    pnpm wrangler d1 create techtalkjp
    ```
 
 3. **Create R2 bucket**
+
    ```bash
    pnpm wrangler r2 bucket create techtalk
    ```
