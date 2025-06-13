@@ -4,7 +4,6 @@ import {
   MessagePrimitive,
   useAttachment,
 } from '@assistant-ui/react'
-import { DialogContent as DialogPrimitiveContent } from '@radix-ui/react-dialog'
 import { CircleXIcon, FileIcon, PaperclipIcon } from 'lucide-react'
 import { useEffect, useState, type FC, type PropsWithChildren } from 'react'
 import { useShallow } from 'zustand/shallow'
@@ -12,6 +11,7 @@ import { TooltipIconButton } from '~/components/assistant-ui/tooltip-icon-button
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
 import {
   Dialog,
+  DialogContent,
   DialogOverlay,
   DialogPortal,
   DialogTitle,
@@ -209,8 +209,6 @@ export const ComposerAddAttachment: FC = () => {
 const AttachmentDialogContent: FC<PropsWithChildren> = ({ children }) => (
   <DialogPortal>
     <DialogOverlay />
-    <DialogPrimitiveContent className="aui-dialog-content">
-      {children}
-    </DialogPrimitiveContent>
+    <DialogContent className="aui-dialog-content">{children}</DialogContent>
   </DialogPortal>
 )

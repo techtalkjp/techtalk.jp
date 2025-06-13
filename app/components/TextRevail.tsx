@@ -48,7 +48,6 @@ export const TextReveal = ({
 
   return (
     <motion.span
-      // @ts-ignore
       className={cn('flex justify-center overflow-hidden', className)}
       style={{ overflow: 'hidden', display: 'flex' }}
       variants={container}
@@ -56,6 +55,7 @@ export const TextReveal = ({
       animate={controls}
     >
       {characters.map((character, index) => (
+        // @ts-ignore
         <motion.span key={`${index}-${character}`} variants={child}>
           {character === ' ' ? '\u00A0' : character}
         </motion.span>
