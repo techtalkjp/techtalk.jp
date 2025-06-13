@@ -1,10 +1,10 @@
-import { DialogDescription } from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import Content from '~/assets/privacy.mdx'
 import {
   Button,
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
