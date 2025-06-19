@@ -17,4 +17,16 @@ export default defineConfig({
     tsconfigPaths(),
     devtoolsJson(),
   ],
+  optimizeDeps: {
+    exclude: ['@duckdb/duckdb-wasm'],
+  },
+  worker: {
+    format: 'es',
+  },
+  server: {
+    headers: {
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+      'Cross-Origin-Opener-Policy': 'same-origin',
+    },
+  },
 })

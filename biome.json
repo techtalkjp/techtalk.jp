@@ -15,7 +15,8 @@
       "recommended": true,
       "suspicious": {
         "useAwait": "error",
-        "noRedeclare": "off"
+        "noRedeclare": "off",
+        "noArrayIndexKey": "off"
       },
       "style": {
         "noNonNullAssertion": "off"

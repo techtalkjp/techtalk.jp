@@ -88,6 +88,11 @@ const demoPages: {
       title: 'AI Chatbot',
       ext: '/route.tsx',
     },
+    {
+      path: '/demo/llm/excel-analysis',
+      title: 'Excel Analysis with OPFS & DuckDB',
+      ext: '/route.tsx',
+    },
   ],
   pdf: [
     {
