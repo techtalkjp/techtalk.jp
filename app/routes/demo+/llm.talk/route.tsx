@@ -76,7 +76,7 @@ export async function action({ request }: Route.ActionArgs) {
 出力はすべて日本語です。
 `
   const result = await generateObject({
-    model: google('gemini-2.0-pro-exp'),
+    model: google('gemini-2.5-flash-lite-preview-06-17'),
     messages: [
       { role: 'system', content: systemPrompt },
       ...history,
