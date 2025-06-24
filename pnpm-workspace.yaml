@@ -1,6 +1,7 @@
 onlyBuiltDependencies:
   - '@biomejs/biome'
   - '@tailwindcss/oxide'
+  - duckdb
   - esbuild
   - sharp
   - workerd
