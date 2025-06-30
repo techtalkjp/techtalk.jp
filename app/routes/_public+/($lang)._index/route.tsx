@@ -3,7 +3,7 @@ import { Navigation } from '~/routes/_public+/($lang)._index/components/Navigati
 import type { Route } from './+types/route'
 import { AboutPage, ContactPage, HeroPage } from './components/pages'
 
-export const loader = ({ request, params }: Route.LoaderArgs) => {
+export const loader = ({ params }: Route.LoaderArgs) => {
   if (!locales.includes(params.lang ?? 'ja'))
     throw new Response('404 Not Found', { status: 404 })
   return {}
