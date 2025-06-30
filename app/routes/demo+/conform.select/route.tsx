@@ -34,7 +34,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
   )
 }
 
-export default function ConformSelect({ actionData }: Route.ComponentProps) {
+export default function ConformSelect() {
   return (
     <Stack align="stretch">
       <Tabs defaultValue="inside-form">

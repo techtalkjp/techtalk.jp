@@ -27,7 +27,7 @@ export const prepareFileContents = async (file: {
           image: url,
         }) satisfies ImagePart,
     )
-    .otherwise((t) => {
+    .otherwise(() => {
       return null
     })
 

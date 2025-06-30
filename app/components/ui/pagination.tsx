@@ -11,7 +11,7 @@ import { cn } from '~/libs/utils'
 function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
   return (
     <nav
-      // biome-ignore lint/a11y/noRedundantRoles: <explanation>
+      // biome-ignore lint/a11y/noRedundantRoles: shadcn
       role="navigation"
       aria-label="pagination"
       data-slot="pagination"

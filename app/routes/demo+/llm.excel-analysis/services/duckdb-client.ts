@@ -88,7 +88,7 @@ export class DuckDBClient {
     }
   }
 
-  private async sendMessage(
+  private sendMessage(
     type: 'init' | 'query' | 'createTable' | 'close',
     payload?: WorkerMessage['payload'],
   ): Promise<unknown> {

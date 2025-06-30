@@ -56,7 +56,7 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
 
   if (submission.value.intent === 'new') {
     const timeStart = Date.now()
-    const { intent, ...rest } = submission.value
+    const { intent: _intent, ...rest } = submission.value
     await createSampleOrder({
       region: context.cloudflare.ctx.props.region ?? '',
       ...rest,

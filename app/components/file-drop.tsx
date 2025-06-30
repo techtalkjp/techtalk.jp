@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/a11y/noStaticElementInteractions: div */
+/** biome-ignore-all lint/a11y/useAriaPropsSupportedByRole: div */
 import { useEffect, useRef, useState } from 'react'
 
 interface UseFileDropProps {
@@ -79,14 +81,13 @@ export const useFileDrop = ({
     setFileData(newFileData)
   }
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     return () => {
       for (const data of fileData) {
         URL.revokeObjectURL(data.url)
       }
     }
-  }, [])
+  }, [fileData])
 
   return {
     fileData,
@@ -183,8 +184,6 @@ export const FileDrop = ({
         e.preventDefault()
         if (!disabled) handleFileChange(e.dataTransfer.files)
       }}
-      // biome-ignore lint/a11y/noNoninteractiveTabindex: <explanation>
-      tabIndex={0}
       aria-label="Choose file or drag and drop"
       {...props}
     >

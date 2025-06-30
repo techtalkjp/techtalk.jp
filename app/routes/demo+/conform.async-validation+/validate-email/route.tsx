@@ -1,5 +1,6 @@
 import { CheckIcon, XIcon } from 'lucide-react'
 import { setTimeout } from 'node:timers/promises'
+import { useCallback } from 'react'
 import { href, useFetcher } from 'react-router'
 import { cn } from '~/libs/utils'
 import type { Route } from './+types/route'
@@ -21,17 +22,20 @@ export async function action({ request }: Route.ActionArgs) {
 export function useEmailAsyncValidation() {
   const fetcher = useFetcher<typeof action>()
 
-  const validateEmail = (email: string) => {
-    if (!email) return
+  const validateEmail = useCallback(
+    (email: string) => {
+      if (!email) return
 
-    fetcher.submit(
-      { intent: 'email_validate', email },
-      {
-        method: 'POST',
-        action: href('/demo/conform/async-validation/validate-email'),
-      },
-    )
-  }
+      fetcher.submit(
+        { intent: 'email_validate', email },
+        {
+          method: 'POST',
+          action: href('/demo/conform/async-validation/validate-email'),
+        },
+      )
+    },
+    [fetcher.submit],
+  )
 
   const isValidating = fetcher.state === 'submitting'
   const isValid = fetcher.data?.isValid

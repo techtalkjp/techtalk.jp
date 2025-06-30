@@ -11,15 +11,15 @@ export class ExcelProcessor {
     return ExcelProcessor.instance
   }
 
-  async processExcelFile(
+  processExcelFile(
     fileData: ArrayBuffer,
     fileName: string,
     sheetName?: string,
-  ): Promise<{
+  ): {
     csvData: string
     preview: DataPreview
     fileInfo: ExcelFileInfo
-  }> {
+  } {
     try {
       const workbook = XLSX.read(fileData, { type: 'array' })
       const sheets = workbook.SheetNames

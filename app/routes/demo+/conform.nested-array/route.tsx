@@ -30,7 +30,7 @@ import {
 } from './faker.server'
 import { formSchema } from './schema'
 
-export const loader = ({ request }: Route.LoaderArgs) => {
+export const loader = () => {
   // ブラウザバンドルが巨大になってしまうので、faker はサーバサイドでのみ使用
   const fakeMembers = Array.from({ length: 30 }, () => ({
     id: fakeId(),
@@ -67,10 +67,10 @@ export const action = async ({ request }: Route.ActionArgs) => {
   return dataWithSuccess(
     {
       lastResult: submission.reply({ resetForm: true }),
-      result: submission.value.teams.map((team, teamIndex) => ({
+      result: submission.value.teams.map((team) => ({
         id: team.id ?? fakeId(),
         ...team,
-        members: team.members.map((member, memberIndex) => ({
+        members: team.members.map((member) => ({
           ...member,
           id: member.id ?? fakeId(),
         })),
@@ -84,7 +84,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
 }
 
 export default function ConformNestedArrayDemo({
-  loaderData: { teams: defaultTeams, fakeMembers },
+  loaderData: { teams: defaultTeams },
   actionData,
 }: Route.ComponentProps) {
   const [form, fields] = useForm({
@@ -139,7 +139,7 @@ export default function ConformNestedArrayDemo({
                         Move Down
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        onClick={(e) => {
+                        onClick={() => {
                           form.remove({ name: fields.teams.name, index })
                         }}
                         className="text-destructive"
@@ -181,7 +181,7 @@ export default function ConformNestedArrayDemo({
             </TableHeader>
             <TableBody>
               {actionData.result.map((team) => {
-                return team.members.map((member, memberIndex) => {
+                return team.members.map((member) => {
                   return (
                     <TableRow key={`${team.id}-${member.id}`}>
                       <TableCell>{member.id}</TableCell>

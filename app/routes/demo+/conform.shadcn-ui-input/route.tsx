@@ -148,7 +148,7 @@ const testData = {
   f26_radioGroupWithHelper: 'all',
 }
 
-export const loader = ({ request }: Route.LoaderArgs) => {
+export const loader = () => {
   return {
     defaultValue: {},
   }

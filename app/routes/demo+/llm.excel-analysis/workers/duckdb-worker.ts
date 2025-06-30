@@ -157,7 +157,7 @@ self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
           rows?: unknown[][]
           success?: boolean
         }
-      | undefined = undefined
+      | undefined 
 
     switch (type) {
       case 'init':

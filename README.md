@@ -65,7 +65,6 @@ A modern full-stack web application built with React Router v7 and deployed on C
    ```
 
    Configure your environment variables:
-
    - `GOOGLE_GENERATIVE_AI_API_KEY` - For Google Gemini
    - `OPENAI_API_KEY` - For OpenAI
    - Database and R2 configurations (auto-configured for local development)

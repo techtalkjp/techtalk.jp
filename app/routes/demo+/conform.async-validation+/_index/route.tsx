@@ -55,12 +55,12 @@ export default function Signup({ actionData }: Route.ComponentProps) {
     useEmailAsyncValidation()
 
   // メールが有効な時だけ非同期バリデーションを実行
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+
   useEffect(() => {
     if (email.valid && email.value) {
       validateEmail(email.value)
     }
-  }, [email.valid, email.value])
+  }, [email.valid, email.value, validateEmail])
 
   return (
     <Form {...getFormProps(form)} method="post">

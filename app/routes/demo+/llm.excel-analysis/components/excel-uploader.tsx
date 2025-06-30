@@ -45,15 +45,101 @@ export function ExcelUploader({
     setIsDragOver(false)
   }, [])
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragOver(false)
+  const handleFile = useCallback(
+    async (file: File) => {
+      try {
+        setIsProcessing(true)
+        setProgress(0)
+        setCurrentStep('Validating file...')
 
-    const files = Array.from(e.dataTransfer.files)
-    if (files.length > 0 && files[0]) {
-      handleFile(files[0])
-    }
-  }, [])
+        // Validate file
+        const validation = excelProcessor.validateExcelFile(file)
+        if (!validation.valid) {
+          throw new Error(validation.error)
+        }
+
+        setProgress(10)
+        setCurrentStep('Initializing OPFS...')
+
+        // Initialize OPFS
+        await opfsManager.initialize()
+
+        setProgress(20)
+        setCurrentStep('Reading Excel file...')
+
+        // Read file as ArrayBuffer
+        const fileData = await file.arrayBuffer()
+
+        setProgress(40)
+        setCurrentStep('Processing Excel data...')
+
+        // Process Excel file
+        const { csvData, preview, fileInfo } =
+          await excelProcessor.processExcelFile(fileData, file.name)
+
+        setProgress(60)
+        setCurrentStep('Saving to OPFS...')
+
+        // Save original file and processed CSV to OPFS
+        await opfsManager.saveExcelFile(file.name, fileData)
+        await opfsManager.saveProcessedData(file.name, csvData)
+
+        setProgress(80)
+        setCurrentStep('Loading into database...')
+
+        // Initialize DuckDB and create table
+        await duckdbClient.initialize()
+        const tableName = file.name
+          .replace(/\.xlsx?$/i, '')
+          .replace(/[^a-zA-Z0-9_]/g, '_')
+        await duckdbClient.createTableFromCSV(tableName, csvData)
+
+        setProgress(100)
+        setCurrentStep('Complete!')
+
+        setProcessedFile(fileInfo)
+        onFileProcessed(fileInfo, preview)
+
+        setTimeout(() => {
+          setIsProcessing(false)
+          setCurrentStep('')
+          setProgress(0)
+        }, 1000)
+      } catch (error) {
+        console.error('[ExcelUploader] Processing failed:', error)
+        setIsProcessing(false)
+        setProgress(0)
+        setCurrentStep('')
+        onError(
+          error instanceof Error ? error.message : 'Unknown error occurred',
+        )
+      }
+    },
+    [
+      duckdbClient.createTableFromCSV,
+      duckdbClient.initialize,
+      excelProcessor.processExcelFile,
+      excelProcessor.validateExcelFile,
+      onError,
+      onFileProcessed,
+      opfsManager.initialize,
+      opfsManager.saveExcelFile,
+      opfsManager.saveProcessedData,
+    ],
+  )
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault()
+      setIsDragOver(false)
+
+      const files = Array.from(e.dataTransfer.files)
+      if (files.length > 0 && files[0]) {
+        handleFile(files[0])
+      }
+    },
+    [handleFile],
+  )
 
   const handleFileInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,76 +148,8 @@ export function ExcelUploader({
         handleFile(files[0])
       }
     },
-    [],
+    [handleFile],
   )
-
-  const handleFile = async (file: File) => {
-    try {
-      setIsProcessing(true)
-      setProgress(0)
-      setCurrentStep('Validating file...')
-
-      // Validate file
-      const validation = excelProcessor.validateExcelFile(file)
-      if (!validation.valid) {
-        throw new Error(validation.error)
-      }
-
-      setProgress(10)
-      setCurrentStep('Initializing OPFS...')
-
-      // Initialize OPFS
-      await opfsManager.initialize()
-
-      setProgress(20)
-      setCurrentStep('Reading Excel file...')
-
-      // Read file as ArrayBuffer
-      const fileData = await file.arrayBuffer()
-
-      setProgress(40)
-      setCurrentStep('Processing Excel data...')
-
-      // Process Excel file
-      const { csvData, preview, fileInfo } =
-        await excelProcessor.processExcelFile(fileData, file.name)
-
-      setProgress(60)
-      setCurrentStep('Saving to OPFS...')
-
-      // Save original file and processed CSV to OPFS
-      await opfsManager.saveExcelFile(file.name, fileData)
-      await opfsManager.saveProcessedData(file.name, csvData)
-
-      setProgress(80)
-      setCurrentStep('Loading into database...')
-
-      // Initialize DuckDB and create table
-      await duckdbClient.initialize()
-      const tableName = file.name
-        .replace(/\.xlsx?$/i, '')
-        .replace(/[^a-zA-Z0-9_]/g, '_')
-      await duckdbClient.createTableFromCSV(tableName, csvData)
-
-      setProgress(100)
-      setCurrentStep('Complete!')
-
-      setProcessedFile(fileInfo)
-      onFileProcessed(fileInfo, preview)
-
-      setTimeout(() => {
-        setIsProcessing(false)
-        setCurrentStep('')
-        setProgress(0)
-      }, 1000)
-    } catch (error) {
-      console.error('[ExcelUploader] Processing failed:', error)
-      setIsProcessing(false)
-      setProgress(0)
-      setCurrentStep('')
-      onError(error instanceof Error ? error.message : 'Unknown error occurred')
-    }
-  }
 
   return (
     <Card>
@@ -147,6 +165,8 @@ export function ExcelUploader({
       </CardHeader>
       <CardContent className="space-y-4">
         {!isProcessing && !processedFile && (
+          // biome-ignore lint/a11y/noStaticElementInteractions: div
+          // biome-ignore lint/a11y/useAriaPropsSupportedByRole: div
           <div
             className={`cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
               isDragOver

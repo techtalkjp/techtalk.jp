@@ -29,14 +29,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
     return { handle: null, lastResult: submission.reply() }
   }
 
-  const items = submission.value.files.map((file) => ({
-    payload: {
-      file,
-      prompt: submission.value.prompt,
-    },
-  }))
-  //  const handle = await pdfExtractTextTask.batchTrigger(items)
-
   return dataWithSuccess(
     {
       handle: null,
@@ -82,14 +74,6 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
         {actionData?.handle && (
           <Stack>
             <h3>Handle</h3>
-            {/* <pre>{actionData.handle.batchId}</pre> */}
-
-            {
-              // <BatchStatus
-              //   batchId={actionData.handle.batchId}
-              //   publicAccessToken={actionData.handle.publicAccessToken}
-              // />
-            }
           </Stack>
         )}
 

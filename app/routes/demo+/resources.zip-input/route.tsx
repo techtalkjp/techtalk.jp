@@ -14,7 +14,6 @@ import {
   PopoverTrigger,
 } from '~/components/ui'
 import { cn } from '~/libs/utils'
-import type { Route } from './+types/route'
 
 const master = [
   {
@@ -31,7 +30,7 @@ const master = [
   },
 ]
 
-export const loader = ({ request }: Route.LoaderArgs) => {
+export const loader = () => {
   return { zipAddresses: master }
 }
 
@@ -53,11 +52,10 @@ export const ZipInput = ({ defaultValue = '', onChange }: ZipInputProps) => {
     setOpen(false)
   }
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   React.useEffect(() => {
     if (fetcher.data) return
     fetcher.load('/demo/resources/zip-input')
-  }, [])
+  }, [fetcher])
 
   const zipAddresses = fetcher.data?.zipAddresses
 

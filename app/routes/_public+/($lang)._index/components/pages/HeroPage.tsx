@@ -1,10 +1,8 @@
 import { TextReveal } from '~/components/TextRevail'
 import { Heading } from '~/components/ui'
-import { useLocale } from '~/i18n/hooks/useLocale'
 import CoverPage from '~/routes/_public+/($lang)._index/components/CoverPage'
 
 export const HeroPage = () => {
-  const { t } = useLocale()
   return (
     <CoverPage id="hero" bgImage="/images/hero.webp" className="text-center">
       <Heading size="5xl">

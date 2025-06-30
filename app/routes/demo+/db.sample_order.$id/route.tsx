@@ -15,7 +15,7 @@ import { getSampleOrder } from './queries'
 
 const defaultCacheControl = 's-maxage=60, stale-while-revalidate=120'
 
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
+export const headers: HeadersFunction = () => {
   return { 'Cache-Control': defaultCacheControl }
 }
 
