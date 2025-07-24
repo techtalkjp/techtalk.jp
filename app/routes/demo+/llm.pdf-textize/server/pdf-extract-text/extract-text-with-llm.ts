@@ -6,7 +6,7 @@ export const extractTextWithLLM = async (
   prompt?: string,
 ) => {
   return await generateText({
-    model: google('gemini-2.5-flash', {
+    model: google('gemini-2.5-flash-lite', {
       structuredOutputs: false,
     }),
     messages: [
