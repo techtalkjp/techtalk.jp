@@ -1,23 +1,22 @@
-import { getFormProps, getTextareaProps, useForm } from '@conform-to/react'
+import {
+  getFormProps,
+  getInputProps,
+  getTextareaProps,
+  useForm,
+} from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
+import ReactMarkdown from 'react-markdown'
 import { Form, useNavigation } from 'react-router'
+import remarkTables from 'remark-extended-table'
+import remarkGfm from 'remark-gfm'
 import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
-import { MediaFileUploader } from '~/components/media-file-uploader'
-import { Button, Label, Stack, Textarea } from '~/components/ui'
+import { Button, Input, Label, Stack, Textarea } from '~/components/ui'
 import type { Route } from './+types/route'
+import { pdfExtractText } from './server/pdf-extract-text.server'
 
 const formSchema = z.object({
-  files: z
-    .array(
-      z.object({
-        prefix: z.string(),
-        key: z.string(),
-        name: z.string(),
-        type: z.union([z.literal('image'), z.literal('pdf')]),
-      }),
-    )
-    .min(1, 'At least one file is required'),
+  file: z.instanceof(File, { message: 'File is required' }),
   prompt: z.string().optional(),
 })
 
@@ -25,13 +24,29 @@ export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), {
     schema: formSchema,
   })
+
   if (submission.status !== 'success') {
-    return { handle: null, lastResult: submission.reply() }
+    return {
+      text: null,
+      cost: null,
+      elapsed: null,
+      lastResult: submission.reply(),
+    }
   }
+
+  const timeStart = Date.now()
+  const { text, cost } = await pdfExtractText({
+    file: submission.value.file,
+    prompt: submission.value.prompt,
+  })
+  const timeEnd = Date.now()
+  const elapsed = (timeEnd - timeStart) / 1000
 
   return dataWithSuccess(
     {
-      handle: null,
+      text,
+      cost,
+      elapsed,
       lastResult: submission.reply({ resetForm: true }),
     },
     'File uploaded',
@@ -47,18 +62,15 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
   })
 
   return (
-    <Form {...getFormProps(form)} method="POST">
+    <Form {...getFormProps(form)} method="POST" encType="multipart/form-data">
       <Stack gap="lg">
         <Stack>
-          <Label htmlFor={fields.files.id}>PDF or Image Files</Label>
-          <MediaFileUploader
-            id={fields.files.id}
-            name={fields.files.name}
-            key={fields.files.key}
-            mediaType={['image', 'pdf']}
+          <Label htmlFor={fields.file.id}>PDF or Image File</Label>
+          <Input
+            {...getInputProps(fields.file, { type: 'file' })}
+            accept="image/*,application/pdf"
           />
-
-          <div className="text-sm text-red-500">{fields.files.errors}</div>
+          <div className="text-sm text-red-500">{fields.file.errors}</div>
         </Stack>
 
         <Stack>
@@ -71,17 +83,34 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
           <div className="text-sm text-red-500">{fields.prompt.errors}</div>
         </Stack>
 
-        {actionData?.handle && (
-          <Stack>
-            <h3>Handle</h3>
-          </Stack>
+        {actionData?.cost && (
+          <div className="grid grid-cols-[auto_1fr] gap-2 text-sm text-gray-500">
+            <div>Elapsed</div>
+            <div>{actionData.elapsed.toFixed(1)} seconds</div>
+            <div>Prompt</div>
+            <div>{actionData?.cost.prompt.tokens.toLocaleString()} tokens</div>
+            <div>Output</div>
+            <div>
+              {actionData?.cost.completion.tokens.toLocaleString()} tokens
+            </div>
+            <div>Total</div>
+            <div>{actionData.cost.total.tokens.toLocaleString()} tokens</div>
+            <div>Cost</div>
+            <div>{actionData.cost.total.jpy.toFixed(1)} JPY</div>
+          </div>
+        )}
+
+        {actionData?.text && (
+          <div className="prose rounded border p-4">
+            <ReactMarkdown remarkPlugins={[remarkGfm, remarkTables]}>
+              {actionData.text}
+            </ReactMarkdown>
+          </div>
         )}
 
         <Button type="submit" isLoading={navigation.state === 'submitting'}>
           Submit
         </Button>
-
-        <div>{JSON.stringify(form.allErrors)}</div>
       </Stack>
     </Form>
   )

@@ -1,0 +1,12 @@
+diff --git a/package.json b/package.json
+index 3eae5fd5dd295cbbd8838f0b44b34285605e306a..cbbd15f52726f315c41132549319cb79cd0f014a 100644
+--- a/package.json
++++ b/package.json
+@@ -23,6 +23,7 @@
+     "edge-light": "./index.js",
+     "react-native": "./index.js",
+     "worker": "./index.js",
++    "workerd": "./index.js",
+     "browser": "./index.dom.js",
+     "default": "./index.js"
+   },

@@ -83,23 +83,6 @@ const demoPages: {
       title: 'Image and PDF Textize',
       ext: '/route.tsx',
     },
-    {
-      path: '/demo/llm/talk',
-      title: 'AI Chatbot',
-      ext: '/route.tsx',
-    },
-    {
-      path: '/demo/llm/excel-analysis',
-      title: 'Excel Analysis with OPFS & DuckDB',
-      ext: '/route.tsx',
-    },
-  ],
-  pdf: [
-    {
-      path: '/demo/pdf/viewer',
-      title: 'PDF Viewer (PDF.js)',
-      ext: '/route.tsx',
-    },
   ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
 } as const
