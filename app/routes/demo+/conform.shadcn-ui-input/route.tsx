@@ -47,8 +47,7 @@ const schema = z.object({
     .string({ error: '必須' })
     .max(100, { message: '100文字以内で入力してください' }),
   f2_email: z
-    .string({ error: '必須' })
-    .email({ message: 'メールアドレスの形式で入力してください' })
+    .email({ error: '必須' })
     .max(500, { message: '500文字以内で入力してください' }),
   f3_search: z
     .string({ error: '必須' })
@@ -57,9 +56,8 @@ const schema = z.object({
     .string({ error: '必須' })
     .max(100, { message: '100文字以内で入力してください' }),
   f5_url: z
-    .string({ error: '必須' })
-    .max(100, { message: '100文字以内で入力してください' })
-    .url({ message: 'URLの形式で入力してください' }),
+    .url({ error: '必須' })
+    .max(100, { message: '100文字以内で入力してください' }),
   f6_phone: z
     .string({ error: '必須' })
     .regex(
@@ -70,7 +68,6 @@ const schema = z.object({
   f8_range: z.number({ error: '必須' }).min(0).max(100),
   f9_date: z.date({
     error: '必須',
-    message: '日付を入力してください',
   }),
   f10_datetime: z
     .string({ error: '必須' })
