@@ -4,7 +4,7 @@ import {
   getTextareaProps,
   useForm,
 } from '@conform-to/react'
-import { parseWithZod } from '@conform-to/zod'
+import { parseWithZod } from '@conform-to/zod/v4'
 import ReactMarkdown from 'react-markdown'
 import { Form, useNavigation } from 'react-router'
 import remarkTables from 'remark-extended-table'

@@ -4,7 +4,7 @@ import {
   getTextareaProps,
   useForm,
 } from '@conform-to/react'
-import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
 import { ok } from 'neverthrow'
 import { Link, useFetcher } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'

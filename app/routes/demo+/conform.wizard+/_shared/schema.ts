@@ -5,9 +5,8 @@ import { z } from 'zod'
 export const step1Schema = z.object({
   name: z.string().min(1, '名前は必須です'),
   email: z
-    .string()
-    .min(1, 'メールアドレスは必須です')
-    .email('有効なメールアドレスを入力してください'),
+    .email({ error: '有効なメールアドレスを入力してください' })
+    .min(1, 'メールアドレスは必須です'),
 })
 
 // ステップ2のスキーマ定義
@@ -24,7 +23,7 @@ export const step2Schema = z.object({
 export const step3Schema = z.object({
   comments: z.string().optional(),
   agreement: z.literal(true, {
-    errorMap: () => ({ message: '利用規約に同意する必要があります' }),
+    error: '利用規約に同意する必要があります',
   }),
 })
 

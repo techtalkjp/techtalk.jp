@@ -1,5 +1,5 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
-import { parseWithZod } from '@conform-to/zod'
+import { parseWithZod } from '@conform-to/zod/v4'
 import { setTimeout } from 'node:timers/promises'
 import { useEffect } from 'react'
 import { Form, useNavigation } from 'react-router'
@@ -10,7 +10,7 @@ import { useEmailAsyncValidation } from '../validate-email/route'
 import type { Route } from './+types/route'
 
 const schema = z.object({
-  email: z.string().email({ message: 'メールアドレスを入力' }),
+  email: z.email({ message: 'メールアドレスを入力' }),
 })
 
 export async function action({ request }: Route.ActionArgs) {

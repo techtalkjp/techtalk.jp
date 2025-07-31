@@ -4,7 +4,7 @@ import {
   getTextareaProps,
   useForm,
 } from '@conform-to/react'
-import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
 import { Form } from 'react-router'
 import { twc } from 'react-twc'
 import { dataWithError, dataWithSuccess } from 'remix-toast'
@@ -44,79 +44,74 @@ const SectionHeading = twc.h2`mt-4 w-full flex-1 border-b text-2xl font-bold`
 
 const schema = z.object({
   f1_text: z
-    .string({ required_error: '必須' })
+    .string({ error: '必須' })
     .max(100, { message: '100文字以内で入力してください' }),
   f2_email: z
-    .string({ required_error: '必須' })
+    .string({ error: '必須' })
     .email({ message: 'メールアドレスの形式で入力してください' })
     .max(500, { message: '500文字以内で入力してください' }),
   f3_search: z
-    .string({ required_error: '必須' })
+    .string({ error: '必須' })
     .max(100, { message: '100文字以内で入力してください' }),
   f4_password: z
-    .string({ required_error: '必須' })
+    .string({ error: '必須' })
     .max(100, { message: '100文字以内で入力してください' }),
   f5_url: z
-    .string({ required_error: '必須' })
+    .string({ error: '必須' })
     .max(100, { message: '100文字以内で入力してください' })
     .url({ message: 'URLの形式で入力してください' }),
   f6_phone: z
-    .string({ required_error: '必須' })
+    .string({ error: '必須' })
     .regex(
       /^\d{3}-\d{4}-\d{4}$/,
       '000-0000-0000形式で電話番号を入力してください',
     ),
-  f7_number: z.number({ required_error: '必須' }),
-  f8_range: z.number({ required_error: '必須' }).min(0).max(100),
+  f7_number: z.number({ error: '必須' }),
+  f8_range: z.number({ error: '必須' }).min(0).max(100),
   f9_date: z.date({
-    required_error: '必須',
+    error: '必須',
     message: '日付を入力してください',
   }),
   f10_datetime: z
-    .string({ required_error: '必須' })
+    .string({ error: '必須' })
     .refine((value) => !Number.isNaN(new Date(value).getTime()), {
       message: '日時を入力してください',
     })
     .transform((value) => new Date(value)),
   f11_time: z
-    .string({ required_error: '必須' })
+    .string({ error: '必須' })
     .time({ message: '時間を入力してください' }),
   f12_month: z
-    .string({ required_error: '必須' })
+    .string({ error: '必須' })
     .refine((value) => !Number.isNaN(new Date(value).getMonth())),
-  f13_week: z.string({ required_error: '必須' }),
-  f14_checkbox: z.boolean({ required_error: '必須' }),
+  f13_week: z.string({ error: '必須' }),
+  f14_checkbox: z.boolean({ error: '必須' }),
   f15_radio: z.enum(['all', 'mention', 'nothing'], {
-    required_error: '必須',
-    message: 'いずれかを選択してください',
+    error: '必須',
   }),
   f16_file: z.instanceof(File).optional(),
-  f17_color: z.string({ required_error: '必須' }),
-  f18_textarea: z.string({ required_error: '必須' }).min(1).max(1000, {
+  f17_color: z.string({ error: '必須' }),
+  f18_textarea: z.string({ error: '必須' }).min(1).max(1000, {
     message: '1000文字以内で入力してください',
   }),
   f19_select: z.enum(['apple', 'peach', 'strawberry', 'cherry', 'plum'], {
-    required_error: '必須',
-    message: 'いずれかを選択してください',
+    error: '必須',
   }),
   f20_selectWithHelper: z.enum(
     ['apple', 'peach', 'strawberry', 'cherry', 'plum'],
     {
-      required_error: '必須',
-      message: 'いずれかを選択してください',
+      error: '必須',
     },
   ),
-  f21_checkbox: z.boolean({ required_error: '必須' }),
-  f22_checkboxWithHelper: z.boolean({ required_error: '必須' }),
-  f23_switch: z.boolean({ required_error: '必須' }),
-  f24_switchWithHelper: z.boolean({ required_error: '必須' }),
+  f21_checkbox: z.boolean({ error: '必須' }),
+  f22_checkboxWithHelper: z.boolean({ error: '必須' }),
+  f23_switch: z.boolean({ error: '必須' }),
+  f24_switchWithHelper: z.boolean({ error: '必須' }),
   f25_radioGroup: z.enum(['all', 'mention', 'nothing'], {
-    required_error: '必須',
-    message: 'いずれかを選択してください',
+    error: '必須',
   }),
   f26_radioGroupWithHelper: z.enum(['all', 'mention', 'nothing'], {
-    required_error: '必須',
-    message: 'いずれかを選択してください',
+    error: '必須',
   }),
 })
 

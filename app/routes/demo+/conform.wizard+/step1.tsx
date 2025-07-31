@@ -1,5 +1,5 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
-import { parseWithZod } from '@conform-to/zod'
+import { parseWithZod } from '@conform-to/zod/v4'
 import { Form, redirect } from 'react-router'
 import { Button, Input, Label } from '~/components/ui'
 import type { Route } from './+types/step1'
