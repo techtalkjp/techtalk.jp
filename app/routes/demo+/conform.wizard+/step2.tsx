@@ -1,6 +1,6 @@
 // app/routes/wizard.step2.tsx
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
-import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
 import { Form, redirect } from 'react-router'
 import type { Route } from './+types/step2'
 import { step2Schema } from './_shared/schema'

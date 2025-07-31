@@ -6,6 +6,6 @@ export enum FormType {
 }
 
 export const schema = z.object({
-  formType: z.nativeEnum(FormType),
+  formType: z.enum(FormType),
   option: z.enum(['option1', 'option2']).optional(),
 })

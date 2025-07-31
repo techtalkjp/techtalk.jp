@@ -1,5 +1,5 @@
 import { getFormProps, useForm } from '@conform-to/react'
-import { parseWithZod } from '@conform-to/zod'
+import { parseWithZod } from '@conform-to/zod/v4'
 import { env } from 'cloudflare:workers'
 import dayjs from 'dayjs'
 import { EllipsisIcon } from 'lucide-react'

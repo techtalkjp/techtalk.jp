@@ -1,5 +1,5 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
-import { getZodConstraint, parseWithZod } from '@conform-to/zod'
+import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
 import { Form, useNavigation, useRevalidator } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'

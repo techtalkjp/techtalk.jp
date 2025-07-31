@@ -4,7 +4,7 @@ import {
   getTextareaProps,
   useForm,
 } from '@conform-to/react'
-import { parseWithZod } from '@conform-to/zod'
+import { parseWithZod } from '@conform-to/zod/v4'
 import { Form, redirect, useNavigate } from 'react-router'
 import type { Route } from './+types/step3'
 import { step3Schema } from './_shared/schema'
