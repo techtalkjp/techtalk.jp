@@ -11,7 +11,8 @@ export const calculateCost = (usage: CalculateCostUsage) => {
     prompt: {
       tokens: usage.inputTokens,
       usd: ((usage.inputTokens ?? 0) / 1000000) * PROMPT_TOKEN_RATE,
-      jpy: ((usage.inputTokens ?? 0) / 1000000) * PROMPT_TOKEN_RATE * USD_TO_JPY,
+      jpy:
+        ((usage.inputTokens ?? 0) / 1000000) * PROMPT_TOKEN_RATE * USD_TO_JPY,
     },
     completion: {
       tokens: usage.outputTokens,
