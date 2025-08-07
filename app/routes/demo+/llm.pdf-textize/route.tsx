@@ -88,10 +88,10 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
             <div>Elapsed</div>
             <div>{actionData.elapsed.toFixed(1)} seconds</div>
             <div>Prompt</div>
-            <div>{actionData?.cost.prompt.tokens.toLocaleString()} tokens</div>
+            <div>{actionData?.cost.prompt.tokens?.toLocaleString()} tokens</div>
             <div>Output</div>
             <div>
-              {actionData?.cost.completion.tokens.toLocaleString()} tokens
+              {actionData?.cost.completion.tokens?.toLocaleString()} tokens
             </div>
             <div>Total</div>
             <div>{actionData.cost.total.tokens.toLocaleString()} tokens</div>
