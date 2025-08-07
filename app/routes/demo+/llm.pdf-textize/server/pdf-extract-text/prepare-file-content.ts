@@ -17,7 +17,7 @@ export const prepareFileContents = async (
         ({
           type: 'file',
           data: base64,
-          mimeType: 'application/pdf',
+          mediaType: 'application/pdf',
         }) satisfies FilePart,
     )
     .when(
