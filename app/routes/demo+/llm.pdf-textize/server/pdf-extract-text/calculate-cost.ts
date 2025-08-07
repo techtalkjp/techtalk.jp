@@ -10,25 +10,25 @@ export const calculateCost = (usage: CalculateCostUsage) => {
   return {
     prompt: {
       tokens: usage.inputTokens,
-      usd: (usage.inputTokens ?? 0 / 1000000) * PROMPT_TOKEN_RATE,
-      jpy: (usage.inputTokens ?? 0 / 1000000) * PROMPT_TOKEN_RATE * USD_TO_JPY,
+      usd: ((usage.inputTokens ?? 0) / 1000000) * PROMPT_TOKEN_RATE,
+      jpy: ((usage.inputTokens ?? 0) / 1000000) * PROMPT_TOKEN_RATE * USD_TO_JPY,
     },
     completion: {
       tokens: usage.outputTokens,
-      usd: (usage.outputTokens ?? 0 / 1000000) * COMPLETION_TOKEN_RATE,
+      usd: ((usage.outputTokens ?? 0) / 1000000) * COMPLETION_TOKEN_RATE,
       jpy:
-        (usage.outputTokens ?? 0 / 1000000) *
+        ((usage.outputTokens ?? 0) / 1000000) *
         COMPLETION_TOKEN_RATE *
         USD_TO_JPY,
     },
     total: {
       tokens: (usage.inputTokens ?? 0) + (usage.outputTokens ?? 0),
       usd:
-        (usage.inputTokens ?? 0 / 1000000) * PROMPT_TOKEN_RATE +
-        (usage.outputTokens ?? 0 / 1000000) * COMPLETION_TOKEN_RATE,
+        ((usage.inputTokens ?? 0) / 1000000) * PROMPT_TOKEN_RATE +
+        ((usage.outputTokens ?? 0) / 1000000) * COMPLETION_TOKEN_RATE,
       jpy:
-        ((usage.inputTokens ?? 0 / 1000000) * PROMPT_TOKEN_RATE +
-          (usage.outputTokens ?? 0 / 1000000) * COMPLETION_TOKEN_RATE) *
+        (((usage.inputTokens ?? 0) / 1000000) * PROMPT_TOKEN_RATE +
+          ((usage.outputTokens ?? 0) / 1000000) * COMPLETION_TOKEN_RATE) *
         USD_TO_JPY,
     },
   }
