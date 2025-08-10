@@ -370,50 +370,6 @@ export default function DokodemoIssyoDemo() {
                   <Message from={message.role} key={message.id}>
                     <MessageContent>
                       {(() => {
-                        // generateResponseの結果を探す
-                        const generateResponsePart = message.parts.find(
-                          (p) =>
-                            p.type.startsWith('tool-') &&
-                            p.type.includes('generateResponse') &&
-                            'state' in p &&
-                            (p as { state?: string }).state === 'output',
-                        )
-
-                        if (generateResponsePart) {
-                          const toolPart = generateResponsePart as {
-                            type: `tool-${string}`
-                            state?: string
-                            output?: unknown
-                          }
-                          const result = toolPart.output as {
-                            message?: string
-                            emotion?: string
-                            actions?: Array<{
-                              type: string
-                              description: string
-                            }>
-                            useWords?: string[]
-                          }
-                          if (result?.message) {
-                            return (
-                              <>
-                                <Response>
-                                  {`${result.emotion ? `${result.emotion} ` : ''}${result.message}`}
-                                </Response>
-                                {result.actions &&
-                                  result.actions.length > 0 && (
-                                    <div className="mt-2 text-xs text-gray-500">
-                                      💡{' '}
-                                      {result.actions
-                                        .map((a) => a.description)
-                                        .join(' / ')}
-                                    </div>
-                                  )}
-                              </>
-                            )
-                          }
-                        }
-
                         // generateResponseがない場合は、通常のメッセージ表示
                         return message.parts.map((part, index) => {
                           if (part.type === 'text') {
@@ -423,7 +379,7 @@ export default function DokodemoIssyoDemo() {
                               </Response>
                             )
                           }
-                          // 開発環境ではツール出力を表示
+
                           if (
                             part.type === 'tool-analyzeIntent' ||
                             part.type === 'tool-updateGameState' ||
