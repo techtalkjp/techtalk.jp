@@ -15,9 +15,6 @@ import {
 } from '../tools'
 import type { Route } from './+types/route'
 
-// 30秒までストリーミングレスポンスを許可
-export const maxDuration = 30
-
 export async function action({ request }: Route.ActionArgs) {
   const { messages }: { messages: UIMessage[] } = await request.json()
   const userId = 'demo-user' // 本番環境ではセッションやJWTから取得
