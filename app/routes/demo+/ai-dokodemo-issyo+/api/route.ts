@@ -25,7 +25,7 @@ export async function action({ request }: Route.ActionArgs) {
   const currentState = getGameState(userId)
 
   const result = streamText({
-    model: google('gemini-2.0-flash-exp'),
+    model: google('gemini-2.5-flash'),
     messages: convertToModelMessages(messages),
     system: [
       'あなたはゲーム内キャラクター「トロ」のAIシステムです。',
