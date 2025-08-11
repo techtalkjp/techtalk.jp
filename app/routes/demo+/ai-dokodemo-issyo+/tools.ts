@@ -1,4 +1,3 @@
-import { google } from '@ai-sdk/google'
 import { generateObject, tool } from 'ai'
 import { z } from 'zod'
 import type { GameState } from './_index/game-state'
@@ -57,7 +56,7 @@ export const analyzeIntent = tool({
   }),
   execute: async ({ text }) => {
     const result = await generateObject({
-      model: google('gemini-2.5-flash-lite'),
+      model: 'google/gemini-2.5-flash',
       schema: intentAnalysisSchema,
       prompt: `以下のユーザーの発話を分析してください。
 
@@ -149,7 +148,7 @@ export const checkEvents = tool({
   outputSchema: eventCheckSchema,
   execute: async ({ affinity, lexiconSize, recentWords, lastMood }) => {
     const result = await generateObject({
-      model: google('gemini-2.5-flash'),
+      model: 'google/gemini-2.5-flash',
       schema: eventCheckSchema,
       prompt: `AIペットゲームのイベントをチェックして、プレイヤーへのフィードバックを生成してください。
 
@@ -233,7 +232,7 @@ export const generateResponse = tool({
     events,
   }) => {
     const result = await generateObject({
-      model: google('gemini-2.5-flash'),
+      model: 'google/gemini-2.5-flash',
       schema: responseGenerationSchema,
       prompt: `あなたはゲーム内キャラクター「トロ」です。以下の情報を基に、ユーザーへの返答を生成してください。
 

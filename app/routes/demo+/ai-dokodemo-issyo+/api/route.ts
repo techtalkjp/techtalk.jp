@@ -1,4 +1,3 @@
-import { google } from '@ai-sdk/google'
 import type { UIMessage } from 'ai'
 import {
   convertToModelMessages,
@@ -22,7 +21,7 @@ export async function action({ request }: Route.ActionArgs) {
   const currentState = getGameState(userId)
 
   const result = streamText({
-    model: google('gemini-2.5-flash'),
+    model: 'google/gemini-2.5-flash',
     messages: convertToModelMessages(messages),
     system: [
       'あなたはゲーム内キャラクター「トロ」のAIシステムです。',
