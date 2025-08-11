@@ -1,6 +1,6 @@
 import { generateObject, tool } from 'ai'
 import { z } from 'zod'
-import type { GameState } from './_index/game-state'
+import type { GameState } from './game-state'
 
 // ゲーム状態を保存（本番環境ではDBやKVストアを使用）
 const gameStates = new Map<string, GameState>()

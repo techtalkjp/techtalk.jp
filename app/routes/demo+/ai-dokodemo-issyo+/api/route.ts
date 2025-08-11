@@ -11,7 +11,7 @@ import {
   generateResponse,
   getGameState,
   updateGameState,
-} from '../tools'
+} from '../_shared/tools'
 import type { Route } from './+types/route'
 
 export async function action({ request }: Route.ActionArgs) {

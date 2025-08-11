@@ -2,7 +2,6 @@ import { useChat } from '@ai-sdk/react'
 import {
   DefaultChatTransport,
   type InferUITools,
-  type ToolUIPart,
   type UIDataTypes,
   type UIMessage,
 } from 'ai'
@@ -22,12 +21,12 @@ import {
   PromptInputToolbar,
 } from '~/components/ai-elements/prompt-input'
 import { Response } from '~/components/ai-elements/response'
-import { Tool } from '~/components/ai-elements/tool'
 import { Badge } from '~/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Progress } from '~/components/ui/progress'
-import type { tools } from '../tools'
-import type { GameState } from './game-state'
+import type { GameState } from '../_shared/game-state'
+import type { tools } from '../_shared/tools'
+import { renderToolOutput } from './tool-renderers'
 
 type UseChatToolsMessage = UIMessage<
   never,
@@ -144,151 +143,6 @@ export default function DokodemoIssyoDemo() {
     return moodMap[mood] || '😐'
   }
 
-  const renderToolOutput = (
-    part: ToolUIPart<InferUITools<typeof tools>>,
-    messageId: string,
-    index: number,
-  ) => {
-    console.log('Rendering tool output:', part)
-    if (part.state !== 'output-available' || !part.output) {
-      return null
-    }
-
-    if (part.type === 'tool-analyzeIntent') {
-      const result = part.output
-      return (
-        <Tool key={`${messageId}-${index}`}>
-          <div className="mb-1 text-xs font-medium">🧠 意図解析 (LLM)</div>
-          <div className="space-y-1 text-sm">
-            {result.intent && <div>意図: {result.intent}</div>}
-            {result.taughtWord && (
-              <div>教えられた言葉: 「{result.taughtWord}」</div>
-            )}
-            {result.sentiment && <div>感情: {result.sentiment}</div>}
-            {result.topics && result.topics.length > 0 && (
-              <div>トピック: {result.topics.join('、')}</div>
-            )}
-            {result.needsResponse !== undefined && (
-              <div>返答必要: {result.needsResponse ? 'はい' : 'いいえ'}</div>
-            )}
-          </div>
-        </Tool>
-      )
-    }
-
-    if (part.type === 'tool-updateGameState') {
-      const result = part.output
-      return (
-        <Tool key={`${messageId}-${index}`}>
-          <div className="mb-1 text-xs font-medium">💾 状態更新</div>
-          <div className="space-y-1 text-sm">
-            {result.affinity !== undefined && (
-              <div>親密度: {result.affinity}</div>
-            )}
-            {result.mood && <div>ムード: {result.mood}</div>}
-            {result.lexicon && (
-              <div>覚えた言葉: {Object.keys(result.lexicon).length}個</div>
-            )}
-          </div>
-        </Tool>
-      )
-    }
-
-    if (part.type === 'tool-checkEvents') {
-      const result = part.output
-      return (
-        <Tool key={`${messageId}-${index}`}>
-          <div className="mb-1 text-xs font-medium">🎉 イベント判定 (LLM)</div>
-          <div className="space-y-2 text-sm">
-            {result.unlocks && result.unlocks.length > 0 && (
-              <div className="space-y-1">
-                <div className="font-semibold text-green-600">
-                  新しいイベント:
-                </div>
-                {result.unlocks.map((unlock) => (
-                  <div key={unlock} className="pl-2">
-                    🎊 {unlock}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {result.milestoneMessage && (
-              <div className="rounded bg-yellow-50 p-2 text-yellow-800">
-                🏆 {result.milestoneMessage}
-              </div>
-            )}
-
-            {result.suggestions && result.suggestions.length > 0 && (
-              <div className="space-y-1">
-                <div className="font-medium">遊び方の提案:</div>
-                {result.suggestions.map((suggestion, i) => (
-                  <div key={i} className="pl-2 text-xs">
-                    💡 {suggestion}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {result.nextGoal && (
-              <div className="rounded bg-blue-50 p-2 text-blue-800">
-                <div className="font-medium">次の目標:</div>
-                <div className="text-xs">
-                  {result.nextGoal.type}: {result.nextGoal.current} /{' '}
-                  {result.nextGoal.target}
-                </div>
-                <div className="text-xs">報酬: {result.nextGoal.reward}</div>
-              </div>
-            )}
-
-            {!result.unlocks?.length &&
-              !result.milestoneMessage &&
-              !result.suggestions?.length &&
-              !result.nextGoal && (
-                <div className="text-gray-500">特別なイベントはありません</div>
-              )}
-          </div>
-        </Tool>
-      )
-    }
-
-    if (part.type === 'tool-generateResponse') {
-      const result = part.output
-      // 開発環境のみツールの詳細を表示
-      return (
-        <Tool key={`${messageId}-${index}`}>
-          <div className="mb-1 text-xs font-medium">
-            💬 応答生成 (LLM) {result.emotion}
-          </div>
-          <div className="space-y-2 text-sm">
-            {result.message && (
-              <div className="font-medium text-gray-800">{result.message}</div>
-            )}
-
-            {result.useWords && result.useWords.length > 0 && (
-              <div className="text-xs text-gray-500">
-                使用した言葉: {result.useWords.join('、')}
-              </div>
-            )}
-
-            {result.actions && result.actions.length > 0 && (
-              <div className="space-y-1">
-                <div className="text-xs font-medium">提案アクション:</div>
-                {result.actions.map((action, i) => (
-                  <div key={i} className="pl-2 text-xs text-blue-600">
-                    [{action.type}] {action.description}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </Tool>
-      )
-    }
-
-    return null
-  }
-
   return (
     <div className="container mx-auto max-w-4xl p-4">
       <div className="mb-8">
@@ -369,28 +223,25 @@ export default function DokodemoIssyoDemo() {
                 {messages.map((message) => (
                   <Message from={message.role} key={message.id}>
                     <MessageContent>
-                      {(() => {
-                        // generateResponseがない場合は、通常のメッセージ表示
-                        return message.parts.map((part, index) => {
-                          if (part.type === 'text') {
-                            return (
-                              <Response key={`${message.id}-${index}`}>
-                                {part.text}
-                              </Response>
-                            )
-                          }
+                      {message.parts.map((part, index) => {
+                        if (part.type === 'text') {
+                          return (
+                            <Response key={`${message.id}-${index}`}>
+                              {part.text}
+                            </Response>
+                          )
+                        }
 
-                          if (
-                            part.type === 'tool-analyzeIntent' ||
-                            part.type === 'tool-updateGameState' ||
-                            part.type === 'tool-checkEvents' ||
-                            part.type === 'tool-generateResponse'
-                          ) {
-                            return renderToolOutput(part, message.id, index)
-                          }
-                          return null
-                        })
-                      })()}
+                        if (
+                          part.type === 'tool-analyzeIntent' ||
+                          part.type === 'tool-updateGameState' ||
+                          part.type === 'tool-checkEvents' ||
+                          part.type === 'tool-generateResponse'
+                        ) {
+                          return renderToolOutput(part, message.id, index)
+                        }
+                        return null
+                      })}
                     </MessageContent>
                   </Message>
                 ))}
