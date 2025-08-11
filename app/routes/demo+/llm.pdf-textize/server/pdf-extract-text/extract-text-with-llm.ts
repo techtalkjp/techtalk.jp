@@ -1,4 +1,3 @@
-import { google } from '@ai-sdk/google'
 import { generateText, type FilePart, type ImagePart } from 'ai'
 
 export const extractTextWithLLM = async (
@@ -6,7 +5,7 @@ export const extractTextWithLLM = async (
   prompt?: string,
 ) => {
   return await generateText({
-    model: google('gemini-2.5-flash-lite'),
+    model: 'google/gemini-2.0-flash',
     messages: [
       {
         role: 'system',

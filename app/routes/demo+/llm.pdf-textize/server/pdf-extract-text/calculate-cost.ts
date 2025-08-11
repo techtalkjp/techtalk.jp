@@ -5,7 +5,7 @@ type CalculateCostUsage = Awaited<ReturnType<typeof generateText>>['usage']
 export const calculateCost = (usage: CalculateCostUsage) => {
   const PROMPT_TOKEN_RATE = 0.1 // $ per million tokens
   const COMPLETION_TOKEN_RATE = 0.4 // $ per million tokens
-  const USD_TO_JPY = 146.5
+  const USD_TO_JPY = 148
 
   return {
     prompt: {
