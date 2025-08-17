@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/useUniqueElementIds: anchor links are handled by the CoverPage component */
 import { Link } from 'react-router'
 import { TextReveal } from '~/components/TextRevail'
 import { Button, HStack, Spacer } from '~/components/ui'

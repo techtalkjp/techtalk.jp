@@ -17,24 +17,18 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
 
     await step.do('sendContactSlack', async () => {
       const result = await sendSlack(env.SLACK_WEBHOOK, formData)
-      result
-        .map((result) => {
-          console.log('Slack notification sent:', result)
-        })
-        .mapErr((error) => {
-          throw new Error(`Slack notification failed: ${error}`)
-        })
+      if (result.isErr()) {
+        throw new Error(`Slack notification failed: ${result.error}`)
+      }
+      console.log('Slack notification sent:', result.value)
     })
 
     await step.do('sendContactEmail', async () => {
       const result = await sendEmail(env.SENDGRID_API_KEY, formData)
-      result
-        .map((result) => {
-          console.log('Email notification sent:', result)
-        })
-        .mapErr((error) => {
-          throw new Error(`Email notification failed: ${error}`)
-        })
+      if (result.isErr()) {
+        throw new Error(`Email notification failed: ${result.error}`)
+      }
+      console.log('Email notification sent:', result.value)
     })
   }
 }

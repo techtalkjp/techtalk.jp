@@ -7,6 +7,7 @@ export const ContactPage = ({ className }: React.ComponentProps<'div'>) => {
   const { t } = useLocale()
 
   return (
+    // biome-ignore lint/correctness/useUniqueElementIds: anchor links are handled by the CoverPage component
     <CoverPage
       id="contact"
       bgImage="/images/contact.webp"

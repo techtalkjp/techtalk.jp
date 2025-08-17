@@ -31,7 +31,7 @@ export const TextReveal = ({
     },
   }
 
-  const child = {
+  const childVariants = {
     hidden: { opacity: 0, y: isLastLine ? 50 : 20 },
     visible: {
       opacity: 1,
@@ -44,7 +44,7 @@ export const TextReveal = ({
         stiffness: 200,
       },
     },
-  }
+  } as const
 
   return (
     <motion.span
@@ -55,8 +55,7 @@ export const TextReveal = ({
       animate={controls}
     >
       {characters.map((character, index) => (
-        // @ts-ignore
-        <motion.span key={`${index}-${character}`} variants={child}>
+        <motion.span key={`${index}-${character}`} variants={childVariants}>
           {character === ' ' ? '\u00A0' : character}
         </motion.span>
       ))}

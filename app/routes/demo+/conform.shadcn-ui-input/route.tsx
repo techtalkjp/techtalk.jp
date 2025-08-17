@@ -202,7 +202,7 @@ export default function ShadcnUiPage({
         </HStack>
 
         <Section>
-          <SectionHeading id="input">
+          <SectionHeading>
             Input{' '}
             <small className="text-muted-foreground">
               text, email, search, password, url, tel
@@ -295,7 +295,7 @@ export default function ShadcnUiPage({
         </Section>
 
         <Section>
-          <SectionHeading id="input_number">
+          <SectionHeading>
             Input <small className="text-muted-foreground">number, range</small>
           </SectionHeading>
 
@@ -335,7 +335,7 @@ export default function ShadcnUiPage({
         </Section>
 
         <Section>
-          <SectionHeading id="input_date">
+          <SectionHeading>
             Input{' '}
             <small className="text-muted-foreground">
               date, datetime-local, time, month, week
@@ -407,7 +407,7 @@ export default function ShadcnUiPage({
         </Section>
 
         <Section>
-          <SectionHeading id="input_others">
+          <SectionHeading>
             Input{' '}
             <small className="text-muted-foreground">
               checkbox, radio, file, color
@@ -517,7 +517,7 @@ export default function ShadcnUiPage({
         </Section>
 
         <Section>
-          <SectionHeading id="textarea">Textarea</SectionHeading>
+          <SectionHeading>Textarea</SectionHeading>
 
           {/* Textarea */}
           <FormField>
@@ -533,7 +533,7 @@ export default function ShadcnUiPage({
         </Section>
 
         <Section>
-          <SectionHeading id="select">Select</SectionHeading>
+          <SectionHeading>Select</SectionHeading>
           {/* Select */}
           <FormField>
             <Label htmlFor={fields.f19_select.id}>Select</Label>
@@ -646,7 +646,7 @@ export default function ShadcnUiPage({
         </Section>
 
         <Section>
-          <SectionHeading id="checkbox">Checkbox</SectionHeading>
+          <SectionHeading>Checkbox</SectionHeading>
           <FormField>
             <FormDescription>Checkbox</FormDescription>
             <HStack>
@@ -712,7 +712,7 @@ export default function ShadcnUiPage({
         </Section>
 
         <Section>
-          <SectionHeading id="switch">Switch</SectionHeading>
+          <SectionHeading>Switch</SectionHeading>
           <FormField>
             <FormDescription>Switch</FormDescription>
             <HStack>
@@ -774,7 +774,7 @@ export default function ShadcnUiPage({
         </Section>
 
         <Section>
-          <SectionHeading id="radiogroup">RadioGroup</SectionHeading>
+          <SectionHeading>RadioGroup</SectionHeading>
           <FormField>
             <FormDescription>Radio Group</FormDescription>
             <RadioGroup
@@ -899,7 +899,7 @@ export default function ShadcnUiPage({
         </Section>
 
         <Section>
-          <SectionHeading id="debug">Debug</SectionHeading>
+          <SectionHeading>Debug</SectionHeading>
           <FormField>
             <h3>form value</h3>
             <div className="overflow-auto rounded-md border p-4">
