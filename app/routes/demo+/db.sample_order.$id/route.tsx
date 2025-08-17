@@ -46,7 +46,13 @@ export default function OrderDetailPage({
       </HStack>
 
       <HStack>
-        <Button variant="ghost" className="rounded-full px-0" size="sm" asChild>
+        <Button
+          type="button"
+          variant="ghost"
+          className="rounded-full px-0"
+          size="sm"
+          asChild
+        >
           <Link to="..?tab=list" relative="path">
             <ArrowLeftIcon className="hover:text-foreground text-slate-500" />
           </Link>

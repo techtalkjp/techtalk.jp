@@ -1,11 +1,13 @@
 import { getFormProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
-import { Form, useActionData } from 'react-router'
+import { Form, href, useActionData, useNavigation } from 'react-router'
 import {
   Button,
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
+  CardTitle,
   HStack,
   Label,
   Select,
@@ -33,60 +35,72 @@ export const OutsideForm = () => {
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
     constraint: getZodConstraint(schema),
   })
+  const navigation = useNavigation()
 
   return (
-    <Card>
+    <>
       <Form method="POST" {...getFormProps(form)}>
         <input name="formType" value={FormType.OUTSIDE_FORM} type="hidden" />
         <input name={option.name} value={option.value} type="hidden" />
       </Form>
-      <CardHeader>Outside Form</CardHeader>
-      <CardContent>
-        <Stack>
-          <div>
-            <Label htmlFor={option.id}>Option</Label>
-            <HStack>
-              <Select
-                value={option.value ?? ''}
-                onValueChange={(value) => {
-                  form.update({
-                    name: option.name,
-                    value,
-                  })
-                }}
-              >
-                <SelectTrigger id={option.id}>
-                  <SelectValue placeholder="Unselected" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="option1">Option1</SelectItem>
-                  <SelectItem value="option2">Option2</SelectItem>
-                </SelectContent>
-              </Select>
-              {option.value && (
-                <Button
-                  variant="link"
-                  {...form.update.getButtonProps({
-                    name: option.name,
-                    value: '',
-                  })}
+      <Card>
+        <CardHeader>
+          <CardTitle>Outside Form</CardTitle>
+          <CardDescription>
+            This form is outside the <code>&lt;Form&gt;</code> component.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Stack>
+            <div>
+              <Label htmlFor={option.id}>Option</Label>
+              <HStack>
+                <Select
+                  value={option.value ?? ''}
+                  onValueChange={(value) => {
+                    form.update({
+                      name: option.name,
+                      value,
+                    })
+                  }}
                 >
-                  Clear
-                </Button>
-              )}
-            </HStack>
-            <div className="text-destructive text-sm">{option.errors}</div>
-          </div>
+                  <SelectTrigger id={option.id}>
+                    <SelectValue placeholder="Unselected" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="option1">Option1</SelectItem>
+                    <SelectItem value="option2">Option2</SelectItem>
+                  </SelectContent>
+                </Select>
+                {option.value && (
+                  <Button
+                    variant="link"
+                    {...form.update.getButtonProps({
+                      name: option.name,
+                      value: '',
+                    })}
+                  >
+                    Clear
+                  </Button>
+                )}
+              </HStack>
+              <div className="text-destructive text-sm">{option.errors}</div>
+            </div>
 
-          <Button form={form.id} disabled={!form.dirty}>
-            Submit
-          </Button>
+            <Button
+              form={form.id}
+              disabled={!form.dirty}
+              isLoading={navigation.formAction === href('/demo/conform/select')}
+            >
+              Submit
+            </Button>
 
-          {actionData?.formType === FormType.OUTSIDE_FORM && (
-            <ActionResult actionData={actionData} />
-          )}
-        </Stack>
-      </CardContent>
-    </Card>
+            {actionData?.formType === FormType.OUTSIDE_FORM && (
+              <ActionResult actionData={actionData} />
+            )}
+          </Stack>
+        </CardContent>
+      </Card>
+    </>
   )
 }

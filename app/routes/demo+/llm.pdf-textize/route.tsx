@@ -6,7 +6,7 @@ import {
 } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod/v4'
 import ReactMarkdown from 'react-markdown'
-import { Form, useNavigation } from 'react-router'
+import { Form, href, useNavigation } from 'react-router'
 import remarkTables from 'remark-extended-table'
 import remarkGfm from 'remark-gfm'
 import { dataWithSuccess } from 'remix-toast'
@@ -108,7 +108,10 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
           </div>
         )}
 
-        <Button type="submit" isLoading={navigation.state === 'submitting'}>
+        <Button
+          type="submit"
+          isLoading={navigation.formAction === href('/demo/llm/pdf-textize')}
+        >
           Submit
         </Button>
       </Stack>

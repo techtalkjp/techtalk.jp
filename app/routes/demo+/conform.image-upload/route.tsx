@@ -6,6 +6,7 @@ import { EllipsisIcon } from 'lucide-react'
 import {
   type ActionFunctionArgs,
   Form,
+  href,
   type LoaderFunctionArgs,
   useNavigation,
   useSubmit,
@@ -134,7 +135,12 @@ export default function ImageUploadDemoPage({
             </FormMessage>
           </FormField>
 
-          <Button type="submit" isLoading={navigation.state === 'submitting'}>
+          <Button
+            type="submit"
+            isLoading={
+              navigation.formAction === href('/demo/conform/image-upload')
+            }
+          >
             Upload
           </Button>
         </Stack>

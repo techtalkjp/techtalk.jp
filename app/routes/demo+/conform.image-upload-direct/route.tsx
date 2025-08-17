@@ -2,7 +2,7 @@ import { getFormProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod/v4'
 import { env } from 'cloudflare:workers'
 import dayjs from 'dayjs'
-import { Form, useFetcher, useNavigation } from 'react-router'
+import { Form, href, useFetcher, useNavigation } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import { MediaFileUploader } from '~/components/media-file-uploader'
@@ -124,7 +124,10 @@ export default function ImageUploadDemoPage({
             type="submit"
             name="intent"
             value="process"
-            isLoading={navigation.state === 'submitting'}
+            isLoading={
+              navigation.formAction ===
+              href('/demo/conform/image-upload-direct')
+            }
           >
             Upload
           </Button>

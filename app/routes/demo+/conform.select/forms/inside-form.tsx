@@ -1,11 +1,13 @@
 import { getFormProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
-import { Form, useActionData } from 'react-router'
+import { Form, href, useActionData, useNavigation } from 'react-router'
 import {
   Button,
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
+  CardTitle,
   HStack,
   Label,
   Select,
@@ -34,13 +36,19 @@ export const InsideForm = () => {
     constraint: getZodConstraint(schema),
     shouldValidate: 'onBlur',
   })
+  const navigation = useNavigation()
 
   return (
     <Form method="POST" {...getFormProps(form)}>
       <input name="formType" value={FormType.INSIDE_FORM} type="hidden" />
       <input name={option.name} value={option.value} type="hidden" />
       <Card>
-        <CardHeader>Inside Form</CardHeader>
+        <CardHeader>
+          <CardTitle>Inside Form</CardTitle>
+          <CardDescription>
+            This form is inside the <code>&lt;Form&gt;</code> component.
+          </CardDescription>
+        </CardHeader>
         <CardContent>
           <Stack>
             <div>
@@ -78,7 +86,12 @@ export const InsideForm = () => {
               <div className="text-destructive text-sm">{option.errors}</div>
             </div>
 
-            <Button disabled={!form.dirty}>Submit</Button>
+            <Button
+              disabled={!form.dirty}
+              isLoading={navigation.formAction === href('/demo/conform/select')}
+            >
+              Submit
+            </Button>
 
             {actionData?.formType === FormType.INSIDE_FORM && (
               <ActionResult actionData={actionData} />

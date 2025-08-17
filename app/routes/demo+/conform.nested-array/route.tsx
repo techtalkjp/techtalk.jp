@@ -1,7 +1,7 @@
 import { FormProvider, getFormProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod/v4'
 import { EllipsisVerticalIcon } from 'lucide-react'
-import { Form } from 'react-router'
+import { Form, href, useNavigation } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import {
   Button,
@@ -87,13 +87,13 @@ export default function ConformNestedArrayDemo({
   loaderData: { teams: defaultTeams },
   actionData,
 }: Route.ComponentProps) {
+  const navigation = useNavigation()
   const [form, fields] = useForm({
     lastResult: actionData?.lastResult,
     defaultValue: { teams: defaultTeams },
     onValidate: ({ formData }) =>
       parseWithZod(formData, { schema: formSchema }),
   })
-
   const teams = fields.teams.getFieldList()
 
   return (
@@ -159,7 +159,14 @@ export default function ConformNestedArrayDemo({
               Add Team
             </Button>
 
-            <Button type="submit">Submit</Button>
+            <Button
+              type="submit"
+              isLoading={
+                navigation.formAction === href('/demo/conform/nested-array')
+              }
+            >
+              Submit
+            </Button>
           </Stack>
         </Form>
       </FormProvider>

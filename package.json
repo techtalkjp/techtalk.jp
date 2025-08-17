@@ -105,6 +105,7 @@
     "remark-frontmatter": "5.0.0",
     "remark-mdx-frontmatter": "5.2.0",
     "remix-flat-routes": "0.8.5",
+    "rollup-plugin-visualizer": "6.0.3",
     "tailwindcss": "4.1.12",
     "typescript": "5.9.2",
     "vite": "7.1.2",

@@ -1,6 +1,7 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
-import { Form, useNavigation } from 'react-router'
+import { setTimeout } from 'node:timers/promises'
+import { Form, href, useNavigation } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -46,6 +47,7 @@ const lookupAddress = async (postalCode: string) => {
 }
 
 export const action = async ({ request }: Route.ActionArgs) => {
+  await setTimeout(1000)
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
@@ -146,7 +148,7 @@ export default function ConformValueDemoPage({
 
       <Button
         className="mt-2 w-full"
-        isLoading={navigation.state === 'submitting'}
+        isLoading={navigation.formAction === href('/demo/conform/value')}
       >
         登録
       </Button>

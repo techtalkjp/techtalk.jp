@@ -5,7 +5,7 @@ import {
   useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
-import { Form } from 'react-router'
+import { Form, href, useNavigation } from 'react-router'
 import { twc } from 'react-twc'
 import { dataWithError, dataWithSuccess } from 'remix-toast'
 import { toast } from 'sonner'
@@ -176,6 +176,7 @@ export default function ShadcnUiPage({
     shouldValidate: 'onBlur',
     shouldRevalidate: 'onInput',
   })
+  const navigation = useNavigation()
 
   const handleClickSetTestData = () => {
     form.update({
@@ -915,7 +916,14 @@ export default function ShadcnUiPage({
           </FormField>
         </Section>
 
-        <Button>Submit</Button>
+        <Button
+          type="submit"
+          isLoading={
+            navigation.formAction === href('/demo/conform/shadcn-ui-input')
+          }
+        >
+          Submit
+        </Button>
       </Stack>
     </Form>
   )

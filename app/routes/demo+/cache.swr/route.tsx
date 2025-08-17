@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { data, Form, useNavigation } from 'react-router'
+import { data, Form, href, useNavigation } from 'react-router'
 import {
   Button,
   Stack,
@@ -81,7 +81,10 @@ export default function DemoConformAlert({ loaderData }: Route.ComponentProps) {
       </Table>
 
       <Form>
-        <Button isLoading={navigation.state === 'loading'} className="w-full">
+        <Button
+          isLoading={navigation.formAction === href('/demo/cache/swr')}
+          className="w-full"
+        >
           Revalidate
         </Button>
       </Form>

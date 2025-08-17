@@ -31,3 +31,7 @@ __screenshots__
 .claude
 
 .tmp
+
+
+# bundle visualizer
+stats.html

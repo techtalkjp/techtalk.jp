@@ -1,7 +1,8 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
+import { setTimeout } from 'node:timers/promises'
 import type { MetaFunction } from 'react-router'
-import { Form } from 'react-router'
+import { Form, href, useNavigation } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import {
@@ -32,6 +33,7 @@ const schema = z.object({
 })
 
 export const action = async ({ request }: Route.ActionArgs) => {
+  await setTimeout(1000)
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
@@ -52,6 +54,7 @@ export default function TestPage({ actionData }: Route.ComponentProps) {
     constraint: getZodConstraint(schema),
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
+  const navigation = useNavigation()
 
   return (
     <Form method="POST" className="flex flex-col gap-4" {...getFormProps(form)}>
@@ -118,7 +121,11 @@ export default function TestPage({ actionData }: Route.ComponentProps) {
       </Stack>
 
       {/* 登録 */}
-      <Button type="submit" variant="default">
+      <Button
+        type="submit"
+        variant="default"
+        isLoading={navigation.formAction === href('/demo/conform/update')}
+      >
         登録
       </Button>
     </Form>

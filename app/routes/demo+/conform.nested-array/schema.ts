@@ -13,7 +13,7 @@ const memberSchema = z.object({
   tel: z
     .string({ error: '必須' })
     .regex(/^\d{3}-\d{4}-\d{4}$/, { message: '000-0000-0000形式' }),
-  email: z.string({ error: '必須' }).email({ message: 'メールアドレス' }),
+  email: z.email({ error: 'メールアドレス' }),
 })
 
 export const teamSchema = z.object({

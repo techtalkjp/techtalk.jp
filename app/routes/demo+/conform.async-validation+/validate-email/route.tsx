@@ -2,6 +2,7 @@ import { CheckIcon, XIcon } from 'lucide-react'
 import { setTimeout } from 'node:timers/promises'
 import { useCallback } from 'react'
 import { href, useFetcher } from 'react-router'
+import { HStack } from '~/components/ui'
 import { cn } from '~/libs/utils'
 import type { Route } from './+types/route'
 
@@ -46,7 +47,7 @@ export function useEmailAsyncValidation() {
     return (
       <div
         className={cn(
-          'flex h-6 w-6 items-center justify-center rounded-full transition-all duration-200',
+          'flex h-6 w-auto min-w-6 items-center justify-center rounded-full transition-all duration-200',
           isValid === true && 'bg-green-100',
           isValid === false && 'bg-red-100',
           isValidating && 'bg-transparent',
@@ -54,7 +55,10 @@ export function useEmailAsyncValidation() {
       >
         {isValidating ? (
           // ローディングスピナー
-          <div className="border-muted-500 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent" />
+          <HStack className="whitespace-nowrap">
+            <div className="border-muted-foreground h-4 w-4 animate-spin rounded-full border-2 border-t-transparent" />
+            <div className="text-muted-foreground text-xs">確認中</div>
+          </HStack>
         ) : isValid === true ? (
           // チェックマーク
           <CheckIcon className="size-4 text-green-800" />

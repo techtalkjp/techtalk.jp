@@ -1,4 +1,4 @@
-import { Form, Link } from 'react-router'
+import { Form, href, Link, useNavigation } from 'react-router'
 import {
   AlertDialog,
   AlertDialogContent,
@@ -11,6 +11,7 @@ import {
 import type { SampleOrder } from '../schema'
 
 export function DeleteOrderDialog({ order }: { order: SampleOrder }) {
+  const navigation = useNavigation()
   return (
     <AlertDialog open>
       <AlertDialogContent>
@@ -29,6 +30,11 @@ export function DeleteOrderDialog({ order }: { order: SampleOrder }) {
               name="intent"
               value="del"
               variant="destructive"
+              isLoading={
+                navigation.formAction?.startsWith(
+                  `${href('/demo/db/sample_order')}?index`,
+                ) && navigation.formData?.get('intent') === 'del'
+              }
             >
               Delete
             </Button>

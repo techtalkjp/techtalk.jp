@@ -1,4 +1,5 @@
 import { parseWithZod } from '@conform-to/zod/v4'
+import { setTimeout } from 'node:timers/promises'
 import { type HeadersFunction, href, Link } from 'react-router'
 import { dataWithSuccess, redirectWithSuccess } from 'remix-toast'
 import {
@@ -49,6 +50,7 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
 }
 
 export const action = async ({ request, context }: Route.ActionArgs) => {
+  await setTimeout(1000)
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply(), duration: null }

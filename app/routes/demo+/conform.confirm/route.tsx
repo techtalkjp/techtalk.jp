@@ -20,7 +20,7 @@ import type { Route } from './+types/route'
 
 const schema = z.object({
   intent: z.enum(['confirm', 'submit']),
-  email: z.string().email(),
+  email: z.email(),
 })
 
 export const action = async ({ request }: Route.ActionArgs) => {

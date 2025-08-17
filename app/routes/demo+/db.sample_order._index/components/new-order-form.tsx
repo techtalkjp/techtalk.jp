@@ -5,7 +5,7 @@ import {
   useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
-import { Form, useActionData, useNavigation } from 'react-router'
+import { Form, href, useActionData, useNavigation } from 'react-router'
 import {
   Button,
   FormField,
@@ -112,9 +112,8 @@ export function NewOrderForm({
       <Button
         className="col-span-2 w-full"
         isLoading={
-          navigation.formData?.get('intent') === 'new' &&
-          navigation.state === 'submitting' &&
-          navigation.location.pathname === '/demo/db/sample_order'
+          navigation.formAction === `${href('/demo/db/sample_order')}?index` &&
+          navigation.formData?.get('intent') === 'new'
         }
         type="submit"
         name="intent"

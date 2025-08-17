@@ -2,7 +2,7 @@ import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod/v4'
 import { setTimeout } from 'node:timers/promises'
 import { useEffect } from 'react'
-import { Form, useNavigation } from 'react-router'
+import { Form, href, useNavigation } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import { Button, HStack, Input, Label, Stack } from '~/components/ui'
@@ -51,6 +51,9 @@ export default function Signup({ actionData }: Route.ComponentProps) {
     shouldValidate: 'onInput',
   })
   const navigation = useNavigation()
+  const isLoading =
+    navigation.formAction === `${href('/demo/conform/async-validation')}?index`
+
   const { isValid, errorMessage, validateEmail, ValidationIndicator } =
     useEmailAsyncValidation()
 
@@ -90,8 +93,8 @@ export default function Signup({ actionData }: Route.ComponentProps) {
 
         <Button
           type="submit"
-          disabled={!form.valid || !form.dirty || !isValid}
-          isLoading={navigation.state === 'submitting'}
+          isLoading={isLoading}
+          disabled={!form.valid || !form.dirty || !isValid || isLoading}
         >
           Submit
         </Button>
