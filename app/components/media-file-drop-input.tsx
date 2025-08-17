@@ -187,7 +187,9 @@ export const MediaFileDropInput = ({
                 className="text-muted-foreground cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation()
-                  fileData.forEach((_, index) => removeFile(index))
+                  for (let i = fileData.length - 1; i >= 0; i--) {
+                    removeFile(i)
+                  }
                 }}
               >
                 <XIcon />

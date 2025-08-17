@@ -6,6 +6,7 @@ import CoverPage from '~/routes/_public+/($lang)._index/components/CoverPage'
 export const AboutPage = ({ className }: React.ComponentProps<'div'>) => {
   const { t } = useLocale()
   return (
+    // biome-ignore lint/correctness/useUniqueElementIds: anchor links are handled by the CoverPage component
     <CoverPage id="about" bgImage="/images/about.webp" className={className}>
       <Heading className="scroll-fade-in">
         {t('about.title', '会社概要')}

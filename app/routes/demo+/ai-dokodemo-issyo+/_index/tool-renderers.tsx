@@ -74,21 +74,25 @@ function OutputErrorDisplay({
   )
 }
 
-export function AnalyzeIntentTool({ part, messageId, index }: BaseToolRendererProps) {
+export function AnalyzeIntentTool({
+  part,
+  messageId,
+  index,
+}: BaseToolRendererProps) {
   if (part.type !== 'tool-analyzeIntent') return null
 
   return (
     <ToolWrapper messageId={messageId} index={index}>
       <div className="mb-1 text-xs font-medium">🧠 意図解析 (LLM)</div>
-      
+
       {part.state === 'input-streaming' && (
         <InputStreamingDisplay label="入力中..." data={part.input?.text} />
       )}
-      
+
       {part.state === 'input-available' && (
         <InputAvailableDisplay label="入力完了" data={part.input?.text} />
       )}
-      
+
       {part.state === 'output-available' && (
         <div className="space-y-1 text-sm">
           {part.output.intent && <div>意図: {part.output.intent}</div>}
@@ -104,7 +108,7 @@ export function AnalyzeIntentTool({ part, messageId, index }: BaseToolRendererPr
           )}
         </div>
       )}
-      
+
       {part.state === 'output-error' && (
         <OutputErrorDisplay
           errorText={part.errorText}
@@ -115,21 +119,25 @@ export function AnalyzeIntentTool({ part, messageId, index }: BaseToolRendererPr
   )
 }
 
-export function UpdateGameStateTool({ part, messageId, index }: BaseToolRendererProps) {
+export function UpdateGameStateTool({
+  part,
+  messageId,
+  index,
+}: BaseToolRendererProps) {
   if (part.type !== 'tool-updateGameState') return null
 
   return (
     <ToolWrapper messageId={messageId} index={index}>
       <div className="mb-1 text-xs font-medium">💾 状態更新</div>
-      
+
       {part.state === 'input-streaming' && (
         <InputStreamingDisplay label="更新中..." data={part.input} />
       )}
-      
+
       {part.state === 'input-available' && (
         <InputAvailableDisplay label="更新準備完了" data={part.input} />
       )}
-      
+
       {part.state === 'output-available' && (
         <div className="space-y-1 text-sm">
           {part.output.affinity !== undefined && (
@@ -141,7 +149,7 @@ export function UpdateGameStateTool({ part, messageId, index }: BaseToolRenderer
           )}
         </div>
       )}
-      
+
       {part.state === 'output-error' && (
         <OutputErrorDisplay
           errorText={part.errorText}
@@ -152,21 +160,25 @@ export function UpdateGameStateTool({ part, messageId, index }: BaseToolRenderer
   )
 }
 
-export function CheckEventsTool({ part, messageId, index }: BaseToolRendererProps) {
+export function CheckEventsTool({
+  part,
+  messageId,
+  index,
+}: BaseToolRendererProps) {
   if (part.type !== 'tool-checkEvents') return null
 
   return (
     <ToolWrapper messageId={messageId} index={index}>
       <div className="mb-1 text-xs font-medium">🎉 イベント判定 (LLM)</div>
-      
+
       {part.state === 'input-streaming' && (
         <InputStreamingDisplay label="確認中..." data={part.input} />
       )}
-      
+
       {part.state === 'input-available' && (
         <InputAvailableDisplay label="判定準備完了" data={part.input} />
       )}
-      
+
       {part.state === 'output-available' && (
         <div className="space-y-2 text-sm">
           {part.output.unlocks && part.output.unlocks.length > 0 && (
@@ -214,13 +226,11 @@ export function CheckEventsTool({ part, messageId, index }: BaseToolRendererProp
             !part.output.milestoneMessage &&
             !part.output.suggestions?.length &&
             !part.output.nextGoal && (
-              <div className="text-gray-500">
-                特別なイベントはありません
-              </div>
+              <div className="text-gray-500">特別なイベントはありません</div>
             )}
         </div>
       )}
-      
+
       {part.state === 'output-error' && (
         <OutputErrorDisplay
           errorText={part.errorText}
@@ -231,23 +241,28 @@ export function CheckEventsTool({ part, messageId, index }: BaseToolRendererProp
   )
 }
 
-export function GenerateResponseTool({ part, messageId, index }: BaseToolRendererProps) {
+export function GenerateResponseTool({
+  part,
+  messageId,
+  index,
+}: BaseToolRendererProps) {
   if (part.type !== 'tool-generateResponse') return null
 
   return (
     <ToolWrapper messageId={messageId} index={index}>
       <div className="mb-1 text-xs font-medium">
-        💬 応答生成 (LLM) {part.state === 'output-available' && part.output.emotion}
+        💬 応答生成 (LLM){' '}
+        {part.state === 'output-available' && part.output.emotion}
       </div>
-      
+
       {part.state === 'input-streaming' && (
         <InputStreamingDisplay label="考え中..." data={part.input} />
       )}
-      
+
       {part.state === 'input-available' && (
         <InputAvailableDisplay label="生成準備完了" data={part.input} />
       )}
-      
+
       {part.state === 'output-available' && (
         <div className="space-y-2 text-sm">
           {part.output.message && (
@@ -265,16 +280,18 @@ export function GenerateResponseTool({ part, messageId, index }: BaseToolRendere
           {part.output.actions && part.output.actions.length > 0 && (
             <div className="space-y-1">
               <div className="text-xs font-medium">提案アクション:</div>
-              {part.output.actions.map((action: { type: string; description: string }, i: number) => (
-                <div key={i} className="pl-2 text-xs text-blue-600">
-                  [{action.type}] {action.description}
-                </div>
-              ))}
+              {part.output.actions.map(
+                (action: { type: string; description: string }, i: number) => (
+                  <div key={i} className="pl-2 text-xs text-blue-600">
+                    [{action.type}] {action.description}
+                  </div>
+                ),
+              )}
             </div>
           )}
         </div>
       )}
-      
+
       {part.state === 'output-error' && (
         <OutputErrorDisplay
           errorText={part.errorText}
@@ -291,7 +308,7 @@ export function renderToolOutput(
   index: number,
 ) {
   const props = { part, messageId, index }
-  
+
   switch (part.type) {
     case 'tool-analyzeIntent':
       return <AnalyzeIntentTool {...props} />
