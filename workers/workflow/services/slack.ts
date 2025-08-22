@@ -23,14 +23,22 @@ export const sendSlack = async (webhookUrl: string, data: ContactFormData) => {
             type: 'mrkdwn',
             text: `*メール:*\n${data.email}`,
           },
-          ...(data.company ? [{
-            type: 'mrkdwn',
-            text: `*会社:*\n${data.company}`,
-          }] : []),
-          ...(data.phone ? [{
-            type: 'mrkdwn',
-            text: `*電話:*\n${data.phone}`,
-          }] : []),
+          ...(data.company
+            ? [
+                {
+                  type: 'mrkdwn',
+                  text: `*会社:*\n${data.company}`,
+                },
+              ]
+            : []),
+          ...(data.phone
+            ? [
+                {
+                  type: 'mrkdwn',
+                  text: `*電話:*\n${data.phone}`,
+                },
+              ]
+            : []),
         ],
       },
       {
