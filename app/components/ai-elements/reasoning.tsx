@@ -35,6 +35,8 @@ export type ReasoningProps = ComponentProps<typeof Collapsible> & {
   duration?: number
 }
 
+const AUTO_CLOSE_DELAY = 1000
+
 export const Reasoning = memo(
   ({
     className,
@@ -80,13 +82,13 @@ export const Reasoning = memo(
         const timer = setTimeout(() => {
           setIsOpen(false)
           setHasAutoClosedRef(true)
-        }, 1000)
+        }, AUTO_CLOSE_DELAY)
         return () => clearTimeout(timer)
       }
     }, [isStreaming, isOpen, defaultOpen, setIsOpen, hasAutoClosedRef])
 
-    const handleOpenChange = (open: boolean) => {
-      setIsOpen(open)
+    const handleOpenChange = (newOpen: boolean) => {
+      setIsOpen(newOpen)
     }
 
     return (
@@ -161,7 +163,7 @@ export const ReasoningContent = memo(
     <CollapsibleContent
       className={cn(
         'mt-4 text-sm',
-        'text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 outline-none',
+        'data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 text-popover-foreground data-[state=closed]:animate-out data-[state=open]:animate-in outline-none',
         className,
       )}
       {...props}

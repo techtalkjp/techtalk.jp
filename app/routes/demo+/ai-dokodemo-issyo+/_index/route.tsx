@@ -7,6 +7,7 @@ import {
 } from 'ai'
 import { useState } from 'react'
 import { href } from 'react-router'
+import { Response } from '~/components/ai-elements'
 import {
   Conversation,
   ConversationContent,
@@ -20,7 +21,6 @@ import {
   PromptInputTextarea,
   PromptInputToolbar,
 } from '~/components/ai-elements/prompt-input'
-import { Response } from '~/components/ai-elements/response'
 import { Badge } from '~/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Progress } from '~/components/ui/progress'
