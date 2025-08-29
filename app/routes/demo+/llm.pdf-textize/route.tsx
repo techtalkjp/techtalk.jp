@@ -5,11 +5,9 @@ import {
   useForm,
 } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod/v4'
-import ReactMarkdown from 'react-markdown'
 import { Form, href, useNavigation } from 'react-router'
-import remarkTables from 'remark-extended-table'
-import remarkGfm from 'remark-gfm'
 import { dataWithSuccess } from 'remix-toast'
+import { Streamdown } from 'streamdown'
 import { z } from 'zod'
 import { Button, Input, Label, Stack, Textarea } from '~/components/ui'
 import type { Route } from './+types/route'
@@ -102,9 +100,7 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
 
         {actionData?.text && (
           <div className="prose rounded border p-4">
-            <ReactMarkdown remarkPlugins={[remarkGfm, remarkTables]}>
-              {actionData.text}
-            </ReactMarkdown>
+            <Streamdown>{actionData.text}</Streamdown>
           </div>
         )}
 
