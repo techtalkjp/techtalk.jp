@@ -1,7 +1,5 @@
-'use client'
-
 import { ChevronDownIcon, SearchIcon } from 'lucide-react'
-import type { ComponentProps } from 'react'
+import type { ComponentProps, ComponentPropsWithoutRef } from 'react'
 import {
   Collapsible,
   CollapsibleContent,
@@ -9,7 +7,7 @@ import {
 } from '~/components/ui/collapsible'
 import { cn } from '~/libs/utils'
 
-export type TaskItemFileProps = ComponentProps<'div'>
+export type TaskItemFileProps = ComponentPropsWithoutRef<'div'>
 
 export const TaskItemFile = ({
   children,
@@ -27,7 +25,7 @@ export const TaskItemFile = ({
   </div>
 )
 
-export type TaskItemProps = ComponentProps<'div'>
+export type TaskItemProps = ComponentPropsWithoutRef<'div'>
 
 export const TaskItem = ({ children, className, ...props }: TaskItemProps) => (
   <div className={cn('text-muted-foreground text-sm', className)} {...props}>
