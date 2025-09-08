@@ -71,6 +71,13 @@ const demoPages: {
       title: 'DB - Sample Order',
     },
   ],
+  'duckdb-wasm': [
+    {
+      path: '/demo/duckdb-wasm/order',
+      title: 'DuckDB Wasm - Order Demo',
+      ext: '/route.tsx',
+    },
+  ],
   cache: [
     {
       path: '/demo/cache/swr',
