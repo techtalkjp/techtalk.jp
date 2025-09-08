@@ -1,15 +1,27 @@
-import { Form } from 'react-router'
-import { Button } from '~/components/ui'
+import { useEffect } from 'react'
+import { Form, useRevalidator } from 'react-router'
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Heading,
+  HStack,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '~/components/ui'
 import type { Route } from './+types/route'
 import { disposeDB, getDB } from './lib/db.client'
 import { migrateToLatestOnce } from './lib/migrate.client'
-import {
-  ensureScope,
-  getOverview,
-  isStale,
-  runSync,
-  type SyncRunContext,
-} from './lib/sync.client'
+import { runSampleOrdersSync } from './lib/runners/sample-orders.runner'
+import { ensureScope, getOverview, isStale, runSync } from './lib/sync.client'
 
 export const clientLoader = async () => {
   await migrateToLatestOnce()
@@ -17,8 +29,19 @@ export const clientLoader = async () => {
   const tables = await db.introspection.getTables()
   await ensureScope('sample_orders')
   const overview = await getOverview('sample_orders')
+  const countRow = await db
+    .selectFrom('sample_orders')
+    .select(db.fn.count<number>('id').as('count'))
+    .executeTakeFirst()
+  const count = countRow?.count ?? 0
+  const latest = await db
+    .selectFrom('sample_orders')
+    .selectAll()
+    .orderBy('updated_at', 'desc')
+    .limit(5)
+    .execute()
 
-  return { tables, overview }
+  return { tables, overview, count, latest }
 }
 
 export const clientAction = async ({ request }: Route.ActionArgs) => {
@@ -31,15 +54,7 @@ export const clientAction = async ({ request }: Route.ActionArgs) => {
   }
 
   if (intent === 'sync') {
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
-    const run = async (ctx: SyncRunContext) => {
-      // Demo runner: 3 heartbeats with advancing watermark
-      for (let i = 0; i < 3; i++) {
-        await ctx.heartbeat({ progressSyncedAt: new Date().toISOString() })
-        await sleep(300)
-      }
-    }
-    const runId = await runSync('sample_orders', run)
+    const runId = await runSync('sample_orders', runSampleOrdersSync)
     return { result: 'synced', runId }
   }
 
@@ -47,72 +62,185 @@ export const clientAction = async ({ request }: Route.ActionArgs) => {
 }
 
 export default function OrderDemo({
-  loaderData: { tables, overview },
+  loaderData: { tables, overview, count, latest },
   actionData,
 }: Route.ComponentProps) {
+  const { revalidate } = useRevalidator()
+
+  useEffect(() => {
+    if (!overview.running || isStale(overview.running)) return
+    const id = setInterval(() => revalidate(), 800)
+    return () => clearInterval(id)
+  }, [
+    overview.running?.run_id,
+    overview.running?.heartbeat_at,
+    revalidate,
+    overview.running,
+  ])
+
   return (
-    <div>
-      <h2>DuckDB Wasm Order Demo</h2>
+    <Stack gap="lg" className="py-4">
+      <Heading as="h2" size="2xl">
+        DuckDB Wasm Order Demo
+      </Heading>
 
-      <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-        <Form method="POST">
-          <input type="hidden" name="intent" value="dispose" />
-          <Button type="submit">Dispose DB</Button>
-        </Form>
-        <Form method="POST">
-          <input type="hidden" name="intent" value="sync" />
-          <Button type="submit">Start / Resume Sync</Button>
-        </Form>
+      <Card>
+        <CardHeader>
+          <CardTitle>Controls</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <HStack gap="md">
+            <Form method="POST">
+              <input type="hidden" name="intent" value="dispose" />
+              <Button type="submit" variant="secondary">
+                Dispose DB
+              </Button>
+            </Form>
+            <Form method="POST">
+              <input type="hidden" name="intent" value="sync" />
+              <Button type="submit">Start / Resume Sync</Button>
+            </Form>
+            {actionData?.result && (
+              <Badge
+                variant={
+                  actionData.result === 'synced' ? 'default' : 'secondary'
+                }
+              >
+                {actionData.result}
+                {actionData.runId ? ` (${actionData.runId})` : ''}
+              </Badge>
+            )}
+          </HStack>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Sync Overview</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            <div>
+              <div className="text-muted-foreground text-xs">Scope</div>
+              <div className="font-medium">sample_orders</div>
+            </div>
+            <div>
+              <div className="text-muted-foreground text-xs">
+                Last Synced At
+              </div>
+              <div className="font-medium">
+                {String(overview.state?.last_synced_at)}
+              </div>
+            </div>
+            <div>
+              <div className="text-muted-foreground text-xs">Running</div>
+              <div className="flex items-center gap-2 font-medium">
+                {overview.running ? (
+                  <>
+                    <Badge
+                      variant={
+                        isStale(overview.running) ? 'destructive' : 'default'
+                      }
+                    >
+                      {isStale(overview.running) ? 'stale' : 'active'}
+                    </Badge>
+                    <span className="truncate">{overview.running.run_id}</span>
+                    <span className="text-muted-foreground text-xs">
+                      hb: {String(overview.running.heartbeat_at)}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-muted-foreground">none</span>
+                )}
+              </div>
+            </div>
+            <div className="sm:col-span-2 lg:col-span-3">
+              <div className="text-muted-foreground text-xs">Last Job</div>
+              <div className="flex items-center gap-2 font-medium">
+                {overview.last ? (
+                  <>
+                    <Badge
+                      variant={
+                        overview.last.status === 'error'
+                          ? 'destructive'
+                          : overview.last.status === 'success'
+                            ? 'secondary'
+                            : 'default'
+                      }
+                    >
+                      {overview.last.status}
+                    </Badge>
+                    <span className="truncate">{overview.last.run_id}</span>
+                  </>
+                ) : (
+                  <span className="text-muted-foreground">none</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>sample_orders</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <HStack gap="md" className="mb-2">
+              <div className="text-muted-foreground text-xs">Count</div>
+              <Badge variant="outline">{count}</Badge>
+            </HStack>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>id</TableHead>
+                  <TableHead>name</TableHead>
+                  <TableHead>region</TableHead>
+                  <TableHead>updated_at</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {latest.map((r) => (
+                  <TableRow key={r.id}>
+                    <TableCell>{r.id}</TableCell>
+                    <TableCell>{r.name}</TableCell>
+                    <TableCell>{r.region}</TableCell>
+                    <TableCell>{String(r.updated_at)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>DB Tables</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Table</TableHead>
+                  <TableHead>Columns</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {tables.map((table) => (
+                  <TableRow key={table.name}>
+                    <TableCell>{table.name}</TableCell>
+                    <TableCell>
+                      {table.columns.map((col) => col.name).join(', ')}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
-
-      {actionData?.result && (
-        <p>
-          Action result: {actionData.result}
-          {actionData.runId ? ` (runId: ${actionData.runId})` : ''}
-        </p>
-      )}
-
-      <h3>Sync Overview</h3>
-      <ul>
-        <li>
-          <b>scope:</b> sample_orders
-        </li>
-        <li>
-          <b>last_synced_at:</b> {String(overview.state?.last_synced_at) ?? '-'}
-        </li>
-        <li>
-          <b>running:</b>{' '}
-          {overview.running
-            ? `${overview.running.run_id} / heartbeat=${String(overview.running.heartbeat_at) ?? '-'}${
-                isStale(overview.running) ? ' (stale)' : ''
-              }`
-            : 'none'}
-        </li>
-        <li>
-          <b>last job:</b>{' '}
-          {overview.last
-            ? `${overview.last.status} (${overview.last.run_id})`
-            : 'none'}
-        </li>
-      </ul>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Tables</th>
-            <th>Columns</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tables.map((table) => (
-            <tr key={table.name}>
-              <td>{table.name}</td>
-              <td>{table.columns.map((col) => col.name).join(', ')}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    </Stack>
   )
 }
 

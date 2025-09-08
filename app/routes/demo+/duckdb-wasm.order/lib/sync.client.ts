@@ -120,7 +120,7 @@ export async function startOrResume({
       run_id,
       scope,
       status: 'running',
-      heartbeat_at: sql<string>`CURRENT_TIMESTAMP`,
+      heartbeat_at: sql<Date>`CURRENT_TIMESTAMP`,
       from_synced_at: state.last_synced_at ?? null,
       from_cursor: state.last_cursor ?? null,
       progress_synced_at: state.last_synced_at ?? null,
@@ -135,7 +135,7 @@ export async function startOrResume({
 
 export type HeartbeatOptions = {
   runId: string
-  progressSyncedAt?: string | null
+  progressSyncedAt?: Date | null
   progressCursor?: string | null
 }
 
@@ -147,7 +147,7 @@ export async function heartbeat({
   const db: Kysely<DB> = await getDB()
   let qb = db
     .updateTable('sync_job')
-    .set({ heartbeat_at: sql<string>`CURRENT_TIMESTAMP` })
+    .set({ heartbeat_at: sql<Date>`CURRENT_TIMESTAMP` })
     .where('run_id', '=', runId)
     .where('status', '=', 'running')
   if (typeof progressSyncedAt !== 'undefined') {
@@ -167,7 +167,7 @@ export async function complete(runId: string): Promise<void> {
   await db.transaction().execute(async (trx) => {
     await trx
       .updateTable('sync_job')
-      .set({ status: 'success', finished_at: sql<string>`CURRENT_TIMESTAMP` })
+      .set({ status: 'success', finished_at: sql<Date>`CURRENT_TIMESTAMP` })
       .where('run_id', '=', runId)
       .where('status', '=', 'running')
       .execute()
@@ -178,7 +178,7 @@ export async function complete(runId: string): Promise<void> {
       .set({
         last_synced_at: job.progress_synced_at ?? null,
         last_cursor: job.progress_cursor ?? null,
-        updated_at: sql<string>`CURRENT_TIMESTAMP`,
+        updated_at: sql<Date>`CURRENT_TIMESTAMP`,
       })
       .where('scope', '=', job.scope)
       .execute()
@@ -193,7 +193,7 @@ export async function fail(runId: string, error: unknown): Promise<void> {
     .set({
       status: 'error',
       error: message,
-      finished_at: sql<string>`CURRENT_TIMESTAMP`,
+      finished_at: sql<Date>`CURRENT_TIMESTAMP`,
     })
     .where('run_id', '=', runId)
     .where('status', '=', 'running')
@@ -213,12 +213,12 @@ export function isStale(
 export type SyncRunContext = {
   scope: SyncScope
   runId: string
-  fromSyncedAt: string | null
+  fromSyncedAt: Date | null
   fromCursor: string | null
-  progressSyncedAt: string | null
+  progressSyncedAt: Date | null
   progressCursor: string | null
   heartbeat: (opts?: {
-    progressSyncedAt?: string | null
+    progressSyncedAt?: Date | null
     progressCursor?: string | null
   }) => Promise<void>
 }
