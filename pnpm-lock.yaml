@@ -23,8 +23,8 @@ importers:
         specifier: 2.0.34
         version: 2.0.34(react@19.1.1)(zod@4.1.5)
       '@coji/kysely-duckdb-wasm':
-        specifier: 0.1.6
-        version: 0.1.6(@duckdb/duckdb-wasm@1.29.1-dev278.0)(apache-arrow@17.0.0)(kysely@0.28.5)
+        specifier: 0.2.0
+        version: 0.2.0(@duckdb/duckdb-wasm@1.29.1-dev283.0)(apache-arrow@17.0.0)(kysely@0.28.5)
       '@conform-to/react':
         specifier: 1.9.0
         version: 1.9.0(react@19.1.1)
@@ -44,8 +44,8 @@ importers:
         specifier: 3.2.2
         version: 3.2.2(react@19.1.1)
       '@duckdb/duckdb-wasm':
-        specifier: 1.29.1-dev278.0
-        version: 1.29.1-dev278.0
+        specifier: 1.29.1-dev283.0
+        version: 1.29.1-dev283.0
       '@faker-js/faker':
         specifier: 10.0.0
         version: 10.0.0
@@ -574,8 +574,8 @@ packages:
   '@cloudflare/workers-types@4.20250312.0':
     resolution: {integrity: sha512-LQBDkrXxm/L0FM4NoT8EXaKCA7+2roOAZAWg+31RGxLKcoAWWSQpbf0PFMBAyFIN/eNADu5RKKrt4qHWNsztHQ==}
 
-  '@coji/kysely-duckdb-wasm@0.1.6':
-    resolution: {integrity: sha512-6Ag1BAYdAlWIYkcubKyN1PnQw7fNAf6o12O3RISait720wmQ+fGqHQ70CgyvICtLD+iYngCnb7THf5I9s5Aysg==}
+  '@coji/kysely-duckdb-wasm@0.2.0':
+    resolution: {integrity: sha512-Z8s82iHKnzf3562jaI1L2hOjYjmgzsLf0pbcP1FCGpSMT0Ag+pawtd15TlDltdfZhbm3JfxhFyAsmnXMFb+e2w==}
     peerDependencies:
       '@duckdb/duckdb-wasm': '*'
       apache-arrow: '*'
@@ -629,8 +629,8 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
 
-  '@duckdb/duckdb-wasm@1.29.1-dev278.0':
-    resolution: {integrity: sha512-Ak3woRUa2J0hXYRXwrbImkYddtf5Qg/3ss4TqyjP2xFPnp69Oj4FnRaECOpV0zDblmA3rUE/FcH6NLUduHjL0A==}
+  '@duckdb/duckdb-wasm@1.29.1-dev283.0':
+    resolution: {integrity: sha512-E+7UdUNmyQNYUVJ8zNN8D0P+gIuAjNECnZuWO3j4EHX2SleeQaGNIW7kgoZYhzeCxwjbFsWSWWTJ5nGwQQLBBA==}
 
   '@emnapi/runtime@1.5.0':
     resolution: {integrity: sha512-97/BJ3iXHww3djw6hYIfErCZFee7qCtrneuLa20UXFCOTCfBM2cvQHjWJ2EG0s0MtdNwInarqCTz35i4wWXHsQ==}
@@ -5643,9 +5643,9 @@ snapshots:
 
   '@cloudflare/workers-types@4.20250312.0': {}
 
-  '@coji/kysely-duckdb-wasm@0.1.6(@duckdb/duckdb-wasm@1.29.1-dev278.0)(apache-arrow@17.0.0)(kysely@0.28.5)':
+  '@coji/kysely-duckdb-wasm@0.2.0(@duckdb/duckdb-wasm@1.29.1-dev283.0)(apache-arrow@17.0.0)(kysely@0.28.5)':
     dependencies:
-      '@duckdb/duckdb-wasm': 1.29.1-dev278.0
+      '@duckdb/duckdb-wasm': 1.29.1-dev283.0
       apache-arrow: 17.0.0
       kysely: 0.28.5
 
@@ -5699,7 +5699,7 @@ snapshots:
       react: 19.1.1
       tslib: 2.8.1
 
-  '@duckdb/duckdb-wasm@1.29.1-dev278.0':
+  '@duckdb/duckdb-wasm@1.29.1-dev283.0':
     dependencies:
       apache-arrow: 17.0.0
 
