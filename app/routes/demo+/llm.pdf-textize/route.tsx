@@ -7,7 +7,6 @@ import {
 import { parseWithZod } from '@conform-to/zod/v4'
 import { Form, href, useNavigation } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
-import { Streamdown } from 'streamdown'
 import { z } from 'zod'
 import { Button, Input, Label, Stack, Textarea } from '~/components/ui'
 import type { Route } from './+types/route'
@@ -100,7 +99,7 @@ export default function PdfPage({ actionData }: Route.ComponentProps) {
 
         {actionData?.text && (
           <div className="prose rounded border p-4">
-            <Streamdown>{actionData.text}</Streamdown>
+            <div>{actionData.text}</div>
           </div>
         )}
 

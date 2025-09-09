@@ -91,13 +91,6 @@ const demoPages: {
       ext: '/route.tsx',
     },
   ],
-  'ai-elements': [
-    {
-      path: '/demo/ai-dokodemo-issyo',
-      title: 'どこでもいっしょ AI ペット',
-      ext: '+/_index/route.tsx',
-    },
-  ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
 } as const
 
