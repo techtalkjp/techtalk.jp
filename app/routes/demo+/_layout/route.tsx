@@ -24,14 +24,20 @@ const demoPages: {
   [demoPage: string]: { path: string; title: string; ext?: string }[]
 } = {
   conform: [
-    { path: '/demo/conform/update', title: '外部から値を変更する - update' },
+    {
+      path: '/demo/conform/update',
+      title: '外部から値を変更する - update',
+      ext: '/route.tsx',
+    },
     {
       path: '/demo/conform/value',
       title: '郵便番号から住所を補完する - value / update',
+      ext: '/route.tsx',
     },
     {
       path: '/demo/conform/confirm',
       title: '実行確認ダイアログ付きの削除フォーム',
+      ext: '/route.tsx',
     },
     {
       path: '/demo/conform/async-validation',
@@ -67,8 +73,8 @@ const demoPages: {
   db: [
     {
       path: '/demo/db/sample_order',
-      ext: '._index/route.tsx',
       title: 'DB - Sample Order',
+      ext: '._index/route.tsx',
     },
   ],
   'duckdb-wasm': [
@@ -82,6 +88,7 @@ const demoPages: {
     {
       path: '/demo/cache/swr',
       title: 'Cache Control - stale-while-revalidate',
+      ext: '/route.tsx',
     },
   ],
   llm: [
