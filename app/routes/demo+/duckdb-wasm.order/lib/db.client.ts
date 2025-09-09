@@ -1,22 +1,7 @@
 import { DuckDbDialect } from '@coji/kysely-duckdb-wasm'
 import * as duckdb from '@duckdb/duckdb-wasm'
-import ehWorker from '@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url'
-import mvpWorker from '@duckdb/duckdb-wasm/dist/duckdb-browser-mvp.worker.js?url'
-import duckdbWasmEh from '@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url'
-import duckdbWasm from '@duckdb/duckdb-wasm/dist/duckdb-mvp.wasm?url'
 import { Kysely } from 'kysely'
 import type { DB } from './db-schema'
-
-const MANUAL_BUNDLES: duckdb.DuckDBBundles = {
-  mvp: {
-    mainModule: duckdbWasm,
-    mainWorker: mvpWorker,
-  },
-  eh: {
-    mainModule: duckdbWasmEh,
-    mainWorker: ehWorker,
-  },
-}
 
 const DB_PATH = 'opfs://demo/order.db'
 const config = {
@@ -28,14 +13,21 @@ let dbPromise: Promise<Kysely<DB>> | null = null
 let dbInstance: Kysely<DB> | null = null
 let duck: duckdb.AsyncDuckDB | null = null
 let worker: Worker | null = null
+let workerBlobUrl: string | null = null
 
 async function initDB(): Promise<Kysely<DB>> {
-  const bundle = await duckdb.selectBundle(MANUAL_BUNDLES)
+  // Use CDN bundles but fetch and create blob URL for Worker to avoid CORS issues
+  const bundle = await duckdb.selectBundle(duckdb.getJsDelivrBundles())
   if (!bundle.mainWorker) {
     throw new Error('No duckdb worker found in the bundle.')
   }
 
-  worker = new Worker(bundle.mainWorker)
+  // Fetch the worker script and create a blob URL to bypass CORS restrictions
+  const workerResponse = await fetch(bundle.mainWorker)
+  const workerBlob = await workerResponse.blob()
+  workerBlobUrl = URL.createObjectURL(workerBlob)
+  
+  worker = new Worker(workerBlobUrl)
   const logger = new duckdb.ConsoleLogger(duckdb.LogLevel.ERROR)
   duck = new duckdb.AsyncDuckDB(logger, worker)
   // Use pthread worker argument if available (do not pass mainWorker here)
@@ -85,6 +77,13 @@ export const disposeDB = async () => {
     }
   } finally {
     worker = null
+  }
+  try {
+    if (workerBlobUrl) {
+      URL.revokeObjectURL(workerBlobUrl)
+    }
+  } finally {
+    workerBlobUrl = null
   }
   dbPromise = null
 }

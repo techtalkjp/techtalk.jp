@@ -100,17 +100,28 @@ export default function OrderDemo({
               <input type="hidden" name="intent" value="sync" />
               <Button type="submit">Start / Resume Sync</Button>
             </Form>
-            {actionData?.result && (
-              <Badge
-                variant={
-                  actionData.result === 'synced' ? 'default' : 'secondary'
+          </HStack>
+
+          {actionData?.result && (
+            <div className="text-sm">
+              <span className="text-muted-foreground">Status: </span>
+              <span
+                className={
+                  actionData.result === 'synced'
+                    ? 'text-green-600'
+                    : 'text-yellow-600'
                 }
               >
                 {actionData.result}
-                {actionData.runId ? ` (${actionData.runId})` : ''}
-              </Badge>
-            )}
-          </HStack>
+              </span>
+              {actionData.runId && (
+                <>
+                  <span className="text-muted-foreground"> • Run ID: </span>
+                  <span className="font-mono text-xs">{actionData.runId}</span>
+                </>
+              )}
+            </div>
+          )}
         </CardContent>
       </Card>
 
