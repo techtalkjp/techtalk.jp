@@ -26,7 +26,7 @@ async function initDB(): Promise<Kysely<DB>> {
   const workerResponse = await fetch(bundle.mainWorker)
   const workerBlob = await workerResponse.blob()
   workerBlobUrl = URL.createObjectURL(workerBlob)
-  
+
   worker = new Worker(workerBlobUrl)
   const logger = new duckdb.ConsoleLogger(duckdb.LogLevel.ERROR)
   duck = new duckdb.AsyncDuckDB(logger, worker)

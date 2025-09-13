@@ -59,8 +59,6 @@ async function upsertBatch(
 
 export async function runSampleOrdersSync(ctx: SyncRunContext): Promise<void> {
   const db: Kysely<DB> = await getDB()
-  // Decide start watermark
-  let mark = ctx.progressSyncedAt ?? ctx.fromSyncedAt ?? null
 
   // Simulate 3 pages of 20 rows each
   for (let page = 0; page < 3; page++) {
@@ -80,8 +78,6 @@ export async function runSampleOrdersSync(ctx: SyncRunContext): Promise<void> {
 
     // Small pause to emulate work
     await new Promise((r) => setTimeout(r, 200))
-    mark = t
   }
-
   // no explicit return; complete is handled by caller
 }
