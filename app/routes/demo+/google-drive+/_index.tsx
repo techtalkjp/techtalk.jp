@@ -349,7 +349,12 @@ function buildSearch({
 function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 Bytes'
   const k = 1024
-  const sizes = ['Bytes', 'KB', 'MB', 'GB']
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return `${Math.round((bytes / k ** i) * 100) / 100} ${sizes[i]}`
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
+  if (!Number.isFinite(bytes) || bytes < 0) return '-'
+  const i = Math.min(
+    sizes.length - 1,
+    Math.floor(Math.log(bytes) / Math.log(k)),
+  )
+  const value = bytes / k ** i
+  return `${Math.round(value * 100) / 100} ${sizes[i]}`
 }
