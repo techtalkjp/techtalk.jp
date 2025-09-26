@@ -51,7 +51,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   // Google Drive APIを直接呼び出し
   const filesData = await fetchDriveFilesWithAuth(
     session,
-    folderId ? folderId : null,  // 空文字列をnullに変換
+    folderId !== '' ? folderId : null, // 空文字列をnullに変換
     pageToken,
     pageSize,
   )
@@ -164,7 +164,8 @@ export default function Gallery({ loaderData }: Route.ComponentProps) {
         <>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {files.map((file) => {
-              const isFolder = file.mimeType === 'application/vnd.google-apps.folder'
+              const isFolder =
+                file.mimeType === 'application/vnd.google-apps.folder'
 
               return (
                 <Card
@@ -184,7 +185,7 @@ export default function Gallery({ loaderData }: Route.ComponentProps) {
                       prefetch="intent"
                       className="block"
                     >
-                      <div className="aspect-square overflow-hidden bg-gray-100 flex items-center justify-center">
+                      <div className="flex aspect-square items-center justify-center overflow-hidden bg-gray-100">
                         <FolderIcon className="h-24 w-24 text-blue-500" />
                       </div>
                       <CardContent className="p-3">
