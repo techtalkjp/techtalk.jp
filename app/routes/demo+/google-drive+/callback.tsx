@@ -28,7 +28,13 @@ export async function loader({ request }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get('Cookie'))
 
   const savedState = session.get('oauth_state')
-  const returnTo = session.get('returnTo') || '/demo/google-drive'
+  const storedReturnTo = session.get('returnTo')
+  const returnTo =
+    typeof storedReturnTo === 'string' &&
+    storedReturnTo.startsWith('/') &&
+    !storedReturnTo.startsWith('//')
+      ? storedReturnTo
+      : '/demo/google-drive'
 
   // CSRF対策: stateパラメータの検証
   if (state !== savedState) {
