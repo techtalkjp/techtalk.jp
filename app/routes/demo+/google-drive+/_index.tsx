@@ -272,7 +272,9 @@ export default function Gallery({ loaderData }: Route.ComponentProps) {
                   pathname: '/demo/google-drive',
                   search: buildSearch({
                     pageToken: nextPageToken,
-                    prev: [...prevStack, currentPageToken].filter(Boolean),
+                    prev: [...prevStack, currentPageToken].filter(
+                      (token) => token !== null && token !== undefined,
+                    ),
                     pageSize,
                     folderId,
                   }),
