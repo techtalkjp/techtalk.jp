@@ -1,4 +1,5 @@
 import {
+  deleteSessionTokens,
   getSessionTokens,
   refreshAccessToken,
   saveSessionTokens,
@@ -65,7 +66,13 @@ export async function loader({ params, request }: Route.LoaderArgs) {
           headers,
         })
       } catch (_refreshError) {
-        return new Response('Failed to fetch image', { status: 500 })
+        deleteSessionTokens(session)
+        const headers = new Headers()
+        headers.set('Set-Cookie', await commitSession(session))
+        return new Response('Unauthorized', {
+          status: 401,
+          headers,
+        })
       }
     }
     return new Response('Failed to fetch image', { status: 500 })
