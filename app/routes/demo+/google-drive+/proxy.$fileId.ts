@@ -70,7 +70,7 @@ async function fetchDriveImage(
   // サムネイルの場合はthumbnailLinkを取得
   if (isThumb) {
     const metadataResponse = await fetch(
-      `https://www.googleapis.com/drive/v3/files/${fileId}?fields=thumbnailLink`,
+      `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}?fields=thumbnailLink`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -88,12 +88,16 @@ async function fetchDriveImage(
 
     if (metadata.thumbnailLink) {
       // thumbnailLinkを直接取得
-      const thumbResponse = await fetch(metadata.thumbnailLink)
+      const thumbResponse = await fetch(metadata.thumbnailLink, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       return new Response(thumbResponse.body, {
         headers: {
           'Content-Type':
             thumbResponse.headers.get('Content-Type') || 'image/jpeg',
-          'Cache-Control': 'public, max-age=3600',
+          'Cache-Control': 'private, max-age=3600',
         },
       })
     }
