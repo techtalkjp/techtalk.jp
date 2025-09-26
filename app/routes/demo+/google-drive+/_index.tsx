@@ -7,7 +7,15 @@ import {
   LogInIcon,
   LogOutIcon,
 } from 'lucide-react'
-import { Link, data, redirect, useFetcher, useSearchParams } from 'react-router'
+import {
+  Link,
+  data,
+  href,
+  redirect,
+  useFetcher,
+  useLocation,
+  useSearchParams,
+} from 'react-router'
 import { Button } from '~/components/ui/button'
 import { Card, CardContent } from '~/components/ui/card'
 import { fetchDriveFilesWithAuth } from '~/routes/demo+/google-drive+/_shared/services/google-drive.server'
@@ -93,6 +101,7 @@ export default function Gallery({ loaderData }: Route.ComponentProps) {
     folderId,
   } = loaderData
   const [params] = useSearchParams()
+  const location = useLocation()
   const prevStack = params.getAll('prev')
   const logoutFetcher = useFetcher()
 
@@ -107,7 +116,9 @@ export default function Gallery({ loaderData }: Route.ComponentProps) {
                 Google
                 Driveの画像を表示するには、Googleアカウントでログインしてください。
               </p>
-              <Link to="/demo/google-drive/auth">
+              <Link
+                to={`${href('/demo/google-drive/auth')}?returnTo=${encodeURIComponent(location.pathname + location.search)}`}
+              >
                 <Button size="lg" className="w-full">
                   <LogInIcon className="mr-2 h-4 w-4" />
                   Googleでログイン
