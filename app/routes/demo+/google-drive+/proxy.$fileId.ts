@@ -97,7 +97,7 @@ async function fetchDriveImage(
         headers: {
           'Content-Type':
             thumbResponse.headers.get('Content-Type') || 'image/jpeg',
-          'Cache-Control': 'public, max-age=3600',
+          'Cache-Control': 'private, max-age=3600',
         },
       })
     }
