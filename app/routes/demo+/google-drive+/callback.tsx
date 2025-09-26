@@ -62,9 +62,14 @@ export async function loader({ request }: Route.LoaderArgs) {
       },
     })
   } catch (_error) {
+    session.unset('oauth_state')
+    session.unset('returnTo')
     return data(
       { error: 'Failed to authenticate with Google' },
-      { status: 500 },
+      {
+        status: 500,
+        headers: { 'Set-Cookie': await commitSession(session) },
+      },
     )
   }
 }
