@@ -97,7 +97,7 @@ async function fetchDriveImage(
         headers: {
           'Content-Type':
             thumbResponse.headers.get('Content-Type') || 'image/jpeg',
-          'Cache-Control': 'private, max-age=3600',
+          'Cache-Control': 'public, max-age=3600',
         },
       })
     }
@@ -105,7 +105,7 @@ async function fetchDriveImage(
 
   // フルサイズ画像を取得
   const imageResponse = await fetch(
-    `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
+    `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}?alt=media`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -120,7 +120,7 @@ async function fetchDriveImage(
   return new Response(imageResponse.body, {
     headers: {
       'Content-Type': imageResponse.headers.get('Content-Type') || 'image/jpeg',
-      'Cache-Control': 'public, max-age=3600',
+      'Cache-Control': 'private, max-age=3600',
     },
   })
 }
