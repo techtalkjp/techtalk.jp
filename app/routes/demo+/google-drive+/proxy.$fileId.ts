@@ -49,6 +49,8 @@ export async function loader({ params, request }: Route.LoaderArgs) {
         )
         // セッションをコミットしてトークンを保存
         return new Response(imageResponse.body, {
+          status: imageResponse.status,
+          statusText: imageResponse.statusText,
           headers: {
             ...Object.fromEntries(imageResponse.headers.entries()),
             'Set-Cookie': await commitSession(session),
