@@ -9,9 +9,18 @@ import {
 } from '~/routes/demo+/google-drive+/_shared/services/session.server'
 import type { Route } from './+types/proxy.$fileId'
 
+const ALLOWED_IMAGE_TYPES = new Set([
+  'image/avif',
+  'image/gif',
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+])
+const DRIVE_ID_PATTERN = /^[\w-]+$/
+
 export async function loader({ params, request }: Route.LoaderArgs) {
   const { fileId } = params
-  if (!fileId) {
+  if (!fileId || !DRIVE_ID_PATTERN.test(fileId)) {
     return new Response('Bad Request', { status: 400 })
   }
   const url = new URL(request.url)
@@ -48,13 +57,12 @@ export async function loader({ params, request }: Route.LoaderArgs) {
           isThumb,
         )
         // セッションをコミットしてトークンを保存
+        const headers = new Headers(imageResponse.headers)
+        headers.set('Set-Cookie', await commitSession(session))
         return new Response(imageResponse.body, {
           status: imageResponse.status,
           statusText: imageResponse.statusText,
-          headers: {
-            ...Object.fromEntries(imageResponse.headers.entries()),
-            'Set-Cookie': await commitSession(session),
-          },
+          headers,
         })
       } catch (_refreshError) {
         return new Response('Failed to fetch image', { status: 500 })
@@ -95,13 +103,7 @@ async function fetchDriveImage(
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      return new Response(thumbResponse.body, {
-        headers: {
-          'Content-Type':
-            thumbResponse.headers.get('Content-Type') || 'image/jpeg',
-          'Cache-Control': 'private, max-age=3600',
-        },
-      })
+      return createSecureImageResponse(thumbResponse, 'image/jpeg')
     }
   }
 
@@ -119,10 +121,31 @@ async function fetchDriveImage(
     throw new Error('Failed to fetch image')
   }
 
-  return new Response(imageResponse.body, {
-    headers: {
-      'Content-Type': imageResponse.headers.get('Content-Type') || 'image/jpeg',
-      'Cache-Control': 'private, max-age=3600',
-    },
+  return createSecureImageResponse(imageResponse, 'image/jpeg')
+}
+
+function createSecureImageResponse(
+  upstream: Response,
+  fallbackType: string,
+): Response {
+  const contentTypeHeader = upstream.headers.get('Content-Type') ?? fallbackType
+  const normalizedType = contentTypeHeader.split(';', 1)[0]?.trim().toLowerCase()
+  const isAllowed = normalizedType ? ALLOWED_IMAGE_TYPES.has(normalizedType) : false
+  const safeType = isAllowed ? contentTypeHeader : 'application/octet-stream'
+
+  const headers = new Headers()
+  headers.set('Content-Type', safeType)
+  headers.set('Cache-Control', 'private, max-age=3600')
+  headers.set('X-Content-Type-Options', 'nosniff')
+  headers.set('X-Frame-Options', 'DENY')
+  headers.set('Content-Security-Policy', "default-src 'none'; sandbox")
+  if (!isAllowed) {
+    headers.set('Content-Disposition', 'attachment')
+  }
+
+  return new Response(upstream.body, {
+    status: upstream.status,
+    statusText: upstream.statusText,
+    headers,
   })
 }
