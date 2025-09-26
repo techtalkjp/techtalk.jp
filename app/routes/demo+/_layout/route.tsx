@@ -98,6 +98,13 @@ const demoPages: {
       ext: '/route.tsx',
     },
   ],
+  'google-drive': [
+    {
+      path: '/demo/google-drive',
+      title: 'Google Drive ギャラリー',
+      ext: '+',
+    },
+  ],
   about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
 } as const
 

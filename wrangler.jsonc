@@ -34,17 +34,5 @@
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
-  },
-  "env": {
-    "development": {
-      "vars": {
-        "ENV": "development"
-      }
-    },
-    "production": {
-      "vars": {
-        "ENV": "production"
-      }
-    }
   }
 }

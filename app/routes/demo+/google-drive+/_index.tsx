@@ -1,0 +1,407 @@
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  FolderIcon,
+  HomeIcon,
+  ImageIcon,
+  LogInIcon,
+  LogOutIcon,
+} from 'lucide-react'
+import {
+  Link,
+  data,
+  href,
+  redirect,
+  useFetcher,
+  useLocation,
+  useSearchParams,
+} from 'react-router'
+import { Button } from '~/components/ui/button'
+import { Card, CardContent } from '~/components/ui/card'
+import type { Route } from './+types/_index'
+import {
+  fetchDriveFilesWithAuth,
+  type DriveFilesResult,
+} from './_shared/services/google-drive.server'
+import {
+  GoogleReauthRequiredError,
+  clearSessionAuth,
+  getSessionTokens,
+} from './_shared/services/google-oauth.server'
+import { commitSession, getSession } from './_shared/services/session.server'
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url)
+  const pageToken = url.searchParams.get('pageToken') ?? ''
+  const rawPageSize = Number(url.searchParams.get('pageSize') ?? 30)
+  const pageSize = clampPageSize(rawPageSize)
+  const folderId = url.searchParams.get('folderId') ?? ''
+
+  // ユーザー情報をセッションから取得
+  const session = await getSession(request.headers.get('Cookie'))
+  let googleUser = session.get('google_user')
+  const googleTokens = getSessionTokens(session)
+
+  // 認証されていない場合
+  if (!googleTokens) {
+    googleUser = null
+    clearSessionAuth(session)
+    return data(
+      {
+        files: [],
+        nextPageToken: null,
+        currentPageToken: pageToken,
+        pageSize,
+        isAuthenticated: false,
+        googleUser: null,
+        folderId,
+      },
+      {
+        headers: {
+          'Set-Cookie': await commitSession(session),
+        },
+      },
+    )
+  }
+
+  // Google Drive APIを直接呼び出し
+  let filesData: DriveFilesResult
+  let sessionUpdated = false
+  try {
+    const result = await fetchDriveFilesWithAuth(
+      session,
+      folderId !== '' ? folderId : null, // 空文字列をnullに変換
+      pageToken,
+      pageSize,
+    )
+    filesData = result.data
+    sessionUpdated = result.sessionUpdated
+  } catch (error) {
+    if (error instanceof GoogleReauthRequiredError) {
+      const headers = new Headers()
+      if (error.sessionUpdated) {
+        headers.set('Set-Cookie', await commitSession(session))
+      }
+      return redirect(
+        `${href('/demo/google-drive/auth')}?returnTo=${encodeURIComponent(url.pathname + url.search)}` +
+          {
+            headers,
+          },
+      )
+    }
+    throw error
+  }
+
+  // セッションが更新された場合のみSet-Cookieを送信
+  const responseInit: ResponseInit = sessionUpdated
+    ? {
+        headers: {
+          'Set-Cookie': await commitSession(session),
+        },
+      }
+    : {}
+
+  return data(
+    {
+      ...filesData,
+      currentPageToken: pageToken,
+      pageSize,
+      isAuthenticated: true,
+      googleUser,
+      folderId,
+    },
+    responseInit,
+  )
+}
+
+function clampPageSize(value: unknown): number {
+  const numeric = Number(value)
+  if (!Number.isFinite(numeric)) return 30
+  const integer = Math.trunc(numeric)
+  return Math.min(100, Math.max(1, integer))
+}
+
+export default function Gallery({ loaderData }: Route.ComponentProps) {
+  const {
+    files,
+    nextPageToken,
+    currentPageToken,
+    pageSize,
+    isAuthenticated,
+    googleUser,
+    folderId,
+  } = loaderData
+  const [params] = useSearchParams()
+  const location = useLocation()
+  const prevStack = params.getAll('prev')
+  const logoutFetcher = useFetcher()
+
+  if (!isAuthenticated) {
+    return (
+      <div className="mx-auto max-w-6xl p-6">
+        <Card className="mx-auto max-w-md">
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <h2 className="mb-4 text-2xl font-bold">Google Drive Gallery</h2>
+              <p className="mb-6 text-gray-600">
+                Google
+                Driveの画像を表示するには、Googleアカウントでログインしてください。
+              </p>
+              <Link
+                to={`${href('/demo/google-drive/auth')}?returnTo=${encodeURIComponent(location.pathname + location.search)}`}
+              >
+                <Button size="lg" className="w-full">
+                  <LogInIcon className="mr-2 h-4 w-4" />
+                  Googleでログイン
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  return (
+    <div className="mx-auto max-w-7xl p-6">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Google Drive Gallery</h1>
+          {googleUser && (
+            <p className="mt-1 text-sm text-gray-600">
+              {googleUser.email}でログイン中
+            </p>
+          )}
+        </div>
+        <logoutFetcher.Form
+          method="post"
+          action={href('/demo/google-drive/logout')}
+        >
+          <Button variant="outline" type="submit">
+            <LogOutIcon className="mr-2 h-4 w-4" />
+            ログアウト
+          </Button>
+        </logoutFetcher.Form>
+      </div>
+
+      {folderId && (
+        <div className="mb-4">
+          <Link
+            to={href('/demo/google-drive')}
+            prefetch="intent"
+            className="inline-flex items-center text-sm text-blue-600 hover:underline"
+          >
+            <HomeIcon className="mr-1 h-4 w-4" />
+            ルートフォルダに戻る
+          </Link>
+        </div>
+      )}
+
+      {files.length === 0 ? (
+        <Card>
+          <CardContent className="py-12">
+            <p className="text-center text-gray-500">
+              画像が見つかりませんでした。
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {files.map((file) => {
+              const isFolder =
+                file.mimeType === 'application/vnd.google-apps.folder'
+
+              return (
+                <Card
+                  key={file.id}
+                  className="overflow-hidden transition-shadow hover:shadow-lg"
+                >
+                  {isFolder ? (
+                    <Link
+                      to={{
+                        pathname: href('/demo/google-drive'),
+                        search: buildSearch({
+                          folderId: file.id,
+                          pageToken: '',
+                          pageSize,
+                        }),
+                      }}
+                      prefetch="intent"
+                      className="block"
+                    >
+                      <div className="flex aspect-square items-center justify-center overflow-hidden bg-gray-100">
+                        <FolderIcon className="h-24 w-24 text-blue-500" />
+                      </div>
+                      <CardContent className="p-3">
+                        <p
+                          className="truncate text-sm font-medium"
+                          title={file.name}
+                        >
+                          {file.name}
+                        </p>
+                        <p className="mt-1 text-xs text-gray-500">フォルダ</p>
+                      </CardContent>
+                    </Link>
+                  ) : (
+                    <a
+                      href={file.mediaUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <div className="aspect-square overflow-hidden bg-gray-100">
+                        {file.thumbUrl ? (
+                          <img
+                            src={file.thumbUrl}
+                            alt={file.name}
+                            className="h-full w-full object-cover transition-transform hover:scale-105"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="flex h-full items-center justify-center">
+                            <ImageIcon className="h-24 w-24 text-gray-400" />
+                          </div>
+                        )}
+                      </div>
+                      <CardContent className="p-3">
+                        <p
+                          className="truncate text-sm font-medium"
+                          title={file.name}
+                        >
+                          {file.name}
+                        </p>
+                        {file.size && (
+                          <p className="mt-1 text-xs text-gray-500">
+                            {formatFileSize(file.size)}
+                          </p>
+                        )}
+                        {file.modifiedTime && (
+                          <p className="mt-1 text-xs text-gray-500">
+                            {new Date(file.modifiedTime).toLocaleDateString(
+                              'ja-JP',
+                            )}
+                          </p>
+                        )}
+                      </CardContent>
+                    </a>
+                  )}
+                </Card>
+              )
+            })}
+          </div>
+
+          <div className="mt-8 flex items-center justify-between">
+            <PrevLink
+              prevStack={prevStack}
+              pageSize={pageSize}
+              folderId={folderId}
+            />
+            <div className="text-sm text-gray-600">
+              {files.length}件のアイテムを表示中
+            </div>
+            {nextPageToken ? (
+              <Link
+                to={{
+                  pathname: href('/demo/google-drive'),
+                  search: buildSearch({
+                    pageToken: nextPageToken,
+                    prev: [...prevStack, currentPageToken].filter(
+                      (token) => token !== null && token !== undefined,
+                    ),
+                    pageSize,
+                    folderId,
+                  }),
+                }}
+                prefetch="intent"
+              >
+                <Button variant="outline">
+                  次へ
+                  <ChevronRightIcon className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            ) : (
+              <div />
+            )}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+function PrevLink({
+  prevStack,
+  pageSize,
+  folderId,
+}: {
+  prevStack: string[]
+  pageSize: number
+  folderId: string
+}) {
+  if (prevStack.length === 0) return <div />
+  const newPrev = prevStack.slice(0, -1)
+  const prevToken = prevStack[prevStack.length - 1]
+
+  return (
+    <Link
+      to={{
+        pathname: '/demo/google-drive',
+        search: buildSearch({
+          pageToken: prevToken,
+          prev: newPrev,
+          pageSize,
+          folderId,
+        }),
+      }}
+      prefetch="intent"
+    >
+      <Button variant="outline">
+        <ChevronLeftIcon className="mr-2 h-4 w-4" />
+        前へ
+      </Button>
+    </Link>
+  )
+}
+
+function buildSearch({
+  pageToken,
+  prev,
+  pageSize,
+  folderId,
+}: {
+  pageToken?: string
+  prev?: string[]
+  pageSize?: number
+  folderId?: string
+}) {
+  const sp = new URLSearchParams()
+  if (pageToken) {
+    sp.set('pageToken', pageToken)
+  }
+  if (prev) {
+    for (const p of prev) {
+      sp.append('prev', p)
+    }
+  }
+  if (pageSize) {
+    sp.set('pageSize', String(pageSize))
+  }
+  if (folderId) {
+    sp.set('folderId', folderId)
+  }
+  return `?${sp.toString()}`
+}
+
+function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '0 Bytes'
+  const k = 1024
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
+  if (!Number.isFinite(bytes) || bytes < 0) return '-'
+  const i = Math.min(
+    sizes.length - 1,
+    Math.floor(Math.log(bytes) / Math.log(k)),
+  )
+  const value = bytes / k ** i
+  return `${Math.round(value * 100) / 100} ${sizes[i]}`
+}
