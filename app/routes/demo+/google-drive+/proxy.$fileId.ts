@@ -32,7 +32,13 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const tokens = getSessionTokens(session)
 
   if (!tokens) {
-    return new Response('Unauthorized', { status: 401 })
+    deleteSessionTokens(session)
+    const headers = new Headers()
+    headers.set('Set-Cookie', await commitSession(session))
+    return new Response('Unauthorized', {
+      status: 401,
+      headers,
+    })
   }
 
   try {
@@ -75,7 +81,13 @@ export async function loader({ params, request }: Route.LoaderArgs) {
         })
       }
     }
-    return new Response('Failed to fetch image', { status: 500 })
+    deleteSessionTokens(session)
+    const headers = new Headers()
+    headers.set('Set-Cookie', await commitSession(session))
+    return new Response('Unauthorized', {
+      status: 401,
+      headers,
+    })
   }
 }
 
