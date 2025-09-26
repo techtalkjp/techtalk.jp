@@ -1,9 +1,8 @@
 import type { Route } from './+types/proxy.$fileId'
 import {
-  clearSessionAuth,
-  getSessionTokens,
-  refreshAccessToken,
-  saveSessionTokens,
+  GoogleApiError,
+  GoogleReauthRequiredError,
+  withGoogleAccess,
 } from './_shared/services/google-oauth.server'
 import { commitSession, getSession } from './_shared/services/session.server'
 
@@ -24,67 +23,43 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const url = new URL(request.url)
   const isThumb = url.searchParams.has('thumb')
 
-  // セッションからトークンを取得
   const session = await getSession(request.headers.get('Cookie'))
-  const tokens = getSessionTokens(session)
-
-  if (!tokens) {
-    clearSessionAuth(session)
-    const headers = new Headers()
-    headers.set('Set-Cookie', await commitSession(session))
-    return new Response('Unauthorized', {
-      status: 401,
-      headers,
-    })
-  }
 
   try {
-    const imageResponse = await fetchDriveImage(
-      tokens.access_token,
-      fileId,
-      isThumb,
+    const { data: imageResponse, sessionUpdated } = await withGoogleAccess(
+      session,
+      (accessToken) => fetchDriveImage(accessToken, fileId, isThumb),
     )
-    return imageResponse
-  } catch (_error) {
-    // トークンをリフレッシュして再試行
-    if (tokens.refresh_token) {
-      try {
-        const newTokens = await refreshAccessToken(tokens.refresh_token)
-        saveSessionTokens(session, {
-          ...newTokens,
-          refresh_token: tokens.refresh_token,
-        })
 
-        const imageResponse = await fetchDriveImage(
-          newTokens.access_token,
-          fileId,
-          isThumb,
-        )
-        // セッションをコミットしてトークンを保存
-        const headers = new Headers(imageResponse.headers)
-        headers.set('Set-Cookie', await commitSession(session))
-        return new Response(imageResponse.body, {
-          status: imageResponse.status,
-          statusText: imageResponse.statusText,
-          headers,
-        })
-      } catch (_refreshError) {
-        clearSessionAuth(session)
-        const headers = new Headers()
-        headers.set('Set-Cookie', await commitSession(session))
-        return new Response('Unauthorized', {
-          status: 401,
-          headers,
-        })
-      }
+    const headers = new Headers(imageResponse.headers)
+    if (sessionUpdated) {
+      headers.set('Set-Cookie', await commitSession(session))
     }
-    clearSessionAuth(session)
-    const headers = new Headers()
-    headers.set('Set-Cookie', await commitSession(session))
-    return new Response('Unauthorized', {
-      status: 401,
+
+    return new Response(imageResponse.body, {
+      status: imageResponse.status,
+      statusText: imageResponse.statusText,
       headers,
     })
+  } catch (error) {
+    if (error instanceof GoogleReauthRequiredError) {
+      const headers = new Headers()
+      if (error.sessionUpdated) {
+        headers.set('Set-Cookie', await commitSession(session))
+      }
+      return new Response('Unauthorized', {
+        status: 401,
+        headers,
+      })
+    }
+
+    if (error instanceof GoogleApiError) {
+      return new Response('Failed to fetch image', {
+        status: error.status,
+      })
+    }
+
+    return new Response('Failed to fetch image', { status: 500 })
   }
 }
 
@@ -93,7 +68,6 @@ async function fetchDriveImage(
   fileId: string,
   isThumb: boolean,
 ): Promise<Response> {
-  // サムネイルの場合はthumbnailLinkを取得
   if (isThumb) {
     const metadataResponse = await fetch(
       `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}?fields=thumbnailLink`,
@@ -105,7 +79,7 @@ async function fetchDriveImage(
     )
 
     if (!metadataResponse.ok) {
-      throw new Error('Failed to fetch file metadata')
+      throw new GoogleApiError('Failed to fetch file metadata', metadataResponse.status)
     }
 
     const metadata = (await metadataResponse.json()) as {
@@ -113,17 +87,20 @@ async function fetchDriveImage(
     }
 
     if (metadata.thumbnailLink) {
-      // thumbnailLinkを直接取得
       const thumbResponse = await fetch(metadata.thumbnailLink, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       })
+
+      if (!thumbResponse.ok) {
+        throw new GoogleApiError('Failed to fetch file metadata', thumbResponse.status)
+      }
+
       return createSecureImageResponse(thumbResponse, 'image/jpeg')
     }
   }
 
-  // フルサイズ画像を取得
   const imageResponse = await fetch(
     `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}?alt=media`,
     {
@@ -134,7 +111,7 @@ async function fetchDriveImage(
   )
 
   if (!imageResponse.ok) {
-    throw new Error('Failed to fetch image')
+    throw new GoogleApiError('Failed to fetch image', imageResponse.status)
   }
 
   return createSecureImageResponse(imageResponse, 'image/jpeg')
@@ -145,13 +122,8 @@ function createSecureImageResponse(
   fallbackType: string,
 ): Response {
   const contentTypeHeader = upstream.headers.get('Content-Type') ?? fallbackType
-  const normalizedType = contentTypeHeader
-    .split(';', 1)[0]
-    ?.trim()
-    .toLowerCase()
-  const isAllowed = normalizedType
-    ? ALLOWED_IMAGE_TYPES.has(normalizedType)
-    : false
+  const normalizedType = contentTypeHeader.split(';', 1)[0]?.trim().toLowerCase()
+  const isAllowed = normalizedType ? ALLOWED_IMAGE_TYPES.has(normalizedType) : false
   const safeType = isAllowed ? contentTypeHeader : 'application/octet-stream'
 
   const headers = new Headers()

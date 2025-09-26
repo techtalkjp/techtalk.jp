@@ -19,7 +19,10 @@ import {
 import { Button } from '~/components/ui/button'
 import { Card, CardContent } from '~/components/ui/card'
 import type { Route } from './+types/_index'
-import { fetchDriveFilesWithAuth } from './_shared/services/google-drive.server'
+import {
+  fetchDriveFilesWithAuth,
+  type DriveFilesResult,
+} from './_shared/services/google-drive.server'
 import {
   GoogleReauthRequiredError,
   clearSessionAuth,
@@ -62,30 +65,42 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 
   // Google Drive APIを直接呼び出し
-  let filesData: Awaited<ReturnType<typeof fetchDriveFilesWithAuth>>
+  let filesData: DriveFilesResult
+  let sessionUpdated = false
   try {
-    filesData = await fetchDriveFilesWithAuth(
+    const result = await fetchDriveFilesWithAuth(
       session,
       folderId !== '' ? folderId : null, // 空文字列をnullに変換
       pageToken,
       pageSize,
     )
+    filesData = result.data
+    sessionUpdated = result.sessionUpdated
   } catch (error) {
     if (error instanceof GoogleReauthRequiredError) {
       const headers = new Headers()
-      headers.set('Set-Cookie', await commitSession(session))
+      if (error.sessionUpdated) {
+        headers.set('Set-Cookie', await commitSession(session))
+      }
       return redirect(
-        '/demo/google-drive/auth?returnTo=' +
-          encodeURIComponent(url.pathname + url.search),
-        {
-          headers,
-        },
+        `${href('/demo/google-drive/auth')}?returnTo=${encodeURIComponent(url.pathname + url.search)}` +
+          {
+            headers,
+          },
       )
     }
     throw error
   }
 
-  // セッションが更新された可能性があるため、ヘッダーを設定
+  // セッションが更新された場合のみSet-Cookieを送信
+  const responseInit: ResponseInit = sessionUpdated
+    ? {
+        headers: {
+          'Set-Cookie': await commitSession(session),
+        },
+      }
+    : {}
+
   return data(
     {
       ...filesData,
@@ -95,11 +110,7 @@ export async function loader({ request }: Route.LoaderArgs) {
       googleUser,
       folderId,
     },
-    {
-      headers: {
-        'Set-Cookie': await commitSession(session),
-      },
-    },
+    responseInit,
   )
 }
 
