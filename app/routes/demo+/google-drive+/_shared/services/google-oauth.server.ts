@@ -89,12 +89,14 @@ export async function refreshAccessToken(
     throw new Error(`Failed to refresh access token: ${error}`)
   }
 
-  return await response.json()
+  const tokens = (await response.json()) as GoogleTokens
+  return {
+    ...tokens,
+    refresh_token: tokens.refresh_token ?? refreshToken,
+  }
 }
 
-export async function getGoogleUser(
-  accessToken: string,
-): Promise<GoogleUser> {
+export async function getGoogleUser(accessToken: string): Promise<GoogleUser> {
   const response = await fetch(GOOGLE_USERINFO_URL, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -109,9 +111,7 @@ export async function getGoogleUser(
 }
 
 // セッション管理用のヘルパー関数
-export function getSessionTokens(
-  session: Session,
-): GoogleTokens | null {
+export function getSessionTokens(session: Session): GoogleTokens | null {
   // Cookieセッションからトークンを取得
   const tokens = session.get('google_tokens')
   return tokens || null
@@ -125,9 +125,7 @@ export function saveSessionTokens(
   session.set('google_tokens', tokens)
 }
 
-export function deleteSessionTokens(
-  session: Session,
-): void {
+export function deleteSessionTokens(session: Session): void {
   // Cookieセッションからトークンを削除
   session.unset('google_tokens')
 }
