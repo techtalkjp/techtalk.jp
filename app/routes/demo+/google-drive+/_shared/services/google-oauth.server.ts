@@ -9,7 +9,7 @@ import { href, type Session } from 'react-router'
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token'
-const GOOGLE_USERINFO_URL = 'https://www.googleapis.com/oauth2/v1/userinfo'
+const GOOGLE_USERINFO_URL = 'https://openidconnect.googleapis.com/v1/userinfo'
 
 const tokenEncryptionSecret =
   process.env.TOKEN_ENCRYPTION_SECRET ?? process.env.SESSION_SECRET
@@ -75,7 +75,10 @@ export class GoogleReauthRequiredError extends Error {
 }
 
 export class GoogleApiError extends Error {
-  constructor(message: string, public readonly status: number) {
+  constructor(
+    message: string,
+    public readonly status: number,
+  ) {
     super(message)
     this.name = 'GoogleApiError'
   }
@@ -103,12 +106,14 @@ export function getGoogleOAuthURL(origin: string, state?: string): string {
     redirect_uri: `${origin}${href('/demo/google-drive/callback')}`,
     response_type: 'code',
     scope: [
+      'openid',
       'https://www.googleapis.com/auth/drive.readonly',
       'https://www.googleapis.com/auth/userinfo.email',
       'https://www.googleapis.com/auth/userinfo.profile',
     ].join(' '),
     access_type: 'offline',
     prompt: 'consent',
+    include_granted_scopes: 'true',
   })
 
   if (state) params.set('state', state)
