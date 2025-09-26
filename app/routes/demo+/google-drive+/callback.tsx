@@ -55,8 +55,7 @@ export async function loader({ request }: Route.LoaderArgs) {
         'Set-Cookie': await commitSession(session),
       },
     })
-  } catch (error) {
-    console.error('OAuth callback error:', error)
+  } catch (_error) {
     return data(
       { error: 'Failed to authenticate with Google' },
       { status: 500 },
