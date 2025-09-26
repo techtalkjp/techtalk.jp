@@ -8,12 +8,16 @@ import type { Route } from './+types/auth'
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url)
-  const returnTo = url.searchParams.get('returnTo') || '/demo/google-drive'
+  // Clamp returnTo to same‐origin relative paths only
+  const requestedReturnTo = url.searchParams.get('returnTo')
+  const returnTo =
+    requestedReturnTo?.startsWith('/') && !requestedReturnTo.startsWith('//')
+      ? requestedReturnTo
+      : '/demo/google-drive'
 
   // セッションにreturnTo URLを保存
   const session = await getSession(request.headers.get('Cookie'))
   session.set('returnTo', returnTo)
-
   // CSRF対策用のstateパラメータを生成
   const state = crypto.randomUUID()
   session.set('oauth_state', state)
