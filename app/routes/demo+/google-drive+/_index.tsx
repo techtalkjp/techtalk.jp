@@ -202,7 +202,7 @@ export default function Gallery({ loaderData }: Route.ComponentProps) {
                     <a
                       href={file.mediaUrl}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="block"
                     >
                       <div className="aspect-square overflow-hidden bg-gray-100">
