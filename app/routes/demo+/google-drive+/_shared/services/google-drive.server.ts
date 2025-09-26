@@ -70,10 +70,10 @@ async function fetchDriveFiles(
   // フォルダIDが指定されている場合はそのフォルダ内のファイルを取得
   // 指定されていない場合はルートフォルダのファイルを取得
   // フォルダと画像の両方を取得
-  const query = folderId
-    ? `'${folderId}' in parents and (mimeType contains 'image/' or mimeType = 'application/vnd.google-apps.folder') and trashed = false`
+  const safeFolderId = folderId && /^[\w-]+$/.test(folderId) ? folderId : null
+  const query = safeFolderId
+    ? `'${safeFolderId}' in parents and (mimeType contains 'image/' or mimeType = 'application/vnd.google-apps.folder') and trashed = false`
     : `(mimeType contains 'image/' or mimeType = 'application/vnd.google-apps.folder') and trashed = false and 'root' in parents`
-
   params.set('q', query)
 
   if (pageToken) {
