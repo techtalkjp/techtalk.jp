@@ -18,26 +18,31 @@ import {
 } from 'react-router'
 import { Button } from '~/components/ui/button'
 import { Card, CardContent } from '~/components/ui/card'
-import { fetchDriveFilesWithAuth } from '~/routes/demo+/google-drive+/_shared/services/google-drive.server'
-import {
-  commitSession,
-  getSession,
-} from '~/routes/demo+/google-drive+/_shared/services/session.server'
 import type { Route } from './+types/_index'
+import { fetchDriveFilesWithAuth } from './_shared/services/google-drive.server'
+import {
+  GoogleReauthRequiredError,
+  clearSessionAuth,
+  getSessionTokens,
+} from './_shared/services/google-oauth.server'
+import { commitSession, getSession } from './_shared/services/session.server'
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url)
   const pageToken = url.searchParams.get('pageToken') ?? ''
-  const pageSize = Number(url.searchParams.get('pageSize') ?? 30)
+  const rawPageSize = Number(url.searchParams.get('pageSize') ?? 30)
+  const pageSize = clampPageSize(rawPageSize)
   const folderId = url.searchParams.get('folderId') ?? ''
 
   // ユーザー情報をセッションから取得
   const session = await getSession(request.headers.get('Cookie'))
-  const googleUser = session.get('google_user')
-  const googleTokens = session.get('google_tokens')
+  let googleUser = session.get('google_user')
+  const googleTokens = getSessionTokens(session)
 
   // 認証されていない場合
   if (!googleTokens) {
+    googleUser = null
+    clearSessionAuth(session)
     return data(
       {
         files: [],
@@ -57,19 +62,27 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 
   // Google Drive APIを直接呼び出し
-  const filesData = await fetchDriveFilesWithAuth(
-    session,
-    folderId !== '' ? folderId : null, // 空文字列をnullに変換
-    pageToken,
-    pageSize,
-  )
-
-  // 認証エラーの場合はリダイレクト
-  if (!filesData) {
-    return redirect(
-      '/demo/google-drive/auth?returnTo=' +
-        encodeURIComponent(url.pathname + url.search),
+  let filesData: Awaited<ReturnType<typeof fetchDriveFilesWithAuth>>
+  try {
+    filesData = await fetchDriveFilesWithAuth(
+      session,
+      folderId !== '' ? folderId : null, // 空文字列をnullに変換
+      pageToken,
+      pageSize,
     )
+  } catch (error) {
+    if (error instanceof GoogleReauthRequiredError) {
+      const headers = new Headers()
+      headers.set('Set-Cookie', await commitSession(session))
+      return redirect(
+        '/demo/google-drive/auth?returnTo=' +
+          encodeURIComponent(url.pathname + url.search),
+        {
+          headers,
+        },
+      )
+    }
+    throw error
   }
 
   // セッションが更新された可能性があるため、ヘッダーを設定
@@ -88,6 +101,13 @@ export async function loader({ request }: Route.LoaderArgs) {
       },
     },
   )
+}
+
+function clampPageSize(value: unknown): number {
+  const numeric = Number(value)
+  if (!Number.isFinite(numeric)) return 30
+  const integer = Math.trunc(numeric)
+  return Math.min(100, Math.max(1, integer))
 }
 
 export default function Gallery({ loaderData }: Route.ComponentProps) {
@@ -142,7 +162,10 @@ export default function Gallery({ loaderData }: Route.ComponentProps) {
             </p>
           )}
         </div>
-        <logoutFetcher.Form method="post" action="/demo/google-drive/logout">
+        <logoutFetcher.Form
+          method="post"
+          action={href('/demo/google-drive/logout')}
+        >
           <Button variant="outline" type="submit">
             <LogOutIcon className="mr-2 h-4 w-4" />
             ログアウト
@@ -153,7 +176,7 @@ export default function Gallery({ loaderData }: Route.ComponentProps) {
       {folderId && (
         <div className="mb-4">
           <Link
-            to="/demo/google-drive"
+            to={href('/demo/google-drive')}
             prefetch="intent"
             className="inline-flex items-center text-sm text-blue-600 hover:underline"
           >
@@ -186,7 +209,7 @@ export default function Gallery({ loaderData }: Route.ComponentProps) {
                   {isFolder ? (
                     <Link
                       to={{
-                        pathname: '/demo/google-drive',
+                        pathname: href('/demo/google-drive'),
                         search: buildSearch({
                           folderId: file.id,
                           pageToken: '',
@@ -269,7 +292,7 @@ export default function Gallery({ loaderData }: Route.ComponentProps) {
             {nextPageToken ? (
               <Link
                 to={{
-                  pathname: '/demo/google-drive',
+                  pathname: href('/demo/google-drive'),
                   search: buildSearch({
                     pageToken: nextPageToken,
                     prev: [...prevStack, currentPageToken].filter(

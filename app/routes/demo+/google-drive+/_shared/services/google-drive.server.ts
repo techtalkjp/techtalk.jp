@@ -1,9 +1,25 @@
-import type { Session } from 'react-router'
+import { href, type Session } from 'react-router'
 import {
+  GoogleReauthRequiredError,
+  clearSessionAuth,
   getSessionTokens,
   refreshAccessToken,
   saveSessionTokens,
 } from './google-oauth.server'
+
+class DriveApiError extends Error {
+  constructor(
+    message: string,
+    public readonly status: number,
+  ) {
+    super(message)
+    this.name = 'DriveApiError'
+  }
+}
+
+function isAuthFailure(status: number): boolean {
+  return status === 401 || status === 403
+}
 
 export async function fetchDriveFilesWithAuth(
   session: Session,
@@ -14,7 +30,8 @@ export async function fetchDriveFilesWithAuth(
   const tokens = getSessionTokens(session)
 
   if (!tokens) {
-    return null // 認証が必要
+    clearSessionAuth(session)
+    throw new GoogleReauthRequiredError('Missing Google OAuth tokens')
   }
 
   try {
@@ -26,29 +43,46 @@ export async function fetchDriveFilesWithAuth(
       pageSize,
     )
     return result
-  } catch (_error) {
-    // トークンをリフレッシュして再試行
-    if (tokens.refresh_token) {
-      try {
-        const newTokens = await refreshAccessToken(tokens.refresh_token)
-        saveSessionTokens(session, {
-          ...newTokens,
-          refresh_token: tokens.refresh_token,
-        })
+  } catch (error) {
+    if (!(error instanceof DriveApiError) || !isAuthFailure(error.status)) {
+      throw error
+    }
+    if (!tokens.refresh_token) {
+      clearSessionAuth(session)
+      throw new GoogleReauthRequiredError('Refresh token not available')
+    }
 
-        const result = await fetchDriveFiles(
+    try {
+      const newTokens = await refreshAccessToken(tokens.refresh_token)
+      saveSessionTokens(session, {
+        ...newTokens,
+        refresh_token: tokens.refresh_token,
+      })
+
+      try {
+        const refreshedResult = await fetchDriveFiles(
           newTokens.access_token,
           folderId,
           pageToken,
           pageSize,
         )
-        return result
-      } catch (_refreshError) {
-        // リフレッシュも失敗
-        return null
+        return refreshedResult
+      } catch (refetchedError) {
+        if (
+          refetchedError instanceof DriveApiError &&
+          isAuthFailure(refetchedError.status)
+        ) {
+          clearSessionAuth(session)
+          throw new GoogleReauthRequiredError('Google revoked access')
+        }
+        throw refetchedError
       }
+    } catch (_refreshError) {
+      clearSessionAuth(session)
+      throw new GoogleReauthRequiredError(
+        'Failed to refresh Google access token',
+      )
     }
-    return null
   }
 }
 
@@ -91,7 +125,10 @@ async function fetchDriveFiles(
 
   if (!response.ok) {
     const error = await response.text()
-    throw new Error(`Drive API error: ${response.status} - ${error}`)
+    throw new DriveApiError(
+      `Drive API error: ${response.status} - ${error}`,
+      response.status,
+    )
   }
 
   interface DriveFile {
@@ -116,8 +153,8 @@ async function fetchDriveFiles(
     id: file.id,
     name: file.name,
     mimeType: file.mimeType,
-    thumbUrl: `/demo/google-drive/proxy/${file.id}?thumb=true`,
-    mediaUrl: `/demo/google-drive/proxy/${file.id}`,
+    thumbUrl: `${href('/demo/google-drive/proxy/:fileId', { fileId: file.id })}?thumb=true`,
+    mediaUrl: `${href('/demo/google-drive/proxy/:fileId', { fileId: file.id })}`,
     webViewLink: file.webViewLink,
     createdTime: file.createdTime,
     modifiedTime: file.modifiedTime,

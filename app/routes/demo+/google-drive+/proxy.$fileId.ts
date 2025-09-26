@@ -1,14 +1,11 @@
+import type { Route } from './+types/proxy.$fileId'
 import {
-  deleteSessionTokens,
+  clearSessionAuth,
   getSessionTokens,
   refreshAccessToken,
   saveSessionTokens,
-} from '~/routes/demo+/google-drive+/_shared/services/google-oauth.server'
-import {
-  commitSession,
-  getSession,
-} from '~/routes/demo+/google-drive+/_shared/services/session.server'
-import type { Route } from './+types/proxy.$fileId'
+} from './_shared/services/google-oauth.server'
+import { commitSession, getSession } from './_shared/services/session.server'
 
 const ALLOWED_IMAGE_TYPES = new Set([
   'image/avif',
@@ -32,7 +29,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const tokens = getSessionTokens(session)
 
   if (!tokens) {
-    deleteSessionTokens(session)
+    clearSessionAuth(session)
     const headers = new Headers()
     headers.set('Set-Cookie', await commitSession(session))
     return new Response('Unauthorized', {
@@ -72,7 +69,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
           headers,
         })
       } catch (_refreshError) {
-        deleteSessionTokens(session)
+        clearSessionAuth(session)
         const headers = new Headers()
         headers.set('Set-Cookie', await commitSession(session))
         return new Response('Unauthorized', {
@@ -81,7 +78,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
         })
       }
     }
-    deleteSessionTokens(session)
+    clearSessionAuth(session)
     const headers = new Headers()
     headers.set('Set-Cookie', await commitSession(session))
     return new Response('Unauthorized', {
@@ -148,8 +145,13 @@ function createSecureImageResponse(
   fallbackType: string,
 ): Response {
   const contentTypeHeader = upstream.headers.get('Content-Type') ?? fallbackType
-  const normalizedType = contentTypeHeader.split(';', 1)[0]?.trim().toLowerCase()
-  const isAllowed = normalizedType ? ALLOWED_IMAGE_TYPES.has(normalizedType) : false
+  const normalizedType = contentTypeHeader
+    .split(';', 1)[0]
+    ?.trim()
+    .toLowerCase()
+  const isAllowed = normalizedType
+    ? ALLOWED_IMAGE_TYPES.has(normalizedType)
+    : false
   const safeType = isAllowed ? contentTypeHeader : 'application/octet-stream'
 
   const headers = new Headers()

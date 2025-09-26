@@ -1,10 +1,7 @@
-import { redirect } from 'react-router'
+import { href, redirect } from 'react-router'
 import { getGoogleOAuthURL } from '~/routes/demo+/google-drive+/_shared/services/google-oauth.server'
-import {
-  commitSession,
-  getSession,
-} from '~/routes/demo+/google-drive+/_shared/services/session.server'
 import type { Route } from './+types/auth'
+import { commitSession, getSession } from './_shared/services/session.server'
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url)
@@ -13,7 +10,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   const returnTo =
     requestedReturnTo?.startsWith('/') && !requestedReturnTo.startsWith('//')
       ? requestedReturnTo
-      : '/demo/google-drive'
+      : href('/demo/google-drive')
 
   // セッションにreturnTo URLを保存
   const session = await getSession(request.headers.get('Cookie'))
