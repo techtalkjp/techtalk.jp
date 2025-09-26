@@ -94,7 +94,10 @@ async function fetchDriveImage(
       })
 
       if (!thumbResponse.ok) {
-        throw new GoogleApiError('Failed to fetch file metadata', thumbResponse.status)
+        throw new GoogleApiError(
+          `Failed to fetch thumbnail for ${fileId}`,
+          thumbResponse.status,
+        )
       }
 
       return createSecureImageResponse(thumbResponse, 'image/jpeg')
