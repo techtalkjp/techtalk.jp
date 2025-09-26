@@ -26,7 +26,7 @@ export async function fetchDriveFilesWithAuth(
       pageSize,
     )
     return result
-  } catch (error) {
+  } catch (_error) {
     // トークンをリフレッシュして再試行
     if (tokens.refresh_token) {
       try {
@@ -43,7 +43,7 @@ export async function fetchDriveFilesWithAuth(
           pageSize,
         )
         return result
-      } catch (refreshError) {
+      } catch (_refreshError) {
         // リフレッシュも失敗
         return null
       }
