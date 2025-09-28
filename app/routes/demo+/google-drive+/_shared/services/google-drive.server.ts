@@ -1,8 +1,8 @@
 import { href, type Session } from 'react-router'
 import {
   GoogleApiError,
-  type GoogleAccessResult,
   withGoogleAccess,
+  type GoogleAccessResult,
 } from './google-oauth.server'
 
 export type DriveFilesResult = {
@@ -91,7 +91,9 @@ async function fetchDriveFiles(
   }
 
   const files = (data.files || []).map((file) => {
-    const proxyHref = href('/demo/google-drive/proxy/:fileId', { fileId: file.id })
+    const proxyHref = href('/demo/google-drive/proxy/:fileId', {
+      fileId: file.id,
+    })
     return {
       id: file.id,
       name: file.name,

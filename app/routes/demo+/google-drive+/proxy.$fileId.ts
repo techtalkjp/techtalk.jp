@@ -79,7 +79,10 @@ async function fetchDriveImage(
     )
 
     if (!metadataResponse.ok) {
-      throw new GoogleApiError('Failed to fetch file metadata', metadataResponse.status)
+      throw new GoogleApiError(
+        'Failed to fetch file metadata',
+        metadataResponse.status,
+      )
     }
 
     const metadata = (await metadataResponse.json()) as {
@@ -125,8 +128,13 @@ function createSecureImageResponse(
   fallbackType: string,
 ): Response {
   const contentTypeHeader = upstream.headers.get('Content-Type') ?? fallbackType
-  const normalizedType = contentTypeHeader.split(';', 1)[0]?.trim().toLowerCase()
-  const isAllowed = normalizedType ? ALLOWED_IMAGE_TYPES.has(normalizedType) : false
+  const normalizedType = contentTypeHeader
+    .split(';', 1)[0]
+    ?.trim()
+    .toLowerCase()
+  const isAllowed = normalizedType
+    ? ALLOWED_IMAGE_TYPES.has(normalizedType)
+    : false
   const safeType = isAllowed ? contentTypeHeader : 'application/octet-stream'
 
   const headers = new Headers()
