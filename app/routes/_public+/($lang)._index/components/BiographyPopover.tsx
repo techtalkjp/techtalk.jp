@@ -41,16 +41,22 @@ export const BiographyPopover = () => {
               <AvatarImage src="/images/coji.webp" loading="lazy" />
             </Avatar>
             <Stack className="gap-1">
-              <Heading size="md">溝口浩二 coji</Heading>
+              <Heading size="md">
+                {locale === 'en' ? 'Koji Mizoguchi (coji)' : '溝口浩二 coji'}
+              </Heading>
               <p className="text-muted-foreground text-sm">
-                株式会社TechTalk 代表取締役
+                {locale === 'en'
+                  ? 'CEO, TechTalk Inc.'
+                  : '株式会社TechTalk 代表取締役'}
               </p>
             </Stack>
           </HStack>
 
           <div className="space-y-2 text-sm leading-relaxed">
             <p>
-              2019年に株式会社TechTalkを設立。それ以前は、フリークアウト、ニワンゴ、ドワンゴにて、エンジニアリング、事業開発、経営企画などを経験。
+              {locale === 'en'
+                ? 'Founded TechTalk Inc. in 2019. Previously experienced in engineering, business development, and corporate planning at FreakOut, Niwango, and Dwango.'
+                : '2019年に株式会社TechTalkを設立。それ以前は、フリークアウト、ニワンゴ、ドワンゴにて、エンジニアリング、事業開発、経営企画などを経験。'}
             </p>
           </div>
 

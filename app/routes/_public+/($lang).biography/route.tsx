@@ -212,7 +212,8 @@ export default function BiographyPage() {
                   <Stack className="items-start gap-4 sm:flex-row">
                     <img
                       src={article.image}
-                      alt={article.year}
+                      alt={article.title}
+                      loading="lazy"
                       className="h-48 w-full flex-shrink-0 rounded object-cover sm:h-32 sm:w-32"
                     />
                     <blockquote className="text-muted-foreground min-w-0 flex-1 border-l-4 border-blue-500 pl-4 text-sm italic">
