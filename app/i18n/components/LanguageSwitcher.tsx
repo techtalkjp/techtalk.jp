@@ -19,7 +19,7 @@ const LanguageSwitcher = () => {
     // Remove current locale prefix if it exists
     for (const loc of locales) {
       if (loc !== 'ja' && basePath.startsWith(`/${loc}/`)) {
-        basePath = basePath.slice(loc.length + 1)
+        basePath = basePath.substring(`/${loc}`.length)
         break
       }
       if (loc !== 'ja' && basePath === `/${loc}`) {

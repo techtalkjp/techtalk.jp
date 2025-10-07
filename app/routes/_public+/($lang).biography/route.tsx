@@ -28,7 +28,15 @@ export const loader = ({ params }: { params: { lang?: string } }) => {
   return { locale: params.lang || 'ja' }
 }
 
-const articles = {
+interface Article {
+  year: string
+  title: string
+  url: string
+  image: string
+  excerpt: string
+}
+
+const articles: Record<'ja' | 'en', Article[]> = {
   ja: [
     {
       year: '2018年 Forbes JAPAN',
