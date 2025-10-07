@@ -1,7 +1,6 @@
-import { FacebookIcon, GithubIcon, TwitterIcon, XIcon } from 'lucide-react'
+import { ArrowRightIcon, XIcon } from 'lucide-react'
 import { useState } from 'react'
-import ArticlesContent from '~/assets/articles.mdx'
-import BiographyContent from '~/assets/biography.mdx'
+import { Link } from 'react-router'
 import {
   Avatar,
   AvatarImage,
@@ -16,9 +15,8 @@ import {
 import { useLocale } from '~/i18n/hooks/useLocale'
 
 export const BiographyPopover = () => {
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
   const [isOpen, setIsOpen] = useState(false)
-  const [state, setState] = useState<'biography' | 'articles'>('biography')
 
   return (
     <Popover open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
@@ -27,8 +25,8 @@ export const BiographyPopover = () => {
           {t('about.biography', '代表略歴')}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto max-w-sm md:max-w-md lg:max-w-lg">
-        <Stack className="relative">
+      <PopoverContent className="w-auto max-w-sm md:max-w-md">
+        <Stack className="relative gap-4">
           <Button
             className="absolute top-0 right-0 h-6 w-6"
             variant="ghost"
@@ -38,90 +36,39 @@ export const BiographyPopover = () => {
             <XIcon />
           </Button>
 
-          <HStack>
-            <Avatar>
+          <HStack className="gap-3">
+            <Avatar className="h-16 w-16">
               <AvatarImage src="/images/coji.webp" loading="lazy" />
             </Avatar>
-            <Stack className="gap-0.5">
-              <Heading size="md">溝口浩二 coji</Heading>
-              <HStack>
-                <Button
-                  size="sm"
-                  variant="default"
-                  className="bg-twitter hover:bg-twitter/80 active:bg-twitter text-white"
-                  asChild
-                >
-                  <a
-                    href="https://twitter.com/techtalkjp"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center"
-                  >
-                    <TwitterIcon className="h-4 w-4" />{' '}
-                    <p className="ml-1 text-xs">Twitter</p>
-                  </a>
-                </Button>
-
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="bg-facebook hover:bg-facebook/80 active:bg-facebook text-white hover:text-white"
-                  asChild
-                >
-                  <a
-                    href="https://www.facebook.com/mizoguchi.coji"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center"
-                  >
-                    <FacebookIcon className="h-4 w-4" />{' '}
-                    <p className="ml-1 text-xs">Facebook</p>
-                  </a>
-                </Button>
-
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="bg-github hover:bg-github/80 active:bg-github text-white hover:text-white"
-                  asChild
-                >
-                  <a
-                    href="https://github.com/coji"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center"
-                  >
-                    <GithubIcon className="h-4 w-4" />{' '}
-                    <p className="ml-1 text-xs">GitHub</p>
-                  </a>
-                </Button>
-              </HStack>
+            <Stack className="gap-1">
+              <Heading size="md">
+                {locale === 'en' ? 'Koji Mizoguchi (coji)' : '溝口浩二 coji'}
+              </Heading>
+              <p className="text-muted-foreground text-sm">
+                {locale === 'en'
+                  ? 'CEO, TechTalk Inc.'
+                  : '株式会社TechTalk 代表取締役'}
+              </p>
             </Stack>
           </HStack>
 
-          <HStack>
-            <Button
-              className="flex-1"
-              size="sm"
-              variant={state === 'biography' ? 'default' : 'outline'}
-              onClick={() => setState('biography')}
-            >
-              略歴
-            </Button>
-            <Button
-              className="flex-1"
-              size="sm"
-              variant={state === 'articles' ? 'default' : 'outline'}
-              onClick={() => setState('articles')}
-            >
-              掲載記事
-            </Button>
-          </HStack>
-
-          <div className="biography h-48 overflow-auto p-2 text-sm leading-5">
-            {state === 'biography' && <BiographyContent />}
-            {state === 'articles' && <ArticlesContent />}
+          <div className="space-y-2 text-sm leading-relaxed">
+            <p>
+              {locale === 'en'
+                ? 'Founded TechTalk Inc. in 2019. Previously experienced in engineering, business development, and corporate planning at FreakOut, Niwango, and Dwango.'
+                : '2019年に株式会社TechTalkを設立。それ以前は、フリークアウト、ニワンゴ、ドワンゴにて、エンジニアリング、事業開発、経営企画などを経験。'}
+            </p>
           </div>
+
+          <Button asChild variant="default" className="w-full">
+            <Link
+              to={locale === 'ja' ? '/biography' : `/${locale}/biography`}
+              onClick={() => setIsOpen(false)}
+            >
+              {t('about.viewFullBiography', '詳細を見る')}
+              <ArrowRightIcon className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </Stack>
       </PopoverContent>
     </Popover>

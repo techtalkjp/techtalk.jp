@@ -1,4 +1,4 @@
-import { href, Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import {
   Button,
   DropdownMenu,
@@ -10,6 +10,30 @@ import { locales, useLocale } from '~/i18n/hooks/useLocale'
 
 const LanguageSwitcher = () => {
   const { t, locale } = useLocale()
+  const location = useLocation()
+
+  // Remove current locale from pathname to get the base path
+  const getPathForLocale = (targetLocale: string) => {
+    let basePath = location.pathname
+
+    // Remove current locale prefix if it exists
+    for (const loc of locales) {
+      if (loc !== 'ja' && basePath.startsWith(`/${loc}/`)) {
+        basePath = basePath.substring(`/${loc}`.length)
+        break
+      }
+      if (loc !== 'ja' && basePath === `/${loc}`) {
+        basePath = '/'
+        break
+      }
+    }
+
+    // Add new locale prefix
+    if (targetLocale === 'ja') {
+      return basePath
+    }
+    return `/${targetLocale}${basePath === '/' ? '' : basePath}`
+  }
 
   return (
     <DropdownMenu>
@@ -19,13 +43,10 @@ const LanguageSwitcher = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {locales.map((e) => (
-          <DropdownMenuItem key={e} asChild>
-            <Link
-              to={e === 'ja' ? href('/') : href('/:lang?', { lang: e })}
-              reloadDocument
-            >
-              {t(e, e)}
+        {locales.map((lang) => (
+          <DropdownMenuItem key={lang} asChild>
+            <Link to={getPathForLocale(lang)} reloadDocument>
+              {t(lang, lang)}
             </Link>
           </DropdownMenuItem>
         ))}

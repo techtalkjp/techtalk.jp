@@ -1,8 +1,8 @@
 /** biome-ignore-all lint/correctness/useUniqueElementIds: anchor links are handled by the CoverPage component */
 import { Link } from 'react-router'
+import { Header } from '~/components/Header'
 import { TextReveal } from '~/components/TextRevail'
-import { Button, HStack, Spacer } from '~/components/ui'
-import LanguageSwitcher from '~/i18n/components/LanguageSwitcher'
+import { Button } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
 
 const NavItem = ({
@@ -41,16 +41,10 @@ export const Navigation = () => {
   const { t } = useLocale()
 
   return (
-    <HStack className="fixed z-10 w-full py-2 pr-4 pl-4 font-bold sm:pr-8">
-      <NavItem id="hero">{t('nav.techtalk', 'TechTalk')}</NavItem>
-
-      <Spacer />
-      <HStack>
-        <NavItem id="about">{t('nav.about', '会社概要')}</NavItem>
-        <NavItem id="contact">{t('nav.contact', 'お問い合わせ')}</NavItem>
-        <LanguageSwitcher />
-      </HStack>
-    </HStack>
+    <Header left={<NavItem id="hero">{t('nav.techtalk', 'TechTalk')}</NavItem>}>
+      <NavItem id="about">{t('nav.about', '会社概要')}</NavItem>
+      <NavItem id="contact">{t('nav.contact', 'お問い合わせ')}</NavItem>
+    </Header>
   )
 }
 
