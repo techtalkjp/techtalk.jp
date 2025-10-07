@@ -1,29 +1,45 @@
 import { useEffect } from 'react'
+import { useLocation } from 'react-router'
 
 const ScrollAnimation = () => {
+  const location = useLocation()
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: location.key changes on every navigation
   useEffect(() => {
-    const elements = [
-      ...document.querySelectorAll('.scroll-fade-in'),
-      ...document.querySelectorAll('.inview-fade-in'),
-    ]
+    // Use requestAnimationFrame to ensure DOM is fully updated
+    const frame = requestAnimationFrame(() => {
+      const elements = [
+        ...document.querySelectorAll('.scroll-fade-in'),
+        ...document.querySelectorAll('.inview-fade-in'),
+      ]
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) entry.target.classList.add('visible')
+      // Immediately show elements that are in viewport on page load/navigation
+      for (const element of elements) {
+        const rect = element.getBoundingClientRect()
+        const isInViewport = rect.top < window.innerHeight && rect.bottom > 0
+        if (isInViewport) {
+          element.classList.add('visible')
         }
-      },
-      { threshold: 0.2 },
-    )
+      }
 
-    for (const element of elements) observer.observe(element)
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) entry.target.classList.add('visible')
+          }
+        },
+        { threshold: 0.2 },
+      )
+
+      for (const element of elements) {
+        observer.observe(element)
+      }
+    })
 
     return () => {
-      for (const element of elements) {
-        observer.unobserve(element)
-      }
+      cancelAnimationFrame(frame)
     }
-  }, [])
+  }, [location.key])
 
   return null
 }
