@@ -6,6 +6,8 @@ const ScrollAnimation = () => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: location.key changes on every navigation
   useEffect(() => {
+    let observer: IntersectionObserver | null = null
+
     // Use requestAnimationFrame to ensure DOM is fully updated
     const frame = requestAnimationFrame(() => {
       const elements = [
@@ -22,7 +24,7 @@ const ScrollAnimation = () => {
         }
       }
 
-      const observer = new IntersectionObserver(
+      observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
             if (entry.isIntersecting) entry.target.classList.add('visible')
@@ -38,6 +40,9 @@ const ScrollAnimation = () => {
 
     return () => {
       cancelAnimationFrame(frame)
+      if (observer) {
+        observer.disconnect()
+      }
     }
   }, [location.key])
 
