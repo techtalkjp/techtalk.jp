@@ -1,4 +1,4 @@
-import { Heading } from '~/components/ui'
+import { Heading } from '~/components/typography'
 import { useLocale } from '~/i18n/hooks/useLocale'
 import CoverPage from '~/routes/_public+/($lang)._index/components/CoverPage'
 import { ContactForm } from '~/routes/_public+/api.contact/route'

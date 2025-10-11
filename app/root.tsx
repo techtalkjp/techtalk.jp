@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import {
   Links,
-  type LinksFunction,
   Meta,
   type MetaFunction,
   Outlet,
@@ -18,7 +17,6 @@ import { Toaster, TooltipProvider } from '~/components/ui'
 import type { Route } from './+types/root'
 import { cn } from './libs/utils'
 import './styles/globals.css'
-import privacyStyles from './styles/privacy.css?url'
 
 export const meta: MetaFunction = () => {
   return [
@@ -28,10 +26,6 @@ export const meta: MetaFunction = () => {
       content: 'The official website of TechTalk, Inc.',
     },
   ]
-}
-
-export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: privacyStyles }]
 }
 
 export const loader = async ({ request }: Route.LoaderArgs) => {

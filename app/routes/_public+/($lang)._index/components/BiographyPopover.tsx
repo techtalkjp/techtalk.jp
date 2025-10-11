@@ -1,12 +1,12 @@
 import { ArrowRightIcon, XIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router'
+import { Heading } from '~/components/typography'
 import {
   Avatar,
   AvatarImage,
   Button,
   HStack,
-  Heading,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -21,7 +21,7 @@ export const BiographyPopover = () => {
   return (
     <Popover open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <PopoverTrigger asChild>
-        <Button size="sm" variant="default">
+        <Button size="xs" variant="default">
           {t('about.biography', '代表略歴')}
         </Button>
       </PopoverTrigger>

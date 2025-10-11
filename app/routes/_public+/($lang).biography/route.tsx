@@ -9,7 +9,8 @@ import { Link } from 'react-router'
 import BiographyContentEn from '~/assets/biography.en.mdx'
 import BiographyContentJa from '~/assets/biography.mdx'
 import { Header } from '~/components/Header'
-import { Avatar, AvatarImage, Button, Heading, Stack } from '~/components/ui'
+import { Heading } from '~/components/typography'
+import { Avatar, AvatarImage, Button, Stack } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -120,18 +121,18 @@ export default function BiographyPage() {
         }
       />
 
-      <div className="container px-4 py-12 pt-24">
-        <Stack className="mx-auto max-w-4xl gap-8">
-          <Stack className="gap-6">
-            <Stack className="items-start gap-6 sm:flex-row">
-              <Avatar className="h-24 w-24 flex-shrink-0">
+      <div className="container px-6 py-24">
+        <Stack className="mx-auto max-w-3xl gap-24">
+          <Stack className="gap-8">
+            <Stack className="items-start gap-6 sm:flex-row sm:items-center">
+              <Avatar className="h-24 w-24 flex-shrink-0 rounded-xl">
                 <AvatarImage src="/images/coji.webp" loading="lazy" />
               </Avatar>
-              <Stack className="min-w-0 flex-1 gap-2">
-                <Heading size="2xl" className="break-words">
+              <Stack className="min-w-0 flex-1 gap-3">
+                <Heading size="2xl" className="leading-tight break-words">
                   {locale === 'en' ? 'Koji Mizoguchi (coji)' : '溝口浩二 coji'}
                 </Heading>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground text-base">
                   {locale === 'en'
                     ? 'CEO, TechTalk Inc.'
                     : '株式会社TechTalk 代表取締役'}
@@ -140,98 +141,98 @@ export default function BiographyPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="cursor-pointer text-white/50 hover:text-white"
+                    className="border-border/20 text-foreground/60 hover:border-border/40 hover:text-foreground cursor-pointer rounded-xl transition-colors"
                     asChild
                   >
                     <a
                       href="https://twitter.com/techtalkjp"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center"
+                      className="flex items-center gap-1.5"
                     >
-                      <TwitterIcon className="h-4 w-4" />{' '}
-                      <p className="ml-1 text-xs">Twitter</p>
+                      <TwitterIcon className="h-4 w-4" />
+                      <span className="text-xs">Twitter</span>
                     </a>
                   </Button>
 
                   <Button
                     size="sm"
                     variant="outline"
-                    className="cursor-pointer text-white/50 hover:text-white"
+                    className="border-border/20 text-foreground/60 hover:border-border/40 hover:text-foreground cursor-pointer rounded-xl transition-colors"
                     asChild
                   >
                     <a
                       href="https://www.facebook.com/mizoguchi.coji"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center"
+                      className="flex items-center gap-1.5"
                     >
-                      <FacebookIcon className="h-4 w-4" />{' '}
-                      <p className="ml-1 text-xs">Facebook</p>
+                      <FacebookIcon className="h-4 w-4" />
+                      <span className="text-xs">Facebook</span>
                     </a>
                   </Button>
 
                   <Button
                     size="sm"
                     variant="outline"
-                    className="cursor-pointer text-white/50 hover:text-white"
+                    className="border-border/20 text-foreground/60 hover:border-border/40 hover:text-foreground cursor-pointer rounded-xl transition-colors"
                     asChild
                   >
                     <a
                       href="https://github.com/coji"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center"
+                      className="flex items-center gap-1.5"
                     >
-                      <GithubIcon className="h-4 w-4" />{' '}
-                      <p className="ml-1 text-xs">GitHub</p>
+                      <GithubIcon className="h-4 w-4" />
+                      <span className="text-xs">GitHub</span>
                     </a>
                   </Button>
                 </div>
               </Stack>
             </Stack>
 
-            <div className="max-w-none [&_a]:mb-2 [&_a]:inline-block [&_a]:font-medium [&_a]:text-blue-500 [&_a]:no-underline [&_a]:transition-colors dark:[&_a]:text-blue-400 [&_a:hover]:text-blue-700 [&_a:hover]:underline dark:[&_a:hover]:text-blue-300 [&_blockquote]:my-4 [&_blockquote]:rounded-lg [&_blockquote]:border-l-[3px] [&_blockquote]:border-blue-500 [&_blockquote]:bg-slate-500/5 [&_blockquote]:p-4 [&_blockquote]:text-sm [&_blockquote]:leading-normal [&_blockquote]:italic dark:[&_blockquote]:border-blue-400 dark:[&_blockquote]:bg-slate-500/[0.08] [&_blockquote_p]:my-1 [&_h1]:mt-8 [&_h1]:mb-4 [&_h1]:text-3xl [&_h1]:leading-tight [&_h1]:font-bold [&_h2]:mt-8 [&_h2]:mb-6 [&_h2]:rounded-lg [&_h2]:bg-slate-500/[0.08] [&_h2]:px-4 [&_h2]:py-3 [&_h2]:text-xl [&_h2]:leading-snug [&_h2]:font-bold dark:[&_h2]:bg-slate-500/10 [&_h2:first-child]:mt-0 [&_img]:h-auto [&_img]:w-full [&_img]:max-w-xs [&_img]:rounded-lg [&_img]:object-cover [&_img]:shadow [&_p]:my-3 [&_p]:text-left [&_p]:leading-relaxed">
+            <div className="[&_a]:text-primary [&_blockquote]:border-primary/60 [&_blockquote]:bg-muted/50 [&_h2]:bg-muted/50 max-w-none text-base leading-[1.85] [&_a]:font-medium [&_a]:no-underline [&_a]:transition-colors hover:[&_a]:underline [&_blockquote]:my-6 [&_blockquote]:rounded-xl [&_blockquote]:border-l-[3px] [&_blockquote]:p-6 [&_blockquote]:text-sm [&_blockquote]:leading-relaxed [&_blockquote]:italic [&_blockquote]:backdrop-blur-sm [&_blockquote_p]:my-2 [&_h1]:mt-16 [&_h1]:mb-8 [&_h1]:text-3xl [&_h1]:leading-tight [&_h1]:font-bold [&_h2]:mt-16 [&_h2]:mb-8 [&_h2]:rounded-xl [&_h2]:px-6 [&_h2]:py-4 [&_h2]:text-xl [&_h2]:leading-snug [&_h2]:font-bold [&_h2]:backdrop-blur-sm [&_h2:first-child]:mt-0 [&_img]:h-auto [&_img]:w-full [&_img]:max-w-xs [&_img]:rounded-xl [&_img]:object-cover [&_p]:my-6 [&_p]:text-left [&_p]:leading-[1.85]">
               <BiographyContent />
             </div>
+          </Stack>
 
-            <div className="space-y-6">
-              <div className="max-w-none">
-                <h2 className="mt-8 mb-6 rounded-lg bg-slate-500/[0.08] px-4 py-3 text-xl leading-snug font-bold dark:bg-slate-500/10">
-                  {t('biography.articles', '掲載記事')}
-                </h2>
-              </div>
+          <Stack className="gap-10">
+            <div className="max-w-none">
+              <h2 className="bg-muted/50 rounded-xl px-6 py-4 text-xl leading-snug font-bold backdrop-blur-sm">
+                {t('biography.articles', '掲載記事')}
+              </h2>
+            </div>
 
+            <Stack className="gap-10">
               {currentArticles.map((article) => (
-                <div
+                <a
                   key={article.url}
-                  className="bg-card rounded-lg border p-4 transition-shadow hover:shadow-md sm:p-6"
+                  href={article.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group bg-card/50 hover:bg-card/80 block rounded-xl border p-6 backdrop-blur-sm transition-all hover:shadow-lg"
                 >
-                  <p className="text-muted-foreground mb-2 text-sm">
+                  <p className="text-muted-foreground mb-3 text-sm">
                     {article.year}
                   </p>
-                  <a
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mb-4 block text-base font-semibold break-words text-blue-600 hover:text-blue-700 sm:text-lg dark:text-blue-400 dark:hover:text-blue-300"
-                  >
+                  <h3 className="text-primary group-hover:text-primary/80 mb-4 text-base leading-snug font-semibold break-words transition-colors sm:text-lg">
                     {article.title}
-                  </a>
+                  </h3>
                   <Stack className="items-start gap-4 sm:flex-row">
                     <img
                       src={article.image}
                       alt={article.title}
                       loading="lazy"
-                      className="h-48 w-full flex-shrink-0 rounded object-cover sm:h-32 sm:w-32"
+                      className="aspect-[3/2] w-full flex-shrink-0 rounded-xl object-cover sm:w-48"
                     />
-                    <blockquote className="text-muted-foreground min-w-0 flex-1 border-l-4 border-blue-500 pl-4 text-sm italic">
+                    <blockquote className="text-muted-foreground border-primary/40 min-w-0 flex-1 border-l-[3px] pl-4 text-sm leading-relaxed">
                       {article.excerpt}
                     </blockquote>
                   </Stack>
-                </div>
+                </a>
               ))}
-            </div>
+            </Stack>
           </Stack>
         </Stack>
       </div>
