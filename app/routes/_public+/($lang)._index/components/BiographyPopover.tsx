@@ -21,7 +21,7 @@ export const BiographyPopover = () => {
   return (
     <Popover open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <PopoverTrigger asChild>
-        <Button size="sm" variant="outline">
+        <Button size="sm" variant="default">
           {t('about.biography', '代表略歴')}
         </Button>
       </PopoverTrigger>

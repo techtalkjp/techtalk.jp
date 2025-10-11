@@ -11,7 +11,6 @@ import BiographyContentJa from '~/assets/biography.mdx'
 import { Header } from '~/components/Header'
 import { Avatar, AvatarImage, Button, Heading, Stack } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
-import '~/styles/biography.css'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const locale = data?.locale || 'ja'
@@ -192,13 +191,15 @@ export default function BiographyPage() {
               </Stack>
             </Stack>
 
-            <div className="biography prose prose-slate dark:prose-invert max-w-none">
+            <div className="max-w-none [&_a]:mb-2 [&_a]:inline-block [&_a]:font-medium [&_a]:text-blue-500 [&_a]:no-underline [&_a]:transition-colors dark:[&_a]:text-blue-400 [&_a:hover]:text-blue-700 [&_a:hover]:underline dark:[&_a:hover]:text-blue-300 [&_blockquote]:my-4 [&_blockquote]:rounded-lg [&_blockquote]:border-l-[3px] [&_blockquote]:border-blue-500 [&_blockquote]:bg-slate-500/5 [&_blockquote]:p-4 [&_blockquote]:text-sm [&_blockquote]:leading-normal [&_blockquote]:italic dark:[&_blockquote]:border-blue-400 dark:[&_blockquote]:bg-slate-500/[0.08] [&_blockquote_p]:my-1 [&_h1]:mt-8 [&_h1]:mb-4 [&_h1]:text-3xl [&_h1]:leading-tight [&_h1]:font-bold [&_h2]:mt-8 [&_h2]:mb-6 [&_h2]:rounded-lg [&_h2]:bg-slate-500/[0.08] [&_h2]:px-4 [&_h2]:py-3 [&_h2]:text-xl [&_h2]:leading-snug [&_h2]:font-bold dark:[&_h2]:bg-slate-500/10 [&_h2:first-child]:mt-0 [&_img]:h-auto [&_img]:w-full [&_img]:max-w-xs [&_img]:rounded-lg [&_img]:object-cover [&_img]:shadow [&_p]:my-3 [&_p]:text-left [&_p]:leading-relaxed">
               <BiographyContent />
             </div>
 
             <div className="space-y-6">
-              <div className="biography prose prose-slate dark:prose-invert max-w-none">
-                <h2>{t('biography.articles', '掲載記事')}</h2>
+              <div className="max-w-none">
+                <h2 className="mt-8 mb-6 rounded-lg bg-slate-500/[0.08] px-4 py-3 text-xl leading-snug font-bold dark:bg-slate-500/10">
+                  {t('biography.articles', '掲載記事')}
+                </h2>
               </div>
 
               {currentArticles.map((article) => (
