@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Form, useRevalidator } from 'react-router'
+import { Heading } from '~/components/typography'
 import {
   Badge,
   Button,
@@ -7,7 +8,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  Heading,
   HStack,
   Stack,
   Table,

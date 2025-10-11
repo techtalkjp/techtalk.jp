@@ -1,12 +1,12 @@
 import { ArrowRightIcon, XIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router'
+import { Heading } from '~/components/typography'
 import {
   Avatar,
   AvatarImage,
   Button,
   HStack,
-  Heading,
   Popover,
   PopoverContent,
   PopoverTrigger,
