@@ -1,5 +1,5 @@
 import { TextReveal } from '~/components/TextRevail'
-import { Heading } from '~/components/ui'
+import { Heading } from '~/components/typography'
 import CoverPage from '~/routes/_public+/($lang)._index/components/CoverPage'
 
 export const HeroPage = () => {

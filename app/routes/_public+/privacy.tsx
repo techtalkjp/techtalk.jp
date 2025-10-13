@@ -1,7 +1,8 @@
 import type { MetaFunction } from 'react-router'
 import { href, Link } from 'react-router'
 import Content from '~/assets/privacy.mdx'
-import { Button, Heading } from '~/components/ui'
+import { Heading, ProseContent } from '~/components/typography'
+import { Button } from '~/components/ui'
 
 export const meta: MetaFunction = () => [
   { title: 'プライバシーポリシー - TechTalk' },
@@ -9,20 +10,20 @@ export const meta: MetaFunction = () => [
 
 export default function Privacy() {
   return (
-    <>
-      <Heading className="my-16 text-center text-4xl">
+    <div className="container mx-auto max-w-3xl px-6 py-24">
+      <Heading as="h1" size="4xl" className="mb-12 text-center leading-tight">
         TechTalkプライバシーポリシー
       </Heading>
 
-      <div className="markdown prone container">
+      <ProseContent variant="default">
         <Content />
+      </ProseContent>
 
-        <div className="my-16 text-center">
-          <Button asChild>
-            <Link to={href('/')}>トップに戻る</Link>
-          </Button>
-        </div>
+      <div className="mt-16 text-center">
+        <Button variant="outline" className="rounded-xl" asChild>
+          <Link to={href('/')}>トップに戻る</Link>
+        </Button>
       </div>
-    </>
+    </div>
   )
 }

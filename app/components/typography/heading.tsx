@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from 'class-variance-authority'
+import type { HTMLAttributes } from 'react'
 import { cn } from '~/libs/utils'
 
 const headingVariants = cva('font-sans font-black', {
@@ -20,7 +21,7 @@ const headingVariants = cva('font-sans font-black', {
   },
 })
 interface HeadingProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends HTMLAttributes<HTMLHeadingElement>,
     VariantProps<typeof headingVariants> {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 }
