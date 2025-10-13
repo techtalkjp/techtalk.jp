@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from 'class-variance-authority'
+import type { HTMLAttributes } from 'react'
 import { cn } from '~/libs/utils'
 
 const bodyTextVariants = cva('leading-relaxed', {
@@ -21,7 +22,7 @@ const bodyTextVariants = cva('leading-relaxed', {
 })
 
 interface BodyTextProps
-  extends React.HTMLAttributes<HTMLParagraphElement>,
+  extends HTMLAttributes<HTMLParagraphElement>,
     VariantProps<typeof bodyTextVariants> {
   as?: 'p' | 'span' | 'div'
 }

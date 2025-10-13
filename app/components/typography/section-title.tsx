@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from 'class-variance-authority'
+import type { HTMLAttributes } from 'react'
 import { cn } from '~/libs/utils'
 
 const sectionTitleVariants = cva('font-sans font-bold', {
@@ -22,7 +23,7 @@ const sectionTitleVariants = cva('font-sans font-bold', {
 })
 
 interface SectionTitleProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends HTMLAttributes<HTMLHeadingElement>,
     VariantProps<typeof sectionTitleVariants> {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 }

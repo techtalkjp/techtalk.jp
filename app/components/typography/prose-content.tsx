@@ -1,6 +1,7 @@
+import type { HTMLAttributes } from 'react'
 import { cn } from '~/libs/utils'
 
-interface ProseContentProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ProseContentProps extends HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'rich'
 }
 
