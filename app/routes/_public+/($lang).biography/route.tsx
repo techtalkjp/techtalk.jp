@@ -9,7 +9,7 @@ import { Link } from 'react-router'
 import BiographyContentEn from '~/assets/biography.en.mdx'
 import BiographyContentJa from '~/assets/biography.mdx'
 import { Header } from '~/components/Header'
-import { Heading } from '~/components/typography'
+import { Heading, ProseContent } from '~/components/typography'
 import { Avatar, AvatarImage, Button, Stack } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
 
@@ -192,9 +192,9 @@ export default function BiographyPage() {
               </Stack>
             </Stack>
 
-            <div className="[&_a]:text-primary [&_blockquote]:border-primary/60 [&_blockquote]:bg-muted/50 [&_h2]:bg-muted/50 max-w-none text-base leading-[1.85] [&_a]:font-medium [&_a]:no-underline [&_a]:transition-colors hover:[&_a]:underline [&_blockquote]:my-6 [&_blockquote]:rounded-xl [&_blockquote]:border-l-[3px] [&_blockquote]:p-6 [&_blockquote]:text-sm [&_blockquote]:leading-relaxed [&_blockquote]:italic [&_blockquote]:backdrop-blur-sm [&_blockquote_p]:my-2 [&_h1]:mt-16 [&_h1]:mb-8 [&_h1]:text-3xl [&_h1]:leading-tight [&_h1]:font-bold [&_h2]:mt-16 [&_h2]:mb-8 [&_h2]:rounded-xl [&_h2]:px-6 [&_h2]:py-4 [&_h2]:text-xl [&_h2]:leading-snug [&_h2]:font-bold [&_h2]:backdrop-blur-sm [&_h2:first-child]:mt-0 [&_img]:h-auto [&_img]:w-full [&_img]:max-w-xs [&_img]:rounded-xl [&_img]:object-cover [&_p]:my-6 [&_p]:text-left [&_p]:leading-[1.85]">
+            <ProseContent variant="rich">
               <BiographyContent />
-            </div>
+            </ProseContent>
           </Stack>
 
           <Stack className="gap-10">
