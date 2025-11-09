@@ -4,7 +4,6 @@ import CoverPage from '~/routes/_public+/($lang)._index/components/CoverPage'
 
 export const HeroPage = () => {
   return (
-    // biome-ignore lint/correctness/useUniqueElementIds: anchor links are handled by the CoverPage component
     <CoverPage id="hero" bgImage="/images/hero.webp" className="text-center">
       <Heading size="5xl">
         <TextReveal text="Tech talks," />
