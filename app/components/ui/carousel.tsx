@@ -96,6 +96,7 @@ const Carousel = React.forwardRef<
       [scrollPrev, scrollNext],
     )
 
+    // Synchronize with parent component: notify when Embla API instance is ready
     React.useEffect(() => {
       if (!api || !setApi) {
         return
@@ -104,6 +105,7 @@ const Carousel = React.forwardRef<
       setApi(api)
     }, [api, setApi])
 
+    // Synchronize with Embla Carousel API: listen to carousel events
     React.useEffect(() => {
       if (!api) {
         return

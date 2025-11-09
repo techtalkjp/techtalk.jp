@@ -32,7 +32,6 @@ interface FileUploadStatus {
 
 interface UploadState {
   fileStatuses: FileUploadStatus[]
-  isAllUploaded: boolean
 }
 
 // アクション定義
@@ -44,7 +43,6 @@ type UploadAction =
     }
   | { type: 'REMOVE_FILE'; payload: { index: number } }
   | { type: 'CLEAR_ALL' }
-  | { type: 'CHECK_ALL_UPLOADED' }
 
 export const ACCEPT_MAPS: Record<MediaType, string[]> = {
   image: ['.png', '.jpg', '.jpeg', '.gif', '.webp'],
@@ -123,14 +121,6 @@ const uploadReducer = (
     case 'CLEAR_ALL':
       return {
         fileStatuses: [],
-        isAllUploaded: false,
-      }
-    case 'CHECK_ALL_UPLOADED':
-      return {
-        ...state,
-        isAllUploaded:
-          state.fileStatuses.length > 0 &&
-          state.fileStatuses.every((f) => f.status === 'completed'),
       }
     default:
       return state
@@ -147,15 +137,17 @@ export const useFileUploader = (
   // Reducerを使用した状態管理
   const [state, dispatch] = useReducer(uploadReducer, {
     fileStatuses: [],
-    isAllUploaded: false,
   })
 
-  const { fileStatuses, isAllUploaded } = state
+  const { fileStatuses } = state
 
-  // アップロード状態が変わったらコールバックを呼び出す
+  // Compute during render: isAllUploaded is a derived value from fileStatuses
+  const isAllUploaded =
+    fileStatuses.length > 0 &&
+    fileStatuses.every((f) => f.status === 'completed')
+
+  // Synchronize with external callback: notify parent component when files complete upload
   useEffect(() => {
-    dispatch({ type: 'CHECK_ALL_UPLOADED' })
-
     const completedFiles = fileStatuses.filter((f) => f.status === 'completed')
     if (onChange && completedFiles.length > 0) {
       const uploadedFiles = mapToUploadedFiles(completedFiles, prefix)

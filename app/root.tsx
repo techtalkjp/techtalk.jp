@@ -58,6 +58,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 export default function App({
   loaderData: { toastData },
 }: Route.ComponentProps) {
+  // Synchronize with toast library: display toast notifications from server
   useEffect(() => {
     if (!toastData) {
       return

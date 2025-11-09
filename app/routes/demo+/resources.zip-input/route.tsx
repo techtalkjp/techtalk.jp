@@ -52,6 +52,7 @@ export const ZipInput = ({ defaultValue = '', onChange }: ZipInputProps) => {
     setOpen(false)
   }
 
+  // Synchronize with server data: fetch zip address master data on mount
   React.useEffect(() => {
     if (fetcher.data) return
     fetcher.load('/demo/resources/zip-input')

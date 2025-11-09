@@ -16,6 +16,7 @@ export const TextReveal = ({
   const characters = Array.from(text)
   const controls = useAnimation()
 
+  // Synchronize with framer-motion: trigger animation on mount
   useEffect(() => {
     controls.start('visible')
   }, [controls])

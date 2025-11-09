@@ -156,6 +156,7 @@ export const InlineCitationCarouselIndex = ({
   const [current, setCurrent] = useState(0)
   const [count, setCount] = useState(0)
 
+  // Synchronize with Carousel API: track current slide index
   useEffect(() => {
     if (!api) {
       return
