@@ -102,7 +102,7 @@ const SidebarProvider = React.forwardRef<
         : setOpen((open) => !open)
     }, [isMobile, setOpen, setOpenMobile])
 
-    // Adds a keyboard shortcut to toggle the sidebar.
+    // Synchronize with window keyboard events: handle Cmd+B / Ctrl+B shortcut to toggle sidebar
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         if (

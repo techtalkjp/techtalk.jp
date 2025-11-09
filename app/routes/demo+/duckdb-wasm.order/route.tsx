@@ -67,6 +67,7 @@ export default function OrderDemo({
 }: Route.ComponentProps) {
   const { revalidate } = useRevalidator()
 
+  // Synchronize with timer: poll for updates while sync job is running
   useEffect(() => {
     if (!overview.running || isStale(overview.running)) return
     const id = setInterval(() => revalidate(), 800)

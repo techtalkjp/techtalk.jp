@@ -183,6 +183,7 @@ function CalendarDayButton({
   const defaultClassNames = getDefaultClassNames()
 
   const ref = React.useRef<HTMLButtonElement>(null)
+  // Synchronize with DOM: focus the button when modifiers.focused changes
   React.useEffect(() => {
     if (modifiers.focused) ref.current?.focus()
   }, [modifiers.focused])
