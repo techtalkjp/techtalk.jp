@@ -1,18 +1,20 @@
+'use client'
+
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import {
+  type ComponentProps,
   createContext,
   useCallback,
   useContext,
   useEffect,
   useState,
-  type ComponentProps,
 } from 'react'
 import { Badge } from '~/components/ui/badge'
 import {
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
-  type CarouselApi,
 } from '~/components/ui/carousel'
 import {
   HoverCard,
@@ -66,9 +68,9 @@ export const InlineCitationCardTrigger = ({
       variant="secondary"
       {...props}
     >
-      {sources.length ? (
+      {sources[0] ? (
         <>
-          {new URL(sources[0]!).hostname}{' '}
+          {new URL(sources[0]).hostname}{' '}
           {sources.length > 1 && `+${sources.length - 1}`}
         </>
       ) : (
@@ -156,7 +158,6 @@ export const InlineCitationCarouselIndex = ({
   const [current, setCurrent] = useState(0)
   const [count, setCount] = useState(0)
 
-  // Synchronize with Carousel API: track current slide index
   useEffect(() => {
     if (!api) {
       return

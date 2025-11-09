@@ -1,6 +1,6 @@
 import { ChevronDownIcon } from 'lucide-react'
 import type { ComponentProps, ReactNode } from 'react'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { Button } from '~/components/ui/button'
 import {
   Collapsible,
@@ -131,6 +131,17 @@ export const WebPreviewUrl = ({
   ...props
 }: WebPreviewUrlProps) => {
   const { url, setUrl } = useWebPreview()
+  const [inputValue, setInputValue] = useState(url)
+
+  // Sync input value with context URL when it changes externally
+  useEffect(() => {
+    setInputValue(url)
+  }, [url])
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value)
+    onChange?.(event)
+  }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -143,10 +154,10 @@ export const WebPreviewUrl = ({
   return (
     <Input
       className="h-8 flex-1 text-sm"
-      onChange={onChange}
+      onChange={onChange ?? handleChange}
       onKeyDown={handleKeyDown}
       placeholder="Enter URL..."
-      value={value ?? url}
+      value={value ?? inputValue}
       {...props}
     />
   )
