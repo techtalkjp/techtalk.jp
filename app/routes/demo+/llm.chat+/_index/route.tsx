@@ -38,7 +38,7 @@ import {
   ToolInput,
   ToolOutput,
 } from '~/components/ai-elements/tool'
-import type { ChatUIMessage } from '../types/chat-tools'
+import type { ChatUIMessage } from '../_shared/chat-tools'
 
 export { meta } from './meta'
 
@@ -198,7 +198,7 @@ export default function ChatRoute() {
                 <Message from={message.role}>
                   <MessageContent>
                     {/* メッセージパーツを表示 */}
-                    {message.parts?.map((part: any, index: number) => {
+                    {message.parts?.map((part, index: number) => {
                       // テキストパーツ
                       if (part.type === 'text') {
                         return (

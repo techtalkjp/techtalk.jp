@@ -1,15 +1,9 @@
 import type { InferUITools, UIDataTypes, UIMessage } from 'ai'
-import type { pdfExtractTool } from '~/routes/demo+/llm.chat+/_index/tools/pdf-extract-tool.server'
+import type { pdfExtractTool } from '../_index/tools/pdf-extract-tool.server'
 
 /**
  * アプリで使用する全ツールをまとめた型
  * ツールを追加する際は、ここに型を追加する
- *
- * @example
- * export type ChatToolSet = {
- *   pdfExtract: typeof pdfExtractTool
- *   webSearch: ReturnType<typeof openai.tools.webSearch>
- * }
  */
 export type ChatToolSet = {
   pdfExtract: typeof pdfExtractTool
@@ -38,9 +32,6 @@ export type ChatToolPart = Extract<
 
 /**
  * 特定のツールの型を抽出するヘルパー型
- *
- * @example
- * type PdfExtractPart = ExtractToolPart<'pdfExtract'>
  */
 export type ExtractToolPart<T extends keyof ChatToolSet> = Extract<
   ChatToolPart,
