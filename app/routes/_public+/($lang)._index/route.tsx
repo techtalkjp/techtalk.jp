@@ -1,6 +1,7 @@
 import type { LinksFunction, MetaFunction } from 'react-router'
 import { Footer } from '~/components/layout/Footer'
 import { useScrollAnimation } from '~/hooks/useScrollAnimation'
+import { useLocale } from '~/i18n/hooks/useLocale'
 import { locales } from '~/i18n/utils/detectLocale'
 import type { Route } from './+types/route'
 import { CompanySection } from './components/CompanySection'
@@ -37,48 +38,6 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
 
   const siteName = isJapanese ? '株式会社TechTalk' : 'TechTalk, Inc.'
   const ogImage = `${baseUrl}/og-image.jpeg` // OG画像のパス
-
-  // JSON-LD structured data
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'TechTalk, Inc.',
-    alternateName: '株式会社TechTalk',
-    url: baseUrl,
-    logo: `${baseUrl}/logo.svg`,
-    description: description,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '佃2-1-2',
-      addressLocality: '中央区',
-      addressRegion: '東京都',
-      addressCountry: 'JP',
-    },
-    contactPoint: {
-      '@type': 'ContactPoint',
-      email: 'contact@techtalk.jp',
-      contactType: 'Customer Service',
-    },
-    founder: {
-      '@type': 'Person',
-      name: 'Coji Mizoguchi',
-      alternateName: '溝口浩二',
-      jobTitle: isJapanese ? '代表取締役' : 'CEO',
-      url: 'https://github.com/coji',
-      sameAs: [
-        'https://github.com/coji',
-        'https://x.com/techtalkjp',
-        'https://zenn.dev/coji',
-        'https://www.facebook.com/mizoguchi.coji',
-      ],
-    },
-    sameAs: [
-      'https://github.com/coji',
-      'https://x.com/techtalkjp',
-      'https://zenn.dev/coji',
-      'https://www.facebook.com/mizoguchi.coji',
-    ],
-  }
 
   return [
     { title },
@@ -121,13 +80,6 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
       href: `${baseUrl}/en`,
     },
     { tagName: 'link', rel: 'alternate', hrefLang: 'x-default', href: baseUrl },
-
-    // JSON-LD
-    {
-      tagName: 'script',
-      type: 'application/ld+json',
-      children: JSON.stringify(jsonLd),
-    },
   ]
 }
 
@@ -146,6 +98,10 @@ export const links: LinksFunction = () => [
 ]
 
 export default function TechTalkPage() {
+  const { locale } = useLocale()
+  const isJapanese = locale === 'ja'
+  const baseUrl = 'https://www.techtalk.jp'
+
   // アニメーション用のObserver設定
   useScrollAnimation()
 
@@ -187,8 +143,59 @@ export default function TechTalkPage() {
     }
   }
 
+  // JSON-LD structured data
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'TechTalk, Inc.',
+    alternateName: '株式会社TechTalk',
+    url: baseUrl,
+    logo: `${baseUrl}/logo.svg`,
+    description: isJapanese
+      ? '株式会社TechTalkは、事業開発から実装までを一貫して行う技術パートナーです。MVP開発、データ基盤構築、AI統合、プロジェクトリーダーシップを提供します。'
+      : 'TechTalk, Inc. is a technical partner that handles everything from business development to implementation.',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '佃2-1-2',
+      addressLocality: '中央区',
+      addressRegion: '東京都',
+      addressCountry: 'JP',
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: 'contact@techtalk.jp',
+      contactType: 'Customer Service',
+    },
+    founder: {
+      '@type': 'Person',
+      name: 'Coji Mizoguchi',
+      alternateName: '溝口浩二',
+      jobTitle: isJapanese ? '代表取締役' : 'CEO',
+      url: 'https://github.com/coji',
+      sameAs: [
+        'https://github.com/coji',
+        'https://x.com/techtalkjp',
+        'https://zenn.dev/coji',
+        'https://www.facebook.com/mizoguchi.coji',
+      ],
+    },
+    sameAs: [
+      'https://github.com/coji',
+      'https://x.com/techtalkjp',
+      'https://zenn.dev/coji',
+      'https://www.facebook.com/mizoguchi.coji',
+    ],
+  }
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-slate-50 font-sans text-slate-800 selection:bg-blue-500 selection:text-white dark:bg-[#020617] dark:text-slate-200">
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data requires dangerouslySetInnerHTML
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* Background Effects */}
       <div className="bg-grid pointer-events-none fixed inset-0 z-0 h-screen opacity-30 dark:opacity-100" />
       <div className="pointer-events-none fixed top-0 right-0 z-0 h-[500px] w-[500px] rounded-full bg-blue-400/10 blur-[120px] dark:bg-blue-900/20" />

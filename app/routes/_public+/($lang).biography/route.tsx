@@ -21,7 +21,7 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
     : 'Coji Mizoguchi - Biography | TechTalk, Inc.'
   const description = isJapanese
     ? '技術と事業の両面から0→1を生み出すことを専門としています。フリークアウト、IRIS、TechTalkでの経験。'
-    : 'Specializing in creating 0-to-1 value from both technical and business perspectives. Experience at FreakOut, IRIS, and TechTalk.'
+    : 'Specializing in creating 0→1 value from both technical and business perspectives. Experience at FreakOut, IRIS, and TechTalk.'
 
   return [
     { title },
