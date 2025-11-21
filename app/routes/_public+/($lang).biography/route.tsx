@@ -117,7 +117,7 @@ export default function BiographyPage() {
       publisher: t('bio.media.forbes.title', 'Forbes JAPAN'),
       title: t(
         'bio.media.forbes.description',
-        "The forefront of 'Taxi Signage' in the COVID-19 era",
+        'ウィズコロナ時代の「タクシーサイネージ」最前線',
       ),
     },
     {
@@ -126,7 +126,7 @@ export default function BiographyPage() {
       publisher: t('bio.media.thebridge.title', 'THE BRIDGE'),
       title: t(
         'bio.media.thebridge.description',
-        '"Realizing Honda\'s Vision of Advertising\'s Future" - Interview with FreakOut\'s Hidden Key Person, Mizoguchi',
+        '「本田の描く広告の未来を実現する」ーー隠れたキーマンを調べるお・フリークアウト、溝口氏インタビュー',
       ),
     },
     {
@@ -136,48 +136,48 @@ export default function BiographyPage() {
       publisher: t('bio.media.cnet.title', 'CNET Japan'),
       title: t(
         'bio.media.cnet.description',
-        'Niwango\'s CTO Discusses the Key to \'Niconico Douga\'s\' Success',
+        'ニワンゴ技術責任者が語る、「ニコニコ動画」成功の鍵',
       ),
     },
   ]
 
   const careers = [
     {
-      period: t('bio.career.techtalk.period', '2019 - Present'),
-      title: t('bio.career.techtalk.title', 'TechTalk, Inc. - CEO'),
+      period: t('bio.career.techtalk.period', '2019年 - 現在'),
+      title: t('bio.career.techtalk.title', '株式会社TechTalk 代表取締役'),
       description: t(
         'bio.career.techtalk.description',
-        'Providing technical implementation to multiple companies as a solo corporation. Continues implementing across a wide range of areas including chemical substance search systems, AI-leveraged MVPs, data pipelines, and marketing integration.',
+        'ひとり法人として複数の企業に対して技術実装を提供。化学物質検索システム、AI活用MVP、データパイプライン、マーケティング統合など、幅広い領域で実装を継続。',
       ),
     },
     {
-      period: t('bio.career.iris.period', '2016 - 2019'),
-      title: t(
-        'bio.career.iris.title',
-        'IRIS, Inc. - Executive Vice President',
-      ),
+      period: t('bio.career.iris.period', '2016年 - 2019年'),
+      title: t('bio.career.iris.title', '株式会社IRIS 代表取締役副社長'),
       description: t(
         'bio.career.iris.description',
-        'Launched taxi signage business with a team of two. Oversaw all aspects of business and technology, from business planning to executive-level management, including hardware, video advertising, and distribution system integration.',
+        'タクシーサイネージ事業を2名体制で立ち上げ。事業計画の立案から経営レベルのマネジメント、ハードウェア・動画広告・配信システムの統合まで、事業と技術のすべてを統括。',
       ),
     },
     {
-      period: t('bio.career.freakout.period', '2013 - 2016'),
+      period: t('bio.career.freakout.period', '2013年 - 2016年'),
       title: t(
         'bio.career.freakout.title',
-        'FreakOut Holdings, Inc. (formerly FreakOut, Inc.)',
+        '株式会社FreakOut(現 株式会社フリークアウト・ホールディングス)',
       ),
       description: t(
         'bio.career.freakout.description',
-        'Engaged in technology-driven business development and alliances. Led the connection between business and technology as a data analyst in developing and analyzing machine learning models for DSP bidding logic.',
+        '技術に基づいた事業開発やアライアンスに従事。DSPの入札ロジック構築においてはデータアナリストとして機械学習モデルの開発・分析を担当し、ビジネスと技術の接続を主導。',
       ),
     },
     {
-      period: t('bio.career.dwango.period', '1999 - 2013'),
-      title: t('bio.career.dwango.title', 'Dwango Co., Ltd. / Niwango, Inc.'),
+      period: t('bio.career.dwango.period', '1999年 - 2013年'),
+      title: t(
+        'bio.career.dwango.title',
+        '株式会社ドワンゴ / 株式会社ニワンゴ',
+      ),
       description: t(
         'bio.career.dwango.description',
-        'Started career as an engineer and programmer. Gained experience as engineering manager across multiple businesses including ringtone services, video services, and portal sites. Also served as technical lead for Niconico at Niwango.',
+        'エンジニア、プログラマーとしてキャリアをスタート。着メロサービス、動画サービス、ポータルサイトなどのエンジニアリングマネージャーを経験。ニワンゴでは技術担当取締役を担当。',
       ),
     },
   ]
@@ -197,7 +197,7 @@ export default function BiographyPage() {
               className="inline-flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-slate-900 dark:text-white/70 dark:hover:text-white"
             >
               <ArrowLeft className="h-4 w-4" />
-              {t('bio.back', 'Back to Top')}
+              {t('bio.back', 'トップへ戻る')}
             </Link>
             <ThemeToggle />
           </div>
@@ -228,10 +228,7 @@ export default function BiographyPage() {
                   {t('profile.name', '溝口 浩二')}
                 </p>
                 <p className="mx-auto max-w-2xl text-lg text-slate-600 dark:text-white/60">
-                  {t(
-                    'bio.tagline',
-                    'Creating 0-to-1 value from both technical and business perspectives',
-                  )}
+                  {t('bio.tagline', '技術と事業の両面から0→1を生み出す')}
                 </p>
               </div>
             </div>

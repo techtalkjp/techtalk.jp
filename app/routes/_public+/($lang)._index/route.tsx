@@ -352,10 +352,10 @@ export default function TechTalkPage() {
             </div>
 
             <h1 className="text-5xl leading-[1.1] font-black tracking-tight text-slate-900 md:text-7xl dark:text-white">
-              {t('hero.title.line1', '事業を実装する。')}
+              {t('hero.title.line1', 'Implement Your Business.')}
               <br />
               <span className="bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">
-                {t('hero.title.line2', 'コードで応える。')}
+                {t('hero.title.line2', 'Deliver Through Code.')}
               </span>
             </h1>
 
@@ -372,7 +372,7 @@ export default function TechTalkPage() {
               <br className="hidden md:block" />
               {t(
                 'hero.description.line3',
-                'TechTalkは技術と事業の両面から0から1を生み出してきました。',
+                'TechTalkは技術と事業の両面から0→1を生み出してきました。',
               )}
             </p>
 
@@ -411,7 +411,7 @@ export default function TechTalkPage() {
               <p className="leading-relaxed text-slate-600 md:mt-12 dark:text-slate-400">
                 {t(
                   'hero.value.p2',
-                  '代表の溝口浩二は現在もコードを書き続けており、経営判断と技術実装の両方に責任を持ちます。フリークアウトでの技術に基づいた事業開発、そこから生まれたIRISでのハードウェア・動画広告・配信システムの統合という経験が、現在の複合的な実装力の源泉です。',
+                  '代表の溝口浩二は現在もコードを書き続けており、経営判断と技術実装の両方に責任を持ちます。事業開発から立ち上げまでの経験が、複合的な実装力の源泉です。',
                 )}
               </p>
             </div>
@@ -447,21 +447,21 @@ export default function TechTalkPage() {
                 <p className="mb-6 grow text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                   {t(
                     'services.mvp.description',
-                    '事業仮説を最小限のコストで検証できる形に実装します。適切な技術選定とアーキテクチャ設計により、市場投入までの時間を短縮し、仮説検証のサイクルを回せる状態を作ります。',
+                    'タクシーサイネージ事業を2名体制で立ち上げた経験から、限られたリソースで事業を形にする実装力を提供します。技術選定からアーキテクチャ設計まで、事業の成長を見据えた判断で市場投入を支援します。',
                   )}
                 </p>
                 <ul className="space-y-3 border-t border-slate-200 pt-4 text-sm text-slate-700 dark:border-slate-800/50 dark:text-slate-300">
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-blue-500" />
-                    {t('services.mvp.item1', '技術選定とアーキテクチャ設計')}
+                    {t('services.mvp.item1', '成長を見据えた技術選定')}
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-blue-500" />
-                    {t('services.mvp.item2', 'MVPの実装とデプロイ')}
+                    {t('services.mvp.item2', '最小限のコストで市場検証')}
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-blue-500" />
-                    {t('services.mvp.item3', '技術的負債を最小化した設計判断')}
+                    {t('services.mvp.item3', '事業フェーズに応じた設計判断')}
                   </li>
                 </ul>
               </div>
@@ -479,21 +479,24 @@ export default function TechTalkPage() {
                 <p className="mb-6 grow text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                   {t(
                     'services.data.description',
-                    'DuckDBやdbt、BigQueryを活用したデータ基盤構築。MetabaseやLooker Studioを用いた分析環境の整備まで、データ駆動の意思決定を支える基盤を作ります。',
+                    'DSPの入札ロジック構築でデータアナリストとして機械学習モデルを開発した経験から、ビジネス課題を解決するデータ基盤を構築します。DuckDB、dbt、BigQueryを用いて、意思決定を支えるデータ活用を実装します。',
                   )}
                 </p>
                 <ul className="space-y-3 border-t border-slate-200 pt-4 text-sm text-slate-700 dark:border-slate-800/50 dark:text-slate-300">
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-indigo-500" />
-                    {t('services.data.item1', 'DuckDB / dbt / BigQuery')}
+                    {t(
+                      'services.data.item1',
+                      'ビジネス課題に直結するデータ設計',
+                    )}
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-indigo-500" />
-                    {t('services.data.item2', 'Looker Studio / Metabase')}
+                    {t('services.data.item2', '分析から可視化まで一貫構築')}
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-indigo-500" />
-                    {t('services.data.item3', 'マーケティングデータ統合')}
+                    {t('services.data.item3', '機械学習モデルの実装支援')}
                   </li>
                 </ul>
               </div>
@@ -511,21 +514,21 @@ export default function TechTalkPage() {
                 <p className="mb-6 grow text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                   {t(
                     'services.ai.description',
-                    '生成AIを既存の事業フローに組み込みます。Vercel AI SDKなどの最新技術を活用し、実際に動く形でAIの価値を実証します。戦略判断も含みます。',
+                    '技術トレンドと事業価値の両面から、生成AIの実装判断を行います。Vercel AI SDKなどの最新技術を使い、実際に動く形でAIの価値を実証。戦略立案から実装まで一貫して提供します。',
                   )}
                 </p>
                 <ul className="space-y-3 border-t border-slate-200 pt-4 text-sm text-slate-700 dark:border-slate-800/50 dark:text-slate-300">
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-purple-500" />
-                    {t('services.ai.item1', 'AI活用の戦略立案')}
+                    {t('services.ai.item1', 'ROIを意識したAI活用戦略')}
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-purple-500" />
-                    {t('services.ai.item2', 'Vercel AI SDK 統合')}
+                    {t('services.ai.item2', 'プロダクトへのAI統合実装')}
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-purple-500" />
-                    {t('services.ai.item3', '既存システムへの機能追加')}
+                    {t('services.ai.item3', 'プロンプトエンジニアリング')}
                   </li>
                 </ul>
               </div>
@@ -546,26 +549,26 @@ export default function TechTalkPage() {
                 <p className="mb-6 grow text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                   {t(
                     'services.leadership.description',
-                    '技術とマーケティングを統合したプロジェクト推進。開発マネジメント、技術選定、実装アドバイスなど、プロジェクトの重要な局面で必要な判断を提供します。',
+                    'フリークアウトでの事業開発、IRISでの経営経験から、技術とビジネスの両面を理解した判断を提供します。開発マネジメント、技術選定、マーケティング統合など、プロジェクトの重要な局面を支援します。',
                   )}
                 </p>
                 <ul className="space-y-3 border-t border-slate-200 pt-4 text-sm text-slate-700 dark:border-slate-800/50 dark:text-slate-300">
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-emerald-500" />
-                    {t(
-                      'services.leadership.item1',
-                      '技術的な意思決定のアドバイス',
-                    )}
+                    {t('services.leadership.item1', '経営視点での技術判断')}
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-emerald-500" />
-                    {t('services.leadership.item2', '開発マネジメント支援')}
+                    {t(
+                      'services.leadership.item2',
+                      '少数精鋭チームのマネジメント',
+                    )}
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="h-1 w-1 rounded-full bg-emerald-500" />
                     {t(
                       'services.leadership.item3',
-                      'マーケティングと技術の統合',
+                      '事業KPIを意識した開発推進',
                     )}
                   </li>
                 </ul>
@@ -620,7 +623,7 @@ export default function TechTalkPage() {
                     {t('profile.name', '溝口 浩二')}
                   </h3>
                   <p className="mt-1 font-mono text-sm text-slate-500 dark:text-slate-500">
-                    {t('profile.nameEn', 'Koji Mizoguchi')}
+                    {t('profile.nameEn', 'Coji Mizoguchi')}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-4">
@@ -659,15 +662,33 @@ export default function TechTalkPage() {
               </div>
 
               <div className="w-full space-y-6 leading-relaxed text-slate-700 md:w-2/3 dark:text-slate-300">
-                <p>{t('profile.p1', '')}</p>
-                <p>{t('profile.p2', '')}</p>
-                <p>{t('profile.p3', '')}</p>
+                <p>
+                  {t(
+                    'profile.p1',
+                    '1999年、ドワンゴでエンジニアとしてキャリアをスタート。ニコニコ動画の成長期を技術面から支えた後、フリークアウトでは事業開発とデータ分析の両面を経験。',
+                  )}
+                </p>
+                <p>
+                  {t(
+                    'profile.p2',
+                    '2016年、タクシーサイネージ事業IRISを2名で立ち上げ、代表取締役副社長として経営と実装を統括。2019年にTechTalkを設立し、現在も自らコードを書き続けています。',
+                  )}
+                </p>
+                <p>
+                  {t(
+                    'profile.p3',
+                    '経営判断と技術実装の両方に責任を持ち、事業の立ち上げ期や重要な技術判断が必要な局面で、判断の速度と実装の質を提供します。',
+                  )}
+                </p>
                 <div className="mt-6 rounded-xl border border-slate-200 bg-slate-100 p-6 dark:border-slate-800 dark:bg-slate-950/50">
                   <h4 className="mb-2 text-sm font-bold text-slate-900 dark:text-white">
-                    {t('profile.solo.title', 'ひとり法人としての働き方')}
+                    {t('profile.solo.title', 'ひとり法人の強み')}
                   </h4>
                   <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-                    {t('profile.solo.description', '')}
+                    {t(
+                      'profile.solo.description',
+                      '大規模な開発体制ではなく、代表が全案件に直接関わることで、ビジネス理解と技術実装を一体化。戦略立案から実装まで、意思決定の速度を保ちながら価値を届けます。',
+                    )}
                   </p>
                 </div>
               </div>
@@ -726,7 +747,7 @@ export default function TechTalkPage() {
                       {t('company.established.label', '設立')}
                     </dt>
                     <dd className="text-lg font-medium text-slate-900 dark:text-white">
-                      {t('company.established.value', '2019年11月')}
+                      {t('company.established.value', '2019年7月')}
                     </dd>
                   </div>
                 </div>
