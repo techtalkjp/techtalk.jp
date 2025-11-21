@@ -163,9 +163,27 @@ export default function TechTalkPage() {
     id: string,
   ) => {
     e.preventDefault()
+
+    // "top" の場合は完全に一番上にスクロール
+    if (id === 'top') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
+      return
+    }
+
     const element = document.getElementById(id)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      // ナビゲーションの高さ(80px)を考慮してスクロール
+      const navHeight = 80
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.scrollY - navHeight
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
     }
   }
 
