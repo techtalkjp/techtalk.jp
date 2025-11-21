@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import {
   Links,
+  type LinksFunction,
   Meta,
   type MetaFunction,
   Outlet,
@@ -8,14 +9,13 @@ import {
   ScrollRestoration,
   data,
   isRouteErrorResponse,
-  useLocation,
   useRouteError,
 } from 'react-router'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
+import { ThemeProvider } from '~/components/theme-provider'
 import { Toaster, TooltipProvider } from '~/components/ui'
 import type { Route } from './+types/root'
-import { cn } from './libs/utils'
 import './styles/globals.css'
 
 export const meta: MetaFunction = () => {
@@ -28,15 +28,23 @@ export const meta: MetaFunction = () => {
   ]
 }
 
+export const links: LinksFunction = () => {
+  return [
+    // SVG favicon for modern browsers
+    { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' },
+    // JPEG fallback for older browsers
+    { rel: 'icon', type: 'image/jpeg', href: '/logo.jpeg' },
+    // Apple Touch Icon
+    { rel: 'apple-touch-icon', sizes: '180x180', href: '/logo.jpeg' },
+  ]
+}
+
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const { toast, headers } = await getToast(request)
   return data({ toastData: toast }, { headers })
 }
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
-  const location = useLocation()
-  const isDemo = location.pathname.startsWith('/demo')
-
   return (
     <html lang="ja">
       <head>
@@ -45,9 +53,11 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <Meta />
         <Links />
       </head>
-      <body className={cn('scroll-smooth', !isDemo && 'dark')}>
-        <Toaster closeButton richColors />
-        <TooltipProvider>{children}</TooltipProvider>
+      <body className="scroll-smooth">
+        <ThemeProvider>
+          <Toaster closeButton richColors />
+          <TooltipProvider>{children}</TooltipProvider>
+        </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
