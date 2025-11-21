@@ -1,5 +1,4 @@
 import type { LinksFunction, MetaFunction } from 'react-router'
-import { useLocale } from '~/i18n/hooks/useLocale'
 import { locales } from '~/i18n/utils/detectLocale'
 import type { Route } from './+types/route'
 import { CompanySection } from './components/CompanySection'
@@ -147,8 +146,6 @@ export const links: LinksFunction = () => [
 ]
 
 export default function TechTalkPage() {
-  const { t, locale } = useLocale()
-
   // アニメーション用のObserver設定
   useScrollAnimation()
 
@@ -180,30 +177,29 @@ export default function TechTalkPage() {
       <div className="pointer-events-none fixed bottom-0 left-0 z-0 h-[500px] w-[500px] rounded-full bg-indigo-400/10 blur-[120px] dark:bg-indigo-900/10" />
 
       {/* Navigation */}
-      <Navigation t={t} onNavigate={scrollToSection} />
+      <Navigation onNavigate={scrollToSection} />
 
       <main className="relative z-10 pt-20">
         {/* 1. TOP / Hero Section */}
-        <HeroSection t={t} onNavigate={scrollToSection} />
+        <HeroSection onNavigate={scrollToSection} />
 
         {/* 2. Services */}
-        <ServicesSection t={t} />
+        <ServicesSection />
 
         {/* 3. Profile */}
-        <ProfileSection t={t} locale={locale} />
+        <ProfileSection />
 
         {/* 4. Company Information */}
-        <CompanySection t={t} />
+        <CompanySection />
 
         {/* 5. Contact */}
         <ContactSection
-          t={t}
           showCopyFeedback={showCopyFeedback}
           onCopyEmail={handleCopyEmail}
         />
       </main>
 
-      <Footer t={t} />
+      <Footer />
     </div>
   )
 }

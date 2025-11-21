@@ -2,14 +2,14 @@ import { Menu } from 'lucide-react'
 import { useState } from 'react'
 import { ThemeToggle } from '~/components/theme-toggle'
 import LanguageSwitcher from '~/i18n/components/LanguageSwitcher'
-import type { useLocale } from '~/i18n/hooks/useLocale'
+import { useLocale } from '~/i18n/hooks/useLocale'
 
 interface NavigationProps {
-  t: ReturnType<typeof useLocale>['t']
   onNavigate: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void
 }
 
-export function Navigation({ t, onNavigate }: NavigationProps) {
+export function Navigation({ onNavigate }: NavigationProps) {
+  const { t } = useLocale()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleNavigate = (

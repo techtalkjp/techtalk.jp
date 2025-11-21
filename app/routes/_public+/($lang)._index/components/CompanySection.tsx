@@ -1,11 +1,8 @@
 import { Building2, Compass, Layers, Sparkles, User } from 'lucide-react'
-import type { useLocale } from '~/i18n/hooks/useLocale'
+import { useLocale } from '~/i18n/hooks/useLocale'
 
-interface CompanySectionProps {
-  t: ReturnType<typeof useLocale>['t']
-}
-
-export function CompanySection({ t }: CompanySectionProps) {
+export function CompanySection() {
+  const { t } = useLocale()
   return (
     <section
       id="company"

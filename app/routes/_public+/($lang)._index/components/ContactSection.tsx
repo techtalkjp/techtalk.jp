@@ -1,17 +1,16 @@
 import { Check, Copy, Facebook } from 'lucide-react'
-import type { useLocale } from '~/i18n/hooks/useLocale'
+import { useLocale } from '~/i18n/hooks/useLocale'
 
 interface ContactSectionProps {
-  t: ReturnType<typeof useLocale>['t']
   showCopyFeedback: boolean
   onCopyEmail: () => void
 }
 
 export function ContactSection({
-  t,
   showCopyFeedback,
   onCopyEmail,
 }: ContactSectionProps) {
+  const { t } = useLocale()
   return (
     <section
       id="contact"

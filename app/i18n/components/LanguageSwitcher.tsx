@@ -35,18 +35,24 @@ const LanguageSwitcher = () => {
     return `/${targetLocale}${basePath === '/' ? '' : basePath}`
   }
 
+  const getLanguageLabel = (lang: string) => {
+    if (lang === 'ja') return t('lang.ja', '日本語')
+    if (lang === 'en') return t('lang.en', 'English')
+    return lang
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size="sm" aria-label="Language" variant="outline">
-          {t(locale, locale)}
+          {getLanguageLabel(locale)}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {locales.map((lang) => (
           <DropdownMenuItem key={lang} asChild>
             <Link to={getPathForLocale(lang)} reloadDocument>
-              {t(lang, lang)}
+              {getLanguageLabel(lang)}
             </Link>
           </DropdownMenuItem>
         ))}

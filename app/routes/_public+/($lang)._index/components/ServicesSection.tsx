@@ -1,11 +1,8 @@
 import { Compass, DatabaseZap, Layers, Sparkles } from 'lucide-react'
-import type { useLocale } from '~/i18n/hooks/useLocale'
+import { useLocale } from '~/i18n/hooks/useLocale'
 
-interface ServicesSectionProps {
-  t: ReturnType<typeof useLocale>['t']
-}
-
-export function ServicesSection({ t }: ServicesSectionProps) {
+export function ServicesSection() {
+  const { t } = useLocale()
   return (
     <section
       id="services"

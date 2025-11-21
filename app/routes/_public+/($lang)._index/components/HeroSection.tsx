@@ -1,11 +1,11 @@
-import type { useLocale } from '~/i18n/hooks/useLocale'
+import { useLocale } from '~/i18n/hooks/useLocale'
 
 interface HeroSectionProps {
-  t: ReturnType<typeof useLocale>['t']
   onNavigate: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void
 }
 
-export function HeroSection({ t, onNavigate }: HeroSectionProps) {
+export function HeroSection({ onNavigate }: HeroSectionProps) {
+  const { t } = useLocale()
   return (
     <section
       id="top"

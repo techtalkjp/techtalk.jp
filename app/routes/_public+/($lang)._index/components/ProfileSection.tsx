@@ -1,13 +1,9 @@
 import { BookOpen, Facebook, Github, User } from 'lucide-react'
 import { Link } from 'react-router'
-import type { useLocale } from '~/i18n/hooks/useLocale'
+import { useLocale } from '~/i18n/hooks/useLocale'
 
-interface ProfileSectionProps {
-  t: ReturnType<typeof useLocale>['t']
-  locale: string
-}
-
-export function ProfileSection({ t, locale }: ProfileSectionProps) {
+export function ProfileSection() {
+  const { t, locale } = useLocale()
   return (
     <section
       id="profile"
