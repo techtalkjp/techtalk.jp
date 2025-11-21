@@ -67,7 +67,10 @@ export const loader = ({ params }: { params: { lang?: string } }) => {
     throw new Response('Not Found', { status: 404 })
   }
 
-  return {}
+  // Normalize lang to ensure consistency
+  const normalizedLang = lang === 'en' ? 'en' : 'ja'
+
+  return { lang: normalizedLang }
 }
 
 export default function BiographyPage() {
@@ -123,7 +126,7 @@ export default function BiographyPage() {
       publisher: t('bio.media.thebridge.title', 'THE BRIDGE'),
       title: t(
         'bio.media.thebridge.description',
-        'FreakOut and JapanTaxi partner for in-taxi video advertising',
+        '"Realizing Honda\'s Vision of Advertising\'s Future" - Interview with FreakOut\'s Hidden Key Person, Mizoguchi',
       ),
     },
     {
@@ -133,7 +136,7 @@ export default function BiographyPage() {
       publisher: t('bio.media.cnet.title', 'CNET Japan'),
       title: t(
         'bio.media.cnet.description',
-        'JapanTaxi app to integrate with in-taxi signage',
+        'Niwango\'s CTO Discusses the Key to \'Niconico Douga\'s\' Success',
       ),
     },
   ]
