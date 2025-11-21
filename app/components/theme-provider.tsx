@@ -16,6 +16,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Synchronize with localStorage and system theme
   useEffect(() => {
+    // Skip during SSR
+    if (typeof window === 'undefined') return
+
     // Load saved theme from localStorage
     const savedTheme = localStorage.getItem('theme') as Theme | null
     if (savedTheme) {
@@ -63,6 +66,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme])
 
   const setTheme = (newTheme: Theme) => {
+    // Skip during SSR
+    if (typeof window === 'undefined') return
+
     setThemeState(newTheme)
     localStorage.setItem('theme', newTheme)
 
