@@ -1,241 +1,175 @@
-import {
-  ArrowLeftIcon,
-  FacebookIcon,
-  GithubIcon,
-  TwitterIcon,
-} from 'lucide-react'
+import { useEffect, useState } from 'react'
 import type { MetaFunction } from 'react-router'
-import { Link } from 'react-router'
-import BiographyContentEn from '~/assets/biography.en.mdx'
-import BiographyContentJa from '~/assets/biography.mdx'
-import { Header } from '~/components/Header'
-import { Heading, ProseContent } from '~/components/typography'
-import { Avatar, AvatarImage, Button, Stack } from '~/components/ui'
+import { Footer } from '~/components/layout/Footer'
+import { useScrollAnimation } from '~/hooks/useScrollAnimation'
 import { useLocale } from '~/i18n/hooks/useLocale'
+import { BiographyHero } from './components/BiographyHero'
+import { BiographyNavigation } from './components/BiographyNavigation'
+import { CareerTimeline } from './components/CareerTimeline'
+import { MediaCoverage } from './components/MediaCoverage'
+import { SocialLinks } from './components/SocialLinks'
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const locale = data?.locale || 'ja'
-  const title = locale === 'en' ? 'Biography - TechTalk' : '代表略歴 - TechTalk'
-  const description =
-    locale === 'en'
-      ? 'Biography of Koji Mizoguchi, CEO of TechTalk Inc.'
-      : '株式会社TechTalk代表 溝口浩二の略歴'
+export const meta: MetaFunction<typeof loader> = ({ params }) => {
+  const lang = params.lang ?? 'ja'
+  const isJapanese = lang === 'ja'
+  const baseUrl = 'https://techtalk.jp'
+  const url = isJapanese
+    ? `${baseUrl}/biography`
+    : `${baseUrl}/${lang}/biography`
+  const title = isJapanese
+    ? '溝口 浩二 - Biography | TechTalk, Inc.'
+    : 'Coji Mizoguchi - Biography | TechTalk, Inc.'
+  const description = isJapanese
+    ? '技術と事業の両面から0→1を生み出すことを専門としています。フリークアウト、IRIS、TechTalkでの経験。'
+    : 'Specializing in creating 0→1 value from both technical and business perspectives. Experience at FreakOut, IRIS, and TechTalk.'
 
-  return [{ title }, { name: 'description', content: description }]
+  return [
+    { title },
+    { name: 'description', content: description },
+    { property: 'og:title', content: title },
+    { property: 'og:description', content: description },
+    { property: 'og:url', content: url },
+    { property: 'og:type', content: 'profile' },
+    { property: 'og:image', content: `${baseUrl}/og-image.jpeg` },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: title },
+    { name: 'twitter:description', content: description },
+    { name: 'twitter:image', content: `${baseUrl}/og-image.jpeg` },
+    { tagName: 'link', rel: 'canonical', href: url },
+    {
+      tagName: 'link',
+      rel: 'alternate',
+      hrefLang: 'ja',
+      href: `${baseUrl}/biography`,
+    },
+    {
+      tagName: 'link',
+      rel: 'alternate',
+      hrefLang: 'en',
+      href: `${baseUrl}/en/biography`,
+    },
+    {
+      tagName: 'link',
+      rel: 'alternate',
+      hrefLang: 'x-default',
+      href: `${baseUrl}/biography`,
+    },
+  ]
 }
 
 export const loader = ({ params }: { params: { lang?: string } }) => {
-  return { locale: params.lang || 'ja' }
-}
+  const lang = params.lang
 
-interface Article {
-  year: string
-  title: string
-  url: string
-  image: string
-  excerpt: string
-}
+  // Validate lang parameter - only 'en' is supported, everything else defaults to 'ja'
+  if (lang && lang !== 'en' && lang !== 'ja') {
+    throw new Response('Not Found', { status: 404 })
+  }
 
-const articles: Record<'ja' | 'en', Article[]> = {
-  ja: [
-    {
-      year: '2018年 Forbes JAPAN',
-      title: '合弁会社で世界へ　タクシーメディアの掲げる野望',
-      url: 'https://forbesjapan.com/articles/detail/22941',
-      image:
-        'https://shareboss.net/wp-content/uploads/2019/11/c0ef11a7611e6c1a64940ca869d9adf5.jpg',
-      excerpt:
-        '2015年10月、JapanTaxi CMO・金高恩氏とフリークアウト・ホールディングス 執行役員・溝口浩二氏はランチの席にいた。JapanTaxiのとある優秀なエンジニアを引き抜くためだった。ところが思惑は外れ、溝口氏は仕方なしに自社の事業を紹介することに。これが後にタクシーのデジタルサイネージ事業を手がける合弁会社、IRIS（以下、IRIS）設立につながることになる。',
-    },
-    {
-      year: '2014年 THE BRIDGE',
-      title:
-        '「本田の描く広告の未来を実現する」ーー隠れたキーマンを調べるお・フリークアウト、溝口氏インタビュー',
-      url: 'https://thebridge.jp/2014/06/takanori-oshiba-interview-series-vol-7',
-      image: 'https://thebridge.jp/wp-content/uploads/2014/06/freakout1.jpg',
-      excerpt:
-        '国内屈指のDSP（Demand Side Platform）として名をはせるフリークアウト。創業からわずか3年半で東証マザーズに上場し、その勢いは増すばかりです。そのフリークアウトと言えばかつてブレイナーを創業し、ヤフーに売却した経験を持つ創業者の本田謙氏と、Googleなどを経て創業に参画したCOO（最高執行責任者）の佐藤裕介氏がよく知られています。そんな同社の「隠れたキーマン」として今回ご紹介するのは溝口浩二氏。社内を横断的に動き、開発、企画、採用など幅広くカバーしながら本田、佐藤両氏を支える同氏にスポットライトをあててみました。',
-    },
-    {
-      year: '2007年 CNET JAPAN',
-      title: 'ニワンゴ技術責任者が語る、「ニコニコ動画」成功の鍵',
-      url: 'https://japan.cnet.com/article/20361283/',
-      image:
-        'https://japan.cnet.com/story_media/20361283/CNETJ/071117_niwango2.jpg',
-      excerpt:
-        'ニコニコ動画はどのようにして生まれ、どういった点が成功の鍵を握ったのか。また、ニコニコ動画のようなサービスを開発する上で求められる人材像とはどんなものなのだろうか。ニワンゴ技術担当取締役の溝口浩二氏が11月17日に東京都内で開催された就職支援イベント「ミリオンタイムズスクウェア キャリアアップセミナー」の講演で明らかにした。',
-    },
-  ],
-  en: [
-    {
-      year: '2018 Forbes JAPAN',
-      title: 'Joint Venture Going Global: The Ambition of Taxi Media',
-      url: 'https://forbesjapan.com/articles/detail/22941',
-      image:
-        'https://shareboss.net/wp-content/uploads/2019/11/c0ef11a7611e6c1a64940ca869d9adf5.jpg',
-      excerpt:
-        "In October 2015, JapanTaxi CMO Kim Ko-eun and FreakOut Holdings Executive Officer Koji Mizoguchi were at a lunch meeting. It was intended to recruit a talented engineer from JapanTaxi. However, when that plan fell through, Mizoguchi ended up introducing his company's business instead. This eventually led to the establishment of IRIS, a joint venture handling digital signage business for taxis.",
-    },
-    {
-      year: '2014 THE BRIDGE',
-      title:
-        "\"Realizing Honda's Vision of Advertising's Future\" - Interview with FreakOut's Hidden Key Person, Mizoguchi",
-      url: 'https://thebridge.jp/2014/06/takanori-oshiba-interview-series-vol-7',
-      image: 'https://thebridge.jp/wp-content/uploads/2014/06/freakout1.jpg',
-      excerpt:
-        'FreakOut is renowned as one of Japan\'s leading DSP (Demand Side Platform) companies. The company went public on the Tokyo Stock Exchange Mothers just 3.5 years after its founding, and its momentum continues to grow. FreakOut is well-known for founder Ken Honda, who previously founded Brainer and sold it to Yahoo, and COO Yusuke Sato, who joined the founding team after working at Google and other companies. This time, we spotlight Koji Mizoguchi, the company\'s "hidden key person" who supports both Honda and Sato while working across the organization, covering development, planning, recruitment, and more.',
-    },
-    {
-      year: '2007 CNET JAPAN',
-      title: 'Niwango\'s CTO Discusses the Key to "Niconico Douga\'s" Success',
-      url: 'https://japan.cnet.com/article/20361283/',
-      image:
-        'https://japan.cnet.com/story_media/20361283/CNETJ/071117_niwango2.jpg',
-      excerpt:
-        'How was Niconico Douga born, and what were the keys to its success? What kind of talent is required to develop services like Niconico Douga? Koji Mizoguchi, CTO of Niwango, revealed these insights at the "Million Times Square Career Up Seminar," a job support event held in Tokyo on November 17.',
-    },
-  ],
+  // Normalize lang to ensure consistency
+  const normalizedLang = lang === 'en' ? 'en' : 'ja'
+
+  return { lang: normalizedLang }
 }
 
 export default function BiographyPage() {
-  const { t, locale } = useLocale()
+  const { t } = useLocale()
+  const [mounted, setMounted] = useState(false)
 
-  const BiographyContent =
-    locale === 'en' ? BiographyContentEn : BiographyContentJa
-  const currentArticles = locale === 'en' ? articles.en : articles.ja
+  // Synchronize with DOM: trigger animations after component mounts
+  useScrollAnimation()
+
+  // External synchronization: Track mounted state for hero animation
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const articles = [
+    {
+      href: 'https://forbesjapan.com/articles/detail/22941',
+      image:
+        'https://shareboss.net/wp-content/uploads/2019/11/c0ef11a7611e6c1a64940ca869d9adf5.jpg',
+      publisher: t('bio.media.forbes.title', 'Forbes JAPAN'),
+      title: t(
+        'bio.media.forbes.description',
+        '合弁会社で世界へ タクシーメディアの掲げる野望',
+      ),
+    },
+    {
+      href: 'https://thebridge.jp/2014/06/takanori-oshiba-interview-series-vol-7',
+      image: 'https://thebridge.jp/wp-content/uploads/2014/06/freakout1.jpg',
+      publisher: t('bio.media.thebridge.title', 'THE BRIDGE'),
+      title: t(
+        'bio.media.thebridge.description',
+        '「本田の描く広告の未来を実現する」ーー隠れたキーマンを調べるお・フリークアウト、溝口氏インタビュー',
+      ),
+    },
+    {
+      href: 'https://japan.cnet.com/article/20361283/',
+      image:
+        'https://japan.cnet.com/story_media/20361283/CNETJ/071117_niwango2.jpg',
+      publisher: t('bio.media.cnet.title', 'CNET Japan'),
+      title: t(
+        'bio.media.cnet.description',
+        'ニワンゴ技術責任者が語る、「ニコニコ動画」成功の鍵',
+      ),
+    },
+  ]
+
+  const careers = [
+    {
+      period: t('bio.career.techtalk.period', '2019年 - 現在'),
+      title: t('bio.career.techtalk.title', '株式会社TechTalk 代表取締役'),
+      description: t(
+        'bio.career.techtalk.description',
+        'ひとり法人として複数の企業に対して技術実装を提供。化学物質検索システム、AI活用MVP、データパイプライン、マーケティング統合など、幅広い領域で実装を継続。',
+      ),
+    },
+    {
+      period: t('bio.career.iris.period', '2016年 - 2019年'),
+      title: t('bio.career.iris.title', '株式会社IRIS 代表取締役副社長'),
+      description: t(
+        'bio.career.iris.description',
+        'タクシーサイネージ事業を2名体制で立ち上げ。事業計画の立案から経営レベルのマネジメント、ハードウェア・動画広告・配信システムの統合まで、事業と技術のすべてを統括。',
+      ),
+    },
+    {
+      period: t('bio.career.freakout.period', '2013年 - 2016年'),
+      title: t(
+        'bio.career.freakout.title',
+        '株式会社FreakOut(現 株式会社フリークアウト・ホールディングス)',
+      ),
+      description: t(
+        'bio.career.freakout.description',
+        '技術に基づいた事業開発やアライアンスに従事。DSPの入札ロジック構築においてはデータアナリストとして機械学習モデルの開発・分析を担当し、ビジネスと技術の接続を主導。',
+      ),
+    },
+    {
+      period: t('bio.career.dwango.period', '1999年 - 2013年'),
+      title: t(
+        'bio.career.dwango.title',
+        '株式会社ドワンゴ / 株式会社ニワンゴ',
+      ),
+      description: t(
+        'bio.career.dwango.description',
+        'エンジニア、プログラマーとしてキャリアをスタート。着メロサービス、動画サービス、ポータルサイトなどのエンジニアリングマネージャーを経験。ニワンゴでは技術担当取締役を担当。',
+      ),
+    },
+  ]
 
   return (
-    <>
-      <Header
-        left={
-          <Button variant="ghost" size="sm" className="text-white" asChild>
-            <Link
-              to={locale === 'ja' ? '/' : `/${locale}`}
-              viewTransition
-              preventScrollReset={false}
-            >
-              <ArrowLeftIcon className="mr-2 h-4 w-4" />
-              {t('common.back', '戻る')}
-            </Link>
-          </Button>
-        }
-      />
+    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#020617] dark:text-white">
+      {/* Background Grid */}
+      <div className="bg-grid fixed inset-0 opacity-30 dark:opacity-100" />
 
-      <div className="container px-6 py-24">
-        <Stack className="mx-auto max-w-3xl gap-24">
-          <Stack className="gap-8">
-            <Stack className="items-start gap-6 sm:flex-row sm:items-center">
-              <Avatar className="h-24 w-24 flex-shrink-0 rounded-xl">
-                <AvatarImage src="/images/coji.webp" loading="lazy" />
-              </Avatar>
-              <Stack className="min-w-0 flex-1 gap-3">
-                <Heading size="2xl" className="leading-tight break-words">
-                  {locale === 'en' ? 'Koji Mizoguchi (coji)' : '溝口浩二 coji'}
-                </Heading>
-                <p className="text-muted-foreground text-base">
-                  {locale === 'en'
-                    ? 'CEO, TechTalk Inc.'
-                    : '株式会社TechTalk 代表取締役'}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="border-border/20 text-foreground/60 hover:border-border/40 hover:text-foreground cursor-pointer rounded-xl transition-colors"
-                    asChild
-                  >
-                    <a
-                      href="https://twitter.com/techtalkjp"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5"
-                    >
-                      <TwitterIcon className="h-4 w-4" />
-                      <span className="text-xs">Twitter</span>
-                    </a>
-                  </Button>
-
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="border-border/20 text-foreground/60 hover:border-border/40 hover:text-foreground cursor-pointer rounded-xl transition-colors"
-                    asChild
-                  >
-                    <a
-                      href="https://www.facebook.com/mizoguchi.coji"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5"
-                    >
-                      <FacebookIcon className="h-4 w-4" />
-                      <span className="text-xs">Facebook</span>
-                    </a>
-                  </Button>
-
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="border-border/20 text-foreground/60 hover:border-border/40 hover:text-foreground cursor-pointer rounded-xl transition-colors"
-                    asChild
-                  >
-                    <a
-                      href="https://github.com/coji"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5"
-                    >
-                      <GithubIcon className="h-4 w-4" />
-                      <span className="text-xs">GitHub</span>
-                    </a>
-                  </Button>
-                </div>
-              </Stack>
-            </Stack>
-
-            <ProseContent variant="rich">
-              <BiographyContent />
-            </ProseContent>
-          </Stack>
-
-          <Stack className="gap-10">
-            <div className="max-w-none">
-              <h2 className="bg-muted/50 rounded-xl px-6 py-4 text-xl leading-snug font-bold backdrop-blur-sm">
-                {t('biography.articles', '掲載記事')}
-              </h2>
-            </div>
-
-            <Stack className="gap-10">
-              {currentArticles.map((article) => (
-                <a
-                  key={article.url}
-                  href={article.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group bg-card/50 hover:bg-card/80 block rounded-xl border p-6 backdrop-blur-sm transition-all hover:shadow-lg"
-                >
-                  <p className="text-muted-foreground mb-3 text-sm">
-                    {article.year}
-                  </p>
-                  <h3 className="text-primary group-hover:text-primary/80 mb-4 text-base leading-snug font-semibold break-words transition-colors sm:text-lg">
-                    {article.title}
-                  </h3>
-                  <Stack className="items-start gap-4 sm:flex-row">
-                    <img
-                      src={article.image}
-                      alt={article.title}
-                      loading="lazy"
-                      className="aspect-[3/2] w-full flex-shrink-0 rounded-xl object-cover sm:w-48"
-                    />
-                    <blockquote className="text-muted-foreground border-primary/40 min-w-0 flex-1 border-l-[3px] pl-4 text-sm leading-relaxed">
-                      {article.excerpt}
-                    </blockquote>
-                  </Stack>
-                </a>
-              ))}
-            </Stack>
-          </Stack>
-        </Stack>
+      {/* Content */}
+      <div className="relative">
+        <BiographyNavigation />
+        <BiographyHero mounted={mounted} />
+        <SocialLinks />
+        <CareerTimeline careers={careers} />
+        <MediaCoverage articles={articles} />
+        <Footer />
       </div>
-    </>
+    </div>
   )
 }

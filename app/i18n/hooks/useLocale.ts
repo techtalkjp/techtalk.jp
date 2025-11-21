@@ -1,8 +1,5 @@
 import { useLocation } from 'react-router'
 import en from '../assets/locales/en.json'
-import ja from '../assets/locales/ja.json'
-import zhls from '../assets/locales/zhls.json'
-import zhlt from '../assets/locales/zhlt.json'
 import { detectLocale } from '../utils/detectLocale'
 export { locales } from '../utils/detectLocale'
 
@@ -11,18 +8,20 @@ interface LocaleString {
 }
 
 const resources: { [key: string]: LocaleString } = {
-  ja,
   en,
-  zhls,
-  zhlt,
 }
 
 export const useLocale = () => {
   const location = useLocation()
   const locale = detectLocale(location.pathname)
 
-  const t = (id: string, fallback: string) => {
-    return resources[locale]?.[id] ?? fallback
+  const t = (_key: string, jaText: string) => {
+    // 日本語の場合はそのまま日本語を返す
+    if (locale === 'ja') {
+      return jaText
+    }
+    // 英語の場合は日本語をキーとして英語訳を取得、なければ日本語をそのまま返す
+    return resources[locale]?.[jaText] ?? jaText
   }
 
   return { locale, t }

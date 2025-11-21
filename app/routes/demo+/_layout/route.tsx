@@ -125,7 +125,7 @@ export default function DemoPage() {
   const { menu, currentMenuItem, codeURL } = useCurrentMenu()
 
   return (
-    <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4">
+    <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_1fr_auto] gap-2 bg-slate-200 md:gap-4 dark:bg-slate-900">
       <header className="bg-card">
         <Link to={href('/demo')}>
           <h1 className="mx-4 my-2 text-2xl font-bold">TechTalk demos</h1>
