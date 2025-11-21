@@ -22,7 +22,7 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
     ? '溝口 浩二 - Biography | TechTalk, Inc.'
     : 'Coji Mizoguchi - Biography | TechTalk, Inc.'
   const description = isJapanese
-    ? '技術と事業の両面から0から1を生み出すことを専門としています。フリークアウト、IRIS、TechTalkでの経験。'
+    ? '技術と事業の両面から0→1を生み出すことを専門としています。フリークアウト、IRIS、TechTalkでの経験。'
     : 'Specializing in creating 0-to-1 value from both technical and business perspectives. Experience at FreakOut, IRIS, and TechTalk.'
 
   return [
@@ -212,7 +212,7 @@ export default function BiographyPage() {
                   />
                 </div>
                 <h1 className="mb-4 text-5xl font-bold text-slate-900 md:text-6xl dark:text-white">
-                  {t('profile.nameEn', 'Koji Mizoguchi')}
+                  {t('profile.nameEn', 'Coji Mizoguchi')}
                 </h1>
                 <p className="mb-8 text-xl text-slate-700 md:text-2xl dark:text-white/70">
                   {t('profile.name', '溝口 浩二')}
