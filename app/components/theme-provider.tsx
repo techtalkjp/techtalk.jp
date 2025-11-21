@@ -12,10 +12,13 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('system')
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('dark')
+  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light')
+  const [mounted, setMounted] = useState(false)
 
   // Synchronize with localStorage and system theme
   useEffect(() => {
+    setMounted(true)
+
     // Load saved theme from localStorage
     const savedTheme = localStorage.getItem('theme') as Theme | null
     if (savedTheme) {

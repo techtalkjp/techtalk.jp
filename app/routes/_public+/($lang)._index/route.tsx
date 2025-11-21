@@ -46,7 +46,7 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
     : 'TechTalk, Inc. is a technical partner that handles everything from business development to implementation. We provide MVP development, data infrastructure, AI integration, and project leadership using cutting-edge technologies like Remix, DuckDB, and Vercel AI SDK.'
 
   const siteName = isJapanese ? '株式会社TechTalk' : 'TechTalk, Inc.'
-  const ogImage = `${baseUrl}/og-image.jpg` // OG画像のパス
+  const ogImage = `${baseUrl}/og-image.jpeg` // OG画像のパス
 
   // JSON-LD structured data
   const jsonLd = {

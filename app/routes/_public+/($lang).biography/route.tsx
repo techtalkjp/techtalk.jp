@@ -32,11 +32,11 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
     { property: 'og:description', content: description },
     { property: 'og:url', content: url },
     { property: 'og:type', content: 'profile' },
-    { property: 'og:image', content: `${baseUrl}/og-image.jpg` },
+    { property: 'og:image', content: `${baseUrl}/og-image.jpeg` },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: description },
-    { name: 'twitter:image', content: `${baseUrl}/og-image.jpg` },
+    { name: 'twitter:image', content: `${baseUrl}/og-image.jpeg` },
     { tagName: 'link', rel: 'canonical', href: url },
     {
       tagName: 'link',
@@ -207,7 +207,7 @@ export default function BiographyPage() {
                 <div className="mb-8 flex justify-center">
                   <img
                     src="/images/coji.webp"
-                    alt="Koji Mizoguchi"
+                    alt="Coji Mizoguchi"
                     className="h-32 w-32 rounded-full border-4 border-slate-200 dark:border-white/10"
                   />
                 </div>
