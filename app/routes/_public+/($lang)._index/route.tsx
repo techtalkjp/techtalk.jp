@@ -1,15 +1,15 @@
 import type { LinksFunction, MetaFunction } from 'react-router'
+import { Footer } from '~/components/layout/Footer'
+import { useScrollAnimation } from '~/hooks/useScrollAnimation'
 import { locales } from '~/i18n/utils/detectLocale'
 import type { Route } from './+types/route'
 import { CompanySection } from './components/CompanySection'
 import { ContactSection } from './components/ContactSection'
-import { Footer } from './components/Footer'
 import { HeroSection } from './components/HeroSection'
 import { Navigation } from './components/Navigation'
 import { ProfileSection } from './components/ProfileSection'
 import { ServicesSection } from './components/ServicesSection'
 import { useCopyToClipboard } from './hooks/useCopyToClipboard'
-import { useScrollAnimation } from './hooks/useScrollAnimation'
 
 export const loader = ({ params }: Route.LoaderArgs) => {
   // If lang is undefined, treat it as 'ja' (default)

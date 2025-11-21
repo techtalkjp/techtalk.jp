@@ -1,10 +1,14 @@
 import { useEffect } from 'react'
 
 /**
- * Custom hook for biography page scroll-based animations
+ * Custom hook for scroll-based animations
  * External synchronization: IntersectionObserver API
+ *
+ * Observes elements with specific class names and adds animation classes when they enter viewport:
+ * - `.fade-in-section` - Elements that fade in on scroll
+ * - `.animate-on-scroll` - Elements that slide up and fade in on scroll
  */
-export function useBiographyScrollAnimation() {
+export function useScrollAnimation() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -22,7 +26,10 @@ export function useBiographyScrollAnimation() {
       },
     )
 
-    const animatedElements = document.querySelectorAll('.animate-on-scroll')
+    // Observe both fade-in-section and animate-on-scroll elements
+    const animatedElements = document.querySelectorAll(
+      '.fade-in-section, .animate-on-scroll',
+    )
     animatedElements.forEach((el) => {
       observer.observe(el)
     })

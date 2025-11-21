@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import type { MetaFunction } from 'react-router'
+import { Footer } from '~/components/layout/Footer'
+import { useScrollAnimation } from '~/hooks/useScrollAnimation'
 import { useLocale } from '~/i18n/hooks/useLocale'
-import { BiographyFooter } from './components/BiographyFooter'
 import { BiographyHero } from './components/BiographyHero'
 import { BiographyNavigation } from './components/BiographyNavigation'
 import { CareerTimeline } from './components/CareerTimeline'
 import { MediaCoverage } from './components/MediaCoverage'
 import { SocialLinks } from './components/SocialLinks'
-import { useBiographyScrollAnimation } from './hooks/useBiographyScrollAnimation'
 
 export const meta: MetaFunction<typeof loader> = ({ params }) => {
   const lang = params.lang ?? 'ja'
@@ -76,7 +76,7 @@ export default function BiographyPage() {
   const [mounted, setMounted] = useState(false)
 
   // Synchronize with DOM: trigger animations after component mounts
-  useBiographyScrollAnimation()
+  useScrollAnimation()
 
   // External synchronization: Track mounted state for hero animation
   useEffect(() => {
@@ -168,7 +168,7 @@ export default function BiographyPage() {
         <SocialLinks />
         <CareerTimeline careers={careers} />
         <MediaCoverage articles={articles} />
-        <BiographyFooter />
+        <Footer />
       </div>
     </div>
   )
