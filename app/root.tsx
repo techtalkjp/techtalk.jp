@@ -15,6 +15,7 @@ import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { ThemeProvider } from '~/components/theme-provider'
 import { Toaster, TooltipProvider } from '~/components/ui'
+import { getThemeFromRequest } from '~/utils/theme.server'
 import type { Route } from './+types/root'
 import './styles/globals.css'
 
@@ -41,7 +42,8 @@ export const links: LinksFunction = () => {
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const { toast, headers } = await getToast(request)
-  return data({ toastData: toast }, { headers })
+  const theme = getThemeFromRequest(request)
+  return data({ toastData: toast, theme }, { headers })
 }
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -52,12 +54,42 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        {/* Prevent flash of unstyled content (FOUC) for theme */}
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for preventing FOUC on theme
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function getTheme() {
+                  const cookie = document.cookie.split(';').find(c => c.trim().startsWith('theme='));
+                  if (cookie) return cookie.split('=')[1];
+                  const stored = localStorage.getItem('theme');
+                  if (stored) return stored;
+                  return 'system';
+                }
+
+                function resolveTheme(theme) {
+                  if (theme === 'system') {
+                    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  }
+                  return theme;
+                }
+
+                const theme = getTheme();
+                const resolved = resolveTheme(theme);
+
+                if (resolved === 'dark') {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="scroll-smooth">
-        <ThemeProvider>
-          <Toaster closeButton richColors />
-          <TooltipProvider>{children}</TooltipProvider>
-        </ThemeProvider>
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -66,7 +98,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 }
 
 export default function App({
-  loaderData: { toastData },
+  loaderData: { toastData, theme },
 }: Route.ComponentProps) {
   // Synchronize with toast library: display toast notifications from server
   useEffect(() => {
@@ -85,7 +117,14 @@ export default function App({
     })
   }, [toastData])
 
-  return <Outlet />
+  return (
+    <ThemeProvider specifiedTheme={theme || undefined}>
+      <Toaster closeButton richColors />
+      <TooltipProvider>
+        <Outlet />
+      </TooltipProvider>
+    </ThemeProvider>
+  )
 }
 
 export function ErrorBoundary() {

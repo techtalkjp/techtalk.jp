@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
-type Theme = 'light' | 'dark' | 'system'
+export type Theme = 'light' | 'dark' | 'system'
 
 interface ThemeContextType {
   theme: Theme
@@ -10,20 +10,22 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('system')
+interface ThemeProviderProps {
+  children: React.ReactNode
+  specifiedTheme?: Theme
+}
+
+export function ThemeProvider({
+  children,
+  specifiedTheme,
+}: ThemeProviderProps) {
+  const [theme, setThemeState] = useState<Theme>(specifiedTheme || 'system')
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light')
 
-  // Synchronize with localStorage and system theme
+  // Synchronize with cookie and system theme
   useEffect(() => {
     // Skip during SSR
     if (typeof window === 'undefined') return
-
-    // Load saved theme from localStorage
-    const savedTheme = localStorage.getItem('theme') as Theme | null
-    if (savedTheme) {
-      setThemeState(savedTheme)
-    }
 
     // Get system theme preference
     const getSystemTheme = (): 'light' | 'dark' => {
@@ -41,7 +43,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
 
     // Apply theme on mount
-    const initialResolvedTheme = resolveTheme(savedTheme || 'system')
+    const initialResolvedTheme = resolveTheme(theme)
     setResolvedTheme(initialResolvedTheme)
     document.documentElement.classList.toggle(
       'dark',
@@ -70,7 +72,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (typeof window === 'undefined') return
 
     setThemeState(newTheme)
-    localStorage.setItem('theme', newTheme)
+
+    // Set cookie
+    // biome-ignore lint/suspicious/noDocumentCookie: Simple cookie setting is sufficient for theme preference
+    document.cookie = `theme=${newTheme}; path=/; max-age=31536000; samesite=lax`
 
     // Resolve and apply the new theme
     const resolved =
