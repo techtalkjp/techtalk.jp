@@ -16,7 +16,7 @@ export function CompanySection() {
         </div>
 
         <div className="mx-auto max-w-2xl rounded-3xl border border-slate-200 bg-white p-8 backdrop-blur-sm md:p-12 dark:border-slate-800 dark:bg-slate-900/40">
-          <div className="space-y-6">
+          <dl className="space-y-6">
             <div className="flex items-start gap-4 border-b border-slate-200 pb-6 dark:border-slate-800">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-slate-300 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
                 <Building2 className="h-6 w-6 text-slate-600 dark:text-slate-400" />
@@ -89,7 +89,7 @@ export function CompanySection() {
                 </dd>
               </div>
             </div>
-          </div>
+          </dl>
         </div>
       </div>
     </section>

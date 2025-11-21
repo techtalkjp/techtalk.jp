@@ -80,6 +80,9 @@ export function Navigation({ onNavigate }: NavigationProps) {
           type="button"
           className="p-2 text-slate-900 md:hidden dark:text-white"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={t('nav.menu.toggle', 'メニューを開く')}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-nav"
         >
           <Menu />
         </button>
@@ -87,7 +90,10 @@ export function Navigation({ onNavigate }: NavigationProps) {
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div className="animate-in slide-in-from-top-5 absolute top-20 left-0 flex w-full flex-col gap-6 border-b border-slate-200 bg-white p-6 text-center shadow-2xl duration-200 md:hidden dark:border-slate-800 dark:bg-[#020617]">
+        <nav
+          id="mobile-nav"
+          className="animate-in slide-in-from-top-5 absolute top-20 left-0 flex w-full flex-col gap-6 border-b border-slate-200 bg-white p-6 text-center shadow-2xl duration-200 md:hidden dark:border-slate-800 dark:bg-[#020617]"
+        >
           <a
             href="#top"
             onClick={(e) => handleNavigate(e, 'top')}
@@ -127,7 +133,7 @@ export function Navigation({ onNavigate }: NavigationProps) {
             <ThemeToggle />
             <LanguageSwitcher />
           </div>
-        </div>
+        </nav>
       )}
     </header>
   )
