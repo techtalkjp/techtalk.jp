@@ -10,11 +10,13 @@ import {
   data,
   isRouteErrorResponse,
   useRouteError,
+  useRouteLoaderData,
 } from 'react-router'
 import { getToast } from 'remix-toast'
 import { toast } from 'sonner'
 import { ThemeProvider } from '~/components/theme-provider'
 import { Toaster, TooltipProvider } from '~/components/ui'
+import { detectLocale } from '~/i18n/utils/detectLocale'
 import { getThemeFromRequest } from '~/utils/theme.server'
 import type { Route } from './+types/root'
 import './styles/globals.css'
@@ -43,50 +45,39 @@ export const links: LinksFunction = () => {
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const { toast, headers } = await getToast(request)
   const theme = getThemeFromRequest(request)
-  return data({ toastData: toast, theme }, { headers })
+  const url = new URL(request.url)
+  const locale = detectLocale(url.pathname)
+  return data({ toastData: toast, theme, locale }, { headers })
 }
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
+  const data = useRouteLoaderData<typeof loader>('root')
+  const locale = data?.locale || 'ja'
+  const theme = data?.theme || 'system'
+
+  // For SSR: set dark class only if theme is explicitly 'dark'
+  const htmlClassName = theme === 'dark' ? 'dark' : undefined
+
   return (
-    <html lang="ja">
+    <html lang={locale} className={htmlClassName}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        {/* Prevent flash of unstyled content (FOUC) for theme */}
-        <script
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for preventing FOUC on theme
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                function getTheme() {
-                  const cookie = document.cookie.split(';').find(c => c.trim().startsWith('theme='));
-                  if (cookie) return cookie.split('=')[1];
-                  const stored = localStorage.getItem('theme');
-                  if (stored) return stored;
-                  return 'system';
-                }
-
-                function resolveTheme(theme) {
-                  if (theme === 'system') {
-                    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  }
-                  return theme;
-                }
-
-                const theme = getTheme();
-                const resolved = resolveTheme(theme);
-
-                if (resolved === 'dark') {
+        {/* FOUC prevention: Apply theme before first paint */}
+        {theme === 'system' && (
+          <script
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for preventing FOUC when theme is system
+            dangerouslySetInnerHTML={{
+              __html: `
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
                   document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
                 }
-              })();
-            `,
-          }}
-        />
+              `,
+            }}
+          />
+        )}
       </head>
       <body className="scroll-smooth">
         {children}
