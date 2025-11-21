@@ -11,7 +11,7 @@ export function SocialLinks() {
             <h2 className="mb-6 text-sm font-semibold tracking-wider text-slate-500 dark:text-white/50">
               {t('bio.social.title', 'CONNECT')}
             </h2>
-            <div className="flex gap-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
               <a
                 href="https://x.com/techtalkjp"
                 target="_blank"
