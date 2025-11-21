@@ -59,7 +59,14 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
   ]
 }
 
-export const loader = () => {
+export const loader = ({ params }: { params: { lang?: string } }) => {
+  const lang = params.lang
+
+  // Validate lang parameter - only 'en' is supported, everything else defaults to 'ja'
+  if (lang && lang !== 'en' && lang !== 'ja') {
+    throw new Response('Not Found', { status: 404 })
+  }
+
   return {}
 }
 
