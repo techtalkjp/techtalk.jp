@@ -111,13 +111,13 @@ export default function BiographyPage() {
 
   const articles = [
     {
-      href: 'https://forbesjapan.com/articles/detail/34977',
+      href: 'https://forbesjapan.com/articles/detail/22941',
       image:
         'https://shareboss.net/wp-content/uploads/2019/11/c0ef11a7611e6c1a64940ca869d9adf5.jpg',
       publisher: t('bio.media.forbes.title', 'Forbes JAPAN'),
       title: t(
         'bio.media.forbes.description',
-        'ウィズコロナ時代の「タクシーサイネージ」最前線',
+        '合弁会社で世界へ タクシーメディアの掲げる野望',
       ),
     },
     {
