@@ -1,5 +1,6 @@
 import type { LinksFunction, MetaFunction } from 'react-router'
 import { Footer } from '~/components/layout/Footer'
+import { SITE_URL } from '~/config/site'
 import { useScrollAnimation } from '~/hooks/useScrollAnimation'
 import { useLocale } from '~/i18n/hooks/useLocale'
 import { locales } from '~/i18n/utils/detectLocale'
@@ -26,8 +27,7 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
   const lang = params.lang ?? 'ja'
   const isJapanese = lang === 'ja'
 
-  const baseUrl = 'https://techtalk.jp'
-  const url = isJapanese ? baseUrl : `${baseUrl}/${lang}`
+  const url = isJapanese ? SITE_URL : `${SITE_URL}/${lang}`
 
   const title =
     'TechTalk, Inc. | Implement Your Business. Deliver Through Code.'
@@ -37,7 +37,7 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
     : 'TechTalk, Inc. is a technical partner that handles everything from business development to implementation. We provide MVP development, data infrastructure, AI integration, and project leadership using cutting-edge technologies like Remix, DuckDB, and Vercel AI SDK.'
 
   const siteName = isJapanese ? '株式会社TechTalk' : 'TechTalk, Inc.'
-  const ogImage = `${baseUrl}/og-image.jpeg` // OG画像のパス
+  const ogImage = `${SITE_URL}/og-image.jpeg` // OG画像のパス
 
   return [
     { title },
@@ -72,14 +72,19 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
     { tagName: 'link', rel: 'canonical', href: url },
 
     // Alternate language links
-    { tagName: 'link', rel: 'alternate', hrefLang: 'ja', href: baseUrl },
+    { tagName: 'link', rel: 'alternate', hrefLang: 'ja', href: SITE_URL },
     {
       tagName: 'link',
       rel: 'alternate',
       hrefLang: 'en',
-      href: `${baseUrl}/en`,
+      href: `${SITE_URL}/en`,
     },
-    { tagName: 'link', rel: 'alternate', hrefLang: 'x-default', href: baseUrl },
+    {
+      tagName: 'link',
+      rel: 'alternate',
+      hrefLang: 'x-default',
+      href: SITE_URL,
+    },
   ]
 }
 
@@ -100,7 +105,6 @@ export const links: LinksFunction = () => [
 export default function TechTalkPage() {
   const { locale } = useLocale()
   const isJapanese = locale === 'ja'
-  const baseUrl = 'https://www.techtalk.jp'
 
   // アニメーション用のObserver設定
   useScrollAnimation()
@@ -149,8 +153,8 @@ export default function TechTalkPage() {
     '@type': 'Organization',
     name: 'TechTalk, Inc.',
     alternateName: '株式会社TechTalk',
-    url: baseUrl,
-    logo: `${baseUrl}/logo.svg`,
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo.svg`,
     description: isJapanese
       ? '株式会社TechTalkは、事業開発から実装までを一貫して行う技術パートナーです。MVP開発、データ基盤構築、AI統合、プロジェクトリーダーシップを提供します。'
       : 'TechTalk, Inc. is a technical partner that handles everything from business development to implementation.',

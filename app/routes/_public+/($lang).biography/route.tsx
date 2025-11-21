@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { MetaFunction } from 'react-router'
 import { Footer } from '~/components/layout/Footer'
+import { SITE_URL } from '~/config/site'
 import { useScrollAnimation } from '~/hooks/useScrollAnimation'
 import { useLocale } from '~/i18n/hooks/useLocale'
 import { BiographyHero } from './components/BiographyHero'
@@ -12,10 +13,9 @@ import { SocialLinks } from './components/SocialLinks'
 export const meta: MetaFunction<typeof loader> = ({ params }) => {
   const lang = params.lang ?? 'ja'
   const isJapanese = lang === 'ja'
-  const baseUrl = 'https://techtalk.jp'
   const url = isJapanese
-    ? `${baseUrl}/biography`
-    : `${baseUrl}/${lang}/biography`
+    ? `${SITE_URL}/biography`
+    : `${SITE_URL}/${lang}/biography`
   const title = isJapanese
     ? '溝口 浩二 - Biography | TechTalk, Inc.'
     : 'Coji Mizoguchi - Biography | TechTalk, Inc.'
@@ -30,29 +30,29 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
     { property: 'og:description', content: description },
     { property: 'og:url', content: url },
     { property: 'og:type', content: 'profile' },
-    { property: 'og:image', content: `${baseUrl}/og-image.jpeg` },
+    { property: 'og:image', content: `${SITE_URL}/og-image.jpeg` },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: description },
-    { name: 'twitter:image', content: `${baseUrl}/og-image.jpeg` },
+    { name: 'twitter:image', content: `${SITE_URL}/og-image.jpeg` },
     { tagName: 'link', rel: 'canonical', href: url },
     {
       tagName: 'link',
       rel: 'alternate',
       hrefLang: 'ja',
-      href: `${baseUrl}/biography`,
+      href: `${SITE_URL}/biography`,
     },
     {
       tagName: 'link',
       rel: 'alternate',
       hrefLang: 'en',
-      href: `${baseUrl}/en/biography`,
+      href: `${SITE_URL}/en/biography`,
     },
     {
       tagName: 'link',
       rel: 'alternate',
       hrefLang: 'x-default',
-      href: `${baseUrl}/biography`,
+      href: `${SITE_URL}/biography`,
     },
   ]
 }
