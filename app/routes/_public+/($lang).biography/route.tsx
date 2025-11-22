@@ -129,18 +129,18 @@ export default function BiographyPage() {
       title: t('bio.career.iris.title', '株式会社IRIS 代表取締役副社長'),
       description: t(
         'bio.career.iris.description',
-        'タクシーサイネージ事業を2名体制で立ち上げ。事業計画の立案から経営レベルのマネジメント、ハードウェア・動画広告・配信システムの統合まで、事業と技術のすべてを統括。',
+        'FreakOutでの事業開発・アライアンス業務の中で、JapanTaxiとの合弁会社として設立。タクシーサイネージ事業を2名体制で立ち上げ、事業計画の立案から経営レベルのマネジメント、ハードウェア・動画広告・配信システムの統合まで、事業と技術のすべてを統括。',
       ),
     },
     {
-      period: t('bio.career.freakout.period', '2013年 - 2016年'),
+      period: t('bio.career.freakout.period', '2013年 - 2019年'),
       title: t(
         'bio.career.freakout.title',
         '株式会社FreakOut(現 株式会社フリークアウト・ホールディングス)',
       ),
       description: t(
         'bio.career.freakout.description',
-        '技術に基づいた事業開発やアライアンスに従事。DSPの入札ロジック構築においてはデータアナリストとして機械学習モデルの開発・分析を担当し、ビジネスと技術の接続を主導。',
+        '技術に基づいた事業開発やアライアンスに従事。DSPの入札ロジック構築では、データアナリストとしてビジネス要件を数値化し、機械学習チームとの橋渡しを担当。',
       ),
     },
     {
