@@ -64,7 +64,7 @@ export function ServicesSection() {
             <p className="mb-6 grow text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               {t(
                 'services.data.description',
-                'DSPの入札ロジック構築でデータアナリストとして機械学習モデルを開発した経験から、ビジネス課題を解決するデータ基盤を構築します。DuckDB、dbt、BigQueryを用いて、意思決定を支えるデータ活用を実装します。',
+                'DSPの入札アルゴリズム改善にデータアナリストとして携わった経験から、ビジネス課題を解決するデータ基盤を構築します。DuckDB、dbt、BigQueryを用いて、意思決定を支えるデータ活用を実装します。',
               )}
             </p>
             <ul className="space-y-3 border-t border-slate-200 pt-4 text-sm text-slate-700 dark:border-slate-800/50 dark:text-slate-300">
