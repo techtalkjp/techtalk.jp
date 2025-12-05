@@ -20,7 +20,7 @@ export const headers: HeadersFunction = () => {
 }
 
 export const loader = async ({ request, params }: Route.LoaderArgs) => {
-  const region = request.cf?.region ? String(request.cf.region) : 'N/A'
+  const region = (request.cf?.region as string) ?? 'N/A'
   const timeStart = Date.now()
   const order = await getSampleOrder(String(params.id))
   const timeEnd = Date.now()

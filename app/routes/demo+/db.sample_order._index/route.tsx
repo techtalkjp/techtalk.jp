@@ -28,7 +28,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const url = new URL(request.url)
   const tab = url.searchParams.get('tab') ?? 'new'
 
-  const region = request.cf?.region ? String(request.cf?.region) : 'N/A'
+  const region = (request.cf?.region as string) ?? 'N/A'
   const timeStart = Date.now()
   const sampleOrders = await listSampleOrders()
 
@@ -57,7 +57,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'new') {
-    const region = request.cf?.region ? String(request.cf?.region) : 'N/A'
+    const region = (request.cf?.region as string) ?? 'N/A'
     const timeStart = Date.now()
     const { intent: _intent, ...rest } = submission.value
     await createSampleOrder({
