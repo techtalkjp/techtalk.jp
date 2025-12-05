@@ -9,7 +9,7 @@ export const schema = z.discriminatedUnion('intent', [
   z.object({
     intent: z.literal('new'),
     name: z.string().max(255),
-    email: z.string().email().max(255),
+    email: z.email().pipe(z.string().max(255)),
     zip: z.string().max(20),
     country: z.string().max(50),
     prefecture: z.string().max(50),
