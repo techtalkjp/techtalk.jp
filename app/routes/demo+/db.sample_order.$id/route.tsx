@@ -19,8 +19,8 @@ export const headers: HeadersFunction = () => {
   return { 'Cache-Control': defaultCacheControl }
 }
 
-export const loader = async ({ params, context }: Route.LoaderArgs) => {
-  const region = context.cloudflare.ctx.props.region ?? 'N/A'
+export const loader = async ({ request, params }: Route.LoaderArgs) => {
+  const region = request.cf?.region ? String(request.cf.region) : 'N/A'
   const timeStart = Date.now()
   const order = await getSampleOrder(String(params.id))
   const timeEnd = Date.now()

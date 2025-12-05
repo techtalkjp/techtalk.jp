@@ -22,7 +22,8 @@ const bodyTextVariants = cva('leading-relaxed', {
 })
 
 interface BodyTextProps
-  extends HTMLAttributes<HTMLParagraphElement>,
+  extends
+    HTMLAttributes<HTMLParagraphElement>,
     VariantProps<typeof bodyTextVariants> {
   as?: 'p' | 'span' | 'div'
 }

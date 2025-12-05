@@ -99,11 +99,10 @@ export const useFileDrop = ({
   }
 }
 
-interface FileDropProps
-  extends Omit<
-    React.ComponentProps<'div'>,
-    'children' | 'className' | 'onError' | 'onSelect'
-  > {
+interface FileDropProps extends Omit<
+  React.ComponentProps<'div'>,
+  'children' | 'className' | 'onError' | 'onSelect'
+> {
   children:
     | React.ReactNode
     | ((props: {
