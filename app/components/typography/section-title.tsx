@@ -23,7 +23,8 @@ const sectionTitleVariants = cva('font-sans font-bold', {
 })
 
 interface SectionTitleProps
-  extends HTMLAttributes<HTMLHeadingElement>,
+  extends
+    HTMLAttributes<HTMLHeadingElement>,
     VariantProps<typeof sectionTitleVariants> {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 }

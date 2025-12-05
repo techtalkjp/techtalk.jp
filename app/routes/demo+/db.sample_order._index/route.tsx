@@ -24,11 +24,11 @@ export const headers: HeadersFunction = () => {
   }
 }
 
-export const loader = async ({ request, context }: Route.LoaderArgs) => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
   const url = new URL(request.url)
   const tab = url.searchParams.get('tab') ?? 'new'
 
-  const region = context.cloudflare.ctx.props.region ?? 'N/A'
+  const region = (request.cf?.region as string) ?? 'N/A'
   const timeStart = Date.now()
   const sampleOrders = await listSampleOrders()
 
@@ -49,7 +49,7 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
   }
 }
 
-export const action = async ({ request, context }: Route.ActionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   await setTimeout(1000)
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
@@ -57,10 +57,11 @@ export const action = async ({ request, context }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'new') {
+    const region = (request.cf?.region as string) ?? 'N/A'
     const timeStart = Date.now()
     const { intent: _intent, ...rest } = submission.value
     await createSampleOrder({
-      region: context.cloudflare.ctx.props.region ?? '',
+      region,
       ...rest,
     })
     const timeEnd = Date.now()

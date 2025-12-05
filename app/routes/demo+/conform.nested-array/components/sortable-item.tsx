@@ -6,8 +6,10 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import type React from 'react'
 
-interface SortableItemProps
-  extends Omit<React.ComponentProps<'div'>, 'id' | 'children'> {
+interface SortableItemProps extends Omit<
+  React.ComponentProps<'div'>,
+  'id' | 'children'
+> {
   id: string
   children:
     | React.ReactNode

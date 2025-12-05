@@ -40,7 +40,7 @@ const schema = z.discriminatedUnion('intent', [
   }),
 ])
 
-export const loader = async ({ context }: Route.LoaderArgs) => {
+export const loader = async () => {
   const { objects } = await env.R2.list({
     prefix: 'uploads/',
     include: ['customMetadata'],
@@ -51,7 +51,7 @@ export const loader = async ({ context }: Route.LoaderArgs) => {
     images.push({
       key: obj.key ?? 'no key',
       type: 'image',
-      url: `${context.cloudflare.env.IMAGE_ENDPOINT_URL}${obj.key}`,
+      url: `${env.IMAGE_ENDPOINT_URL}${obj.key}`,
       uploaded: obj.uploaded,
       size: obj.size,
       httpMetadata: obj.httpMetadata,

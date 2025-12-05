@@ -3,14 +3,7 @@ import { parseWithZod } from '@conform-to/zod/v4'
 import { env } from 'cloudflare:workers'
 import dayjs from 'dayjs'
 import { EllipsisIcon } from 'lucide-react'
-import {
-  type ActionFunctionArgs,
-  Form,
-  href,
-  type LoaderFunctionArgs,
-  useNavigation,
-  useSubmit,
-} from 'react-router'
+import { Form, href, useNavigation, useSubmit } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import { MediaFileDropInput } from '~/components/media-file-drop-input'
@@ -49,22 +42,20 @@ const schema = z.discriminatedUnion('intent', [
   }),
 ])
 
-export const loader = async ({ context }: LoaderFunctionArgs) => {
-  const { objects } = await env.R2.list({
-    prefix: 'uploads/',
-  })
+export const loader = async () => {
+  const { objects } = await env.R2.list({ prefix: 'uploads/' })
 
   const images = objects.map((obj) => ({
     key: obj.key,
     type: obj.httpMetadata?.contentType,
-    url: `${context.cloudflare.env.IMAGE_ENDPOINT_URL}${obj.key}`,
+    url: `${env.IMAGE_ENDPOINT_URL}${obj.key}`,
     uploaded: obj.uploaded,
     size: obj.size,
   }))
   return { images }
 }
 
-export const action = async ({ request, context }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
@@ -88,7 +79,7 @@ export const action = async ({ request, context }: ActionFunctionArgs) => {
   }
 
   if (submission.value.intent === 'delete') {
-    await context.cloudflare.env.R2.delete(submission.value.key)
+    await env.R2.delete(submission.value.key)
     return dataWithSuccess(
       {
         lastResult: submission.reply({ resetForm: true }),
