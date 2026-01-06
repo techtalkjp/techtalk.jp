@@ -25,6 +25,8 @@ const buttonVariants = cva(
         xs: 'h-7 text-xs rounded-md px-2',
         lg: 'h-11 rounded-md px-8',
         icon: 'h-10 w-10',
+        'icon-sm': 'size-8',
+        'icon-lg': 'size-10',
       },
       isLoading: {
         true: 'cursor-progress',
