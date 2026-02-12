@@ -1,10 +1,7 @@
 import type { ToolUIPart } from 'ai'
-import {
-  type ComponentProps,
-  createContext,
-  type ReactNode,
-  useContext,
-} from 'react'
+import type { ComponentProps, ReactNode } from 'react'
+
+import { createContext, useContext } from 'react'
 import { Alert, AlertDescription } from '~/components/ui/alert'
 import { Button } from '~/components/ui/button'
 import { cn } from '~/libs/utils'
@@ -37,7 +34,7 @@ type ToolUIPartApproval =
     }
   | undefined
 
-type ConfirmationContextValue = {
+interface ConfirmationContextValue {
   approval: ToolUIPartApproval
   state: ToolUIPart['state']
 }
@@ -85,7 +82,7 @@ export const ConfirmationTitle = ({
   <AlertDescription className={cn('inline', className)} {...props} />
 )
 
-export type ConfirmationRequestProps = {
+export interface ConfirmationRequestProps {
   children?: ReactNode
 }
 
@@ -100,7 +97,7 @@ export const ConfirmationRequest = ({ children }: ConfirmationRequestProps) => {
   return children
 }
 
-export type ConfirmationAcceptedProps = {
+export interface ConfirmationAcceptedProps {
   children?: ReactNode
 }
 
@@ -122,7 +119,7 @@ export const ConfirmationAccepted = ({
   return children
 }
 
-export type ConfirmationRejectedProps = {
+export interface ConfirmationRejectedProps {
   children?: ReactNode
 }
 

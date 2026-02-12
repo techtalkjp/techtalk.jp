@@ -6,5 +6,6 @@ export default {
     v8_viteEnvironmentApi: true,
     v8_splitRouteModules: true,
     v8_middleware: true,
+    unstable_optimizeDeps: true,
   },
 } satisfies Config

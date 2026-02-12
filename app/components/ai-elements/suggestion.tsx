@@ -1,4 +1,6 @@
 import type { ComponentProps } from 'react'
+
+import { useCallback } from 'react'
 import { Button } from '~/components/ui/button'
 import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area'
 import { cn } from '~/libs/utils'
@@ -32,9 +34,9 @@ export const Suggestion = ({
   children,
   ...props
 }: SuggestionProps) => {
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     onClick?.(suggestion)
-  }
+  }, [onClick, suggestion])
 
   return (
     <Button
