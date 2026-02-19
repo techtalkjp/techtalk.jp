@@ -2,9 +2,12 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod/v4'
 import { Form, redirect } from 'react-router'
+import { step2Schema } from './+_shared/schema'
+import {
+  updateWizardState,
+  validateStepAccess,
+} from './+_shared/storage.client'
 import type { Route } from './+types/step2'
-import { step2Schema } from './_shared/schema'
-import { updateWizardState, validateStepAccess } from './_shared/storage.client'
 
 // クライアント側のローダー - ローカルストレージから状態を読み込む
 export const clientLoader = () => {

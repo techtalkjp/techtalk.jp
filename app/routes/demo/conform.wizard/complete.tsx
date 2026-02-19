@@ -1,7 +1,7 @@
 // app/routes/wizard.complete.tsx
 import { Form, redirect, useNavigate } from 'react-router'
+import { resetWizardState, validateStepAccess } from './+_shared/storage.client'
 import type { Route } from './+types/complete'
-import { resetWizardState, validateStepAccess } from './_shared/storage.client'
 
 // クライアント側のローダー - ローカルストレージから状態を読み込む
 export const clientLoader = () => {

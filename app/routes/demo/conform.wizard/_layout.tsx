@@ -1,7 +1,7 @@
 // app/routes/wizard.tsx
 import { data, Outlet, redirect } from 'react-router'
+import { getWizardState } from './+_shared/storage.client'
 import type { Route } from './+types/_layout'
-import { getWizardState } from './_shared/storage.client'
 // サーバー側のローダー
 export const loader = () => {
   return data({ status: 'ok' })

@@ -6,9 +6,12 @@ import {
 } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod/v4'
 import { Form, redirect, useNavigate } from 'react-router'
+import { step3Schema } from './+_shared/schema'
+import {
+  updateWizardState,
+  validateStepAccess,
+} from './+_shared/storage.client'
 import type { Route } from './+types/step3'
-import { step3Schema } from './_shared/schema'
-import { updateWizardState, validateStepAccess } from './_shared/storage.client'
 
 // クライアント側のローダー - ローカルストレージから状態を読み込む
 export const clientLoader = () => {
