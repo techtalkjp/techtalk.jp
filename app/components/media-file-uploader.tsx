@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useReducer } from 'react'
 import { href } from 'react-router'
 import { cn } from '~/libs/utils'
-import type { action } from '~/routes/resources+/upload-urls/route'
+import type { action } from '~/routes/resources/upload-urls'
 import { FileDrop } from './file-drop'
 import { Button, HStack, Progress, Stack } from './ui'
 
