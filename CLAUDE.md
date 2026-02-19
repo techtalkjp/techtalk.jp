@@ -45,11 +45,13 @@ This is a React Router v7 full-stack application deployed on Cloudflare Workers 
 - **AI Integration**: Google Gemini and OpenAI providers via @ai-sdk
 
 **File-based Routing:**
-Routes follow the `remix-flat-routes` convention in `app/routes/`:
+Routes use `react-router-auto-routes` in `app/routes/`:
 
 - Dots (.) create URL segments: `about.contact` → `/about/contact`
-- Plus (+) creates layout routes: `demo+/_layout` wraps all demo routes
-- Underscores (\_) create pathless routes: `_public+` groups public pages
+- Plus (+) prefix marks colocated files/folders (ignored by router): `+components/`, `+schema.ts`
+- Underscores (\_) create pathless routes: `_public/` groups public pages without URL segment
+- `_layout.tsx` defines layout routes that wrap child routes
+- `_index.tsx` defines index routes
 - Parentheses create optional segments: `($lang)._index` → `/` or `/ja/`
 - Dollar signs ($) create dynamic segments: `$id` matches any value
 
@@ -66,13 +68,18 @@ Routes follow the `remix-flat-routes` convention in `app/routes/`:
 
 ```
 app/routes/
-├── _public+/           # Marketing/public pages with shared layout
-│   ├── ($lang)._index/ # Localized homepage
-│   └── api.contact/    # Contact form API
-├── demo+/              # Feature demonstrations
-├── llm.*/              # AI/LLM feature routes
-├── api.*/              # API endpoints
-└── resources+/         # Resource management routes
+├── _public/                # Marketing/public pages with shared layout
+│   ├── ($lang)._index.tsx  # Localized homepage
+│   ├── +($lang)._index/    # Colocated components/hooks for homepage
+│   ├── api.contact.tsx      # Contact form API
+│   └── +api.contact/        # Colocated files for contact API
+├── demo/                    # Feature demonstrations
+│   ├── conform.nested-array.tsx
+│   ├── +conform.nested-array/  # Colocated components/schema
+│   └── ...
+├── llm.*/                   # AI/LLM feature routes
+├── api.*/                   # API endpoints
+└── resources/               # Resource management routes
 ```
 
 **Form Handling with Conform:**
