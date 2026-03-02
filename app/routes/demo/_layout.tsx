@@ -21,96 +21,91 @@ export const meta: Route.MetaFunction = () => {
 }
 
 const demoPages: {
-  [demoPage: string]: { path: string; title: string; ext?: string }[]
+  [demoPage: string]: { path: string; title: string; file: string }[]
 } = {
   conform: [
     {
       path: '/demo/conform/update',
       title: '外部から値を変更する - update',
-      ext: '/route.tsx',
+      file: 'conform.update.tsx',
     },
     {
       path: '/demo/conform/value',
       title: '郵便番号から住所を補完する - value / update',
-      ext: '/route.tsx',
+      file: 'conform.value.tsx',
     },
     {
       path: '/demo/conform/confirm',
       title: '実行確認ダイアログ付きの削除フォーム',
-      ext: '/route.tsx',
-    },
-    {
-      path: '/demo/conform/async-validation',
-      title: '非同期バリデーション',
-      ext: '+/_index/route.tsx',
+      file: 'conform.confirm.tsx',
     },
     {
       path: '/demo/conform/image-upload',
       title: 'Cloudflare R2 サーバ経由アップロード',
-      ext: '/route.tsx',
+      file: 'conform.image-upload.tsx',
     },
     {
       path: '/demo/conform/image-upload-direct',
       title: 'Cloudflare R2 ダイレクトアップロード',
-      ext: '/route.tsx',
+      file: 'conform.image-upload-direct.tsx',
     },
     {
       path: '/demo/conform/nested-array',
       title: 'ドラッグ&ドロップ対応ネストされたオブジェクト配列フォーム',
-      ext: '/route.tsx',
+      file: 'conform.nested-array.tsx',
     },
     {
       path: '/demo/conform/select',
       title: 'shadcn/ui Select コンポーネント',
-      ext: '/route.tsx',
+      file: 'conform.select.tsx',
     },
     {
       path: '/demo/conform/shadcn-ui-input',
       title: 'shadcn/ui Input コンポーネント全パターン',
-      ext: '/route.tsx',
+      file: 'conform.shadcn-ui-input.tsx',
     },
   ],
   db: [
     {
       path: '/demo/db/sample_order',
       title: 'DB - Sample Order',
-      ext: '._index/route.tsx',
+      file: 'db.sample_order._index.tsx',
     },
     {
       path: '/demo/db/fts',
       title: 'D1 FTS5 日本語全文検索',
-      ext: '/route.tsx',
+      file: 'db.fts.tsx',
     },
   ],
   'duckdb-wasm': [
     {
       path: '/demo/duckdb-wasm/order',
       title: 'DuckDB Wasm - Order Demo',
-      ext: '/route.tsx',
+      file: 'duckdb-wasm.order.tsx',
     },
   ],
   cache: [
     {
       path: '/demo/cache/swr',
       title: 'Cache Control - stale-while-revalidate',
-      ext: '/route.tsx',
+      file: 'cache.swr.tsx',
     },
   ],
   llm: [
     {
       path: '/demo/llm/pdf-textize',
       title: 'Image and PDF Textize',
-      ext: '/route.tsx',
+      file: 'llm.pdf-textize.tsx',
     },
   ],
   'google-drive': [
     {
       path: '/demo/google-drive',
       title: 'Google Drive ギャラリー',
-      ext: '+',
+      file: 'google-drive/_index.tsx',
     },
   ],
-  about: [{ path: '/demo/about', title: 'これは何?', ext: '.mdx' }],
+  about: [{ path: '/demo/about', title: 'これは何?', file: 'about.tsx' }],
 } as const
 
 const useCurrentMenu = () => {
@@ -118,10 +113,9 @@ const useCurrentMenu = () => {
   const menu = pathname.split('/')[2]
   const menuItems = menu ? (demoPages[menu] ?? []) : []
   const currentMenuItem = menuItems.find((item) => pathname === item.path)
-  const demoPath = `${pathname.replace('/demo/', '').replaceAll('/', '.')}${currentMenuItem?.ext ?? '.tsx'}`
   const codeURL =
     currentMenuItem &&
-    `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/demo+/${demoPath}`
+    `https://github.com/techtalkjp/techtalk.jp/blob/main/app/routes/demo/${currentMenuItem.file}`
 
   return { menu, currentMenuItem, codeURL }
 }
