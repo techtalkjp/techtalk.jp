@@ -1,6 +1,6 @@
 import { parseWithZod } from '@conform-to/zod/v4'
 import { DatabaseIcon } from 'lucide-react'
-import { Form, useNavigation, useSearchParams } from 'react-router'
+import { Form, Link, useNavigation, useSearchParams } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { Badge, Button, Stack } from '~/components/ui'
 import { AddContentForm, SearchForm, SearchResults } from './+db.fts/components'
@@ -146,9 +146,9 @@ export default function FtsDemoPage({
             </h4>
             <div className="space-y-1">
               {searchExamples.works.map((ex) => (
-                <a
+                <Link
                   key={ex.query}
-                  href={`?q=${encodeURIComponent(ex.query)}`}
+                  to={`?q=${encodeURIComponent(ex.query)}`}
                   className="hover:bg-muted flex items-baseline gap-2 rounded px-2 py-1 text-sm"
                 >
                   <Badge variant="outline" className="shrink-0 font-mono">
@@ -157,7 +157,7 @@ export default function FtsDemoPage({
                   <span className="text-muted-foreground text-xs">
                     {ex.desc}
                   </span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -167,9 +167,9 @@ export default function FtsDemoPage({
             </h4>
             <div className="space-y-1">
               {searchExamples.fails.map((ex) => (
-                <a
+                <Link
                   key={ex.query}
-                  href={`?q=${encodeURIComponent(ex.query)}`}
+                  to={`?q=${encodeURIComponent(ex.query)}`}
                   className="hover:bg-muted flex items-baseline gap-2 rounded px-2 py-1 text-sm"
                 >
                   <Badge
@@ -181,7 +181,7 @@ export default function FtsDemoPage({
                   <span className="text-muted-foreground text-xs">
                     {ex.desc}
                   </span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>

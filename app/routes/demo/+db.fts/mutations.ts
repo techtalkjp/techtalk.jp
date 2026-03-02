@@ -3,26 +3,31 @@ import { db } from '~/services/db.server'
 import { tokenize } from './tokenize'
 
 export const addContent = async (title: string, body: string) => {
-  const result = await db
-    .insertInto('ftsContents')
-    .values({ title, body })
-    .executeTakeFirstOrThrow()
-
-  const id = Number(result.insertId)
   const tokenizedTitle = tokenize(title)
   const tokenizedBody = tokenize(body)
 
-  await sql`
-    INSERT INTO fts_index (rowid, title, body)
-    VALUES (${id}, ${tokenizedTitle}, ${tokenizedBody})
-  `.execute(db)
+  return await db.transaction().execute(async (trx) => {
+    const result = await trx
+      .insertInto('ftsContents')
+      .values({ title, body })
+      .executeTakeFirstOrThrow()
 
-  return id
+    const id = Number(result.insertId)
+
+    await sql`
+      INSERT INTO fts_index (rowid, title, body)
+      VALUES (${id}, ${tokenizedTitle}, ${tokenizedBody})
+    `.execute(trx)
+
+    return id
+  })
 }
 
 export const deleteContent = async (id: number) => {
-  await sql`DELETE FROM fts_index WHERE rowid = ${id}`.execute(db)
-  await db.deleteFrom('ftsContents').where('id', '=', id).execute()
+  await db.transaction().execute(async (trx) => {
+    await sql`DELETE FROM fts_index WHERE rowid = ${id}`.execute(trx)
+    await trx.deleteFrom('ftsContents').where('id', '=', id).execute()
+  })
 }
 
 export const seedSampleData = async () => {
@@ -70,9 +75,23 @@ export const seedSampleData = async () => {
     },
   ]
 
-  for (const sample of samples) {
-    await addContent(sample.title, sample.body)
-  }
+  await db.transaction().execute(async (trx) => {
+    for (const sample of samples) {
+      const result = await trx
+        .insertInto('ftsContents')
+        .values(sample)
+        .executeTakeFirstOrThrow()
+
+      const id = Number(result.insertId)
+      const tokenizedTitle = tokenize(sample.title)
+      const tokenizedBody = tokenize(sample.body)
+
+      await sql`
+        INSERT INTO fts_index (rowid, title, body)
+        VALUES (${id}, ${tokenizedTitle}, ${tokenizedBody})
+      `.execute(trx)
+    }
+  })
 
   return samples.length
 }

@@ -9,7 +9,7 @@ export const searchContents = async (query: string) => {
   const matchQuery = tokens
     .split(' ')
     .filter(Boolean)
-    .map((t) => `"${t}"`)
+    .map((t) => `"${t.replaceAll('"', '""')}"`)
     .join(' ')
 
   const result = await sql<{
