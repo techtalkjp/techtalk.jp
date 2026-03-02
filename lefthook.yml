@@ -1,0 +1,5 @@
+pre-commit:
+  commands:
+    prettier:
+      glob: "*.{ts,tsx,js,jsx,json,css,md,html}"
+      run: pnpm prettier --check --experimental-cli {staged_files}

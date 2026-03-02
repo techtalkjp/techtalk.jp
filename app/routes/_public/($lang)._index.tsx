@@ -4,7 +4,6 @@ import { SITE_URL } from '~/config/site'
 import { useScrollAnimation } from '~/hooks/useScrollAnimation'
 import { useLocale } from '~/i18n/hooks/useLocale'
 import { locales } from '~/i18n/utils/detectLocale'
-import type { Route } from './+types/($lang)._index'
 import { CompanySection } from './+($lang)._index/components/CompanySection'
 import { ContactSection } from './+($lang)._index/components/ContactSection'
 import { HeroSection } from './+($lang)._index/components/HeroSection'
@@ -12,6 +11,7 @@ import { Navigation } from './+($lang)._index/components/Navigation'
 import { ProfileSection } from './+($lang)._index/components/ProfileSection'
 import { ServicesSection } from './+($lang)._index/components/ServicesSection'
 import { useCopyToClipboard } from './+($lang)._index/hooks/useCopyToClipboard'
+import type { Route } from './+types/($lang)._index'
 
 export const loader = ({ params }: Route.LoaderArgs) => {
   // If lang is undefined, treat it as 'ja' (default)

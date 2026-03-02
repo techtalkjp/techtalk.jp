@@ -7,9 +7,9 @@ import {
   TabsList,
   TabsTrigger,
 } from '~/components/ui'
-import type { Route } from './+types/conform.select'
 import { InsideForm, OutsideForm } from './+conform.select/forms'
 import { schema } from './+conform.select/types'
+import type { Route } from './+types/conform.select'
 
 export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })

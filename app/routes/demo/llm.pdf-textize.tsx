@@ -9,8 +9,8 @@ import { Form, href, useNavigation } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
 import { z } from 'zod'
 import { Button, Input, Label, Stack, Textarea } from '~/components/ui'
-import type { Route } from './+types/llm.pdf-textize'
 import { pdfExtractText } from './+llm.pdf-textize/server/pdf-extract-text.server'
+import type { Route } from './+types/llm.pdf-textize'
 
 const formSchema = z.object({
   file: z.instanceof(File, { message: 'File is required' }),

@@ -30,7 +30,6 @@ import {
   Switch,
   Textarea,
 } from '~/components/ui'
-import type { Route } from './+types/conform.shadcn-ui-input'
 import {
   getCheckboxProps,
   getRadioGroupProps,
@@ -38,6 +37,7 @@ import {
   getSelectTriggerProps,
   getSwitchProps,
 } from './+conform.shadcn-ui-input/helper'
+import type { Route } from './+types/conform.shadcn-ui-input'
 
 const Section = twc(Stack)``
 const SectionHeading = twc.h2`mt-4 w-full flex-1 border-b text-2xl font-bold`

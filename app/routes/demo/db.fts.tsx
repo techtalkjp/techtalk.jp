@@ -1,8 +1,17 @@
 import { parseWithZod } from '@conform-to/zod/v4'
 import { DatabaseIcon } from 'lucide-react'
+import { useEffect } from 'react'
 import { Form, Link, useNavigation, useSearchParams } from 'react-router'
 import { dataWithSuccess } from 'remix-toast'
-import { Badge, Button, Stack } from '~/components/ui'
+import {
+  Badge,
+  Button,
+  Stack,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '~/components/ui'
 import { AddContentForm, SearchForm, SearchResults } from './+db.fts/components'
 import { addContent, deleteContent, seedSampleData } from './+db.fts/mutations'
 import { listContents, searchContents } from './+db.fts/queries'
@@ -84,6 +93,23 @@ const searchExamples = {
   ],
 }
 
+function FtsSearchWidget() {
+  useEffect(() => {
+    // Load fts-search Web Component script
+    if (customElements.get('fts-search')) return
+    const script = document.createElement('script')
+    script.src = '/fts-search.js'
+    document.head.appendChild(script)
+  }, [])
+
+  return (
+    <div className="rounded-md border p-4">
+      {/* @ts-expect-error Web Component */}
+      <fts-search api-url="/demo/api/fts" />
+    </div>
+  )
+}
+
 export default function FtsDemoPage({
   loaderData: { query, results, duration, tokenized },
 }: Route.ComponentProps) {
@@ -103,90 +129,120 @@ export default function FtsDemoPage({
         </p>
       </div>
 
-      <section className="space-y-2">
-        <SearchForm />
-        <div className="text-muted-foreground flex items-center gap-2 text-xs">
-          <span>{results.length} 件</span>
-          <span>({duration}ms)</span>
-          {searchParams.has('q') && (
-            <Badge variant="outline">「{query}」で検索中</Badge>
-          )}
-        </div>
-        {tokenized && (
-          <div className="bg-muted rounded-md p-3 text-xs">
-            <span className="text-muted-foreground">トークン化結果: </span>
-            <code className="text-foreground">
-              {tokenized.split(' ').map((t, i) => (
-                <span key={`${t}-${i}`}>
-                  {i > 0 && (
-                    <span className="text-muted-foreground"> | </span>
-                  )}
-                  <span className="text-primary font-medium">{t}</span>
-                </span>
-              ))}
-            </code>
-          </div>
-        )}
-      </section>
+      <Tabs defaultValue="react-router">
+        <TabsList>
+          <TabsTrigger value="react-router">React Router</TabsTrigger>
+          <TabsTrigger value="web-component">Web Component</TabsTrigger>
+        </TabsList>
 
-      <SearchResults results={results} query={query} />
+        <TabsContent value="react-router" className="space-y-6">
+          <section className="space-y-2">
+            <SearchForm />
+            <div className="text-muted-foreground flex items-center gap-2 text-xs">
+              <span>{results.length} 件</span>
+              <span>({duration}ms)</span>
+              {searchParams.has('q') && (
+                <Badge variant="outline">「{query}」で検索中</Badge>
+              )}
+            </div>
+            {tokenized && (
+              <div className="bg-muted rounded-md p-3 text-xs">
+                <span className="text-muted-foreground">トークン化結果: </span>
+                <code className="text-foreground">
+                  {tokenized.split(' ').map((t, i) => (
+                    <span key={`${t}-${i}`}>
+                      {i > 0 && (
+                        <span className="text-muted-foreground"> | </span>
+                      )}
+                      <span className="text-primary font-medium">{t}</span>
+                    </span>
+                  ))}
+                </code>
+              </div>
+            )}
+          </section>
 
-      <hr />
+          <SearchResults results={results} query={query} />
 
-      <section className="space-y-3">
-        <h3 className="font-medium">検索してみよう</h3>
-        <p className="text-muted-foreground text-xs">
-          Intl.Segmenter
-          のトークン分割は格納時と検索時で同じ結果になるため、複合語が分割されても検索は成功します。しかし、カタカナの長音（ー）の有無など表記揺れがあると、トークンが一致せず検索に失敗します。
-        </p>
-        <div className="grid gap-4 md:grid-cols-2">
+          <section className="space-y-3">
+            <h3 className="font-medium">検索してみよう</h3>
+            <p className="text-muted-foreground text-xs">
+              Intl.Segmenter
+              のトークン分割は格納時と検索時で同じ結果になるため、複合語が分割されても検索は成功します。しかし、カタカナの長音（ー）の有無など表記揺れがあると、トークンが一致せず検索に失敗します。
+            </p>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium text-green-600">
+                  ヒットする例
+                </h4>
+                <div className="space-y-1">
+                  {searchExamples.works.map((ex) => (
+                    <Link
+                      key={ex.query}
+                      to={`?q=${encodeURIComponent(ex.query)}`}
+                      className="hover:bg-muted flex items-baseline gap-2 rounded px-2 py-1 text-sm"
+                    >
+                      <Badge variant="outline" className="shrink-0 font-mono">
+                        {ex.query}
+                      </Badge>
+                      <span className="text-muted-foreground text-xs">
+                        {ex.desc}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium text-red-600">
+                  ヒットしない例（表記揺れ）
+                </h4>
+                <div className="space-y-1">
+                  {searchExamples.fails.map((ex) => (
+                    <Link
+                      key={ex.query}
+                      to={`?q=${encodeURIComponent(ex.query)}`}
+                      className="hover:bg-muted flex items-baseline gap-2 rounded px-2 py-1 text-sm"
+                    >
+                      <Badge
+                        variant="outline"
+                        className="border-destructive/30 shrink-0 font-mono"
+                      >
+                        {ex.query}
+                      </Badge>
+                      <span className="text-muted-foreground text-xs">
+                        {ex.desc}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        </TabsContent>
+
+        <TabsContent value="web-component" className="space-y-4">
+          <FtsSearchWidget />
+
           <div className="space-y-2">
-            <h4 className="text-sm font-medium text-green-600">
-              ヒットする例
-            </h4>
-            <div className="space-y-1">
-              {searchExamples.works.map((ex) => (
-                <Link
-                  key={ex.query}
-                  to={`?q=${encodeURIComponent(ex.query)}`}
-                  className="hover:bg-muted flex items-baseline gap-2 rounded px-2 py-1 text-sm"
-                >
-                  <Badge variant="outline" className="shrink-0 font-mono">
-                    {ex.query}
-                  </Badge>
-                  <span className="text-muted-foreground text-xs">
-                    {ex.desc}
-                  </span>
-                </Link>
-              ))}
+            <h4 className="text-sm font-medium">埋め込みコード</h4>
+            <div className="bg-muted overflow-x-auto rounded-md p-3">
+              <pre className="text-xs">
+                {`<script src="https://www.techtalk.jp/fts-search.js"></` +
+                  `script>\n<fts-search api-url="https://www.techtalk.jp/demo/api/fts"></fts-search>`}
+              </pre>
             </div>
           </div>
+
           <div className="space-y-2">
-            <h4 className="text-sm font-medium text-red-600">
-              ヒットしない例（表記揺れ）
-            </h4>
-            <div className="space-y-1">
-              {searchExamples.fails.map((ex) => (
-                <Link
-                  key={ex.query}
-                  to={`?q=${encodeURIComponent(ex.query)}`}
-                  className="hover:bg-muted flex items-baseline gap-2 rounded px-2 py-1 text-sm"
-                >
-                  <Badge
-                    variant="outline"
-                    className="border-destructive/30 shrink-0 font-mono"
-                  >
-                    {ex.query}
-                  </Badge>
-                  <span className="text-muted-foreground text-xs">
-                    {ex.desc}
-                  </span>
-                </Link>
-              ))}
+            <h4 className="text-sm font-medium">検索 API</h4>
+            <div className="bg-muted overflow-x-auto rounded-md p-3">
+              <code className="text-xs">
+                GET https://www.techtalk.jp/demo/api/fts?q=キーワード
+              </code>
             </div>
           </div>
-        </div>
-      </section>
+        </TabsContent>
+      </Tabs>
 
       <hr />
 
@@ -232,10 +288,12 @@ export default function FtsDemoPage({
                 <code>fts_contents</code> テーブルに原文を保存
               </li>
               <li>
-                <code>fts_index</code> (FTS5 仮想テーブル) に
-                Intl.Segmenter でトークン化したテキストを保存
+                <code>fts_index</code> (FTS5 仮想テーブル) に Intl.Segmenter
+                でトークン化したテキストを保存
               </li>
-              <li>登録時: 原文 → Intl.Segmenter でトークン分割 → FTS5 に格納</li>
+              <li>
+                登録時: 原文 → Intl.Segmenter でトークン分割 → FTS5 に格納
+              </li>
               <li>
                 検索時: クエリをトークン化 → FTS5 MATCH → rowid で原文を JOIN
               </li>

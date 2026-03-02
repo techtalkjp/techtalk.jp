@@ -17,11 +17,16 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import type { Route } from './+types/duckdb-wasm.order'
 import { disposeDB, getDB } from './+duckdb-wasm.order/lib/db.client'
 import { migrateToLatestOnce } from './+duckdb-wasm.order/lib/migrate.client'
 import { runSampleOrdersSync } from './+duckdb-wasm.order/lib/runners/sample-orders.runner'
-import { ensureScope, getOverview, isStale, runSync } from './+duckdb-wasm.order/lib/sync.client'
+import {
+  ensureScope,
+  getOverview,
+  isStale,
+  runSync,
+} from './+duckdb-wasm.order/lib/sync.client'
+import type { Route } from './+types/duckdb-wasm.order'
 
 export const clientLoader = async () => {
   await migrateToLatestOnce()

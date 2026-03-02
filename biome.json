@@ -1,7 +1,12 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.4.2/schema.json",
   "files": {
-    "includes": ["**", "!worker-configuration.d.ts", "!app/styles/globals.css"]
+    "includes": [
+      "**",
+      "!worker-configuration.d.ts",
+      "!app/styles/globals.css",
+      "!public/fts-search.js"
+    ]
   },
   "assist": { "actions": { "source": { "organizeImports": "off" } } },
   "vcs": {

@@ -18,7 +18,6 @@ import {
 } from 'react-router'
 import { Button } from '~/components/ui/button'
 import { Card, CardContent } from '~/components/ui/card'
-import type { Route } from './+types/_index'
 import {
   fetchDriveFilesWithAuth,
   type DriveFilesResult,
@@ -29,6 +28,7 @@ import {
   getSessionTokens,
 } from './+_shared/services/google-oauth.server'
 import { commitSession, getSession } from './+_shared/services/session.server'
+import type { Route } from './+types/_index'
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url)

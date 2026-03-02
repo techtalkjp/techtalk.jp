@@ -25,9 +25,9 @@ import {
   Textarea,
 } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
-import type { Route } from './+types/api.contact'
 import { checkHoneypot, enqueue } from './+api.contact/functions.server'
 import { schema, type ContactFormData } from './+api.contact/types'
+import type { Route } from './+types/api.contact'
 
 export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), { schema })

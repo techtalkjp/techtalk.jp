@@ -33,6 +33,9 @@ __screenshots__
 .tmp
 
 
+# generated widget
+public/fts-search.js
+
 # bundle visualizer
 stats.html
 

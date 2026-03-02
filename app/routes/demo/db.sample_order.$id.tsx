@@ -10,8 +10,8 @@ import {
   Stack,
   Textarea,
 } from '~/components/ui'
-import type { Route } from './+types/db.sample_order.$id'
 import { getSampleOrder } from './+db.sample_order.$id/queries'
+import type { Route } from './+types/db.sample_order.$id'
 
 const defaultCacheControl = 's-maxage=60, stale-while-revalidate=120'
 

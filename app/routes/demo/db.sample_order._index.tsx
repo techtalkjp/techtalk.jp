@@ -9,13 +9,20 @@ import {
   TabsList,
   TabsTrigger,
 } from '~/components/ui'
-import type { Route } from './+types/db.sample_order._index'
-import { DeleteOrderDialog, NewOrderForm, OrderList } from './+db.sample_order._index/components'
+import {
+  DeleteOrderDialog,
+  NewOrderForm,
+  OrderList,
+} from './+db.sample_order._index/components'
 import { Header } from './+db.sample_order._index/components/header'
-import { createSampleOrder, deleteSampleOrder } from './+db.sample_order._index/mutations'
+import {
+  createSampleOrder,
+  deleteSampleOrder,
+} from './+db.sample_order._index/mutations'
 import { listSampleOrders } from './+db.sample_order._index/queries'
 import { schema } from './+db.sample_order._index/schema'
 import { buildDummyData } from './+db.sample_order._index/utils.server'
+import type { Route } from './+types/db.sample_order._index'
 
 export const headers: HeadersFunction = () => {
   // キャッシュさせない

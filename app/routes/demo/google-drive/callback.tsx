@@ -1,11 +1,11 @@
 import { data, href, redirect } from 'react-router'
-import type { Route } from './+types/callback'
 import {
   exchangeCodeForTokens,
   getGoogleUser,
   saveSessionTokens,
 } from './+_shared/services/google-oauth.server'
 import { commitSession, getSession } from './+_shared/services/session.server'
+import type { Route } from './+types/callback'
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url)

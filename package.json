@@ -3,7 +3,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "NODE_ENV=production react-router build",
+    "build": "pnpm build:widget && NODE_ENV=production react-router build",
     "dev": "react-router dev",
     "start": "wrangler dev",
     "typegen": "wrangler types",
@@ -15,7 +15,9 @@
     "deploy": "NODE_ENV=production wrangler deploy",
     "migrations:list": "wrangler d1 migrations list techtalkjp --local",
     "migrations:apply": "wrangler d1 migrations apply techtalkjp --local",
-    "migrations:apply:production": "wrangler d1 migrations apply techtalkjp --remote"
+    "migrations:apply:production": "wrangler d1 migrations apply techtalkjp --remote",
+    "build:widget": "vite build -c vite.config.web-component.ts",
+    "prepare": "lefthook install"
   },
   "dependencies": {
     "@ai-sdk/google": "3.0.29",

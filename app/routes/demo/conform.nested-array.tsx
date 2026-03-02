@@ -17,7 +17,6 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import type { Route } from './+types/conform.nested-array'
 import { TeamCard } from './+conform.nested-array/components'
 import {
   fakeEmail,
@@ -29,6 +28,7 @@ import {
   fakeZip,
 } from './+conform.nested-array/faker.server'
 import { formSchema } from './+conform.nested-array/schema'
+import type { Route } from './+types/conform.nested-array'
 
 export const loader = () => {
   // ブラウザバンドルが巨大になってしまうので、faker はサーバサイドでのみ使用

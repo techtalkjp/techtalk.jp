@@ -1,7 +1,7 @@
 import { href, redirect } from 'react-router'
 import { getGoogleOAuthURL } from '~/routes/demo/google-drive/+_shared/services/google-oauth.server'
-import type { Route } from './+types/auth'
 import { commitSession, getSession } from './+_shared/services/session.server'
+import type { Route } from './+types/auth'
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url)

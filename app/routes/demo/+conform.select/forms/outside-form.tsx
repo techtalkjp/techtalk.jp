@@ -17,8 +17,8 @@ import {
   SelectValue,
   Stack,
 } from '~/components/ui'
-import { ActionResult } from '../components'
 import type { action } from '../../conform.select'
+import { ActionResult } from '../components'
 import { FormType, schema } from '../types'
 
 export const OutsideForm = () => {
