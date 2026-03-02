@@ -217,6 +217,89 @@ export default function FtsDemoPage({
           </Form>
         </section>
       </div>
+
+      <hr />
+
+      <section className="space-y-3">
+        <h3 className="font-medium">仕組みとスケーラビリティ</h3>
+        <div className="text-muted-foreground space-y-4 text-xs leading-relaxed">
+          <div>
+            <h4 className="text-foreground mb-1 text-sm font-medium">
+              アーキテクチャ
+            </h4>
+            <ul className="list-inside list-disc space-y-1">
+              <li>
+                <code>fts_contents</code> テーブルに原文を保存
+              </li>
+              <li>
+                <code>fts_index</code> (FTS5 仮想テーブル) に
+                Intl.Segmenter でトークン化したテキストを保存
+              </li>
+              <li>登録時: 原文 → Intl.Segmenter でトークン分割 → FTS5 に格納</li>
+              <li>
+                検索時: クエリをトークン化 → FTS5 MATCH → rowid で原文を JOIN
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-foreground mb-1 text-sm font-medium">
+              スケーラビリティ目安
+            </h4>
+            <div className="overflow-x-auto">
+              <table className="text-muted-foreground w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b">
+                    <th className="py-1 pr-4 font-medium">記事サイズ</th>
+                    <th className="py-1 pr-4 font-medium">D1 10GB での件数</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b">
+                    <td className="py-1 pr-4">短文 (150字)</td>
+                    <td className="py-1 pr-4">約 1,300万件</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-1 pr-4">ブログ記事 (3,000字)</td>
+                    <td className="py-1 pr-4">約 50〜70万件</td>
+                  </tr>
+                  <tr>
+                    <td className="py-1 pr-4">長文 (10,000字)</td>
+                    <td className="py-1 pr-4">約 15〜20万件</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-foreground mb-1 text-sm font-medium">
+              D1 コスト (Workers Paid $5/月〜)
+            </h4>
+            <ul className="list-inside list-disc space-y-1">
+              <li>Storage: 5GB 無料、超過分 $0.75/GB-月</li>
+              <li>Rows read: 250億/月 無料、超過分 $0.001/100万行</li>
+              <li>Rows written: 5,000万/月 無料、超過分 $1.00/100万行</li>
+              <li>10GB フル利用でも月額 約 $8.75 程度</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-foreground mb-1 text-sm font-medium">
+              制限事項
+            </h4>
+            <ul className="list-inside list-disc space-y-1">
+              <li>
+                カタカナの長音（ー）の有無など表記揺れには対応できない（正規化の前処理が必要）
+              </li>
+              <li>D1 の 1行あたり最大サイズは 1MB</li>
+              <li>
+                Intl.Segmenter のトークン化精度はランタイム (V8) の辞書に依存
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </Stack>
   )
 }

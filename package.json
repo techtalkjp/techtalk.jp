@@ -12,7 +12,10 @@
     "format:fix": "prettier . --write --experimental-cli",
     "typecheck": "react-router typegen && tsc",
     "validate": "run-p format lint && run-p typecheck",
-    "deploy": "NODE_ENV=production wrangler deploy"
+    "deploy": "NODE_ENV=production wrangler deploy",
+    "migrations:list": "wrangler d1 migrations list techtalkjp --local",
+    "migrations:apply": "wrangler d1 migrations apply techtalkjp --local",
+    "migrations:apply:production": "wrangler d1 migrations apply techtalkjp --remote"
   },
   "dependencies": {
     "@ai-sdk/google": "3.0.29",
