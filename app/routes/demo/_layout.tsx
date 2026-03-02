@@ -76,6 +76,11 @@ const demoPages: {
       title: 'DB - Sample Order',
       ext: '._index/route.tsx',
     },
+    {
+      path: '/demo/db/fts',
+      title: 'D1 FTS5 日本語全文検索',
+      ext: '/route.tsx',
+    },
   ],
   'duckdb-wasm': [
     {

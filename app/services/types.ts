@@ -19,6 +19,14 @@ export type SampleOrder = {
     updatedAt: Generated<string>;
     createdAt: Generated<string>;
 };
+export type FtsContents = {
+    id: Generated<number>;
+    title: string;
+    body: string;
+    createdAt: Generated<string>;
+};
+
 export type DB = {
     sampleOrders: SampleOrder;
+    ftsContents: FtsContents;
 };
