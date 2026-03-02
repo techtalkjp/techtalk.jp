@@ -17,7 +17,7 @@
     "migrations:apply": "wrangler d1 migrations apply techtalkjp --local",
     "migrations:apply:production": "wrangler d1 migrations apply techtalkjp --remote",
     "build:widget": "vite build -c vite.config.web-component.ts",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install || true"
   },
   "dependencies": {
     "@ai-sdk/google": "3.0.29",
