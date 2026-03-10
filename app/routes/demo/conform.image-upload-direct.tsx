@@ -27,6 +27,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
+import { db } from '~/services/db.server'
 import type { Route } from './+types/conform.image-upload-direct'
 
 const schema = z.discriminatedUnion('intent', [
@@ -41,23 +42,22 @@ const schema = z.discriminatedUnion('intent', [
 ])
 
 export const loader = async () => {
-  const { objects } = await env.R2.list({
-    prefix: 'uploads/',
-    include: ['customMetadata'],
-  })
+  const files = await db
+    .selectFrom('uploadedFiles')
+    .select(['key', 'contentType', 'size', 'createdAt'])
+    .where('key', 'like', 'uploads/%')
+    .orderBy('createdAt', 'desc')
+    .execute()
 
-  const images = []
-  for (const obj of objects) {
-    images.push({
-      key: obj.key ?? 'no key',
-      type: 'image',
-      url: `${env.IMAGE_ENDPOINT_URL}${obj.key}`,
-      uploaded: obj.uploaded,
-      size: obj.size,
-      httpMetadata: obj.httpMetadata,
-      customMetadata: obj.customMetadata,
-    })
-  }
+  const images = files.map((f) => ({
+    key: f.key,
+    type: 'image',
+    url: `${env.IMAGE_ENDPOINT_URL}${f.key}`,
+    uploaded: f.createdAt,
+    size: f.size,
+    httpMetadata: { contentType: f.contentType },
+    customMetadata: {},
+  }))
   return { images }
 }
 
@@ -68,6 +68,23 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'process') {
+    for (const key of submission.value.files) {
+      const obj = await env.R2.head(key)
+      await db
+        .insertInto('uploadedFiles')
+        .values({
+          key,
+          contentType: obj?.httpMetadata?.contentType ?? null,
+          size: obj?.size ?? 0,
+        })
+        .onConflict((oc) =>
+          oc.column('key').doUpdateSet({
+            contentType: obj?.httpMetadata?.contentType ?? null,
+            size: obj?.size ?? 0,
+          }),
+        )
+        .execute()
+    }
     return dataWithSuccess(
       { lastResult: submission.reply({ resetForm: true }) },
       {
@@ -79,6 +96,10 @@ export const action = async ({ request }: Route.ActionArgs) => {
 
   if (submission.value.intent === 'delete') {
     await env.R2.delete(submission.value.key)
+    await db
+      .deleteFrom('uploadedFiles')
+      .where('key', '=', submission.value.key)
+      .execute()
     return dataWithSuccess(
       {
         lastResult: submission.reply({ resetForm: true }),
