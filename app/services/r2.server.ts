@@ -97,21 +97,9 @@ async function uploadUrl(key: string): Promise<string> {
   return await generatePresignedUrl(key, 'PUT')
 }
 
-/**
- * ダウンロード用の Presigned URL (GET) を生成する
- * デフォルトで15分間有効
- * @param key オブジェクトキー (例: 'processed/image.png')
- * @returns ダウンロード用 Presigned URL 文字列
- * @throws Error R2 サービスの初期化に失敗した場合
- */
-async function downloadUrl(key: string): Promise<string> {
-  return await generatePresignedUrl(key, 'GET')
-}
-
 // --- エクスポート ---
 // サービスオブジェクトとしてまとめてエクスポート
 export const r2 = {
   generatePresignedUrl,
   uploadUrl,
-  downloadUrl, // GET 用も追加しておくと便利かも
 }
