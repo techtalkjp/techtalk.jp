@@ -16,7 +16,7 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     headers: {
       'Content-Type':
         object.httpMetadata?.contentType ?? 'application/octet-stream',
-      'Cache-Control': 'public, max-age=31536000, immutable',
+      'Cache-Control': 'public, max-age=3600',
     },
   })
 }

@@ -31,6 +31,7 @@ export type UploadedFile = {
     key: string;
     contentType: string | null;
     size: number;
+    updatedAt: Generated<string>;
     createdAt: Generated<string>;
 };
 

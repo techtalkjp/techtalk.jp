@@ -46,9 +46,9 @@ const schema = z.discriminatedUnion('intent', [
 export const loader = async () => {
   const files = await db
     .selectFrom('uploadedFiles')
-    .select(['key', 'contentType', 'size', 'createdAt'])
+    .select(['key', 'contentType', 'size', 'updatedAt'])
     .where('key', 'like', 'uploads/%')
-    .orderBy('createdAt', 'desc')
+    .orderBy('updatedAt', 'desc')
     .limit(100)
     .execute()
 
@@ -56,7 +56,7 @@ export const loader = async () => {
     key: f.key,
     type: f.contentType,
     url: `${env.IMAGE_ENDPOINT_URL}${f.key}`,
-    uploaded: f.createdAt,
+    uploaded: f.updatedAt,
     size: f.size,
   }))
   return { images }
@@ -75,17 +75,19 @@ export const action = async ({ request }: Route.ActionArgs) => {
       ),
     )
     for (const { key, obj } of heads) {
+      if (!obj) continue
       await db
         .insertInto('uploadedFiles')
         .values({
           key,
-          contentType: obj?.httpMetadata?.contentType ?? null,
-          size: obj?.size ?? 0,
+          contentType: obj.httpMetadata?.contentType ?? null,
+          size: obj.size,
         })
         .onConflict((oc) =>
           oc.column('key').doUpdateSet({
-            contentType: obj?.httpMetadata?.contentType ?? null,
-            size: obj?.size ?? 0,
+            contentType: obj.httpMetadata?.contentType ?? null,
+            size: obj.size,
+            updatedAt: new Date().toISOString(),
           }),
         )
         .execute()
