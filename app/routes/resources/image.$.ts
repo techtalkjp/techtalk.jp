@@ -8,8 +8,7 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     return new Response(null, { status: 404 })
   }
 
-  const blob = await object.blob()
-  return new Response(blob.stream(), {
+  return new Response(object.body, {
     headers: {
       'Content-Type':
         object.httpMetadata?.contentType ?? 'application/octet-stream',

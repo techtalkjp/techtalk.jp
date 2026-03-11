@@ -49,6 +49,7 @@ export const loader = async () => {
     .select(['key', 'contentType', 'size', 'createdAt'])
     .where('key', 'like', 'uploads/%')
     .orderBy('createdAt', 'desc')
+    .limit(100)
     .execute()
 
   const images = files.map((f) => ({
@@ -97,11 +98,13 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'delete') {
-    await env.R2.delete(submission.value.key)
-    await db
-      .deleteFrom('uploadedFiles')
-      .where('key', '=', submission.value.key)
-      .execute()
+    await Promise.all([
+      env.R2.delete(submission.value.key),
+      db
+        .deleteFrom('uploadedFiles')
+        .where('key', '=', submission.value.key)
+        .execute(),
+    ])
     return dataWithSuccess(
       {
         lastResult: submission.reply({ resetForm: true }),

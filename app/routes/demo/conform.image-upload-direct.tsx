@@ -47,16 +47,15 @@ export const loader = async () => {
     .select(['key', 'contentType', 'size', 'createdAt'])
     .where('key', 'like', 'uploads/%')
     .orderBy('createdAt', 'desc')
+    .limit(100)
     .execute()
 
   const images = files.map((f) => ({
     key: f.key,
-    type: 'image',
+    type: f.contentType,
     url: `${env.IMAGE_ENDPOINT_URL}${f.key}`,
     uploaded: f.createdAt,
     size: f.size,
-    httpMetadata: { contentType: f.contentType },
-    customMetadata: {},
   }))
   return { images }
 }
@@ -68,8 +67,12 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'process') {
-    for (const key of submission.value.files) {
-      const obj = await env.R2.head(key)
+    const heads = await Promise.all(
+      submission.value.files.map((key) =>
+        env.R2.head(key).then((obj) => ({ key, obj })),
+      ),
+    )
+    for (const { key, obj } of heads) {
       await db
         .insertInto('uploadedFiles')
         .values({
@@ -95,11 +98,13 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'delete') {
-    await env.R2.delete(submission.value.key)
-    await db
-      .deleteFrom('uploadedFiles')
-      .where('key', '=', submission.value.key)
-      .execute()
+    await Promise.all([
+      env.R2.delete(submission.value.key),
+      db
+        .deleteFrom('uploadedFiles')
+        .where('key', '=', submission.value.key)
+        .execute(),
+    ])
     return dataWithSuccess(
       {
         lastResult: submission.reply({ resetForm: true }),
@@ -185,9 +190,7 @@ export default function ImageUploadDemoPage({
                       </a>
                     </div>
                   </TableCell>
-                  <TableCell>
-                    {image.type} {JSON.stringify(image.httpMetadata)}
-                  </TableCell>
+                  <TableCell>{image.type}</TableCell>
                   <TableCell>
                     {dayjs(image.uploaded).format('YYYY-MM-DD HH:mm')}
                   </TableCell>
