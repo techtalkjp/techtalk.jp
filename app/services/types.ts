@@ -26,7 +26,17 @@ export type FtsContents = {
     createdAt: Generated<string>;
 };
 
+export type UploadedFile = {
+    id: Generated<number>;
+    key: string;
+    contentType: string | null;
+    size: number;
+    updatedAt: Generated<string>;
+    createdAt: Generated<string>;
+};
+
 export type DB = {
     sampleOrders: SampleOrder;
     ftsContents: FtsContents;
+    uploadedFiles: UploadedFile;
 };

@@ -29,6 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
+import { db } from '~/services/db.server'
 import type { Route } from './+types/conform.image-upload'
 
 const schema = z.discriminatedUnion('intent', [
@@ -38,19 +39,25 @@ const schema = z.discriminatedUnion('intent', [
   }),
   z.object({
     intent: z.literal('delete'),
-    key: z.string(),
+    key: z.string().startsWith('uploads/'),
   }),
 ])
 
 export const loader = async () => {
-  const { objects } = await env.R2.list({ prefix: 'uploads/' })
+  const files = await db
+    .selectFrom('uploadedFiles')
+    .select(['key', 'contentType', 'size', 'updatedAt'])
+    .where('key', 'like', 'uploads/%')
+    .orderBy('updatedAt', 'desc')
+    .limit(100)
+    .execute()
 
-  const images = objects.map((obj) => ({
-    key: obj.key,
-    type: obj.httpMetadata?.contentType,
-    url: `${env.IMAGE_ENDPOINT_URL}${obj.key}`,
-    uploaded: obj.uploaded,
-    size: obj.size,
+  const images = files.map((f) => ({
+    key: f.key,
+    type: f.contentType,
+    url: `${env.IMAGE_ENDPOINT_URL}${f.key}`,
+    uploaded: f.updatedAt,
+    size: f.size,
   }))
   return { images }
 }
@@ -62,24 +69,43 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'upload') {
-    await env.R2.put(
-      `uploads/${submission.value.file.name}`,
-      submission.value.file,
-      {
-        httpMetadata: { contentType: submission.value.file.type },
-      },
-    )
+    const { file } = submission.value
+    const key = `uploads/${file.name}`
+    await env.R2.put(key, file, {
+      httpMetadata: { contentType: file.type },
+    })
+    await db
+      .insertInto('uploadedFiles')
+      .values({
+        key,
+        contentType: file.type,
+        size: file.size,
+      })
+      .onConflict((oc) =>
+        oc.column('key').doUpdateSet({
+          contentType: file.type,
+          size: file.size,
+          updatedAt: new Date().toISOString(),
+        }),
+      )
+      .execute()
     return dataWithSuccess(
       { lastResult: submission.reply({ resetForm: true }) },
       {
         message: 'File uploaded successfully!',
-        description: submission.value.file.name,
+        description: file.name,
       },
     )
   }
 
   if (submission.value.intent === 'delete') {
-    await env.R2.delete(submission.value.key)
+    await Promise.all([
+      env.R2.delete(submission.value.key),
+      db
+        .deleteFrom('uploadedFiles')
+        .where('key', '=', submission.value.key)
+        .execute(),
+    ])
     return dataWithSuccess(
       {
         lastResult: submission.reply({ resetForm: true }),

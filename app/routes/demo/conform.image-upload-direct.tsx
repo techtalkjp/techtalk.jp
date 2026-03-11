@@ -27,37 +27,38 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
+import { db } from '~/services/db.server'
 import type { Route } from './+types/conform.image-upload-direct'
+
+const uploadKeySchema = z.string().startsWith('uploads/')
 
 const schema = z.discriminatedUnion('intent', [
   z.object({
     intent: z.literal('process'),
-    files: z.array(z.string()),
+    files: z.array(uploadKeySchema),
   }),
   z.object({
     intent: z.literal('delete'),
-    key: z.string(),
+    key: uploadKeySchema,
   }),
 ])
 
 export const loader = async () => {
-  const { objects } = await env.R2.list({
-    prefix: 'uploads/',
-    include: ['customMetadata'],
-  })
+  const files = await db
+    .selectFrom('uploadedFiles')
+    .select(['key', 'contentType', 'size', 'updatedAt'])
+    .where('key', 'like', 'uploads/%')
+    .orderBy('updatedAt', 'desc')
+    .limit(100)
+    .execute()
 
-  const images = []
-  for (const obj of objects) {
-    images.push({
-      key: obj.key ?? 'no key',
-      type: 'image',
-      url: `${env.IMAGE_ENDPOINT_URL}${obj.key}`,
-      uploaded: obj.uploaded,
-      size: obj.size,
-      httpMetadata: obj.httpMetadata,
-      customMetadata: obj.customMetadata,
-    })
-  }
+  const images = files.map((f) => ({
+    key: f.key,
+    type: f.contentType,
+    url: `${env.IMAGE_ENDPOINT_URL}${f.key}`,
+    uploaded: f.updatedAt,
+    size: f.size,
+  }))
   return { images }
 }
 
@@ -68,6 +69,29 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'process') {
+    const heads = await Promise.all(
+      submission.value.files.map((key) =>
+        env.R2.head(key).then((obj) => ({ key, obj })),
+      ),
+    )
+    for (const { key, obj } of heads) {
+      if (!obj) continue
+      await db
+        .insertInto('uploadedFiles')
+        .values({
+          key,
+          contentType: obj.httpMetadata?.contentType ?? null,
+          size: obj.size,
+        })
+        .onConflict((oc) =>
+          oc.column('key').doUpdateSet({
+            contentType: obj.httpMetadata?.contentType ?? null,
+            size: obj.size,
+            updatedAt: new Date().toISOString(),
+          }),
+        )
+        .execute()
+    }
     return dataWithSuccess(
       { lastResult: submission.reply({ resetForm: true }) },
       {
@@ -78,7 +102,13 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   if (submission.value.intent === 'delete') {
-    await env.R2.delete(submission.value.key)
+    await Promise.all([
+      env.R2.delete(submission.value.key),
+      db
+        .deleteFrom('uploadedFiles')
+        .where('key', '=', submission.value.key)
+        .execute(),
+    ])
     return dataWithSuccess(
       {
         lastResult: submission.reply({ resetForm: true }),
@@ -164,9 +194,7 @@ export default function ImageUploadDemoPage({
                       </a>
                     </div>
                   </TableCell>
-                  <TableCell>
-                    {image.type} {JSON.stringify(image.httpMetadata)}
-                  </TableCell>
+                  <TableCell>{image.type}</TableCell>
                   <TableCell>
                     {dayjs(image.uploaded).format('YYYY-MM-DD HH:mm')}
                   </TableCell>
