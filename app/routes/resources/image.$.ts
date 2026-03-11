@@ -3,6 +3,10 @@ import type { Route } from './+types/image.$'
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
   const key = params['*']
+  if (!key?.startsWith('uploads/')) {
+    return new Response(null, { status: 404 })
+  }
+
   const object = await env.R2.get(key)
   if (!object) {
     return new Response(null, { status: 404 })

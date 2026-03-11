@@ -30,14 +30,16 @@ import {
 import { db } from '~/services/db.server'
 import type { Route } from './+types/conform.image-upload-direct'
 
+const uploadKeySchema = z.string().startsWith('uploads/')
+
 const schema = z.discriminatedUnion('intent', [
   z.object({
     intent: z.literal('process'),
-    files: z.array(z.string()),
+    files: z.array(uploadKeySchema),
   }),
   z.object({
     intent: z.literal('delete'),
-    key: z.string(),
+    key: uploadKeySchema,
   }),
 ])
 

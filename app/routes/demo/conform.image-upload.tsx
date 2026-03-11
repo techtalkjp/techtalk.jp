@@ -39,7 +39,7 @@ const schema = z.discriminatedUnion('intent', [
   }),
   z.object({
     intent: z.literal('delete'),
-    key: z.string(),
+    key: z.string().startsWith('uploads/'),
   }),
 ])
 
