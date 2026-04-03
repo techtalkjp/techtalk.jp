@@ -1,4 +1,5 @@
-import { Check, Copy, Facebook } from 'lucide-react'
+import { Check, Copy } from 'lucide-react'
+import { FacebookIcon } from '~/components/icons/brand-icons'
 import { useLocale } from '~/i18n/hooks/useLocale'
 
 interface ContactSectionProps {
@@ -77,7 +78,7 @@ export function ContactSection({
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-3 text-xl font-bold text-slate-900 transition-colors hover:text-blue-600 md:text-2xl dark:text-white dark:hover:text-blue-400"
           >
-            <Facebook className="h-6 w-6 text-blue-500 transition-colors group-hover:text-blue-600 md:h-8 md:w-8 dark:group-hover:text-blue-400" />
+            <FacebookIcon className="h-6 w-6 text-blue-500 transition-colors group-hover:text-blue-600 md:h-8 md:w-8 dark:group-hover:text-blue-400" />
             <span>mizoguchi.coji</span>
           </a>
           <p className="mt-4 text-sm text-slate-500 dark:text-slate-500">

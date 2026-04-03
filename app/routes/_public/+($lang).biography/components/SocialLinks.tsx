@@ -1,4 +1,8 @@
-import { Facebook, Github, Twitter } from 'lucide-react'
+import {
+  FacebookIcon,
+  GithubIcon,
+  TwitterIcon,
+} from '~/components/icons/brand-icons'
 import { useLocale } from '~/i18n/hooks/useLocale'
 
 export function SocialLinks() {
@@ -18,7 +22,7 @@ export function SocialLinks() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-6 py-3 text-slate-900 transition-all hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
               >
-                <Twitter className="h-5 w-5" />
+                <TwitterIcon className="h-5 w-5" />
                 <span>X</span>
               </a>
               <a
@@ -27,7 +31,7 @@ export function SocialLinks() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-6 py-3 text-slate-900 transition-all hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
               >
-                <Facebook className="h-5 w-5" />
+                <FacebookIcon className="h-5 w-5" />
                 <span>Facebook</span>
               </a>
               <a
@@ -36,7 +40,7 @@ export function SocialLinks() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-6 py-3 text-slate-900 transition-all hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
               >
-                <Github className="h-5 w-5" />
+                <GithubIcon className="h-5 w-5" />
                 <span>GitHub</span>
               </a>
             </div>

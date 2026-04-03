@@ -1,5 +1,6 @@
-import { BookOpen, Facebook, Github, User } from 'lucide-react'
+import { BookOpen, User } from 'lucide-react'
 import { Link } from 'react-router'
+import { FacebookIcon, GithubIcon } from '~/components/icons/brand-icons'
 import { useLocale } from '~/i18n/hooks/useLocale'
 
 export function ProfileSection() {
@@ -38,7 +39,7 @@ export function ProfileSection() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
               >
-                <Github className="h-4 w-4" /> GitHub
+                <GithubIcon className="h-4 w-4" /> GitHub
               </a>
               <a
                 href="https://www.facebook.com/mizoguchi.coji"
@@ -46,7 +47,7 @@ export function ProfileSection() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
               >
-                <Facebook className="h-4 w-4" /> Facebook
+                <FacebookIcon className="h-4 w-4" /> Facebook
               </a>
             </div>
             <Link
