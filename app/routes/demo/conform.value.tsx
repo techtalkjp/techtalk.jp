@@ -37,7 +37,7 @@ const lookupAddress = async (postalCode: string) => {
   const res = await fetch(
     `https://postcode.teraren.com/postcodes/${postalCode}.json`,
   ).catch(() => null)
-  if (!res || !res.ok) return null
+  if (!res?.ok) return null
   return (await res.json()) as {
     prefecture: string
     city: string
