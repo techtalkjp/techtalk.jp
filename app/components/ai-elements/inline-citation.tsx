@@ -1,8 +1,8 @@
-import type { ComponentProps } from 'react'
-import type { CarouselApi } from '~/components/ui/carousel'
+'use client'
 
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import {
+  type ComponentProps,
   createContext,
   useCallback,
   useContext,
@@ -12,6 +12,7 @@ import {
 import { Badge } from '~/components/ui/badge'
 import {
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
 } from '~/components/ui/carousel'
@@ -165,15 +166,9 @@ export const InlineCitationCarouselIndex = ({
     setCount(api.scrollSnapList().length)
     setCurrent(api.selectedScrollSnap() + 1)
 
-    const handleSelect = () => {
+    api.on('select', () => {
       setCurrent(api.selectedScrollSnap() + 1)
-    }
-
-    api.on('select', handleSelect)
-
-    return () => {
-      api.off('select', handleSelect)
-    }
+    })
   }, [api])
 
   return (

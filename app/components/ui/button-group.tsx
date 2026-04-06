@@ -1,5 +1,5 @@
+import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { Slot as SlotPrimitive } from 'radix-ui'
 
 import { Separator } from '~/components/ui/separator'
 import { cn } from '~/libs/utils'
@@ -27,7 +27,6 @@ function ButtonGroup({
   ...props
 }: React.ComponentProps<'div'> & VariantProps<typeof buttonGroupVariants>) {
   return (
-    // biome-ignore lint/a11y/useSemanticElements: shadcn
     <div
       role="group"
       data-slot="button-group"
@@ -45,7 +44,7 @@ function ButtonGroupText({
 }: React.ComponentProps<'div'> & {
   asChild?: boolean
 }) {
-  const Comp = asChild ? SlotPrimitive.Slot : 'div'
+  const Comp = asChild ? Slot : 'div'
 
   return (
     <Comp

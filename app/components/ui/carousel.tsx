@@ -96,7 +96,6 @@ const Carousel = React.forwardRef<
       [scrollPrev, scrollNext],
     )
 
-    // Synchronize with parent component: notify when Embla API instance is ready
     React.useEffect(() => {
       if (!api || !setApi) {
         return
@@ -105,7 +104,6 @@ const Carousel = React.forwardRef<
       setApi(api)
     }, [api, setApi])
 
-    // Synchronize with Embla Carousel API: listen to carousel events
     React.useEffect(() => {
       if (!api) {
         return
@@ -134,7 +132,6 @@ const Carousel = React.forwardRef<
           canScrollNext,
         }}
       >
-        {/** biome-ignore lint/a11y/useSemanticElements: shadcn */}
         <div
           ref={ref}
           onKeyDownCapture={handleKeyDown}
@@ -180,7 +177,6 @@ const CarouselItem = React.forwardRef<
   const { orientation } = useCarousel()
 
   return (
-    // biome-ignore lint/a11y/useSemanticElements: shadcn
     <div
       ref={ref}
       role="group"

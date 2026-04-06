@@ -1,11 +1,12 @@
+import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { Slot as SlotPrimitive } from 'radix-ui'
+import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 
 import { cn } from '~/libs/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 cursor-pointer',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
@@ -22,20 +23,14 @@ const buttonVariants = cva(
       size: {
         default: 'h-10 px-4 py-2',
         sm: 'h-9 rounded-md px-3',
-        xs: 'h-7 text-xs rounded-md px-2',
         lg: 'h-11 rounded-md px-8',
         icon: 'h-10 w-10',
-        'icon-sm': 'size-8',
-        'icon-lg': 'size-10',
-      },
-      isLoading: {
-        true: 'cursor-progress',
+        'icon-sm': 'h-8 w-8',
       },
     },
     defaultVariants: {
       variant: 'default',
       size: 'default',
-      isLoading: false,
     },
   },
 )
@@ -55,24 +50,22 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       variant,
       size,
       asChild = false,
-      isLoading = false,
+      isLoading,
       children,
       ...props
     },
     ref,
   ) => {
-    const Comp = asChild ? SlotPrimitive.Slot : 'button'
+    const Comp = asChild ? Slot : 'button'
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, isLoading, className }))}
+        className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         disabled={isLoading || props.disabled}
         {...props}
       >
-        {isLoading && (
-          <span className="border-background mr-2 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent" />
-        )}
-        <SlotPrimitive.Slottable>{children}</SlotPrimitive.Slottable>
+        {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+        {children}
       </Comp>
     )
   },

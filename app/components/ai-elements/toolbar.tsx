@@ -1,6 +1,5 @@
-import type { ComponentProps } from 'react'
-
 import { NodeToolbar, Position } from '@xyflow/react'
+import type { ComponentProps } from 'react'
 import { cn } from '~/libs/utils'
 
 type ToolbarProps = ComponentProps<typeof NodeToolbar>
