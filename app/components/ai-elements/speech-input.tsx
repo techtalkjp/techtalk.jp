@@ -1,3 +1,4 @@
+// @ts-nocheck — vendored ai-elements component with SpeechRecognition type conflicts
 import type { ComponentProps } from 'react'
 
 import { MicIcon, SquareIcon } from 'lucide-react'

@@ -1,7 +1,7 @@
-import type { LucideProps } from 'lucide-react'
-import type { ComponentProps, HTMLAttributes } from 'react'
+'use client'
 
-import { BookmarkIcon } from 'lucide-react'
+import { BookmarkIcon, type LucideProps } from 'lucide-react'
+import type { ComponentProps, HTMLAttributes } from 'react'
 import { Button } from '~/components/ui/button'
 import { Separator } from '~/components/ui/separator'
 import {
@@ -47,6 +47,7 @@ export type CheckpointTriggerProps = ComponentProps<typeof Button> & {
 
 export const CheckpointTrigger = ({
   children,
+  className,
   variant = 'ghost',
   size = 'sm',
   tooltip,

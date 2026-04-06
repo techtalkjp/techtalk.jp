@@ -1,6 +1,5 @@
-import type { ComponentProps } from 'react'
-
 import { ChevronDownIcon, SearchIcon } from 'lucide-react'
+import type { ComponentProps } from 'react'
 import {
   Collapsible,
   CollapsibleContent,

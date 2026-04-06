@@ -5,6 +5,3 @@ onlyBuiltDependencies:
   - esbuild
   - sharp
   - workerd
-
-patchedDependencies:
-  decode-named-character-reference@1.1.0: patches/decode-named-character-reference@1.1.0.patch

@@ -1,4 +1,11 @@
-import { Compass, DatabaseZap, Layers, Sparkles } from 'lucide-react'
+import {
+  Compass,
+  DatabaseZap,
+  Disc3,
+  ExternalLink,
+  Layers,
+  Sparkles,
+} from 'lucide-react'
 import { useLocale } from '~/i18n/hooks/useLocale'
 
 export function ServicesSection() {
@@ -177,6 +184,43 @@ export function ServicesSection() {
             </span>
           </div>
         </div>
+
+        {/* Records Label Banner */}
+        <a
+          href="https://records.techtalk.jp"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="fade-in-section group mt-12 flex flex-col items-center gap-6 rounded-2xl border border-slate-200 bg-white p-8 transition-all duration-300 hover:border-rose-300 md:flex-row md:p-10 dark:border-slate-800/60 dark:bg-slate-900/30 dark:hover:border-rose-500/30"
+        >
+          <div className="flex shrink-0 items-center gap-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-rose-500/20 bg-linear-to-br from-rose-500/20 to-transparent text-rose-600 dark:text-rose-400">
+              <Disc3
+                className="h-7 w-7 transition-transform duration-500 group-hover:rotate-180"
+                strokeWidth={1.5}
+              />
+            </div>
+            <div>
+              <p className="font-mono text-[10px] tracking-widest text-slate-400 dark:text-slate-500">
+                {t('records.label', 'MUSIC LABEL')}
+              </p>
+              <h4 className="text-xl font-bold text-slate-900 transition-colors group-hover:text-rose-600 dark:text-white dark:group-hover:text-rose-400">
+                TechTalk Records
+              </h4>
+            </div>
+          </div>
+
+          <p className="grow text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+            {t(
+              'records.description',
+              'AIエージェントの世界観を音楽で表現するインディペンデントレーベル。架空のラッパー Claude Code と Codex が、dissやコラボを通じてターミナルカルチャーを描きます。',
+            )}
+          </p>
+
+          <span className="flex shrink-0 items-center gap-2 font-mono text-sm text-rose-600 transition-colors group-hover:text-rose-500 dark:text-rose-400 dark:group-hover:text-rose-300">
+            records.techtalk.jp
+            <ExternalLink className="h-4 w-4" />
+          </span>
+        </a>
       </div>
     </section>
   )

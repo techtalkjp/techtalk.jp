@@ -1,6 +1,7 @@
-import type { ComponentProps } from 'react'
+'use client'
 
 import { ChevronDownIcon, PaperclipIcon } from 'lucide-react'
+import type { ComponentProps } from 'react'
 import { Button } from '~/components/ui/button'
 import {
   Collapsible,
@@ -10,7 +11,7 @@ import {
 import { ScrollArea } from '~/components/ui/scroll-area'
 import { cn } from '~/libs/utils'
 
-export interface QueueMessagePart {
+export type QueueMessagePart = {
   type: string
   text?: string
   url?: string
@@ -18,12 +19,12 @@ export interface QueueMessagePart {
   mediaType?: string
 }
 
-export interface QueueMessage {
+export type QueueMessage = {
   id: string
   parts: QueueMessagePart[]
 }
 
-export interface QueueTodo {
+export type QueueTodo = {
   id: string
   title: string
   description?: string
@@ -74,7 +75,7 @@ export const QueueItemContent = ({
 }: QueueItemContentProps) => (
   <span
     className={cn(
-      'line-clamp-1 grow wrap-break-word',
+      'line-clamp-1 grow break-words',
       completed
         ? 'text-muted-foreground/50 line-through'
         : 'text-muted-foreground',
@@ -174,7 +175,7 @@ export const QueueItemFile = ({
     {...props}
   >
     <PaperclipIcon size={12} />
-    <span className="max-w-25 truncate">{children}</span>
+    <span className="max-w-[100px] truncate">{children}</span>
   </span>
 )
 

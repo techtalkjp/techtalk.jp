@@ -1,5 +1,4 @@
 import type { Experimental_GeneratedImage } from 'ai'
-
 import { cn } from '~/libs/utils'
 
 export type ImageProps = Experimental_GeneratedImage & {
@@ -9,7 +8,7 @@ export type ImageProps = Experimental_GeneratedImage & {
 
 export const Image = ({
   base64,
-  uint8Array: _uint8Array,
+  uint8Array,
   mediaType,
   ...props
 }: ImageProps) => (

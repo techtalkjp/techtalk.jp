@@ -1,7 +1,12 @@
-import type { ToolUIPart } from 'ai'
-import type { ComponentProps, ReactNode } from 'react'
+'use client'
 
-import { createContext, useContext } from 'react'
+import type { ToolUIPart } from 'ai'
+import {
+  type ComponentProps,
+  createContext,
+  type ReactNode,
+  useContext,
+} from 'react'
 import { Alert, AlertDescription } from '~/components/ui/alert'
 import { Button } from '~/components/ui/button'
 import { cn } from '~/libs/utils'
@@ -34,7 +39,7 @@ type ToolUIPartApproval =
     }
   | undefined
 
-interface ConfirmationContextValue {
+type ConfirmationContextValue = {
   approval: ToolUIPartApproval
   state: ToolUIPart['state']
 }
@@ -82,7 +87,7 @@ export const ConfirmationTitle = ({
   <AlertDescription className={cn('inline', className)} {...props} />
 )
 
-export interface ConfirmationRequestProps {
+export type ConfirmationRequestProps = {
   children?: ReactNode
 }
 
@@ -90,6 +95,7 @@ export const ConfirmationRequest = ({ children }: ConfirmationRequestProps) => {
   const { state } = useConfirmation()
 
   // Only show when approval is requested
+  // @ts-ignore state only available in AI SDK v6
   if (state !== 'approval-requested') {
     return null
   }
@@ -97,7 +103,7 @@ export const ConfirmationRequest = ({ children }: ConfirmationRequestProps) => {
   return children
 }
 
-export interface ConfirmationAcceptedProps {
+export type ConfirmationAcceptedProps = {
   children?: ReactNode
 }
 
@@ -109,7 +115,9 @@ export const ConfirmationAccepted = ({
   // Only show when approved and in response states
   if (
     !approval?.approved ||
+    // @ts-ignore state only available in AI SDK v6
     (state !== 'approval-responded' &&
+      // @ts-ignore state only available in AI SDK v6
       state !== 'output-denied' &&
       state !== 'output-available')
   ) {
@@ -119,7 +127,7 @@ export const ConfirmationAccepted = ({
   return children
 }
 
-export interface ConfirmationRejectedProps {
+export type ConfirmationRejectedProps = {
   children?: ReactNode
 }
 
@@ -131,7 +139,9 @@ export const ConfirmationRejected = ({
   // Only show when rejected and in response states
   if (
     approval?.approved !== false ||
+    // @ts-ignore state only available in AI SDK v6
     (state !== 'approval-responded' &&
+      // @ts-ignore state only available in AI SDK v6
       state !== 'output-denied' &&
       state !== 'output-available')
   ) {
@@ -150,6 +160,7 @@ export const ConfirmationActions = ({
   const { state } = useConfirmation()
 
   // Only show when approval is requested
+  // @ts-ignore state only available in AI SDK v6
   if (state !== 'approval-requested') {
     return null
   }
