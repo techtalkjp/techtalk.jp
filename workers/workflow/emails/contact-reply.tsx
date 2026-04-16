@@ -10,22 +10,20 @@ import {
   Text,
 } from '@react-email/components'
 import type { ContactFormData } from '../types'
+import { container, footer, h1, hr, label, main } from './styles'
 
-interface ContactReplyEmailProps {
-  data: ContactFormData
-}
+export const contactReplySubject = (locale: string) =>
+  locale === 'ja'
+    ? 'お問い合わせありがとうございます - TechTalk'
+    : 'Thank you for contacting us - TechTalk'
 
-export const ContactReplyEmail = ({ data }: ContactReplyEmailProps) => {
+export const ContactReplyEmail = ({ data }: { data: ContactFormData }) => {
   const isJapanese = data.locale === 'ja'
 
   return (
     <Html>
       <Head />
-      <Preview>
-        {isJapanese
-          ? 'お問い合わせありがとうございます - TechTalk'
-          : 'Thank you for contacting us - TechTalk'}
-      </Preview>
+      <Preview>{contactReplySubject(data.locale)}</Preview>
       <Body style={main}>
         <Container style={container}>
           <Heading style={h1}>
@@ -69,46 +67,11 @@ export const ContactReplyEmail = ({ data }: ContactReplyEmailProps) => {
               ? 'このメールはお問い合わせの確認として自動送信されています。'
               : 'This email was sent automatically to confirm your inquiry.'}
           </Text>
-          <Text style={footer}>TechTalk Inc.</Text>
+          <Text style={{ ...footer, margin: '4px 0' }}>TechTalk Inc.</Text>
         </Container>
       </Body>
     </Html>
   )
-}
-
-const main: React.CSSProperties = {
-  backgroundColor: '#f6f9fc',
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif',
-}
-
-const container: React.CSSProperties = {
-  backgroundColor: '#ffffff',
-  margin: '0 auto',
-  padding: '20px 48px 48px',
-  marginBottom: '64px',
-  maxWidth: '600px',
-}
-
-const h1: React.CSSProperties = {
-  color: '#333',
-  fontSize: '24px',
-  fontWeight: 'bold',
-  margin: '40px 0 20px',
-}
-
-const hr: React.CSSProperties = {
-  borderColor: '#e6ebf1',
-  margin: '20px 0',
-}
-
-const label: React.CSSProperties = {
-  color: '#666',
-  fontSize: '12px',
-  fontWeight: 'bold',
-  textTransform: 'uppercase',
-  letterSpacing: '0.5px',
-  margin: '16px 0 4px',
 }
 
 const paragraph: React.CSSProperties = {
@@ -126,10 +89,4 @@ const messageStyle: React.CSSProperties = {
   padding: '16px',
   borderRadius: '4px',
   margin: '0',
-}
-
-const footer: React.CSSProperties = {
-  color: '#999',
-  fontSize: '12px',
-  margin: '4px 0',
 }

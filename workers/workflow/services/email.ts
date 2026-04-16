@@ -3,25 +3,25 @@ import { EmailMessage } from 'cloudflare:email'
 import { createMimeMessage } from 'mimetext'
 import { err, ok } from 'neverthrow'
 import { ContactNotificationEmail } from '../emails/contact-notification'
-import { ContactReplyEmail } from '../emails/contact-reply'
+import { ContactReplyEmail, contactReplySubject } from '../emails/contact-reply'
 import type { ContactFormData } from '../types'
 
 const FROM_ADDRESS = 'info@techtalk.jp'
 const FROM_NAME = 'TechTalk'
 
-const buildEmailMessage = (params: {
-  from: string
-  fromName: string
-  to: string
-  subject: string
-  html: string
-}) => {
+const sendEmail = async (
+  emailBinding: SendEmail,
+  to: string,
+  subject: string,
+  element: React.ReactElement,
+) => {
+  const html = await render(element)
   const msg = createMimeMessage()
-  msg.setSender({ name: params.fromName, addr: params.from })
-  msg.setRecipient(params.to)
-  msg.setSubject(params.subject)
-  msg.addMessage({ contentType: 'text/html', data: params.html })
-  return new EmailMessage(params.from, params.to, msg.asRaw())
+  msg.setSender({ name: FROM_NAME, addr: FROM_ADDRESS })
+  msg.setRecipient(to)
+  msg.setSubject(subject)
+  msg.addMessage({ contentType: 'text/html', data: html })
+  await emailBinding.send(new EmailMessage(FROM_ADDRESS, to, msg.asRaw()))
 }
 
 export const sendNotificationEmail = async (
@@ -29,15 +29,12 @@ export const sendNotificationEmail = async (
   form: ContactFormData,
 ) => {
   try {
-    const html = await render(ContactNotificationEmail({ data: form }))
-    const message = buildEmailMessage({
-      from: FROM_ADDRESS,
-      fromName: FROM_NAME,
-      to: FROM_ADDRESS,
-      subject: `新しいお問い合わせ: ${form.name}様`,
-      html,
-    })
-    await emailBinding.send(message)
+    await sendEmail(
+      emailBinding,
+      FROM_ADDRESS,
+      `新しいお問い合わせ: ${form.name}様`,
+      ContactNotificationEmail({ data: form }),
+    )
     return ok()
   } catch (error) {
     return err(`Notification email failed: ${error}`)
@@ -49,18 +46,12 @@ export const sendReplyEmail = async (
   form: ContactFormData,
 ) => {
   try {
-    const html = await render(ContactReplyEmail({ data: form }))
-    const isJapanese = form.locale === 'ja'
-    const message = buildEmailMessage({
-      from: FROM_ADDRESS,
-      fromName: FROM_NAME,
-      to: form.email,
-      subject: isJapanese
-        ? 'お問い合わせありがとうございます - TechTalk'
-        : 'Thank you for contacting us - TechTalk',
-      html,
-    })
-    await emailBinding.send(message)
+    await sendEmail(
+      emailBinding,
+      form.email,
+      contactReplySubject(form.locale),
+      ContactReplyEmail({ data: form }),
+    )
     return ok()
   } catch (error) {
     return err(`Reply email failed: ${error}`)

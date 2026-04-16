@@ -10,14 +10,13 @@ import {
   Text,
 } from '@react-email/components'
 import type { ContactFormData } from '../types'
-
-interface ContactNotificationEmailProps {
-  data: ContactFormData
-}
+import { container, footer, h1, hr, label, main } from './styles'
 
 export const ContactNotificationEmail = ({
   data,
-}: ContactNotificationEmailProps) => (
+}: {
+  data: ContactFormData
+}) => (
   <Html>
     <Head />
     <Preview>新しいお問い合わせ: {data.name}様</Preview>
@@ -66,41 +65,6 @@ export const ContactNotificationEmail = ({
   </Html>
 )
 
-const main: React.CSSProperties = {
-  backgroundColor: '#f6f9fc',
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif',
-}
-
-const container: React.CSSProperties = {
-  backgroundColor: '#ffffff',
-  margin: '0 auto',
-  padding: '20px 48px 48px',
-  marginBottom: '64px',
-  maxWidth: '600px',
-}
-
-const h1: React.CSSProperties = {
-  color: '#333',
-  fontSize: '24px',
-  fontWeight: 'bold',
-  margin: '40px 0 20px',
-}
-
-const hr: React.CSSProperties = {
-  borderColor: '#e6ebf1',
-  margin: '20px 0',
-}
-
-const label: React.CSSProperties = {
-  color: '#666',
-  fontSize: '12px',
-  fontWeight: 'bold',
-  textTransform: 'uppercase',
-  letterSpacing: '0.5px',
-  margin: '16px 0 4px',
-}
-
 const value: React.CSSProperties = {
   color: '#333',
   fontSize: '16px',
@@ -113,9 +77,4 @@ const messageStyle: React.CSSProperties = {
   lineHeight: '1.6',
   whiteSpace: 'pre-wrap',
   margin: '0',
-}
-
-const footer: React.CSSProperties = {
-  color: '#999',
-  fontSize: '12px',
 }

@@ -8,10 +8,12 @@ import {
 import { sendNotificationEmail, sendReplyEmail } from './services/email'
 import { sendSlack } from './services/slack'
 import type { ContactFormData } from './types'
-type Params = ContactFormData
 
 export class ContactWorkflow extends WorkflowEntrypoint<Env> {
-  async run(event: WorkflowEvent<Params>, step: WorkflowStep): Promise<void> {
+  async run(
+    event: WorkflowEvent<ContactFormData>,
+    step: WorkflowStep,
+  ): Promise<void> {
     const formData = event.payload
     console.log('Received form data:', formData)
 
