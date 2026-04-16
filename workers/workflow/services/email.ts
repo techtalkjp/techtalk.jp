@@ -1,37 +1,62 @@
+import { render } from '@react-email/render'
+import { EmailMessage } from 'cloudflare:email'
+import { createMimeMessage } from 'mimetext'
 import { err, ok } from 'neverthrow'
+import { ContactNotificationEmail } from '../emails/contact-notification'
+import { ContactReplyEmail, contactReplySubject } from '../emails/contact-reply'
 import type { ContactFormData } from '../types'
 
-export const sendEmail = async (apiKey: string, form: ContactFormData) => {
-  const sendForm = { ...form }
-  sendForm.message = sendForm.message.replace(/\r\n/g, '<br />')
-  sendForm.message = sendForm.message.replace(/(\n|\r)/g, '<br />')
+const FROM_ADDRESS = 'info@techtalk.jp'
+const FROM_NAME = 'TechTalk'
 
-  const payload = {
-    personalizations: [
-      {
-        to: [{ email: sendForm.email }],
-        dynamic_template_data: sendForm,
-      },
-    ],
-    subject: "Let's Talk",
-    from: { email: 'info@techtalk.jp', name: 'TechTalk' },
-    bcc: 'info@techtalk.jp',
-    replyTo: 'info@techtalk.jp',
-    template_id: 'd-fc1f4a74b71644c0930a8df488956323',
-  }
+const formatError = (error: unknown): string =>
+  error instanceof Error ? error.message : String(error)
 
-  const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify(payload),
-  })
-  if (!response.ok) {
-    return err(
-      `${response.status} ${response.statusText}: ${await response.text()}`,
+const sendEmail = async (
+  emailBinding: SendEmail,
+  to: string,
+  subject: string,
+  element: React.ReactElement,
+) => {
+  const html = await render(element)
+  const msg = createMimeMessage()
+  msg.setSender({ name: FROM_NAME, addr: FROM_ADDRESS })
+  msg.setRecipient(to)
+  msg.setSubject(subject)
+  msg.addMessage({ contentType: 'text/html', data: html })
+  await emailBinding.send(new EmailMessage(FROM_ADDRESS, to, msg.asRaw()))
+}
+
+export const sendNotificationEmail = async (
+  emailBinding: SendEmail,
+  form: ContactFormData,
+) => {
+  try {
+    await sendEmail(
+      emailBinding,
+      FROM_ADDRESS,
+      `新しいお問い合わせ: ${form.name}様`,
+      ContactNotificationEmail({ data: form }),
     )
+    return ok()
+  } catch (error) {
+    return err(`Notification email failed: ${formatError(error)}`)
   }
-  return ok()
+}
+
+export const sendReplyEmail = async (
+  emailBinding: SendEmail,
+  form: ContactFormData,
+) => {
+  try {
+    await sendEmail(
+      emailBinding,
+      form.email,
+      contactReplySubject(form.locale),
+      ContactReplyEmail({ data: form }),
+    )
+    return ok()
+  } catch (error) {
+    return err(`Reply email failed: ${formatError(error)}`)
+  }
 }
