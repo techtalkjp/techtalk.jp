@@ -5,7 +5,7 @@ import {
   type WorkflowEvent,
   type WorkflowStep,
 } from 'cloudflare:workers'
-import { sendEmail } from './services/email'
+import { sendNotificationEmail, sendReplyEmail } from './services/email'
 import { sendSlack } from './services/slack'
 import type { ContactFormData } from './types'
 type Params = ContactFormData
@@ -23,12 +23,20 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
       console.log('Slack notification sent:', result.value)
     })
 
-    await step.do('sendContactEmail', async () => {
-      const result = await sendEmail(env.SENDGRID_API_KEY, formData)
+    await step.do('sendNotificationEmail', async () => {
+      const result = await sendNotificationEmail(env.EMAIL, formData)
       if (result.isErr()) {
-        throw new Error(`Email notification failed: ${result.error}`)
+        throw new Error(result.error)
       }
-      console.log('Email notification sent:', result.value)
+      console.log('Notification email sent to info@techtalk.jp')
+    })
+
+    await step.do('sendReplyEmail', async () => {
+      const result = await sendReplyEmail(env.EMAIL, formData)
+      if (result.isErr()) {
+        throw new Error(result.error)
+      }
+      console.log('Reply email sent to', formData.email)
     })
   }
 }

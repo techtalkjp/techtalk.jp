@@ -31,6 +31,11 @@
       "database_id": "634e29d6-baee-4023-a402-c16cba3038af"
     }
   ],
+  "send_email": [
+    {
+      "name": "EMAIL"
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
