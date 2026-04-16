@@ -10,7 +10,6 @@ import { HeroSection } from './+($lang)._index/components/HeroSection'
 import { Navigation } from './+($lang)._index/components/Navigation'
 import { ProfileSection } from './+($lang)._index/components/ProfileSection'
 import { ServicesSection } from './+($lang)._index/components/ServicesSection'
-import { useCopyToClipboard } from './+($lang)._index/hooks/useCopyToClipboard'
 import type { Route } from './+types/($lang)._index'
 
 export const loader = ({ params }: Route.LoaderArgs) => {
@@ -108,14 +107,6 @@ export default function TechTalkPage() {
 
   // アニメーション用のObserver設定
   useScrollAnimation()
-
-  // メールコピー機能
-  const { copy: copyEmail, showFeedback: showCopyFeedback } =
-    useCopyToClipboard()
-
-  const handleCopyEmail = () => {
-    copyEmail('contact@techtalk.jp')
-  }
 
   // スムーススクロール用ハンドラ(React Router環境でのハッシュリンク用)
   const scrollToSection = (
@@ -222,10 +213,7 @@ export default function TechTalkPage() {
         <CompanySection />
 
         {/* 5. Contact */}
-        <ContactSection
-          showCopyFeedback={showCopyFeedback}
-          onCopyEmail={handleCopyEmail}
-        />
+        <ContactSection />
       </main>
 
       <Footer />

@@ -75,7 +75,7 @@ export const ContactSentMessage = ({ data }: { data: ContactFormData }) => {
         お返事をお待ち下さい。
       </div>
 
-      <div className="grid max-h-96 w-full max-w-md grid-cols-[auto_1fr] justify-items-start gap-4 overflow-auto rounded bg-black/50 p-4">
+      <div className="grid max-h-96 w-full max-w-md grid-cols-[auto_1fr] justify-items-start gap-4 overflow-auto rounded bg-slate-100 p-4 dark:bg-black/50">
         <div>お名前</div>
         <div>{data.name}</div>
         <div>会社名</div>
@@ -138,7 +138,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
         <FormField>
           <Label htmlFor={name.id}>{t('contact.name', 'お名前')}</Label>
           <Input
-            className="bg-black/50"
+            className="bg-white dark:bg-black/50"
             autoComplete="name"
             {...getInputProps(name, { type: 'text' })}
           />
@@ -148,7 +148,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
         <FormField>
           <Label htmlFor={company.id}>{t('contact.company', '会社名')}</Label>
           <Input
-            className="bg-black/50"
+            className="bg-white dark:bg-black/50"
             autoComplete="organization"
             {...getInputProps(company, { type: 'text' })}
           />
@@ -158,7 +158,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
         <FormField>
           <Label htmlFor={phone.id}>{t('contact.phone', '電話番号')}</Label>
           <Input
-            className="bg-black/50"
+            className="bg-white dark:bg-black/50"
             autoComplete="tel"
             {...getInputProps(phone, { type: 'tel' })}
           />
@@ -168,7 +168,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
         <FormField>
           <Label htmlFor={email.id}> {t('contact.email', 'メール')} </Label>
           <Input
-            className="bg-black/50"
+            className="bg-white dark:bg-black/50"
             autoComplete="email"
             {...getInputProps(email, { type: 'email' })}
           />
@@ -180,7 +180,7 @@ export const ContactForm = ({ children, ...rest }: ContactFormProps) => {
             {t('contact.message', 'メッセージ')}
           </Label>
           <Textarea
-            className="bg-black/50"
+            className="bg-white dark:bg-black/50"
             autoComplete="off"
             {...getTextareaProps(message)}
           />
