@@ -9,6 +9,9 @@ import type { ContactFormData } from '../types'
 const FROM_ADDRESS = 'info@techtalk.jp'
 const FROM_NAME = 'TechTalk'
 
+const formatError = (error: unknown): string =>
+  error instanceof Error ? error.message : String(error)
+
 const sendEmail = async (
   emailBinding: SendEmail,
   to: string,
@@ -37,7 +40,7 @@ export const sendNotificationEmail = async (
     )
     return ok()
   } catch (error) {
-    return err(`Notification email failed: ${error}`)
+    return err(`Notification email failed: ${formatError(error)}`)
   }
 }
 
@@ -54,6 +57,6 @@ export const sendReplyEmail = async (
     )
     return ok()
   } catch (error) {
-    return err(`Reply email failed: ${error}`)
+    return err(`Reply email failed: ${formatError(error)}`)
   }
 }
