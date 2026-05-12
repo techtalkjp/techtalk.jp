@@ -43,17 +43,17 @@ export const links: LinksFunction = () => {
 }
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
-  const { toast, headers } = await getToast(request)
+  const { toast: toastData, headers } = await getToast(request)
   const theme = getThemeFromRequest(request)
   const url = new URL(request.url)
   const locale = detectLocale(url.pathname)
-  return data({ toastData: toast, theme, locale }, { headers })
+  return data({ toastData, theme, locale }, { headers })
 }
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
-  const data = useRouteLoaderData<typeof loader>('root')
-  const locale = data?.locale || 'ja'
-  const theme = data?.theme || 'system'
+  const routeData = useRouteLoaderData<typeof loader>('root')
+  const locale = routeData?.locale || 'ja'
+  const theme = routeData?.theme || 'system'
 
   // For SSR: set dark class only if theme is explicitly 'dark'
   const htmlClassName = theme === 'dark' ? 'dark' : undefined
@@ -68,7 +68,6 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         {/* FOUC prevention: Apply theme before first paint */}
         {theme === 'system' && (
           <script
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for preventing FOUC when theme is system
             dangerouslySetInnerHTML={{
               __html: `
                 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {

@@ -4,7 +4,6 @@ import { useLocation } from 'react-router'
 const ScrollAnimation = () => {
   const location = useLocation()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: location.key changes on every navigation
   useEffect(() => {
     let observer: IntersectionObserver | null = null
 

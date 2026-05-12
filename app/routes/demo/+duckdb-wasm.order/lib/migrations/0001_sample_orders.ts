@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/suspicious/noExplicitAny: kysely migration */
 import { type Kysely, sql } from 'kysely'
 
 export default {

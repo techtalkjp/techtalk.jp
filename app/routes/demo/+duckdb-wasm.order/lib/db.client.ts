@@ -44,7 +44,7 @@ async function initDB(): Promise<Kysely<DB>> {
   return dbInstance
 }
 
-// biome-ignore lint/suspicious/useAwait: single-flight init
+// oxlint-disable-next-line require-await -- single-flight init
 export const getDB = async () => {
   if (!dbPromise) {
     dbPromise = initDB().catch((err) => {

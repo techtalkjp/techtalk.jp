@@ -73,8 +73,6 @@ export function ThemeProvider({
 
     setThemeState(newTheme)
 
-    // Set cookie
-    // biome-ignore lint/suspicious/noDocumentCookie: Simple cookie setting is sufficient for theme preference
     document.cookie = `theme=${newTheme}; path=/; max-age=31536000; samesite=lax`
 
     // Resolve and apply the new theme

@@ -226,6 +226,7 @@ export async function withGoogleAccess<T>(
   let sessionUpdated = false
   const isAuthError = options.isAuthError ?? defaultIsAuthError
 
+  // oxlint-disable-next-line require-await -- normalizes action to always return a Promise<T>
   const execute = async (accessToken: string): Promise<T> => action(accessToken)
 
   try {

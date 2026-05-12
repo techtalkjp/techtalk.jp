@@ -11,7 +11,7 @@ type NamedMigartion = Migration & { name: string }
  */
 class ArrayProvider {
   constructor(private readonly list: NamedMigartion[]) {}
-  // biome-ignore lint/suspicious/useAwait: async without await
+  // oxlint-disable-next-line require-await -- interface requires async signature
   async getMigrations(): Promise<Record<string, Migration>> {
     return Object.fromEntries(this.list.map((m) => [m.name, m]))
   }
@@ -39,7 +39,7 @@ const run = async () => {
  * DB マイグレーションを一度だけ実行して、完了まで待つ
  * @returns マイグレーション完了を待つ Promise
  */
-// biome-ignore lint/suspicious/useAwait: single-flight
+// oxlint-disable-next-line require-await -- single-flight
 export async function migrateToLatestOnce() {
   if (!once) {
     // TODO: 複数タブ対策

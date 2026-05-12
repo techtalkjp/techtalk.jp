@@ -1,5 +1,8 @@
 pre-commit:
   commands:
-    prettier:
-      glob: '*.{ts,tsx,js,jsx,json,css,md,html}'
-      run: pnpm prettier --check --experimental-cli {staged_files}
+    format:
+      glob: '*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,css,md,mdx,yml,yaml,html}'
+      run: pnpm exec vp fmt -c .oxfmtrc.json {staged_files} && git add {staged_files}
+    lint:
+      glob: '*.{js,jsx,ts,tsx,mjs,cjs}'
+      run: pnpm exec vp lint -c .oxlintrc.json --fix {staged_files} && git add {staged_files}

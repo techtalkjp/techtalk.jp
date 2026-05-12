@@ -1,0 +1,33 @@
+{
+  "$schema": "https://oxc.rs/schema/oxlintrc.json",
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "no-redeclare": "off",
+    "no-unused-vars": "off",
+    "require-await": "error",
+    "no-shadow": "error"
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/__tests__/**"
+      ],
+      "rules": {
+        "require-await": "off"
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "app/components/ai-elements/**",
+    "app/components/ui/**",
+    "app/styles/globals.css",
+    "public/fts-search.js",
+    "worker-configuration.d.ts"
+  ]
+}

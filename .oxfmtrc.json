@@ -1,0 +1,25 @@
+{
+  "$schema": "https://oxc.rs/schema/oxfmtrc.json",
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 80,
+  "sortPackageJson": false,
+  "sortTailwindcss": {
+    "functions": ["cn"]
+  },
+  "overrides": [
+    {
+      "files": ["*.jsonc"],
+      "options": {
+        "trailingComma": "none"
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "pnpm-lock.yaml",
+    "worker-configuration.d.ts",
+    "app/styles/globals.css",
+    "public/fts-search.js"
+  ]
+}

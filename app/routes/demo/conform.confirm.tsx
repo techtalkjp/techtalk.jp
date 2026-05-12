@@ -86,7 +86,7 @@ export default function DemoConformAlert({ actionData }: Route.ComponentProps) {
           // lastResult をリセットして初期状態に戻す。
           // email の値は Input の DOM に保持されているので
           // revalidate しても消えない。
-          !open && revalidate()
+          if (!open) revalidate()
         }}
       >
         <AlertDialogContent>
