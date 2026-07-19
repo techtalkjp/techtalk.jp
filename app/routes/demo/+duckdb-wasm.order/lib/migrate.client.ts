@@ -1,4 +1,4 @@
-import { Migrator, type Migration } from 'kysely'
+import { Migrator, type Migration } from 'kysely/migration'
 import { getDB } from './db.client'
 import { migrations } from './migrations'
 
