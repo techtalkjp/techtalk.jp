@@ -1,8 +1,12 @@
 minimumReleaseAge: 10080
-onlyBuiltDependencies:
-  - '@tailwindcss/oxide'
-  - duckdb
-  - esbuild
-  - lefthook
-  - sharp
-  - workerd
+overrides:
+  uuid: ^14.0.0
+  esbuild: ^0.25.0
+allowBuilds:
+  '@tailwindcss/oxide': true
+  core-js-pure: false
+  duckdb: true
+  esbuild: true
+  lefthook: true
+  sharp: true
+  workerd: true
