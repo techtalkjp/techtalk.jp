@@ -59,7 +59,7 @@ export function CompanySection() {
               <dd className="text-lg font-medium text-slate-900 dark:text-white">
                 {t(
                   'company.business.value',
-                  'ソフトウェア開発、技術コンサルティング',
+                  '自社プロダクトの開発・運営、ソフトウェア開発、技術コンサルティング',
                 )}
               </dd>
             </div>

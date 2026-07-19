@@ -171,16 +171,16 @@ export function ServicesSection() {
               Cloudflare
             </span>
             <span className="transition-colors hover:text-slate-900 dark:hover:text-white">
-              PostgreSQL
+              Cloudflare D1 / R2
             </span>
             <span className="transition-colors hover:text-slate-900 dark:hover:text-white">
-              Prisma
+              Kysely
             </span>
             <span className="transition-colors hover:text-slate-900 dark:hover:text-white">
               DuckDB
             </span>
             <span className="transition-colors hover:text-slate-900 dark:hover:text-white">
-              Vercel AI SDK
+              MCP / Agent CLI
             </span>
           </div>
         </div>

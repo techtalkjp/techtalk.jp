@@ -44,6 +44,13 @@ export function Navigation({ onNavigate }: NavigationProps) {
             {t('nav.top', 'Top')}
           </a>
           <a
+            href="#products"
+            onClick={(e) => handleNavigate(e, 'products')}
+            className="transition-colors hover:text-slate-900 dark:hover:text-white"
+          >
+            {t('nav.products', 'Products')}
+          </a>
+          <a
             href="#services"
             onClick={(e) => handleNavigate(e, 'services')}
             className="transition-colors hover:text-slate-900 dark:hover:text-white"
@@ -100,6 +107,13 @@ export function Navigation({ onNavigate }: NavigationProps) {
             className="text-lg text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
           >
             {t('nav.top', 'Top')}
+          </a>
+          <a
+            href="#products"
+            onClick={(e) => handleNavigate(e, 'products')}
+            className="text-lg text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+          >
+            {t('nav.products', 'Products')}
           </a>
           <a
             href="#services"
