@@ -9,6 +9,7 @@ import { ContactSection } from './+($lang)._index/components/ContactSection'
 import { HeroSection } from './+($lang)._index/components/HeroSection'
 import { Navigation } from './+($lang)._index/components/Navigation'
 import { ProfileSection } from './+($lang)._index/components/ProfileSection'
+import { ProductsSection } from './+($lang)._index/components/ProductsSection'
 import { ServicesSection } from './+($lang)._index/components/ServicesSection'
 import type { Route } from './+types/($lang)._index'
 
@@ -32,8 +33,8 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
     'TechTalk, Inc. | Implement Your Business. Deliver Through Code.'
 
   const description = isJapanese
-    ? '株式会社TechTalkは、事業開発から実装までを一貫して行う技術パートナーです。MVP開発、データ基盤構築、AI統合、プロジェクトリーダーシップを提供します。Remix, DuckDB, Vercel AI SDK等の最新技術を活用し、ビジネスを実装します。'
-    : 'TechTalk, Inc. is a technical partner that handles everything from business development to implementation. We provide MVP development, data infrastructure, AI integration, and project leadership using cutting-edge technologies like Remix, DuckDB, and Vercel AI SDK.'
+    ? '株式会社TechTalkは、AI成果物の共有サービス「Artifact Share」の開発・運営と、事業開発から実装まで一貫した技術支援を行っています。'
+    : 'TechTalk, Inc. develops and operates Artifact Share, a service for sharing AI-generated work, and provides end-to-end technical support from business development through implementation.'
 
   const siteName = isJapanese ? '株式会社TechTalk' : 'TechTalk, Inc.'
   const ogImage = `${SITE_URL}/og-image.jpeg` // OG画像のパス
@@ -62,7 +63,8 @@ export const meta: MetaFunction<typeof loader> = ({ params }) => {
     // Additional SEO
     {
       name: 'keywords',
-      content: 'MVP開発,データ基盤,AI統合,React,TypeScript,Cloudflare,DuckDB',
+      content:
+        'Artifact Share,AIエージェント,MVP開発,AI統合,React Router,TypeScript,Cloudflare Workers,D1,R2',
     },
     { name: 'author', content: 'TechTalk, Inc.' },
     { name: 'robots', content: 'index, follow' },
@@ -147,8 +149,8 @@ export default function TechTalkPage() {
     url: SITE_URL,
     logo: `${SITE_URL}/logo.svg`,
     description: isJapanese
-      ? '株式会社TechTalkは、事業開発から実装までを一貫して行う技術パートナーです。MVP開発、データ基盤構築、AI統合、プロジェクトリーダーシップを提供します。'
-      : 'TechTalk, Inc. is a technical partner that handles everything from business development to implementation.',
+      ? '株式会社TechTalkは、Artifact Shareの開発・運営と、事業開発から実装まで一貫した技術支援を行っています。'
+      : 'TechTalk, Inc. develops and operates Artifact Share and provides end-to-end technical support from business development through implementation.',
     address: {
       '@type': 'PostalAddress',
       streetAddress: '佃2-1-2',
@@ -203,16 +205,19 @@ export default function TechTalkPage() {
         {/* 1. TOP / Hero Section */}
         <HeroSection onNavigate={scrollToSection} />
 
-        {/* 2. Services */}
+        {/* 2. Products */}
+        <ProductsSection />
+
+        {/* 3. Services */}
         <ServicesSection />
 
-        {/* 3. Profile */}
+        {/* 4. Profile */}
         <ProfileSection />
 
-        {/* 4. Company Information */}
+        {/* 5. Company Information */}
         <CompanySection />
 
-        {/* 5. Contact */}
+        {/* 6. Contact */}
         <ContactSection />
       </main>
 
