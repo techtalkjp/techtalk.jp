@@ -35,8 +35,26 @@ export type UploadedFile = {
     createdAt: Generated<string>;
 };
 
+export type InquiryEvaluation = {
+    id: Generated<number>;
+    name: string;
+    email: string;
+    company: string | null;
+    messageExcerpt: string;
+    ruleScore: number;
+    ruleTier: string;
+    ruleReasons: string;
+    llmVerdict: string;
+    llmConfidence: number;
+    llmReason: string | null;
+    llmModel: string | null;
+    routedAs: string;
+    createdAt: Generated<string>;
+};
+
 export type DB = {
     sampleOrders: SampleOrder;
     ftsContents: FtsContents;
     uploadedFiles: UploadedFile;
+    inquiryEvaluations: InquiryEvaluation;
 };

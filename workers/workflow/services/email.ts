@@ -4,7 +4,8 @@ import { createMimeMessage } from 'mimetext'
 import { err, ok } from 'neverthrow'
 import { ContactNotificationEmail } from '../emails/contact-notification'
 import { ContactReplyEmail, contactReplySubject } from '../emails/contact-reply'
-import type { ContactFormData } from '../types'
+import type { Classification } from './classify'
+import type { ContactFormData, ContactInquiry } from '../types'
 
 const FROM_ADDRESS = 'info@techtalk.jp'
 const FROM_NAME = 'TechTalk'
@@ -29,14 +30,22 @@ const sendEmail = async (
 
 export const sendNotificationEmail = async (
   emailBinding: SendEmail,
-  form: ContactFormData,
+  form: ContactInquiry,
+  classification: Classification,
 ) => {
   try {
+    const isSales = classification.verdict === 'sales'
+    const subject = isSales
+      ? `[営業疑い] 新しいお問い合わせ: ${form.name}様`
+      : `新しいお問い合わせ: ${form.name}様`
+    const classificationNote =
+      `LLM判定: ${classification.verdict} (${classification.confidence}%) ${classification.reason || ''}\n` +
+      `ルール: ${form.rule.score} (${form.rule.tier}) ${form.rule.reasons.join('、')}`
     await sendEmail(
       emailBinding,
       FROM_ADDRESS,
-      `新しいお問い合わせ: ${form.name}様`,
-      ContactNotificationEmail({ data: form }),
+      subject,
+      ContactNotificationEmail({ data: form, classificationNote }),
     )
     return ok()
   } catch (error) {

@@ -1,16 +1,16 @@
 import { env } from 'cloudflare:workers'
 import { ResultAsync } from 'neverthrow'
-import type { ContactFormData } from '../types'
+import type { ContactInquiry } from '../types'
 
 type EnqueueError = { type: 'EnqueueError'; message: string }
-export const enqueueImpl = async (data: ContactFormData) => {
+export const enqueueImpl = async (data: ContactInquiry) => {
   await env.CONTACT_WORKFLOW.create({ params: data })
 }
 
 export const enqueue = ({
   data,
 }: {
-  data: ContactFormData
+  data: ContactInquiry
 }): ResultAsync<void, EnqueueError> => {
   return ResultAsync.fromPromise(enqueueImpl(data), (e) => ({
     type: 'EnqueueError',
