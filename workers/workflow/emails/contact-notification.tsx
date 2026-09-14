@@ -14,8 +14,10 @@ import { container, footer, h1, hr, label, main } from './styles'
 
 export const ContactNotificationEmail = ({
   data,
+  classificationNote,
 }: {
   data: ContactFormData
+  classificationNote?: string
 }) => (
   <Html>
     <Head />
@@ -53,6 +55,13 @@ export const ContactNotificationEmail = ({
           <Text style={label}>メッセージ</Text>
           <Text style={messageStyle}>{data.message}</Text>
         </Section>
+
+        {classificationNote && (
+          <Section>
+            <Text style={label}>自動判定</Text>
+            <Text style={messageStyle}>{classificationNote}</Text>
+          </Section>
+        )}
 
         <Hr style={hr} />
 

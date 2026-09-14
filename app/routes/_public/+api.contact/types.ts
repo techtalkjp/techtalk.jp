@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import type { RuleScore } from './functions/scoreSales'
 
 export const schema = z.object({
   name: z
@@ -21,3 +22,13 @@ export const schema = z.object({
 })
 
 export type ContactFormData = z.infer<typeof schema>
+
+export type { RuleScore, RuleTier } from './functions/scoreSales'
+
+/**
+ * ContactWorkflow に渡すペイロード。
+ * rule は shadow mode の評価記録用（振り分けには使わない）。
+ */
+export type ContactInquiry = ContactFormData & {
+  rule: RuleScore
+}

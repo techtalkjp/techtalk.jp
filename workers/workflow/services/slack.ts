@@ -1,15 +1,30 @@
 import { err, ok } from 'neverthrow'
-import type { ContactFormData } from '../types'
+import type { Classification } from './classify'
+import type { ContactInquiry } from '../types'
 
-export const sendSlack = async (webhookUrl: string, data: ContactFormData) => {
+export const sendSlack = async (
+  webhookUrl: string,
+  data: ContactInquiry,
+  classification: Classification,
+) => {
+  const isSales = classification.verdict === 'sales'
+  const title = isSales ? '🚫 営業疑いの問い合わせ' : '📧 新しいお問い合わせ'
+  const verdictLine =
+    `*判定:* LLM=${classification.verdict} (${classification.confidence}%) / ` +
+    `ルール=${data.rule.score} (${data.rule.tier})`
+  const reasonLine =
+    `*理由:* LLM: ${classification.reason || '(なし)'} / ` +
+    `ルール: ${data.rule.reasons.join('、') || '(なし)'}`
   const payload = {
-    text: '新しいお問い合わせがあります',
+    text: isSales
+      ? `[営業疑い] 新しいお問い合わせ: ${data.name}様`
+      : '新しいお問い合わせがあります',
     blocks: [
       {
         type: 'header',
         text: {
           type: 'plain_text',
-          text: '📧 新しいお問い合わせ',
+          text: title,
         },
       },
       {
@@ -46,6 +61,13 @@ export const sendSlack = async (webhookUrl: string, data: ContactFormData) => {
         text: {
           type: 'mrkdwn',
           text: `*メッセージ:*\n${data.message}`,
+        },
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `${verdictLine}\n${reasonLine}`,
         },
       },
       {

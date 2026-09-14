@@ -25,7 +25,11 @@ import {
   Textarea,
 } from '~/components/ui'
 import { useLocale } from '~/i18n/hooks/useLocale'
-import { checkHoneypot, enqueue } from './+api.contact/functions.server'
+import {
+  checkHoneypot,
+  enqueue,
+  scoreSales,
+} from './+api.contact/functions.server'
 import { schema, type ContactFormData } from './+api.contact/types'
 import type { Route } from './+types/api.contact'
 
@@ -37,7 +41,9 @@ export const action = async ({ request }: Route.ActionArgs) => {
 
   const result = await ok(submission.value)
     .andThen(checkHoneypot)
-    .asyncAndThen((form) => enqueue({ data: form }))
+    .asyncAndThen((form) =>
+      enqueue({ data: { ...form, rule: scoreSales(form) } }),
+    )
 
   if (result.isErr()) {
     return match(result.error)

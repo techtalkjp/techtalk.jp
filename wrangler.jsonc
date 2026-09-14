@@ -11,6 +11,9 @@
     "directory": "./build/client",
     "binding": "ASSETS"
   },
+  "ai": {
+    "binding": "AI"
+  },
   "r2_buckets": [
     {
       "binding": "R2",
