@@ -38,6 +38,12 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
       }
     })
 
+    if (routedAs === 'sales') {
+      // 営業疑いは通知も返信も止める。記録は inquiry_evaluations に残る。
+      console.log('Notifications and reply skipped (sales verdict)')
+      return
+    }
+
     await step.do('sendContactSlack', async () => {
       const result = await sendSlack(env.SLACK_WEBHOOK, inquiry, classification)
       if (result.isErr()) {
@@ -57,11 +63,6 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
       }
       console.log('Notification email sent to info@techtalk.jp')
     })
-
-    if (routedAs === 'sales') {
-      console.log('Reply email skipped (sales verdict)')
-      return
-    }
 
     await step.do('sendReplyEmail', async () => {
       const result = await sendReplyEmail(env.EMAIL, inquiry)
