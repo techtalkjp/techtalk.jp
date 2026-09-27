@@ -6,6 +6,10 @@ import {
   type WorkflowStep,
 } from 'cloudflare:workers'
 import { classifyInquiry } from './services/classify'
+import {
+  classifyShadow,
+  type ShadowClassification,
+} from './services/classify-shadow'
 import { sendNotificationEmail, sendReplyEmail } from './services/email'
 import { logEvaluation, type RoutedAs } from './services/evaluations'
 import { sendSlack } from './services/slack'
@@ -31,7 +35,18 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
 
     await step.do('logEvaluation', async () => {
       try {
-        await logEvaluation(env.DB, inquiry, classification, routedAs)
+        let shadow: ShadowClassification
+        try {
+          shadow = classifyShadow(inquiry.message)
+        } catch {
+          shadow = {
+            verdict: null,
+            score: null,
+            model: 'unknown',
+            error: 'prediction-failed',
+          }
+        }
+        await logEvaluation(env.DB, inquiry, classification, routedAs, shadow)
       } catch (error) {
         // 評価ログの失敗で本流を止めない
         console.warn('Evaluation logging failed:', error)

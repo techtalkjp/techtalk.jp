@@ -11,6 +11,7 @@ export type Classification = {
   confidence: number
   reason: string
   model: string
+  succeeded: boolean
 }
 
 const SYSTEM_PROMPT = `あなたは企業サイトの問い合わせフォームに届いたメッセージを分類します。必ずJSONのみ出力してください。
@@ -27,6 +28,7 @@ const failOpen = (reason: string): Classification => ({
   confidence: 0,
   reason,
   model: CLASSIFY_MODEL,
+  succeeded: false,
 })
 
 const parseResponse = (text: string): Classification | null => {
@@ -54,6 +56,7 @@ const parseResponse = (text: string): Classification | null => {
           : 0,
       reason: typeof json.reason === 'string' ? json.reason : '',
       model: CLASSIFY_MODEL,
+      succeeded: true,
     }
   } catch {
     return null

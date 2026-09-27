@@ -32,6 +32,10 @@
     "migrations:list": "wrangler d1 migrations list techtalkjp --local",
     "migrations:apply": "wrangler d1 migrations apply techtalkjp --local",
     "migrations:apply:production": "wrangler d1 migrations apply techtalkjp --remote",
+    "inquiry:manage": "node scripts/inquiry/manage.mjs",
+    "inquiry:train": "node scripts/inquiry/train.mjs",
+    "inquiry:evaluate": "node scripts/inquiry/evaluate.mjs",
+    "test:inquiry": "node --test tests/*.test.mjs",
     "build:widget": "vite build -c vite.config.web-component.ts",
     "prepare": "lefthook install || true"
   },

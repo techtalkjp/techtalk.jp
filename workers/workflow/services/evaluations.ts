@@ -1,5 +1,6 @@
 import type { Classification } from './classify'
 import type { ContactInquiry } from '../types'
+import type { ShadowClassification } from './classify-shadow'
 
 export type RoutedAs = 'sales' | 'normal'
 
@@ -12,13 +13,15 @@ export const logEvaluation = async (
   inquiry: ContactInquiry,
   classification: Classification,
   routedAs: RoutedAs,
+  shadow: ShadowClassification,
 ): Promise<void> => {
   await db
     .prepare(
       `INSERT INTO inquiry_evaluations
         (name, email, company, message_excerpt, rule_score, rule_tier, rule_reasons,
-         llm_verdict, llm_confidence, llm_reason, llm_model, routed_as)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         llm_verdict, llm_confidence, llm_reason, llm_model, routed_as,
+         ml_verdict, ml_score, ml_model, ml_error, llm_succeeded)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
     .bind(
       inquiry.name,
@@ -33,6 +36,11 @@ export const logEvaluation = async (
       classification.reason,
       classification.model,
       routedAs,
+      shadow.verdict,
+      shadow.score,
+      shadow.model,
+      shadow.error,
+      classification.succeeded ? 1 : 0,
     )
     .run()
 }
