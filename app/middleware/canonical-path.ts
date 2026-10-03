@@ -10,8 +10,6 @@ import type { Middleware } from 'remix/router'
  */
 export function canonicalPath(): Middleware {
   return (context, next) => {
-    // 301 だと POST が GET に変わって本文が消えるので、寄せるのは GET と HEAD だけにする
-    if (context.method !== 'GET' && context.method !== 'HEAD') return next()
     let { pathname } = context.url
     let canonical =
       pathname
@@ -21,7 +19,9 @@ export function canonicalPath(): Middleware {
     if (canonical !== pathname) {
       let location = new URL(context.url)
       location.pathname = canonical
-      return createRedirectResponse(location, 301)
+      // GET 以外は 308 にして、送信のメソッドと本文を保ったまま寄せる
+      let safe = context.method === 'GET' || context.method === 'HEAD'
+      return createRedirectResponse(location, safe ? 301 : 308)
     }
     return next()
   }

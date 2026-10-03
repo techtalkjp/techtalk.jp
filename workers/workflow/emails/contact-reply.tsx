@@ -8,15 +8,8 @@ export const contactReplySubject = (locale: string) =>
     ? 'お問い合わせありがとうございます - TechTalk'
     : 'Thank you for contacting us - TechTalk'
 
-const quotedMessage = {
-  ...styles.message,
-  color: '#555',
-  fontSize: '14px',
-  backgroundColor: '#f9f9f9',
-  padding: '16px',
-  borderRadius: '4px',
-}
-
+// 宛先は送信者が入力したアドレスなので、他人宛てに任意の文面を送る踏み台にならないよう、
+// 名前や本文など入力された内容は載せない
 export function ContactReplyEmail(handle: Handle<{ data: ContactFormData }>) {
   return () => {
     let { data } = handle.props
@@ -34,27 +27,16 @@ export function ContactReplyEmail(handle: Handle<{ data: ContactFormData }>) {
 
         {ja ? (
           <p style={styles.paragraph}>
-            {data.name} 様
-            <br />
-            <br />
             この度はお問い合わせいただき、誠にありがとうございます。
             <br />
             内容を確認の上、担当者より改めてご連絡させていただきます。
           </p>
         ) : (
           <p style={styles.paragraph}>
-            Dear {data.name},
-            <br />
-            <br />
             Thank you for contacting us. We have received your message and will
             get back to you shortly.
           </p>
         )}
-
-        <hr style={styles.hr} />
-
-        <p style={styles.label}>{ja ? 'お問い合わせ内容' : 'Your Message'}</p>
-        <p style={quotedMessage}>{data.message}</p>
 
         <hr style={styles.hr} />
 

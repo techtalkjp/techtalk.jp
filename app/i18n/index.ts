@@ -28,7 +28,7 @@ export function createTranslate(locale: Locale): Translate {
     let text = locale === 'ja' ? ja : (catalogs[locale][ja] ?? ja)
     if (vars) {
       for (let [key, value] of Object.entries(vars)) {
-        text = text.replaceAll(`{${key}}`, String(value))
+        text = text.replaceAll(`{${key}}`, () => String(value))
       }
     }
     return text

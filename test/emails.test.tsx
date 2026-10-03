@@ -37,6 +37,8 @@ describe('emails', () => {
   it('renders the reply email in the inquiry locale', async () => {
     let ja = await renderToString(<ContactReplyEmail data={data} />)
     assert.match(ja, /この度はお問い合わせいただき/)
+    // 第三者宛ての踏み台にならないよう、入力内容は載せない
+    assert.doesNotMatch(ja, /山田|1行目/)
     let en = await renderToString(
       <ContactReplyEmail data={{ ...data, locale: 'en' }} />,
     )

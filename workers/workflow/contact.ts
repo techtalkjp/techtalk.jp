@@ -44,14 +44,6 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
       return
     }
 
-    await step.do('sendContactSlack', async () => {
-      const result = await sendSlack(env.SLACK_WEBHOOK, inquiry, classification)
-      if (result.isErr()) {
-        throw new Error(`Slack notification failed: ${result.error}`)
-      }
-      console.log('Slack notification sent:', result.value)
-    })
-
     await step.do('sendNotificationEmail', async () => {
       const result = await sendNotificationEmail(
         env.EMAIL,
@@ -71,5 +63,23 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
       }
       console.log('Reply email sent to', inquiry.email)
     })
+
+    // Slack は補助の通知。失敗してもメール（本命の通知と自動返信）は送り終えているので、
+    // リトライしきって失敗したら記録だけ残して Workflow は成功で終える
+    try {
+      await step.do('sendContactSlack', async () => {
+        const result = await sendSlack(
+          env.SLACK_WEBHOOK,
+          inquiry,
+          classification,
+        )
+        if (result.isErr()) {
+          throw new Error(`Slack notification failed: ${result.error}`)
+        }
+        console.log('Slack notification sent:', result.value)
+      })
+    } catch (error) {
+      console.error('Slack notification gave up:', error)
+    }
   }
 }

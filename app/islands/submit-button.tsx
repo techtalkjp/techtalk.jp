@@ -1,4 +1,4 @@
-import { clientEntry, css, type Handle } from 'remix/component'
+import { clientEntry, css, on, type Handle } from 'remix/component'
 
 import { primaryButton } from '../ui/styles.ts'
 import { FRAME_SUBMIT_ERROR } from './events.ts'
@@ -25,15 +25,6 @@ export const SubmitButton = clientEntry(
     // サーバー描画時は購読しない（workerd では handle.signal を addEventListener に渡せない）
     if (typeof document !== 'undefined') {
       let { signal } = handle
-      handle.frame.addEventListener(
-        'reloadStart',
-        () => {
-          pending = true
-          failed = false
-          void handle.update()
-        },
-        { signal },
-      )
       handle.frame.addEventListener(
         'reloadComplete',
         () => {
@@ -65,9 +56,19 @@ export const SubmitButton = clientEntry(
       >
         <button
           type="submit"
+          // 送信中の表示は、このボタンのフォームが送信されたときだけ始める
+          mix={[
+            primaryButton,
+            on('click', (event) => {
+              let form = (event.currentTarget as HTMLButtonElement).form
+              if (!form?.checkValidity()) return
+              pending = true
+              failed = false
+              void handle.update()
+            }),
+          ]}
           disabled={pending}
           aria-busy={pending}
-          mix={primaryButton}
         >
           {pending ? handle.props.pendingLabel : handle.props.label}
         </button>

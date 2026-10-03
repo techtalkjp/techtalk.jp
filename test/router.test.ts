@@ -94,10 +94,11 @@ describe('pages', () => {
     assert.match(html, /name="email"/)
   })
 
-  it('does not redirect form posts to non-canonical paths', async () => {
+  it('redirects form posts to canonical paths with 308', async () => {
     let { fetch } = setup()
     let response = await fetch('/en/', post(validForm))
-    assert.notEqual(response.status, 301)
+    assert.equal(response.status, 308)
+    assert.equal(response.headers.get('Location'), 'http://localhost/en')
   })
 
   for (let [from, to] of [

@@ -18,7 +18,7 @@ export const truncateForSlack = (text: string) =>
   text.length <= SLACK_MESSAGE_LIMIT
     ? text
     : // エスケープ済みの文字列なので、&amp; などの途中で切れたら外す
-      `${text.slice(0, SLACK_MESSAGE_LIMIT).replace(/&[a-z]*$/, '')}…\n_（長いため省略。全文は通知メールで確認）_`
+      `${text.slice(0, SLACK_MESSAGE_LIMIT).replace(/&[a-z]*$|[\uD800-\uDBFF]$/, '')}…\n_（長いため省略。全文は通知メールで確認）_`
 
 export const sendSlack = async (
   webhookUrl: string,
