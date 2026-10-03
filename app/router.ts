@@ -2,7 +2,11 @@ import { cop } from 'remix/middleware/cop'
 import { formData } from 'remix/middleware/form-data'
 import { logger } from 'remix/middleware/logger'
 import { render } from 'remix/middleware/render'
-import { createRouter, type MiddlewareContext } from 'remix/router'
+import {
+  createRouter,
+  type Middleware,
+  type MiddlewareContext,
+} from 'remix/router'
 
 import { biography } from './controllers/biography.tsx'
 import { contactForm } from './controllers/contact-form.tsx'
@@ -43,7 +47,7 @@ export interface AppRouterOptions {
 export function createAppRouter(options: AppRouterOptions) {
   let router = createRouter<AppContext>({
     middleware: [
-      ...(options.log === false ? [] : [logger()]),
+      ...(options.log === false ? [] : [requestLogger()]),
       trailingSlash(),
       cop(),
       formData(),
@@ -60,4 +64,19 @@ export function createAppRouter(options: AppRouterOptions) {
   router.map(routes.healthcheck, healthcheck)
 
   return router
+}
+
+/**
+ * リクエストログ。トップページの描画中にサーバー内で解決する contact Frame の GET は、
+ * ページ本体と二重に数えないよう記録しない。
+ */
+function requestLogger(): Middleware {
+  let log = logger()
+  return (context, next) => {
+    let { request } = context
+    let isFrameGet =
+      request.method === 'GET' &&
+      request.headers.get('X-Remix-Frame') === 'true'
+    return isFrameGet ? next() : log(context, next)
+  }
 }

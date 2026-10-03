@@ -2,13 +2,13 @@ import { createRedirectResponse } from 'remix/response/redirect'
 import { createController } from 'remix/router'
 
 import { submitContact } from '../contact/submit.ts'
+import { locale } from '../middleware/locale.ts'
 import { paths } from '../paths.ts'
 import { routes } from '../routes.ts'
 import { CONTACT_FRAME } from '../ui/home/contact.tsx'
 import { HomePage } from '../ui/home/page.tsx'
-import { publicPageHeaders } from './cache.ts'
+import { privateHeaders, publicPageHeaders } from './cache.ts'
 import { ContactFormFragment } from './contact-form.tsx'
-import { locale } from '../middleware/locale.ts'
 
 export const home = createController(routes.home, {
   middleware: [locale()],
@@ -16,8 +16,20 @@ export const home = createController(routes.home, {
     index(context) {
       let { i18n } = context
       let sent = context.url.searchParams.get('sent') === '1'
+
+      // 送信後に戻る・進むで contact Frame が再読み込みされると、この URL が Frame の src になる
+      if (isContactFrameRequest(context.request)) {
+        return context.render(
+          <ContactFormFragment
+            i18n={i18n}
+            state={sent ? { status: 'sent' } : { status: 'idle' }}
+          />,
+          { headers: privateHeaders },
+        )
+      }
+
       return context.render(<HomePage i18n={i18n} sent={sent} />, {
-        headers: sent ? undefined : publicPageHeaders,
+        headers: sent ? privateHeaders : publicPageHeaders,
       })
     },
 
@@ -33,11 +45,11 @@ export const home = createController(routes.home, {
 
       // JS あり: 問い合わせフォームの Frame だけを描き直す。
       // ブラウザの Frame は 5xx を捨てるので、送信失敗も 200 で返してメッセージを見せる
-      if (context.request.headers.get('X-Remix-Target') === CONTACT_FRAME) {
+      if (isContactFrameRequest(context.request)) {
         let status = result.status === 'invalid' ? 400 : 200
         return context.render(
           <ContactFormFragment i18n={i18n} state={result} />,
-          { status },
+          { status, headers: privateHeaders },
         )
       }
 
@@ -51,7 +63,12 @@ export const home = createController(routes.home, {
       let status = result.status === 'invalid' ? 400 : 503
       return context.render(<HomePage i18n={i18n} contactState={result} />, {
         status,
+        headers: privateHeaders,
       })
     },
   },
 })
+
+function isContactFrameRequest(request: Request): boolean {
+  return request.headers.get('X-Remix-Target') === CONTACT_FRAME
+}

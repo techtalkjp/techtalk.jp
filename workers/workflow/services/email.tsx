@@ -38,10 +38,8 @@ export const sendNotificationEmail = async (
   classification: Classification,
 ) => {
   try {
-    const isSales = classification.verdict === 'sales'
-    const subject = isSales
-      ? `[営業疑い] 新しいお問い合わせ: ${form.name}様`
-      : `新しいお問い合わせ: ${form.name}様`
+    // 営業判定（sales）の問い合わせは Workflow 側で通知の前に止めている
+    const subject = `新しいお問い合わせ: ${form.name}様`
     const classificationNote =
       `LLM判定: ${classification.verdict} (${classification.confidence}%) ${classification.reason || ''}\n` +
       `ルール: ${form.rule.score} (${form.rule.tier}) ${form.rule.reasons.join('、')}`

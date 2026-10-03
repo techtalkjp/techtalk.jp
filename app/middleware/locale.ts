@@ -1,4 +1,5 @@
 import type { RenderFunction } from 'remix/middleware/render'
+import { createRedirectResponse } from 'remix/response/redirect'
 import { createContextKey, type Middleware } from 'remix/router'
 
 import { notFound } from '../controllers/not-found.tsx'
@@ -17,6 +18,12 @@ export function locale(): Middleware<{
 }> {
   return (context, next) => {
     let { lang } = context.params as { lang?: string }
+    // 旧サイトは /ja も受け付けていた。ja は接頭辞なしが正なので寄せる
+    if (lang === 'ja') {
+      let location = new URL(context.url)
+      location.pathname = location.pathname.replace(/^\/ja(?=\/|$)/, '') || '/'
+      return createRedirectResponse(location, 301)
+    }
     let parsed = parseLocale(lang)
     // render ミドルウェアはルーター全体に掛けてあるので、ここでも使える
     if (!parsed)

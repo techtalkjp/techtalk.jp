@@ -200,6 +200,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
         method="post"
         action={paths.contactAction(locale)}
         data-rmx-target={CONTACT_FRAME}
+        data-rmx-history="replace"
         data-rmx-reset-scroll="false"
         mix={css({ display: 'flex', flexDirection: 'column', gap: '1rem' })}
       >
@@ -232,11 +233,11 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
             <input
               id={id(field.name)}
               name={field.name}
-              type={field.type ?? 'text'}
+              // 型の上では input の type ごとに props が分かれるので、テキスト系として渡す
+              type={(field.type ?? 'text') as 'text'}
               autoComplete={field.autoComplete}
               required={field.required}
               maxLength={field.maxLength}
-              list={undefined}
               value={values[field.name] ?? ''}
               aria-invalid={errors[field.name] ? 'true' : undefined}
               aria-describedby={describedBy(field.name)}
@@ -337,7 +338,14 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
             paddingTop: '0.5rem',
           })}
         >
-          <SubmitButton label={t('送信する')} pendingLabel={t('送信中…')} />
+          <SubmitButton
+            label={t('送信する')}
+            pendingLabel={t('送信中…')}
+            errorLabel={t(
+              '送信できませんでした。時間をおいて再度お試しください',
+            )}
+            frame={CONTACT_FRAME}
+          />
         </div>
       </form>
     )

@@ -1,8 +1,9 @@
 import { CacheControl } from 'remix/headers'
 
 /**
- * GET のページは誰に対しても同じ HTML なので、エッジ（Cloudflare）ではキャッシュしてよい。
- * ブラウザには毎回確認させ、デプロイ後の HTML と /js/*.js の組み合わせがずれないようにする。
+ * 誰に対しても同じ HTML のページ。ブラウザには毎回確認させ、
+ * デプロイ後の HTML と /js/*.js（ハッシュなし）の組み合わせがずれないようにする。
+ * Worker が返す HTML は Cloudflare のエッジにはキャッシュされない（Cache API を使えば別）。
  */
 export const publicPageHeaders = {
   'Cache-Control': new CacheControl({
@@ -10,8 +11,12 @@ export const publicPageHeaders = {
     maxAge: 0,
     mustRevalidate: true,
   }).toString(),
-  'Cloudflare-CDN-Cache-Control': new CacheControl({
-    maxAge: 600,
-    staleWhileRevalidate: 86400,
+}
+
+/** 送信結果など、訪問者ごとに変わる応答 */
+export const privateHeaders = {
+  'Cache-Control': new CacheControl({
+    private: true,
+    noStore: true,
   }).toString(),
 }

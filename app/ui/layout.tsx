@@ -27,13 +27,42 @@ export function Background() {
   )
 }
 
+/** 「TT」のロゴマーク */
+function TtBadge(
+  handle: Handle<{ size?: 'sm' | 'md'; tone?: 'header' | 'footer' }>,
+) {
+  return () => {
+    let small = handle.props.size === 'sm'
+    let footer = handle.props.tone === 'footer'
+    return (
+      <span
+        aria-hidden="true"
+        mix={css({
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: small ? '1.5rem' : '2rem',
+          height: small ? '1.5rem' : '2rem',
+          borderRadius: '0.125rem',
+          background: footer ? 'var(--footer-badge-bg)' : 'var(--button-bg)',
+          color: footer ? '#ffffff' : 'var(--button-text)',
+          fontSize: small ? '0.75rem' : '0.875rem',
+          fontWeight: 900,
+          letterSpacing: 0,
+        })}
+      >
+        TT
+      </span>
+    )
+  }
+}
+
 /** 「TT」ロゴ付きのサイト名 */
 export function Brand(
   handle: Handle<{ href: string; size?: 'sm' | 'md'; label?: string }>,
 ) {
   return () => {
     let { href, size = 'md', label = 'TechTalk' } = handle.props
-    let small = size === 'sm'
     return (
       <a
         href={href}
@@ -41,29 +70,13 @@ export function Brand(
           display: 'flex',
           alignItems: 'center',
           gap: '0.5rem',
-          fontSize: small ? '1rem' : '1.25rem',
+          fontSize: size === 'sm' ? '1rem' : '1.25rem',
           fontWeight: 700,
           letterSpacing: '-0.05em',
           color: 'var(--text-strong)',
         })}
       >
-        <span
-          mix={css({
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: small ? '1.5rem' : '2rem',
-            height: small ? '1.5rem' : '2rem',
-            borderRadius: '0.125rem',
-            background: 'var(--button-bg)',
-            color: 'var(--button-text)',
-            fontSize: small ? '0.75rem' : '0.875rem',
-            fontWeight: 900,
-            letterSpacing: 0,
-          })}
-        >
-          TT
-        </span>
+        <TtBadge size={size} />
         {label}
       </a>
     )
@@ -140,22 +153,7 @@ export function Footer(handle: Handle) {
               color: 'var(--text-strong)',
             })}
           >
-            <span
-              mix={css({
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '1.5rem',
-                height: '1.5rem',
-                borderRadius: '0.125rem',
-                background: '#0f172a',
-                color: '#ffffff',
-                fontSize: '0.75rem',
-                fontWeight: 900,
-              })}
-            >
-              TT
-            </span>
+            <TtBadge size="sm" tone="footer" />
             {t('TechTalk Inc.')}
           </div>
           <div

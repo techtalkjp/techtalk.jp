@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This file provides guidance to coding agents (Codex など) when working with code in this repository.
+This file provides guidance to coding agents (Claude Code, Codex など) when working with code in this repository. CLAUDE.md はこのファイルを読み込むだけにしている。
 
 ## Development Commands
 

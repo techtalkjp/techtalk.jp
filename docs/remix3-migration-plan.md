@@ -92,7 +92,7 @@
 - **ブラウザ標準の入力検証を使う。** Remix はネイティブの制約検証を通してから送信を横取りするので、HTML 属性だけで送信前の検証が効く
 - **送信中表示は Frame のイベントで出す。** `handle.frame` の `reloadStart` / `reloadComplete` を送信ボタンのアイランドで拾う
 - **出現アニメーションを `@remix-run/ui/animation` で付ける。** 完了メッセージとモバイルメニューの開閉に `animateEntrance` / `animateExit` を使う。スクロール連動の演出は CSS の scroll-driven animations のまま
-- **ページの HTML を全員同じにしてエッジでキャッシュする。** 問い合わせが POST と Frame に分かれたので、GET のページは言語ごとに固定の HTML になる。テーマの class を描画前のインラインスクリプトだけで付けるようにすれば Cookie で HTML が変わらなくなり、`remix/headers` で `Cache-Control: public, s-maxage=…` を付けられる。テーマ用の cookie 読み取り middleware は作らない
+- **ページの HTML を全員同じにする。** 問い合わせが POST と Frame に分かれたので、GET のページは言語ごとに固定の HTML になる。テーマはブラウザだけで cookie を読む。（実装メモ: Worker が返す HTML は Cloudflare のエッジに自動ではキャッシュされないため、`Cache-Control: public, max-age=0, must-revalidate` にとどめた。エッジキャッシュが必要になったら Cache API を使う）
 
 ## Remix v3 モジュールの採否
 

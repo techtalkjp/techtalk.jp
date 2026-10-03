@@ -4,13 +4,15 @@ import * as f from 'remix/data-schema/form-data'
 
 import type { Translate } from '../i18n/index.ts'
 
+// 前後の空白を除いてから検証する（空白だけの入力を通さない）
+const trimmed = () => s.string().transform((value) => value.trim())
 const required = (max: number) =>
-  f.field(s.string().pipe(minLength(1), maxLength(max)))
+  f.field(trimmed().pipe(minLength(1), maxLength(max)))
 // 空欄は undefined にそろえる（従来どおり評価ログでは NULL になる）
 const optional = (max: number) =>
   f.field(
     s
-      .optional(s.string().pipe(maxLength(max)))
+      .optional(trimmed().pipe(maxLength(max)))
       .transform((value) => value || undefined),
   )
 
@@ -18,7 +20,7 @@ export const contactSchema = f.object({
   name: required(100),
   company: optional(100),
   phone: optional(20),
-  email: f.field(s.string().pipe(minLength(1), maxLength(100), email())),
+  email: f.field(trimmed().pipe(minLength(1), maxLength(100), email())),
   message: required(10000),
   privacyPolicy: f.field(s.literal('on')),
 })

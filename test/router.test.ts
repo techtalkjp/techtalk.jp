@@ -24,7 +24,8 @@ function setup(options: { failEnqueue?: boolean } = {}) {
     },
   })
   let fetch = (path: string, init?: RequestInit) =>
-    router.fetch(new Request(new URL(path, 'http://localhost'), init))
+    // `//evil.com/` のようなパスもそのまま送るため、URL を文字列でつなぐ
+    router.fetch(new Request(`http://localhost${path}`, init))
   return { fetch, created }
 }
 
@@ -57,10 +58,7 @@ describe('pages', () => {
       let { fetch } = setup()
       let response = await fetch(path)
       assert.equal(response.status, 200)
-      assert.match(
-        response.headers.get('Cloudflare-CDN-Cache-Control') ?? '',
-        /max-age=600/,
-      )
+      assert.match(response.headers.get('Cache-Control') ?? '', /public/)
       let html = await response.text()
       assert.match(html, new RegExp(`<html lang="${lang}"`))
     })
@@ -100,33 +98,49 @@ describe('pages', () => {
     ['/en/', '/en'],
     ['/biography/', '/biography'],
     ['/en/biography/?ref=x', '/en/biography?ref=x'],
+    ['//evil.com/', '/evil.com'],
+    ['/ja', '/'],
+    ['/ja/biography', '/biography'],
   ] as const) {
     it(`GET ${from} redirects to ${to}`, async () => {
       let { fetch } = setup()
       let response = await fetch(from)
       assert.equal(response.status, 301)
-      assert.equal(response.headers.get('Location'), to)
+      assert.equal(
+        response.headers.get('Location'),
+        new URL(to, 'http://localhost').href,
+      )
     })
   }
 
-  it('browsers revalidate pages while the CDN caches them', async () => {
+  it('pages are public but always revalidated', async () => {
     let { fetch } = setup()
     let response = await fetch('/')
-    assert.match(response.headers.get('Cache-Control') ?? '', /max-age=0/)
-    assert.doesNotMatch(
-      response.headers.get('Cache-Control') ?? '',
-      /stale-while-revalidate/,
+    assert.equal(
+      response.headers.get('Cache-Control'),
+      'public, max-age=0, must-revalidate',
     )
-    assert.match(
-      response.headers.get('Cloudflare-CDN-Cache-Control') ?? '',
-      /max-age=600/,
-    )
+  })
+
+  it('per-visitor responses are not stored', async () => {
+    let { fetch } = setup()
+    for (let path of ['/?sent=1', '/contact-form']) {
+      let response = await fetch(path)
+      assert.match(response.headers.get('Cache-Control') ?? '', /no-store/)
+    }
   })
 
   it('contact form fragment is not indexed', async () => {
     let { fetch } = setup()
     let response = await fetch('/contact-form')
     assert.equal(response.headers.get('X-Robots-Tag'), 'noindex')
+  })
+
+  it('a contact frame reload of the page URL returns only the form', async () => {
+    let { fetch } = setup()
+    let html = await (await fetch('/en?sent=1', { headers: frame })).text()
+    assert.doesNotMatch(html, /<html/)
+    assert.match(html, /Thank you for your message/)
   })
 
   it('healthcheck queries D1', async () => {
@@ -183,6 +197,22 @@ describe('contact form', () => {
     assert.equal(response.status, 200)
     assert.match(await response.text(), /role="status"/)
     assert.equal(created.length, 0)
+  })
+
+  it('whitespace-only required fields are rejected', async () => {
+    let { fetch, created } = setup()
+    let response = await fetch(
+      '/',
+      post({ ...validForm, name: '   ', message: ' \n ' }, frame),
+    )
+    assert.equal(response.status, 400)
+    assert.equal(created.length, 0)
+  })
+
+  it('surrounding whitespace is trimmed', async () => {
+    let { fetch, created } = setup()
+    await fetch('/', post({ ...validForm, email: ' taro@example.com ' }, frame))
+    assert.equal(created[0]!.email, 'taro@example.com')
   })
 
   it('empty optional fields are sent as undefined', async () => {

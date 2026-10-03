@@ -4,6 +4,7 @@ import { createAction } from 'remix/router'
 import type { I18n } from '../i18n/index.ts'
 import { I18nProvider } from '../i18n/provider.tsx'
 import { routes } from '../routes.ts'
+import { privateHeaders } from './cache.ts'
 import { ContactForm, type ContactFormState } from '../ui/home/contact.tsx'
 import { locale } from '../middleware/locale.ts'
 
@@ -28,7 +29,7 @@ export const contactForm = createAction(routes.contactForm, {
         : { status: 'idle' }
     // 単体で開かれても検索結果に出さない
     return context.render(<ContactFormFragment i18n={i18n} state={state} />, {
-      headers: { 'X-Robots-Tag': 'noindex' },
+      headers: { ...privateHeaders, 'X-Robots-Tag': 'noindex' },
     })
   },
 })

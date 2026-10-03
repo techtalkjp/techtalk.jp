@@ -29,6 +29,7 @@ const lightTokens = `
   --button-bg: #0f172a;
   --button-bg-hover: #1e293b;
   --button-text: #ffffff;
+  --footer-badge-bg: #0f172a;
   --danger: #dc2626;
   --danger-surface: #fef2f2;
   --grid-line: rgb(15 23 42 / 0.05);
@@ -60,6 +61,7 @@ const darkTokens = `
   --button-bg: #ffffff;
   --button-bg-hover: #e2e8f0;
   --button-text: #000000;
+  --footer-badge-bg: #1e293b;
   --danger: #f87171;
   --danger-surface: rgb(127 29 29 / 0.3);
   --grid-line: rgb(255 255 255 / 0.03);
