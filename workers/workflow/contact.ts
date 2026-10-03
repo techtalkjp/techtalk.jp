@@ -56,16 +56,9 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
       console.log('Notification email sent to info@techtalk.jp')
     })
 
-    await step.do('sendReplyEmail', async () => {
-      const result = await sendReplyEmail(env.EMAIL, inquiry)
-      if (result.isErr()) {
-        throw new Error(result.error)
-      }
-      console.log('Reply email sent to', inquiry.email)
-    })
-
-    // Slack は補助の通知。失敗してもメール（本命の通知と自動返信）は送り終えているので、
-    // リトライしきって失敗したら記録だけ残して Workflow は成功で終える
+    // 順番: 通知メール（本命）→ Slack → 自動返信。
+    // Slack は補助の通知なので、リトライしきって失敗したら記録だけ残して自動返信へ進む。
+    // 自動返信は宛先が利用者の入力なので失敗しやすく、最後に回して通知を巻き込まない
     try {
       await step.do('sendContactSlack', async () => {
         const result = await sendSlack(
@@ -81,5 +74,13 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
     } catch (error) {
       console.error('Slack notification gave up:', error)
     }
+
+    await step.do('sendReplyEmail', async () => {
+      const result = await sendReplyEmail(env.EMAIL, inquiry)
+      if (result.isErr()) {
+        throw new Error(result.error)
+      }
+      console.log('Reply email sent to', inquiry.email)
+    })
   }
 }

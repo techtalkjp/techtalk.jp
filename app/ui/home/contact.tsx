@@ -1,12 +1,11 @@
 import { css, Frame, type Handle } from 'remix/component'
 
-import { contactLimits } from '../../contact/schema.ts'
-import type { ContactSubmitResult } from '../../contact/submit.ts'
-import type {
-  ContactErrors,
-  ContactFieldName,
-  ContactValues,
+import {
+  contactLimits,
+  type ContactErrors,
+  type ContactFieldName,
 } from '../../contact/schema.ts'
+import type { ContactSubmitResult } from '../../contact/submit.ts'
 import { getI18n } from '../../i18n/provider.tsx'
 import { SubmitButton } from '../../islands/submit-button.tsx'
 import { paths } from '../../paths.ts'

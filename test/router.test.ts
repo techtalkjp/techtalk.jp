@@ -215,6 +215,10 @@ describe('contact form', () => {
     'taro@localhost',
     'x>y@example.com',
     'a,b@example.com',
+    'taro.@example.com',
+    '.taro@example.com',
+    'a..b@example.com',
+    'taro@examplexcom',
   ]) {
     it(`rejects malformed email ${email}`, async () => {
       let { fetch, created } = setup()
@@ -307,6 +311,15 @@ describe('contact form', () => {
     )
     assert.equal(response.status, 400)
     assert.equal(created.length, 0)
+  })
+
+  it('folds line breaks in single-line fields', async () => {
+    let { fetch, created } = setup()
+    await fetch(
+      '/contact-form',
+      post({ ...validForm, name: 'A\r\nBcc: x@y' }, frame),
+    )
+    assert.equal(created[0]!.name, 'A Bcc: x@y')
   })
 
   it('surrounding whitespace is trimmed', async () => {

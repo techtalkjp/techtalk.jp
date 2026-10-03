@@ -15,11 +15,13 @@ export const contactLimits = {
 
 /**
  * メールアドレスの形式。remix/data-schema の email() は `a@b.c` や `x>y@example.com` も通すので、
- * ローカル部は RFC 5322 の atext とドット、ドメインは英数字とハイフンのラベル、
+ * ローカル部は RFC 5322 の atext をドットでつないだもの（先頭・末尾・連続のドットは不可）、ドメインは英数字とハイフンのラベル、
  * 最後のラベルは 2 文字以上の英字に限る（メール送信で壊れる文字を入れさせない）
  */
-const EMAIL_PATTERN =
-  /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/
+const ATEXT = "[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+"
+const EMAIL_PATTERN = new RegExp(
+  `^${ATEXT}(?:\\.${ATEXT})*@[A-Za-z0-9-]+(?:\\.[A-Za-z0-9-]+)*\\.[A-Za-z]{2,}$`,
+)
 const email = (): s.Check<string> => ({
   check: (value) => EMAIL_PATTERN.test(value),
   code: 'string.email',
@@ -32,20 +34,25 @@ const trimmed = () =>
   s.string().transform((value) => value.replace(/\r\n?/g, '\n').trim())
 const required = (max: number) =>
   f.field(trimmed().pipe(minLength(1), maxLength(max)))
+// 1 行の欄。改行はメールの件名などに入ると困るので空白にする
+const singleLine = () =>
+  trimmed().transform((value) => value.replace(/\s*\n\s*/g, ' '))
+const requiredLine = (max: number) =>
+  f.field(singleLine().pipe(minLength(1), maxLength(max)))
 // 空欄は undefined にそろえる（従来どおり評価ログでは NULL になる）
 const optional = (max: number) =>
   f.field(
     s
-      .optional(trimmed().pipe(maxLength(max)))
+      .optional(singleLine().pipe(maxLength(max)))
       .transform((value) => value || undefined),
   )
 
 export const contactSchema = f.object({
-  name: required(contactLimits.name),
+  name: requiredLine(contactLimits.name),
   company: optional(contactLimits.company),
   phone: optional(contactLimits.phone),
   email: f.field(
-    trimmed().pipe(minLength(1), maxLength(contactLimits.email), email()),
+    singleLine().pipe(minLength(1), maxLength(contactLimits.email), email()),
   ),
   message: required(contactLimits.message),
   privacyPolicy: f.field(s.literal('on')),

@@ -21,13 +21,27 @@ export const SubmitButton = clientEntry(
   function SubmitButton(handle: Handle<SubmitButtonProps>) {
     let pending = false
     let failed = false
+    // このボタンで送信を始めたか。Frame の再読み込みはページ遷移でも起きるので、
+    // 自分の送信のときだけ「送信中」にする
+    let submitting = false
 
     // サーバー描画時は購読しない（workerd では handle.signal を addEventListener に渡せない）
     if (typeof document !== 'undefined') {
       let { signal } = handle
       handle.frame.addEventListener(
+        'reloadStart',
+        () => {
+          if (!submitting) return
+          pending = true
+          failed = false
+          void handle.update()
+        },
+        { signal },
+      )
+      handle.frame.addEventListener(
         'reloadComplete',
         () => {
+          submitting = false
           pending = false
           void handle.update()
         },
@@ -37,6 +51,7 @@ export const SubmitButton = clientEntry(
         FRAME_SUBMIT_ERROR,
         (event) => {
           if ((event as CustomEvent).detail !== handle.props.frame) return
+          submitting = false
           pending = false
           failed = true
           void handle.update()
@@ -56,15 +71,14 @@ export const SubmitButton = clientEntry(
       >
         <button
           type="submit"
-          // 送信中の表示は、このボタンのフォームが送信されたときだけ始める
+          // ここで disabled にすると送信そのものが止まるので、印を付けるだけにして
+          // 実際の表示は Frame の reloadStart で切り替える
           mix={[
             primaryButton,
             on('click', (event) => {
+              // ブラウザの入力チェックで止まる送信は数えない
               let form = (event.currentTarget as HTMLButtonElement).form
-              if (!form?.checkValidity()) return
-              pending = true
-              failed = false
-              void handle.update()
+              submitting = form?.checkValidity() ?? false
             }),
           ]}
           disabled={pending}

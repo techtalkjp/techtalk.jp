@@ -21,7 +21,7 @@ Remix 3（`remix@3.0.0`）を Cloudflare Workers で動かしている。React �
 
 - `worker.ts` - Worker のエントリ。`createAppRouter({ bindings })` を isolate ごとに作り、`ContactWorkflow` を re-export する
 - `app/routes.ts` - URL の定義。パターンは先頭 `/` なしで書く（`(:lang)` はロケール。ja は接頭辞なし、en は `/en`）
-- `app/router.ts` - ミドルウェア（logger, cop, formData, bindings, render）とルートの割り当て
+- `app/router.ts` - 全体のミドルウェア（logger, canonicalPath, cop, bindings, render）とルートの割り当て。フォームの解析は問い合わせのルートだけに `contactFormData()`（上限つき、400/413）を掛ける。ロケールは `(:lang)` のルートに `locale()` を掛け、`context.i18n` で受け取る
 - `app/controllers/` - ルートごとのハンドラ。`context.render(<Page />)` で HTML を返す
 - `app/ui/` - サーバー描画のコンポーネント。スタイルは `css()` mixin、トークンは `app/ui/global-styles.ts` の CSS 変数
 - `app/islands/` - ブラウザでハイドレーションするコンポーネント（`clientEntry('/js/entry.js#Name', ...)`）。`client/islands.ts` に同名で export を足す
