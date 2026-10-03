@@ -12,7 +12,7 @@ import {
   TwitterIcon,
 } from '../icons.tsx'
 import { LanguageLink, PageShell, ThemeSwitcher } from '../layout.tsx'
-import { fadeUpOnLoad, md, narrowContainer, reveal, sm } from '../styles.ts'
+import { fadeUpOnLoad, md, narrowContainer, sm } from '../styles.ts'
 
 function biographySeo({ locale }: I18n): Seo {
   let ja = locale === 'ja'
@@ -259,7 +259,7 @@ function SocialLinks(handle: Handle) {
     let { t } = getI18n(handle)
     return (
       <section mix={[sectionStyle, css({ paddingBlock: '3rem' })]}>
-        <div mix={[narrowContainer, reveal]}>
+        <div mix={narrowContainer}>
           <h2 mix={[sectionLabel, css({ marginBottom: '1.5rem' })]}>
             {t('CONNECT')}
           </h2>
@@ -306,14 +306,14 @@ function CareerTimeline(handle: Handle) {
     return (
       <section mix={sectionStyle}>
         <div mix={narrowContainer}>
-          <h2 mix={[sectionLabel, reveal]}>{t('CAREER')}</h2>
+          <h2 mix={sectionLabel}>{t('CAREER')}</h2>
           <div
             mix={css({ display: 'flex', flexDirection: 'column', gap: '2rem' })}
           >
             {careers.map((career) => (
               <div
                 key={career.title}
-                mix={[cardStyle, reveal, css({ padding: '2rem' })]}
+                mix={[cardStyle, css({ padding: '2rem' })]}
               >
                 <div
                   mix={css({
@@ -352,7 +352,7 @@ function MediaCoverage(handle: Handle) {
     return (
       <section mix={sectionStyle}>
         <div mix={narrowContainer}>
-          <h2 mix={[sectionLabel, reveal]}>{t('MEDIA COVERAGE')}</h2>
+          <h2 mix={sectionLabel}>{t('MEDIA COVERAGE')}</h2>
           <div
             mix={css({
               display: 'grid',
@@ -368,7 +368,6 @@ function MediaCoverage(handle: Handle) {
                 rel="noopener noreferrer"
                 mix={[
                   cardStyle,
-                  reveal,
                   css({
                     display: 'block',
                     overflow: 'hidden',

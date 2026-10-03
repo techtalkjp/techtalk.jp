@@ -3,7 +3,7 @@ import { css, type Handle } from 'remix/component'
 import { getI18n } from '../../i18n/provider.tsx'
 import { paths } from '../../paths.ts'
 import { BookOpenIcon, FacebookIcon, GithubIcon, UserIcon } from '../icons.tsx'
-import { container, md, mono, panel, reveal } from '../styles.ts'
+import { container, md, mono, panel } from '../styles.ts'
 
 const socialLink = css({
   display: 'flex',
@@ -20,10 +20,7 @@ export function ProfileSection(handle: Handle) {
     let { t, locale } = getI18n(handle)
 
     return (
-      <section
-        id="profile"
-        mix={[container, reveal, css({ paddingBlock: '6rem' })]}
-      >
+      <section id="profile" mix={[container, css({ paddingBlock: '6rem' })]}>
         <div mix={[panel, css({ padding: '2rem', [md]: { padding: '4rem' } })]}>
           <div
             mix={css({
