@@ -42,7 +42,8 @@ const validForm = {
   privacyPolicy: 'on',
 }
 
-const frame = { 'X-Remix-Frame': 'true' }
+// ブラウザの Frame ナビゲーションが付けるヘッダー
+const frame = { 'X-Remix-Frame': 'true', 'X-Remix-Target': 'contact' }
 
 describe('pages', () => {
   for (let [path, lang] of [
@@ -56,7 +57,10 @@ describe('pages', () => {
       let { fetch } = setup()
       let response = await fetch(path)
       assert.equal(response.status, 200)
-      assert.match(response.headers.get('Cache-Control') ?? '', /s-maxage=600/)
+      assert.match(
+        response.headers.get('Cloudflare-CDN-Cache-Control') ?? '',
+        /max-age=600/,
+      )
       let html = await response.text()
       assert.match(html, new RegExp(`<html lang="${lang}"`))
     })
@@ -90,6 +94,39 @@ describe('pages', () => {
     let html = await (await fetch('/en')).text()
     assert.match(html, /"name":"contact","src":"\/en\/contact-form"/)
     assert.match(html, /name="email"/)
+  })
+
+  for (let [from, to] of [
+    ['/en/', '/en'],
+    ['/biography/', '/biography'],
+    ['/en/biography/?ref=x', '/en/biography?ref=x'],
+  ] as const) {
+    it(`GET ${from} redirects to ${to}`, async () => {
+      let { fetch } = setup()
+      let response = await fetch(from)
+      assert.equal(response.status, 301)
+      assert.equal(response.headers.get('Location'), to)
+    })
+  }
+
+  it('browsers revalidate pages while the CDN caches them', async () => {
+    let { fetch } = setup()
+    let response = await fetch('/')
+    assert.match(response.headers.get('Cache-Control') ?? '', /max-age=0/)
+    assert.doesNotMatch(
+      response.headers.get('Cache-Control') ?? '',
+      /stale-while-revalidate/,
+    )
+    assert.match(
+      response.headers.get('Cloudflare-CDN-Cache-Control') ?? '',
+      /max-age=600/,
+    )
+  })
+
+  it('contact form fragment is not indexed', async () => {
+    let { fetch } = setup()
+    let response = await fetch('/contact-form')
+    assert.equal(response.headers.get('X-Robots-Tag'), 'noindex')
   })
 
   it('healthcheck queries D1', async () => {
@@ -137,6 +174,31 @@ describe('contact form', () => {
     assert.equal(created.length, 0)
   })
 
+  it('honeypot is checked before validation', async () => {
+    let { fetch, created } = setup()
+    let response = await fetch(
+      '/',
+      post({ companyPhone: 'x'.repeat(500) }, frame),
+    )
+    assert.equal(response.status, 200)
+    assert.match(await response.text(), /role="status"/)
+    assert.equal(created.length, 0)
+  })
+
+  it('empty optional fields are sent as undefined', async () => {
+    let { fetch, created } = setup()
+    await fetch('/', post({ ...validForm, company: '', phone: '' }, frame))
+    assert.equal(created[0]!.company, undefined)
+    assert.equal(created[0]!.phone, undefined)
+  })
+
+  it('enqueue failure without JS returns 503', async () => {
+    let { fetch } = setup({ failEnqueue: true })
+    let response = await fetch('/', post(validForm))
+    assert.equal(response.status, 503)
+    assert.match(await response.text(), /<html lang="ja"/)
+  })
+
   it('honeypot submissions look successful but are dropped', async () => {
     let { fetch, created } = setup()
     let response = await fetch(
@@ -150,8 +212,9 @@ describe('contact form', () => {
 
   it('enqueue failure shows an error and keeps the input', async () => {
     let { fetch } = setup({ failEnqueue: true })
+    // ブラウザの Frame は 5xx を捨てるので、Frame には 200 で返す
     let response = await fetch('/', post(validForm, frame))
-    assert.equal(response.status, 503)
+    assert.equal(response.status, 200)
     let html = await response.text()
     assert.match(html, /送信できませんでした/)
     assert.match(html, /taro@example\.com/)

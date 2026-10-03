@@ -5,10 +5,9 @@ import type {
   ContactFieldName,
   ContactValues,
 } from '../../contact/schema.ts'
-import type { Locale } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
 import { SubmitButton } from '../../islands/submit-button.tsx'
-import { routes } from '../../routes.ts'
+import { paths } from '../../paths.ts'
 import { fadeUpOnLoad, narrowContainer, reveal } from '../styles.ts'
 
 export type ContactFormState =
@@ -18,10 +17,6 @@ export type ContactFormState =
   | { status: 'sent' }
 
 export const CONTACT_FRAME = 'contact'
-
-export function langParam(locale: Locale): { lang?: string } {
-  return locale === 'ja' ? {} : { lang: locale }
-}
 
 /**
  * トップの問い合わせセクション。フォームは Frame で埋め込み、送信するとフォーム部分だけが
@@ -79,10 +74,7 @@ export function ContactSection(
             ) : (
               <Frame
                 name={CONTACT_FRAME}
-                src={
-                  routes.contactForm.href({ ...langParam(locale) }) +
-                  (sent ? '?sent=1' : '')
-                }
+                src={paths.contactForm(locale) + (sent ? '?sent=1' : '')}
               />
             )}
           </div>
@@ -206,7 +198,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
     return (
       <form
         method="post"
-        action={routes.home.action.href({ ...langParam(locale) })}
+        action={paths.contactAction(locale)}
         data-rmx-target={CONTACT_FRAME}
         data-rmx-reset-scroll="false"
         mix={css({ display: 'flex', flexDirection: 'column', gap: '1rem' })}
@@ -280,11 +272,9 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
           ) : null}
         </div>
 
-        {/* honeypot: 人には見えない欄。ボットが埋めたら送信したことにして捨てる */}
-        <div
-          aria-hidden="true"
-          mix={css({ position: 'absolute', left: '-9999px' })}
-        >
+        {/* honeypot: 人には見えない欄。ボットが埋めたら送信したことにして捨てる。
+            画面外に置くだけだと自動入力で埋まることがあるので display: none にする */}
+        <div hidden mix={css({ display: 'none' })}>
           <input
             type="text"
             name="companyPhone"
@@ -319,7 +309,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
             <span>
               {locale === 'ja' ? null : 'I agree to the '}
               <a
-                href={routes.privacy.href()}
+                href={paths.privacy()}
                 target="_blank"
                 rel="noopener"
                 mix={css({

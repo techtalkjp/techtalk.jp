@@ -35,10 +35,13 @@ export function createTranslate(locale: Locale): Translate {
   }
 }
 
-/** ロケールに応じたパスを返す。ja は接頭辞なし */
-export function localizedPath(locale: Locale, path: string): string {
-  if (locale === 'ja') return path
-  return path === '/' ? `/${locale}` : `/${locale}${path}`
+/** ルートの `(:lang)` に渡すパラメータ。ja は接頭辞なし */
+export function langParam(locale: Locale): { lang?: string } {
+  return locale === 'ja' ? {} : { lang: locale }
+}
+
+export function otherLocale(locale: Locale): Locale {
+  return locale === 'ja' ? 'en' : 'ja'
 }
 
 export interface I18n {

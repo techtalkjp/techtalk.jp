@@ -1,8 +1,7 @@
 import { css, type Handle } from 'remix/component'
 
-import { localizedPath } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
-import { routes } from '../../routes.ts'
+import { paths } from '../../paths.ts'
 import { BookOpenIcon, FacebookIcon, GithubIcon, UserIcon } from '../icons.tsx'
 import { container, md, mono, panel, reveal } from '../styles.ts'
 
@@ -103,7 +102,7 @@ export function ProfileSection(handle: Handle) {
                 </a>
               </div>
               <a
-                href={localizedPath(locale, routes.biography.href())}
+                href={paths.biography(locale)}
                 mix={css({
                   display: 'inline-flex',
                   alignSelf: 'flex-start',

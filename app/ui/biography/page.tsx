@@ -1,6 +1,7 @@
 import { css, type Handle, type RemixNode } from 'remix/component'
 
-import type { I18n } from '../../i18n/index.ts'
+import { otherLocale, type I18n } from '../../i18n/index.ts'
+import { paths } from '../../paths.ts'
 import { getI18n, I18nProvider } from '../../i18n/provider.tsx'
 import { Document, type Seo } from '../document.tsx'
 import {
@@ -22,9 +23,9 @@ function biographySeo({ locale }: I18n): Seo {
     description: ja
       ? '技術と事業の両面から0→1を生み出すことを専門としています。フリークアウト、IRIS、TechTalkでの経験。'
       : 'Specializing in creating 0→1 value from both technical and business perspectives. Experience at FreakOut, IRIS, and TechTalk.',
-    path: ja ? '/biography' : '/en/biography',
+    path: paths.biography(locale),
     ogType: 'profile',
-    alternates: { ja: '/biography', en: '/en/biography' },
+    alternates: { ja: paths.biography('ja'), en: paths.biography('en') },
   }
 }
 
@@ -130,9 +131,7 @@ export function BiographyPage(handle: Handle<{ i18n: I18n }>) {
           <PageShell>
             <div mix={css({ position: 'relative', zIndex: 10 })}>
               <BiographyNav
-                languageHref={
-                  i18n.locale === 'ja' ? '/en/biography' : '/biography'
-                }
+                languageHref={paths.biography(otherLocale(i18n.locale))}
               />
               <BiographyHero />
               <SocialLinks />
@@ -164,7 +163,7 @@ function BiographyNav(handle: Handle<{ languageHref: string }>) {
           ]}
         >
           <a
-            href={locale === 'ja' ? '/' : '/en'}
+            href={paths.home(locale)}
             mix={css({
               display: 'inline-flex',
               alignItems: 'center',

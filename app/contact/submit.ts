@@ -23,16 +23,20 @@ export async function submitContact(options: {
   t: Translate
   workflow: Bindings['contactWorkflow']
 }): Promise<ContactSubmitResult> {
+  // honeypot: 人には見えない欄。埋まっていたらボットとみなし、検証より先に
+  // 送信成功のふりをして捨てる（検証エラーを返すとボットに気づかれる）
+  let honeypot = options.formData.get('companyPhone')
+  if (typeof honeypot === 'string' && honeypot !== '') {
+    console.log('honeypot', honeypot.slice(0, 100))
+    return { status: 'sent' }
+  }
+
   let parsed = parseContactForm(options.formData, options.t)
   if (!parsed.success) {
     return { status: 'invalid', values: parsed.values, errors: parsed.errors }
   }
 
-  let { companyPhone, ...form } = parsed.data
-  if (companyPhone) {
-    console.log('honeypot', companyPhone)
-    return { status: 'sent' }
-  }
+  let form = parsed.data
 
   let data = { ...form, privacyPolicy: true, locale: options.locale }
   let inquiry: ContactInquiry = { ...data, rule: scoreSales(data) }

@@ -11,10 +11,12 @@ import { home } from './controllers/home.tsx'
 import { notFound } from './controllers/not-found.tsx'
 import { privacy } from './controllers/privacy.tsx'
 import { bindings, type Bindings } from './middleware/bindings.ts'
+import { trailingSlash } from './middleware/trailing-slash.ts'
 import { routes } from './routes.ts'
 
 type AppContext = MiddlewareContext<
   [
+    ReturnType<typeof trailingSlash>,
     ReturnType<typeof cop>,
     ReturnType<typeof formData>,
     ReturnType<typeof bindings>,
@@ -42,6 +44,7 @@ export function createAppRouter(options: AppRouterOptions) {
   let router = createRouter<AppContext>({
     middleware: [
       ...(options.log === false ? [] : [logger()]),
+      trailingSlash(),
       cop(),
       formData(),
       bindings(options.bindings),

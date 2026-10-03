@@ -1,7 +1,8 @@
 import { css, type Handle } from 'remix/component'
 
 import { SITE_URL } from '../../config.ts'
-import type { I18n } from '../../i18n/index.ts'
+import { otherLocale, type I18n } from '../../i18n/index.ts'
+import { paths } from '../../paths.ts'
 import { I18nProvider } from '../../i18n/provider.tsx'
 import { Document, type Seo } from '../document.tsx'
 import { PageShell } from '../layout.tsx'
@@ -35,11 +36,11 @@ function homeSeo({ locale }: I18n): Seo {
     description: ja
       ? '株式会社TechTalkは、AI成果物の共有サービス「Artifact Share」の開発・運営と、事業開発から実装まで一貫した技術支援を行っています。'
       : 'TechTalk, Inc. develops and operates Artifact Share, a service for sharing AI-generated work, and provides end-to-end technical support from business development through implementation.',
-    path: ja ? '/' : '/en',
+    path: paths.home(locale),
     siteName: ja ? '株式会社TechTalk' : 'TechTalk, Inc.',
     keywords:
       'Artifact Share,AIエージェント,MVP開発,AI統合,React Router,TypeScript,Cloudflare Workers,D1,R2',
-    alternates: { ja: '/', en: '/en' },
+    alternates: { ja: paths.home('ja'), en: paths.home('en') },
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'Organization',
@@ -82,7 +83,7 @@ export function HomePage(handle: Handle<HomePageProps>) {
       <Document locale={i18n.locale} seo={homeSeo(i18n)}>
         <I18nProvider value={i18n}>
           <PageShell>
-            <HomeHeader languageHref={i18n.locale === 'ja' ? '/en' : '/'} />
+            <HomeHeader languageHref={paths.home(otherLocale(i18n.locale))} />
             <main
               mix={css({
                 position: 'relative',

@@ -6,8 +6,13 @@ import type { Translate } from '../i18n/index.ts'
 
 const required = (max: number) =>
   f.field(s.string().pipe(minLength(1), maxLength(max)))
+// 空欄は undefined にそろえる（従来どおり評価ログでは NULL になる）
 const optional = (max: number) =>
-  f.field(s.optional(s.string().pipe(maxLength(max))))
+  f.field(
+    s
+      .optional(s.string().pipe(maxLength(max)))
+      .transform((value) => value || undefined),
+  )
 
 export const contactSchema = f.object({
   name: required(100),
@@ -16,8 +21,6 @@ export const contactSchema = f.object({
   email: f.field(s.string().pipe(minLength(1), maxLength(100), email())),
   message: required(10000),
   privacyPolicy: f.field(s.literal('on')),
-  // honeypot: 人には見えない欄。埋まっていたらボットとみなす
-  companyPhone: optional(100),
 })
 
 export const contactFieldNames = [

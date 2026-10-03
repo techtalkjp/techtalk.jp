@@ -1,6 +1,7 @@
 import { css, type Handle } from 'remix/component'
 
 import { createI18n, type Locale } from '../i18n/index.ts'
+import { paths } from '../paths.ts'
 import { getI18n, I18nProvider } from '../i18n/provider.tsx'
 import { Document } from './document.tsx'
 import { PageShell } from './layout.tsx'
@@ -71,7 +72,7 @@ export function PrivacyPage() {
             </div>
             <div mix={css({ marginTop: '4rem', textAlign: 'center' })}>
               <a
-                href="/"
+                href={paths.home('ja')}
                 mix={[
                   secondaryButton,
                   css({ borderRadius: '0.75rem', padding: '0.5rem 1rem' }),
@@ -147,7 +148,7 @@ function NotFoundContent(handle: Handle) {
         <p mix={css({ color: 'var(--text-muted)' })}>
           {t('お探しのページは移動または削除された可能性があります。')}
         </p>
-        <a href={locale === 'ja' ? '/' : '/en'} mix={secondaryButton}>
+        <a href={paths.home(locale)} mix={secondaryButton}>
           {t('トップへ戻る')}
         </a>
       </main>

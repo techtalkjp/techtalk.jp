@@ -11,6 +11,7 @@ export interface ThemeMenuProps {
 }
 
 const ONE_YEAR = 60 * 60 * 24 * 365
+const THEME_CHANGE = 'techtalk:themechange'
 
 function readTheme(): Theme {
   let value = document.documentElement.dataset.theme
@@ -25,7 +26,8 @@ function applyTheme(theme: Theme) {
   } else {
     root.dataset.theme = theme
     document.cookie = `theme=${theme}; Path=/; Max-Age=${ONE_YEAR}; SameSite=Lax`
-  }
+  } // 同じページにある他のテーマメニュー（PC 用とスマホ用）にも知らせる
+  document.dispatchEvent(new CustomEvent(THEME_CHANGE, { detail: theme }))
 }
 
 /** ライト / ダーク / システム設定を切り替えるメニュー */
@@ -38,6 +40,17 @@ export const ThemeMenu = clientEntry(
       theme = readTheme()
       void handle.update()
     })
+    if (typeof document !== 'undefined') {
+      let onThemeChange = () => {
+        theme = readTheme()
+        void handle.update()
+      }
+      document.addEventListener(THEME_CHANGE, onThemeChange)
+      // workerd 以外（ブラウザ）でだけ通る分岐なので signal を渡さず自前で外す
+      handle.signal.addEventListener('abort', () =>
+        document.removeEventListener(THEME_CHANGE, onThemeChange),
+      )
+    }
 
     return () => {
       let { labels } = handle.props
@@ -52,9 +65,7 @@ export const ThemeMenu = clientEntry(
           mix={menu.onMenuSelect((event) => {
             let value = event.item.value as Theme | undefined
             if (!value) return
-            theme = value
             applyTheme(value)
-            void handle.update()
           })}
         >
           <menu.Context label={labels.theme}>
