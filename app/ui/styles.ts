@@ -21,20 +21,6 @@ export const narrowContainer = css({
   paddingInline: '1.5rem',
 })
 
-/**
- * スクロールに合わせてふわっと表示する（CSS の scroll-driven animations）。
- * 未対応ブラウザや「視差効果を減らす」設定ではそのまま表示する。
- */
-export const reveal = css({
-  '@supports (animation-timeline: view())': {
-    '@media (prefers-reduced-motion: no-preference)': {
-      animation: 'reveal linear both',
-      animationTimeline: 'view()',
-      animationRange: 'entry 0% entry 35%',
-    },
-  },
-})
-
 /** ページ表示時に一度だけふわっと出す */
 export const fadeUpOnLoad = css({
   '@media (prefers-reduced-motion: no-preference)': {

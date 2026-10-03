@@ -8,7 +8,7 @@ import {
   RefreshIcon,
   ShieldCheckIcon,
 } from '../icons.tsx'
-import { container, lg, md, mono, reveal, sm } from '../styles.ts'
+import { container, lg, md, mono, sm } from '../styles.ts'
 
 const features: {
   icon: () => RemixNode
@@ -83,7 +83,6 @@ export function ProductsSection(handle: Handle) {
         <div mix={[container, css({ position: 'relative' })]}>
           <div
             mix={[
-              reveal,
               css({
                 display: 'grid',
                 gap: '3rem',

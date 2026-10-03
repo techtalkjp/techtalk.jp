@@ -1,7 +1,7 @@
 import { css, type Handle } from 'remix/component'
 
 import { getI18n } from '../../i18n/provider.tsx'
-import { md, narrowContainer, panel, reveal } from '../styles.ts'
+import { md, narrowContainer, panel } from '../styles.ts'
 
 const rows: [label: string, value: string][] = [
   ['会社名', '株式会社TechTalk'],
@@ -22,7 +22,6 @@ export function CompanySection(handle: Handle) {
       <section
         id="company"
         mix={[
-          reveal,
           css({ borderTop: '1px solid var(--border)', paddingBlock: '6rem' }),
         ]}
       >

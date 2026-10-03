@@ -104,10 +104,6 @@ export const globalStyles = `
   button, input, textarea { font: inherit; color: inherit; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  @keyframes reveal {
-    from { opacity: 0; transform: translateY(3rem); }
-    to { opacity: 1; transform: none; }
-  }
   @keyframes fade-up {
     from { opacity: 0; transform: translateY(1.25rem); }
     to { opacity: 1; transform: none; }

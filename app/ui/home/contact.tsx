@@ -9,7 +9,7 @@ import type { ContactSubmitResult } from '../../contact/submit.ts'
 import { getI18n } from '../../i18n/provider.tsx'
 import { SubmitButton } from '../../islands/submit-button.tsx'
 import { paths } from '../../paths.ts'
-import { fadeUpOnLoad, narrowContainer, reveal } from '../styles.ts'
+import { fadeUpOnLoad, narrowContainer } from '../styles.ts'
 
 export type ContactFormState = ContactSubmitResult | { status: 'idle' }
 
@@ -34,7 +34,7 @@ export function ContactSection(
           paddingBlock: '6rem',
         })}
       >
-        <div mix={[narrowContainer, reveal, css({ textAlign: 'center' })]}>
+        <div mix={[narrowContainer, css({ textAlign: 'center' })]}>
           <h2
             mix={css({
               marginBottom: '1.5rem',

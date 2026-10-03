@@ -9,14 +9,7 @@ import {
   LayersIcon,
   SparklesIcon,
 } from '../icons.tsx'
-import {
-  container,
-  eyebrow,
-  md,
-  mono,
-  reveal,
-  sectionTitle,
-} from '../styles.ts'
+import { container, eyebrow, md, mono, sectionTitle } from '../styles.ts'
 
 interface Service {
   /** アクセント色（CSS 変数）と、アイコン背景のグラデーション用 RGB */
@@ -156,7 +149,7 @@ export function ServicesSection(handle: Handle) {
         })}
       >
         <div mix={container}>
-          <div mix={[reveal, css({ marginBottom: '4rem' })]}>
+          <div mix={css({ marginBottom: '4rem' })}>
             <p mix={[eyebrow, css({ marginBottom: '0.5rem' })]}>
               {t('OUR SERVICES')}
             </p>
@@ -174,7 +167,7 @@ export function ServicesSection(handle: Handle) {
               <div
                 key={service.title}
                 style={{ '--card-accent': service.accent }}
-                mix={[card, reveal]}
+                mix={card}
               >
                 <div mix={css({ marginBottom: '1.5rem' })}>
                   <IconBadge tint={service.tint} accent={service.accent}>
@@ -243,7 +236,6 @@ export function ServicesSection(handle: Handle) {
 
           <div
             mix={[
-              reveal,
               css({
                 marginTop: '5rem',
                 borderTop: '1px solid var(--border)',
@@ -310,7 +302,6 @@ function RecordsBanner(handle: Handle) {
         style={{ '--card-accent': 'var(--accent-rose)' }}
         mix={[
           card,
-          reveal,
           css({
             marginTop: '3rem',
             alignItems: 'center',
