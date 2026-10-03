@@ -6,7 +6,7 @@ export const routes = route({
   home: form('(:lang)'),
   biography: get('(:lang/)biography'),
   privacy: get('privacy'),
-  // トップに埋め込む問い合わせフォームの Frame
-  contactForm: get('(:lang/)contact-form'),
+  // トップに埋め込む問い合わせフォームの Frame。GET はフォーム、POST は JS ありの送信
+  contactForm: form('(:lang/)contact-form'),
   healthcheck: get('healthcheck'),
 })

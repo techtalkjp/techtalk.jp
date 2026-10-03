@@ -14,18 +14,22 @@ export const contactLimits = {
 } as const
 
 /**
- * メールアドレスの形式。remix/data-schema の email() は `a@b.c` も通すので、
- * ドメインの各ラベルが空でなく、最後が 2 文字以上の英字であることまで見る
+ * メールアドレスの形式。remix/data-schema の email() は `a@b.c` や `x>y@example.com` も通すので、
+ * ローカル部は RFC 5322 の atext とドット、ドメインは英数字とハイフンのラベル、
+ * 最後のラベルは 2 文字以上の英字に限る（メール送信で壊れる文字を入れさせない）
  */
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[a-z]{2,}$/i
+const EMAIL_PATTERN =
+  /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/
 const email = (): s.Check<string> => ({
   check: (value) => EMAIL_PATTERN.test(value),
   code: 'string.email',
   message: 'Expected valid email',
 })
 
-// 前後の空白を除いてから検証する（空白だけの入力を通さない）
-const trimmed = () => s.string().transform((value) => value.trim())
+// 改行を LF にそろえ、前後の空白を除いてから検証する。ブラウザは改行を CRLF で送るので、
+// そのまま数えると textarea の maxLength より長くなる。空白だけの入力も通さない
+const trimmed = () =>
+  s.string().transform((value) => value.replace(/\r\n?/g, '\n').trim())
 const required = (max: number) =>
   f.field(trimmed().pipe(minLength(1), maxLength(max)))
 // 空欄は undefined にそろえる（従来どおり評価ログでは NULL になる）

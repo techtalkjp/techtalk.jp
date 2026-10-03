@@ -9,6 +9,17 @@ import type { ContactInquiry } from '../types.ts'
 export const escapeMrkdwn = (text: string) =>
   text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
 
+/**
+ * Slack の section の text は 3000 文字まで。超えると通知が失敗し、後続のメール送信まで止まるので、
+ * 長いメッセージは途中で切ってメールで全文を見てもらう
+ */
+const SLACK_MESSAGE_LIMIT = 2500
+export const truncateForSlack = (text: string) =>
+  text.length <= SLACK_MESSAGE_LIMIT
+    ? text
+    : // エスケープ済みの文字列なので、&amp; などの途中で切れたら外す
+      `${text.slice(0, SLACK_MESSAGE_LIMIT).replace(/&[a-z]*$/, '')}…\n_（長いため省略。全文は通知メールで確認）_`
+
 export const sendSlack = async (
   webhookUrl: string,
   data: ContactInquiry,
@@ -65,7 +76,7 @@ export const sendSlack = async (
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*メッセージ:*\n${escapeMrkdwn(data.message)}`,
+          text: `*メッセージ:*\n${truncateForSlack(escapeMrkdwn(data.message))}`,
         },
       },
       {

@@ -13,7 +13,7 @@ export interface MobileMenuProps {
 
 /** スマホ幅で表示するナビゲーションメニュー */
 export const MobileMenu = clientEntry(
-  '/js/islands.js#MobileMenu',
+  '/js/entry.js#MobileMenu',
   function MobileMenu(handle: Handle<MobileMenuProps>) {
     let open = false
 

@@ -16,7 +16,7 @@ export function HomeHeader(handle: Handle<{ languageHref: string }>) {
       { href: '#profile', label: t('Profile') },
       { href: '#company', label: t('Company') },
     ]
-    let contact = { href: '#contact', label: 'Contact' }
+    let contact = { href: '#contact', label: t('Contact') }
 
     return (
       <header

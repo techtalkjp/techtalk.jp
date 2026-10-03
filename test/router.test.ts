@@ -94,6 +94,12 @@ describe('pages', () => {
     assert.match(html, /name="email"/)
   })
 
+  it('does not redirect form posts to non-canonical paths', async () => {
+    let { fetch } = setup()
+    let response = await fetch('/en/', post(validForm))
+    assert.notEqual(response.status, 301)
+  })
+
   for (let [from, to] of [
     ['/en/', '/en'],
     ['/biography/', '/biography'],
@@ -139,13 +145,11 @@ describe('pages', () => {
     assert.equal(response.headers.get('X-Robots-Tag'), 'noindex')
   })
 
-  it('a contact frame reload of the page URL returns only the form', async () => {
+  it('JS submissions go to the contact-form route', async () => {
     let { fetch } = setup()
-    let response = await fetch('/en?sent=1', { headers: frame })
-    assert.equal(response.headers.get('X-Robots-Tag'), 'noindex')
-    let html = await response.text()
-    assert.doesNotMatch(html, /<html/)
-    assert.match(html, /Thank you for your message/)
+    let html = await (await fetch('/en')).text()
+    assert.match(html, /data-rmx-src="\/en\/contact-form"/)
+    assert.match(html, /data-rmx-target="contact"/)
   })
 
   it('healthcheck queries D1', async () => {
@@ -162,7 +166,7 @@ describe('pages', () => {
 describe('contact form', () => {
   it('frame submit enqueues the inquiry and renders the thank-you fragment', async () => {
     let { fetch, created } = setup()
-    let response = await fetch('/en', post(validForm, frame))
+    let response = await fetch('/en/contact-form', post(validForm, frame))
     assert.equal(response.status, 200)
     let html = await response.text()
     assert.match(html, /role="status"/)
@@ -180,7 +184,7 @@ describe('contact form', () => {
   it('frame submit with invalid fields returns 400 with localized errors and values', async () => {
     let { fetch, created } = setup()
     let response = await fetch(
-      '/',
+      '/contact-form',
       post({ name: '', email: 'bad', message: 'こんにちは' }, frame),
     )
     assert.equal(response.status, 400)
@@ -196,7 +200,7 @@ describe('contact form', () => {
   it('honeypot is checked before validation', async () => {
     let { fetch, created } = setup()
     let response = await fetch(
-      '/',
+      '/contact-form',
       post({ companyPhone: 'x'.repeat(500) }, frame),
     )
     assert.equal(response.status, 200)
@@ -204,10 +208,19 @@ describe('contact form', () => {
     assert.equal(created.length, 0)
   })
 
-  for (let email of ['taro@gmail.c', 'taro@example..com', 'taro@localhost']) {
+  for (let email of [
+    'taro@gmail.c',
+    'taro@example..com',
+    'taro@localhost',
+    'x>y@example.com',
+    'a,b@example.com',
+  ]) {
     it(`rejects malformed email ${email}`, async () => {
       let { fetch, created } = setup()
-      let response = await fetch('/', post({ ...validForm, email }, frame))
+      let response = await fetch(
+        '/contact-form',
+        post({ ...validForm, email }, frame),
+      )
       assert.equal(response.status, 400)
       assert.match(
         await response.text(),
@@ -233,10 +246,45 @@ describe('contact form', () => {
     assert.equal(response.status, 404)
   })
 
+  it('accepts a 10000-character Japanese message', async () => {
+    let { fetch, created } = setup()
+    let message = 'あ'.repeat(10000)
+    let response = await fetch(
+      '/contact-form',
+      post({ ...validForm, message }, frame),
+    )
+    assert.equal(response.status, 200)
+    assert.equal(created[0]!.message.length, 10000)
+  })
+
+  it('counts CRLF line breaks as one character', async () => {
+    let { fetch, created } = setup()
+    // ブラウザは textarea の改行を CRLF で送る
+    let message = 'あ'.repeat(9990) + '\r\n'.repeat(9) + 'い'
+    let response = await fetch(
+      '/contact-form',
+      post({ ...validForm, message }, frame),
+    )
+    assert.equal(response.status, 200)
+    assert.doesNotMatch(created[0]!.message, /\r/)
+  })
+
+  it('malformed bodies are rejected with 400, not 413', async () => {
+    let { fetch } = setup()
+    let response = await fetch('/contact-form', {
+      method: 'POST',
+      body: 'x',
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    assert.equal(response.status, 400)
+  })
+
   it('form fields carry stable keys for in-place re-rendering', async () => {
     // キーがないと、エラー表示の挿入で入力欄の値が別の欄に移る
     let { fetch } = setup()
-    let html = await (await fetch('/', post({ name: 'x' }, frame))).text()
+    let html = await (
+      await fetch('/contact-form', post({ name: 'x' }, frame))
+    ).text()
     for (let key of [
       'invalid',
       'name',
@@ -253,7 +301,7 @@ describe('contact form', () => {
   it('whitespace-only required fields are rejected', async () => {
     let { fetch, created } = setup()
     let response = await fetch(
-      '/',
+      '/contact-form',
       post({ ...validForm, name: '   ', message: ' \n ' }, frame),
     )
     assert.equal(response.status, 400)
@@ -262,13 +310,19 @@ describe('contact form', () => {
 
   it('surrounding whitespace is trimmed', async () => {
     let { fetch, created } = setup()
-    await fetch('/', post({ ...validForm, email: ' taro@example.com ' }, frame))
+    await fetch(
+      '/contact-form',
+      post({ ...validForm, email: ' taro@example.com ' }, frame),
+    )
     assert.equal(created[0]!.email, 'taro@example.com')
   })
 
   it('empty optional fields are sent as undefined', async () => {
     let { fetch, created } = setup()
-    await fetch('/', post({ ...validForm, company: '', phone: '' }, frame))
+    await fetch(
+      '/contact-form',
+      post({ ...validForm, company: '', phone: '' }, frame),
+    )
     assert.equal(created[0]!.company, undefined)
     assert.equal(created[0]!.phone, undefined)
   })
@@ -283,7 +337,7 @@ describe('contact form', () => {
   it('honeypot submissions look successful but are dropped', async () => {
     let { fetch, created } = setup()
     let response = await fetch(
-      '/',
+      '/contact-form',
       post({ ...validForm, companyPhone: '0312345678' }, frame),
     )
     assert.equal(response.status, 200)
@@ -294,7 +348,7 @@ describe('contact form', () => {
   it('enqueue failure shows an error and keeps the input', async () => {
     let { fetch } = setup({ failEnqueue: true })
     // ブラウザの Frame は 5xx を捨てるので、Frame には 200 で返す
-    let response = await fetch('/', post(validForm, frame))
+    let response = await fetch('/contact-form', post(validForm, frame))
     assert.equal(response.status, 200)
     let html = await response.text()
     assert.match(html, /送信できませんでした/)

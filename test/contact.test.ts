@@ -4,6 +4,10 @@ import { describe, it } from 'remix/test'
 import { scoreSales } from '../app/contact/score-sales.ts'
 import type { ContactFormData } from '../app/contact/types.ts'
 import { createTranslate } from '../app/i18n/index.ts'
+import {
+  escapeMrkdwn,
+  truncateForSlack,
+} from '../workers/workflow/services/slack.ts'
 
 const base: ContactFormData = {
   name: '山田',
@@ -42,5 +46,20 @@ describe('createTranslate', () => {
       createTranslate('en')('{max}文字以内で入力してください', { max: 100 }),
       'Please enter 100 characters or fewer.',
     )
+  })
+})
+
+describe('slack', () => {
+  it('escapes mrkdwn control characters', () => {
+    assert.equal(
+      escapeMrkdwn('<!channel> & <a|b>'),
+      '&lt;!channel&gt; &amp; &lt;a|b&gt;',
+    )
+  })
+
+  it('keeps long messages under the section limit without cutting entities', () => {
+    let text = truncateForSlack(escapeMrkdwn('&'.repeat(3000)))
+    assert.ok(text.length < 3000)
+    assert.doesNotMatch(text, /&[a-z]*…/)
   })
 })

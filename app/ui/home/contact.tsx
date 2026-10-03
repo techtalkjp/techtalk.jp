@@ -1,6 +1,7 @@
 import { css, Frame, type Handle } from 'remix/component'
 
 import { contactLimits } from '../../contact/schema.ts'
+import type { ContactSubmitResult } from '../../contact/submit.ts'
 import type {
   ContactErrors,
   ContactFieldName,
@@ -11,11 +12,7 @@ import { SubmitButton } from '../../islands/submit-button.tsx'
 import { paths } from '../../paths.ts'
 import { fadeUpOnLoad, narrowContainer, reveal } from '../styles.ts'
 
-export type ContactFormState =
-  | { status: 'idle' }
-  | { status: 'invalid'; values: ContactValues; errors: ContactErrors }
-  | { status: 'failed'; values: ContactValues }
-  | { status: 'sent' }
+export type ContactFormState = ContactSubmitResult | { status: 'idle' }
 
 export const CONTACT_FRAME = 'contact'
 
@@ -192,11 +189,13 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
       errors[name] ? `${id(name)}-error` : undefined
 
     return (
-      // action を省くと今のページ URL（クエリ込み）に送る。ページと同じ URL への送信なので
-      // 履歴は置き換えになり、アドレスバーも変わらない。サーバーは (:lang) からロケールを決める
+      // JS なし: action を省いているので今のページ URL（クエリ込み）に送られ、トップが受ける。
+      // JS あり: data-rmx-src の contact-form に送り、返ってきた断片で Frame だけを差し替える。
+      // ページと同じ URL へのナビゲーションなので、履歴とアドレスバーは変わらない
       <form
         method="post"
         data-rmx-target={CONTACT_FRAME}
+        data-rmx-src={paths.contactForm(locale)}
         data-rmx-reset-scroll="false"
         mix={css({ display: 'flex', flexDirection: 'column', gap: '1rem' })}
       >

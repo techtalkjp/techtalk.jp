@@ -17,7 +17,7 @@ export interface SubmitButtonProps {
  * 状態は所属する Frame の再読み込みイベントと、client/entry.ts の失敗通知で切り替える。
  */
 export const SubmitButton = clientEntry(
-  '/js/islands.js#SubmitButton',
+  '/js/entry.js#SubmitButton',
   function SubmitButton(handle: Handle<SubmitButtonProps>) {
     let pending = false
     let failed = false

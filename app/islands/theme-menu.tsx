@@ -32,7 +32,7 @@ function applyTheme(theme: Theme) {
 
 /** ライト / ダーク / システム設定を切り替えるメニュー */
 export const ThemeMenu = clientEntry(
-  '/js/islands.js#ThemeMenu',
+  '/js/entry.js#ThemeMenu',
   function ThemeMenu(handle: Handle<ThemeMenuProps>) {
     // サーバー描画時はテーマが分からないので、ハイドレーション後に読み直す
     let theme: Theme = 'system'
@@ -45,11 +45,9 @@ export const ThemeMenu = clientEntry(
         theme = readTheme()
         void handle.update()
       }
-      document.addEventListener(THEME_CHANGE, onThemeChange)
-      // workerd 以外（ブラウザ）でだけ通る分岐なので signal を渡さず自前で外す
-      handle.signal.addEventListener('abort', () =>
-        document.removeEventListener(THEME_CHANGE, onThemeChange),
-      )
+      document.addEventListener(THEME_CHANGE, onThemeChange, {
+        signal: handle.signal,
+      })
     }
 
     return () => {

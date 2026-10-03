@@ -21,7 +21,7 @@
   "scripts": {
     "dev": "wrangler dev",
     "build": "pnpm build:client",
-    "build:client": "rm -rf public/js && esbuild client/entry.ts client/islands.ts --bundle --splitting --format=esm --outdir=public/js --jsx=automatic --jsx-import-source=remix/component --minify --target=es2022 '--entry-names=[name]' '--chunk-names=chunk-[hash]'",
+    "build:client": "rm -rf public/js && esbuild client/entry.ts --bundle --format=esm --outdir=public/js --jsx=automatic --jsx-import-source=remix/component --minify --target=es2022",
     "deploy": "wrangler deploy",
     "typegen": "wrangler types --env-file .env.example",
     "typecheck": "tsc",

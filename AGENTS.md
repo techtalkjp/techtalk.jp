@@ -24,17 +24,17 @@ Remix 3（`remix@3.0.0`）を Cloudflare Workers で動かしている。React �
 - `app/router.ts` - ミドルウェア（logger, cop, formData, bindings, render）とルートの割り当て
 - `app/controllers/` - ルートごとのハンドラ。`context.render(<Page />)` で HTML を返す
 - `app/ui/` - サーバー描画のコンポーネント。スタイルは `css()` mixin、トークンは `app/ui/global-styles.ts` の CSS 変数
-- `app/islands/` - ブラウザでハイドレーションするコンポーネント（`clientEntry('/js/islands.js#Name', ...)`）。`client/islands.ts` に同名で export を足す
-- `client/entry.ts` - `run()` でアイランドを読み込み、ソフトナビゲーションを有効にする
+- `app/islands/` - ブラウザでハイドレーションするコンポーネント（`clientEntry('/js/entry.js#Name', ...)`）。`client/islands.ts` に同名で export を足す
+- `client/entry.ts` - `run()` を起動する。アイランドも同じファイルにまとめて入れる（`/js/entry.js` 1 本）
 - `app/contact/` - 問い合わせのスキーマ（`remix/data-schema`）、honeypot、営業スコア、Workflow への投入
 - `app/i18n/` - `t('日本語の文言')` で翻訳。英訳は `app/i18n/en.json`（日本語の文言がキー）。`I18nProvider` / `getI18n(handle)` でツリーに渡す
 - `workers/workflow/` - `ContactWorkflow`（Workers AI で営業判定 → 評価ログ → Slack → 通知メール・自動返信）。メールは `renderToString` で JSX から作る
 
 ## 決まりごと
 
-- ブラウザ用 JS は esbuild で 1 回にまとめてビルドする（`--splitting`）。`remix/assets` は Node 専用なので使わない
+- ブラウザ用 JS は esbuild で `public/js/entry.js` 1 本にまとめる（デプロイ前後で古いページと新しいチャンクが混ざらないように）。`remix/assets` は Node 専用なので使わない
 - バインディングは `cloudflare:workers` から import せず、`context.bindings`（`app/middleware/bindings.ts`）経由で使う。テストでは偽物を渡す
-- 問い合わせフォームはトップの `<Frame name="contact">`。送信は `data-rmx-target="contact"` でフォーム部分だけ差し替える。JS なしでも動くこと
+- 問い合わせフォームはトップの `<Frame name="contact">`。JS ありの送信は `data-rmx-src` で `/contact-form` に送り、フォーム部分だけ差し替える。JS なしの送信はトップの URL が受ける。どちらも動くこと
 - テーマは cookie `theme` をブラウザだけで読み、`<html data-theme>` を付ける（HTML をキャッシュ可能に保つため、サーバーでは読まない）
 - アイランドの props はシリアライズ可能な値だけ。翻訳済みの文字列を渡す
 - workerd では `handle.signal` を `addEventListener` の `signal` に渡せないので、イベント購読はブラウザでだけ行う

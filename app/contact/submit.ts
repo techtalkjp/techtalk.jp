@@ -46,7 +46,6 @@ export async function submitContact(options: {
     return { status: 'sent' }
   } catch (error) {
     console.error('Failed to enqueue contact workflow:', error)
-    let { privacyPolicy: _, locale: __, ...values } = data
-    return { status: 'failed', values: { ...values, privacyPolicy: 'on' } }
+    return { status: 'failed', values: { ...form, privacyPolicy: 'on' } }
   }
 }

@@ -7,6 +7,6 @@ export const paths = {
   biography: (locale: Locale) =>
     routes.biography.href({ ...langParam(locale) }),
   contactForm: (locale: Locale) =>
-    routes.contactForm.href({ ...langParam(locale) }),
+    routes.contactForm.index.href({ ...langParam(locale) }),
   privacy: () => routes.privacy.href(),
 }

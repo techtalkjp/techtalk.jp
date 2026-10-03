@@ -66,12 +66,15 @@ export function createAppRouter(options: AppRouterOptions) {
 /**
  * リクエストログ。ページの描画中にサーバー内で解決する Frame の GET は、ページ本体と
  * 二重に数えないよう記録しない。X-Remix-Top-Frame-Src は render ミドルウェアが
- * サーバー内のサブリクエストにだけ付けるヘッダーで、ブラウザからは来ない。
+ * サーバー内のサブリクエストに付けるヘッダー。誰でも付けられるので、外すのは GET だけにして
+ * 送信（POST）は必ず記録する。
  */
 function requestLogger(): Middleware {
   let log = logger()
   return (context, next) => {
-    let isInternalFrame = context.request.headers.has('X-Remix-Top-Frame-Src')
+    let isInternalFrame =
+      context.request.method === 'GET' &&
+      context.request.headers.has('X-Remix-Top-Frame-Src')
     return isInternalFrame ? next() : log(context, next)
   }
 }

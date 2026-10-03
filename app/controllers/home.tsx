@@ -6,33 +6,24 @@ import { contactFormData } from '../middleware/contact-form-data.ts'
 import { locale } from '../middleware/locale.ts'
 import { paths } from '../paths.ts'
 import { routes } from '../routes.ts'
-import { CONTACT_FRAME } from '../ui/home/contact.tsx'
 import { HomePage } from '../ui/home/page.tsx'
 import { privateHeaders, publicPageHeaders } from './cache.ts'
-import { contactStateFromUrl, renderContactFragment } from './contact-form.tsx'
+import { contactStateFromUrl } from './contact-form.tsx'
 
 export const home = createController(routes.home, {
   middleware: [locale(), contactFormData()],
   actions: {
     index(context) {
-      let { i18n } = context
-      let sent = context.url.searchParams.get('sent') === '1'
-
-      // 送信後に戻る・進むで contact Frame が再読み込みされると、この URL が Frame の src になる
-      if (isContactFrameRequest(context.request)) {
-        return renderContactFragment(
-          context,
-          i18n,
-          contactStateFromUrl(context.url),
-        )
-      }
-
-      return context.render(<HomePage i18n={i18n} sent={sent} />, {
+      let sent = contactStateFromUrl(context.url).status === 'sent'
+      return context.render(<HomePage i18n={context.i18n} sent={sent} />, {
         headers: sent ? privateHeaders : publicPageHeaders,
       })
     },
 
-    /** 問い合わせの送信 */
+    /**
+     * JS なしで問い合わせを送ったとき。成功したらリダイレクト、
+     * 失敗したらページ全体をエラー付きで描く（JS ありの送信は contactForm が受ける）
+     */
     async action(context) {
       let { i18n } = context
       let result = await submitContact({
@@ -41,15 +32,6 @@ export const home = createController(routes.home, {
         t: i18n.t,
         workflow: context.bindings.contactWorkflow,
       })
-
-      // JS あり: 問い合わせフォームの Frame だけを描き直す。
-      // ブラウザの Frame は 5xx を捨てるので、送信失敗も 200 で返してメッセージを見せる
-      if (isContactFrameRequest(context.request)) {
-        let status = result.status === 'invalid' ? 400 : 200
-        return renderContactFragment(context, i18n, result, status)
-      }
-
-      // JS なし: 成功したらリダイレクト、失敗したらページ全体をエラー付きで描く
       if (result.status === 'sent') {
         return createRedirectResponse(
           `${paths.home(i18n.locale)}?sent=1#contact`,
@@ -64,7 +46,3 @@ export const home = createController(routes.home, {
     },
   },
 })
-
-function isContactFrameRequest(request: Request): boolean {
-  return request.headers.get('X-Remix-Target') === CONTACT_FRAME
-}

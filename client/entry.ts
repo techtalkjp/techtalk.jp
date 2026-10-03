@@ -1,20 +1,24 @@
 import { run } from 'remix/component'
 
 import { FRAME_SUBMIT_ERROR } from '../app/islands/events.ts'
+import * as islands from './islands.ts'
 
-// clientEntry のモジュールを読み込み、ページ全体のソフトナビゲーションを有効にする
+// アイランドはこのファイルに一緒に入れてある（1 ファイルなので、デプロイの前後で
+// 古いページが新しいチャンクを読み込んで食い違うことがない）。ページ全体のソフトナビゲーションも有効にする
 const app = run({
-  async loadModule(moduleUrl, exportName) {
-    let mod = await import(moduleUrl)
-    let component = mod[exportName]
+  loadModule(moduleUrl, exportName) {
+    let component = (islands as Record<string, unknown>)[exportName]
     if (typeof component !== 'function') {
-      throw new Error(`Unknown component: ${moduleUrl}#${exportName}`)
+      return Promise.reject(
+        new Error(`Unknown component: ${moduleUrl}#${exportName}`),
+      )
     }
-    return component
+    return Promise.resolve(component)
   },
 
-  // Remix の既定の解決処理と同じ動きに、送信失敗の通知を足したもの。
-  // 5xx や通信エラーでは Frame が描き直されないので、送信ボタンにエラーを出させる
+  // Remix 3.0.0 の既定の解決処理（runtime/run.ts の defaultResolveFrame）を写し、送信失敗の
+  // 通知を足したもの。5xx や通信エラーでは Frame が描き直されないので、送信ボタンにエラーを出させる。
+  // Remix を上げるときは既定の処理と食い違っていないか確認する
   async resolveFrame(src, options) {
     let headers = new Headers({ Accept: 'text/html', 'X-Remix-Frame': 'true' })
     if (options?.target != null) headers.set('X-Remix-Target', options.target)
@@ -58,7 +62,6 @@ function toBody(
   encType: string | undefined,
 ): BodyInit | undefined {
   if (!formData) return undefined
-  if (encType === 'multipart/form-data') return formData
   if (encType === 'text/plain') {
     let text = ''
     for (let [name, value] of formData) {
@@ -66,6 +69,8 @@ function toBody(
     }
     return new Blob([text.replace(/\r?\n|\r/g, '\r\n')], { type: 'text/plain' })
   }
+  // enctype の指定がなければ既定どおり multipart で送る
+  if (encType !== 'application/x-www-form-urlencoded') return formData
   let body = new URLSearchParams()
   for (let [name, value] of formData) {
     body.append(name, typeof value === 'string' ? value : value.name)
