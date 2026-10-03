@@ -104,11 +104,15 @@ export const sendSlack = async (
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
+    // 応答しない Webhook で後続の自動返信を待たせない
+    signal: AbortSignal.timeout(10_000),
   })
   if (!response.ok) {
-    return err(
-      `Failed to send Slack notification: ${response.status} ${response.statusText}`,
-    )
+    return err({
+      message: `Failed to send Slack notification: ${response.status} ${response.statusText}`,
+      // 4xx は Webhook の失効や内容の不備なので、リトライしても直らない
+      permanent: response.status >= 400 && response.status < 500,
+    })
   }
   return ok()
 }

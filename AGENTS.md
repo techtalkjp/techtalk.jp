@@ -28,7 +28,7 @@ Remix 3（`remix@3.0.0`）を Cloudflare Workers で動かしている。React �
 - `client/entry.ts` - `run()` を起動する。アイランドも同じファイルにまとめて入れる（`/js/entry.js` 1 本）
 - `app/contact/` - 問い合わせのスキーマ（`remix/data-schema`）、honeypot、営業スコア、Workflow への投入
 - `app/i18n/` - `t('日本語の文言')` で翻訳。英訳は `app/i18n/en.json`（日本語の文言がキー）。`I18nProvider` / `getI18n(handle)` でツリーに渡す
-- `workers/workflow/` - `ContactWorkflow`（Workers AI で営業判定 → 評価ログ → Slack → 通知メール・自動返信）。メールは `renderToString` で JSX から作る
+- `workers/workflow/` - `ContactWorkflow`（Workers AI で営業判定 → 評価ログ → 通知メール → Slack → 自動返信）。通知メールと Slack は互いに独立で、片方が失敗してももう片方は送る。どちらも失敗したら Workflow を失敗にする。自動返信には入力内容を載せない。メールは `renderToString` で JSX から作る
 
 ## 決まりごと
 

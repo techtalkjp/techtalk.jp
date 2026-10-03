@@ -1,4 +1,4 @@
-import { clientEntry, css, on, type Handle } from 'remix/component'
+import { clientEntry, css, ref, type Handle } from 'remix/component'
 
 import { primaryButton } from '../ui/styles.ts'
 import { FRAME_SUBMIT_ERROR } from './events.ts'
@@ -21,27 +21,24 @@ export const SubmitButton = clientEntry(
   function SubmitButton(handle: Handle<SubmitButtonProps>) {
     let pending = false
     let failed = false
-    // このボタンで送信を始めたか。Frame の再読み込みはページ遷移でも起きるので、
-    // 自分の送信のときだけ「送信中」にする
-    let submitting = false
+
+    // フォームの submit（ブラウザの入力チェックを通って送信が決まったとき）で送信中にする。
+    // その場で disabled にすると送信が止まることがあるので、次のタスクで切り替える。
+    // Navigation API がなく通常の POST になる場合も、二度押しはこれで防ぐ
+    function onSubmit() {
+      setTimeout(() => {
+        pending = true
+        failed = false
+        void handle.update()
+      }, 0)
+    }
 
     // サーバー描画時は購読しない（workerd では handle.signal を addEventListener に渡せない）
     if (typeof document !== 'undefined') {
       let { signal } = handle
       handle.frame.addEventListener(
-        'reloadStart',
-        () => {
-          if (!submitting) return
-          pending = true
-          failed = false
-          void handle.update()
-        },
-        { signal },
-      )
-      handle.frame.addEventListener(
         'reloadComplete',
         () => {
-          submitting = false
           pending = false
           void handle.update()
         },
@@ -51,7 +48,6 @@ export const SubmitButton = clientEntry(
         FRAME_SUBMIT_ERROR,
         (event) => {
           if ((event as CustomEvent).detail !== handle.props.frame) return
-          submitting = false
           pending = false
           failed = true
           void handle.update()
@@ -71,14 +67,16 @@ export const SubmitButton = clientEntry(
       >
         <button
           type="submit"
-          // ここで disabled にすると送信そのものが止まるので、印を付けるだけにして
-          // 実際の表示は Frame の reloadStart で切り替える
           mix={[
             primaryButton,
-            on('click', (event) => {
-              // ブラウザの入力チェックで止まる送信は数えない
-              let form = (event.currentTarget as HTMLButtonElement).form
-              submitting = form?.checkValidity() ?? false
+            ref((node, signal) => {
+              ;(node as HTMLButtonElement).form?.addEventListener(
+                'submit',
+                onSubmit,
+                {
+                  signal,
+                },
+              )
             }),
           ]}
           disabled={pending}

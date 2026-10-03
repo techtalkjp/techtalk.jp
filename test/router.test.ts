@@ -313,6 +313,26 @@ describe('contact form', () => {
     assert.equal(created.length, 0)
   })
 
+  it('folds every kind of line break in single-line fields', async () => {
+    let { fetch, created } = setup()
+    await fetch(
+      '/contact-form',
+      post({ ...validForm, name: 'A\u2028B\u0085C\vD' }, frame),
+    )
+    assert.equal(created[0]!.name, 'A B C D')
+  })
+
+  it('handles long runs of whitespace quickly', async () => {
+    let { fetch } = setup()
+    let started = Date.now()
+    let response = await fetch(
+      '/contact-form',
+      post({ ...validForm, name: `a${' \n'.repeat(9000)}b` }, frame),
+    )
+    assert.ok(Date.now() - started < 1000)
+    assert.equal(response.status, 200)
+  })
+
   it('folds line breaks in single-line fields', async () => {
     let { fetch, created } = setup()
     await fetch(

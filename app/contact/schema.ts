@@ -28,15 +28,29 @@ const email = (): s.Check<string> => ({
   message: 'Expected valid email',
 })
 
+// 生の値が上限を大きく超えるものは、変換する前に弾く（長い空白などで CPU を使わせない）
+const RAW_LENGTH_LIMIT = contactLimits.message * 2
+
 // 改行を LF にそろえ、前後の空白を除いてから検証する。ブラウザは改行を CRLF で送るので、
 // そのまま数えると textarea の maxLength より長くなる。空白だけの入力も通さない
 const trimmed = () =>
-  s.string().transform((value) => value.replace(/\r\n?/g, '\n').trim())
+  s
+    .string()
+    .pipe(maxLength(RAW_LENGTH_LIMIT))
+    .transform((value) => value.replace(/\r\n?/g, '\n').trim())
 const required = (max: number) =>
   f.field(trimmed().pipe(minLength(1), maxLength(max)))
-// 1 行の欄。改行はメールの件名などに入ると困るので空白にする
+// 1 行の欄。改行類（LF、VT、FF、NEL、LS、PS）はメールの件名などに入ると困るので空白にする。
+// 正規表現の繰り返しを使わず、行ごとに切って詰めるので長い入力でも線形時間で済む
+const LINE_BREAKS = /[\n\v\f\u0085\u2028\u2029]/
 const singleLine = () =>
-  trimmed().transform((value) => value.replace(/\s*\n\s*/g, ' '))
+  trimmed().transform((value) =>
+    value
+      .split(LINE_BREAKS)
+      .map((line) => line.trim())
+      .filter((line) => line !== '')
+      .join(' '),
+  )
 const requiredLine = (max: number) =>
   f.field(singleLine().pipe(minLength(1), maxLength(max)))
 // 空欄は undefined にそろえる（従来どおり評価ログでは NULL になる）

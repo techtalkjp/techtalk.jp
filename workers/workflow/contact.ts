@@ -1,4 +1,5 @@
 export type { ContactFormData } from './types.ts'
+import { NonRetryableError } from 'cloudflare:workflows'
 import {
   WorkflowEntrypoint,
   type WorkflowEvent,
@@ -44,33 +45,50 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
       return
     }
 
-    await step.do('sendNotificationEmail', async () => {
-      const result = await sendNotificationEmail(
-        env.EMAIL,
-        inquiry,
-        classification,
-      )
-      if (result.isErr()) {
-        throw new Error(result.error)
-      }
-      console.log('Notification email sent to info@techtalk.jp')
-    })
-
-    // 順番: 通知メール（本命）→ Slack → 自動返信。
-    // Slack は補助の通知なので、リトライしきって失敗したら記録だけ残して自動返信へ進む。
+    // 社内への通知は「通知メール」と「Slack」の 2 系統。片方が失敗してももう片方は送る。
     // 自動返信は宛先が利用者の入力なので失敗しやすく、最後に回して通知を巻き込まない
+    let notified = false
+
     try {
-      await step.do('sendContactSlack', async () => {
-        const result = await sendSlack(
-          env.SLACK_WEBHOOK,
+      await step.do('sendNotificationEmail', async () => {
+        const result = await sendNotificationEmail(
+          env.EMAIL,
           inquiry,
           classification,
         )
         if (result.isErr()) {
-          throw new Error(`Slack notification failed: ${result.error}`)
+          throw new Error(result.error)
         }
-        console.log('Slack notification sent:', result.value)
+        console.log('Notification email sent to info@techtalk.jp')
       })
+      notified = true
+    } catch (error) {
+      console.error('Notification email gave up:', error)
+    }
+
+    try {
+      await step.do(
+        'sendContactSlack',
+        {
+          retries: { limit: 3, delay: '10 seconds', backoff: 'exponential' },
+          timeout: '1 minute',
+        },
+        async () => {
+          const result = await sendSlack(
+            env.SLACK_WEBHOOK,
+            inquiry,
+            classification,
+          )
+          if (result.isErr()) {
+            const { message, permanent } = result.error
+            throw permanent
+              ? new NonRetryableError(message)
+              : new Error(message)
+          }
+          console.log('Slack notification sent')
+        },
+      )
+      notified = true
     } catch (error) {
       console.error('Slack notification gave up:', error)
     }
@@ -82,5 +100,10 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
       }
       console.log('Reply email sent to', inquiry.email)
     })
+
+    // 通知が 1 つも届いていなければ、Workflow を失敗にして気づけるようにする
+    if (!notified) {
+      throw new Error('All notifications failed')
+    }
   }
 }
