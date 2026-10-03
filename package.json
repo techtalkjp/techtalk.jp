@@ -38,7 +38,6 @@
   "dependencies": {
     "@remix-run/ui": "0.12.1",
     "mimetext": "3.0.28",
-    "neverthrow": "8.2.0",
     "remix": "3.0.0"
   },
   "packageManager": "pnpm@12.4.1",

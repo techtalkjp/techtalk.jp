@@ -8,7 +8,7 @@ import {
 import { classifyInquiry } from './services/classify.ts'
 import { sendNotificationEmail, sendReplyEmail } from './services/email.tsx'
 import { logEvaluation, type RoutedAs } from './services/evaluations.ts'
-import { sendSlack } from './services/slack.ts'
+import { SlackError, sendSlack } from './services/slack.ts'
 import type { ContactInquiry } from './types.ts'
 
 export class ContactWorkflow extends WorkflowEntrypoint<Env> {
@@ -50,23 +50,18 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
     // （利用者に「受け付けました」と返したあとで取りこぼすのを避ける）
     const [email, slack] = await Promise.allSettled([
       step.do('sendNotificationEmail', async () => {
-        const result = await sendNotificationEmail(
-          env.EMAIL,
-          inquiry,
-          classification,
-        )
-        if (result.isErr()) throw new Error(result.error)
+        await sendNotificationEmail(env.EMAIL, inquiry, classification)
         console.log('Notification email sent to info@techtalk.jp')
       }),
       step.do('sendContactSlack', SLACK_STEP, async () => {
-        const result = await sendSlack(
-          env.SLACK_WEBHOOK,
-          inquiry,
-          classification,
-        )
-        if (result.isErr()) {
-          const { message, permanent } = result.error
-          throw permanent ? new NonRetryableError(message) : new Error(message)
+        try {
+          await sendSlack(env.SLACK_WEBHOOK, inquiry, classification)
+        } catch (error) {
+          // Webhook の失効など、リトライしても直らない失敗はすぐにあきらめる
+          if (error instanceof SlackError && error.permanent) {
+            throw new NonRetryableError(error.message)
+          }
+          throw error
         }
         console.log('Slack notification sent')
       }),
@@ -88,8 +83,7 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
     // 記録だけ残して Workflow は成功で終える
     try {
       await step.do('sendReplyEmail', async () => {
-        const result = await sendReplyEmail(env.EMAIL, inquiry)
-        if (result.isErr()) throw new Error(result.error)
+        await sendReplyEmail(env.EMAIL, inquiry)
         console.log('Reply email sent to', inquiry.email)
       })
     } catch (error) {

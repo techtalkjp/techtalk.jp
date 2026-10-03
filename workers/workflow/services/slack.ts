@@ -1,4 +1,3 @@
-import { err, ok } from 'neverthrow'
 import type { Classification } from './classify.ts'
 import type { ContactInquiry } from '../types.ts'
 
@@ -19,6 +18,17 @@ export const truncateForSlack = (text: string) =>
     ? text
     : // エスケープ済みの文字列なので、&amp; などの途中で切れたら外す
       `${text.slice(0, SLACK_MESSAGE_LIMIT).replace(/&[a-z]*$|[\uD800-\uDBFF]$/, '')}…\n_（長いため省略。全文は通知メールで確認）_`
+
+/** Slack への通知の失敗。permanent ならリトライしても直らない */
+export class SlackError extends Error {
+  constructor(
+    message: string,
+    readonly permanent: boolean,
+  ) {
+    super(message)
+    this.name = 'SlackError'
+  }
+}
 
 export const sendSlack = async (
   webhookUrl: string,
@@ -108,16 +118,16 @@ export const sendSlack = async (
     signal: AbortSignal.timeout(10_000),
   })
   if (!response.ok) {
-    return err({
-      message: `Failed to send Slack notification: ${response.status} ${response.statusText}`,
-      // 4xx は Webhook の失効や内容の不備なので、リトライしても直らない。
-      // ただし 408（タイムアウト）と 429（流量制限）は待てば通るのでリトライする
-      permanent:
-        response.status >= 400 &&
-        response.status < 500 &&
-        response.status !== 408 &&
-        response.status !== 429,
-    })
+    // 4xx は Webhook の失効や内容の不備なので、リトライしても直らない。
+    // ただし 408（タイムアウト）と 429（流量制限）は待てば通るのでリトライする
+    const permanent =
+      response.status >= 400 &&
+      response.status < 500 &&
+      response.status !== 408 &&
+      response.status !== 429
+    throw new SlackError(
+      `Failed to send Slack notification: ${response.status} ${response.statusText}`,
+      permanent,
+    )
   }
-  return ok()
 }

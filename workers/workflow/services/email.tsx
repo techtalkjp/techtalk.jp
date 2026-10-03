@@ -2,7 +2,6 @@ import type { RemixNode } from 'remix/component'
 import { renderToString } from 'remix/component/server'
 import { EmailMessage } from 'cloudflare:email'
 import { createMimeMessage } from 'mimetext'
-import { err, ok } from 'neverthrow'
 import { ContactNotificationEmail } from '../emails/contact-notification.tsx'
 import {
   ContactReplyEmail,
@@ -16,6 +15,15 @@ const FROM_NAME = 'TechTalk'
 
 const formatError = (error: unknown): string =>
   error instanceof Error ? error.message : String(error)
+
+/** 送信に失敗したら、何の送信かが分かるメッセージを付けて投げ直す */
+const withContext = async (label: string, send: () => Promise<void>) => {
+  try {
+    await send()
+  } catch (error) {
+    throw new Error(`${label} failed: ${formatError(error)}`, { cause: error })
+  }
+}
 
 const sendEmail = async (
   emailBinding: SendEmail,
@@ -37,7 +45,7 @@ export const sendNotificationEmail = async (
   form: ContactInquiry,
   classification: Classification,
 ) => {
-  try {
+  await withContext('Notification email', async () => {
     // 営業判定（sales）の問い合わせは Workflow 側で通知の前に止めている
     const subject = `新しいお問い合わせ: ${form.name}様`
     const classificationNote =
@@ -52,25 +60,19 @@ export const sendNotificationEmail = async (
         classificationNote={classificationNote}
       />,
     )
-    return ok()
-  } catch (error) {
-    return err(`Notification email failed: ${formatError(error)}`)
-  }
+  })
 }
 
 export const sendReplyEmail = async (
   emailBinding: SendEmail,
   form: ContactFormData,
 ) => {
-  try {
+  await withContext('Reply email', async () => {
     await sendEmail(
       emailBinding,
       form.email,
       contactReplySubject(form.locale),
       <ContactReplyEmail data={form} />,
     )
-    return ok()
-  } catch (error) {
-    return err(`Reply email failed: ${formatError(error)}`)
-  }
+  })
 }
