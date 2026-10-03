@@ -1,0 +1,76 @@
+import type { RemixNode } from 'remix/component'
+import { renderToString } from 'remix/component/server'
+import { EmailMessage } from 'cloudflare:email'
+import { createMimeMessage } from 'mimetext'
+import { err, ok } from 'neverthrow'
+import { ContactNotificationEmail } from '../emails/contact-notification.tsx'
+import {
+  ContactReplyEmail,
+  contactReplySubject,
+} from '../emails/contact-reply.tsx'
+import type { Classification } from './classify.ts'
+import type { ContactFormData, ContactInquiry } from '../types.ts'
+
+const FROM_ADDRESS = 'info@techtalk.jp'
+const FROM_NAME = 'TechTalk'
+
+const formatError = (error: unknown): string =>
+  error instanceof Error ? error.message : String(error)
+
+const sendEmail = async (
+  emailBinding: SendEmail,
+  to: string,
+  subject: string,
+  element: RemixNode,
+) => {
+  const html = `<!DOCTYPE html>${await renderToString(element)}`
+  const msg = createMimeMessage()
+  msg.setSender({ name: FROM_NAME, addr: FROM_ADDRESS })
+  msg.setRecipient(to)
+  msg.setSubject(subject)
+  msg.addMessage({ contentType: 'text/html', data: html })
+  await emailBinding.send(new EmailMessage(FROM_ADDRESS, to, msg.asRaw()))
+}
+
+export const sendNotificationEmail = async (
+  emailBinding: SendEmail,
+  form: ContactInquiry,
+  classification: Classification,
+) => {
+  try {
+    // 営業判定（sales）の問い合わせは Workflow 側で通知の前に止めている
+    const subject = `新しいお問い合わせ: ${form.name}様`
+    const classificationNote =
+      `LLM判定: ${classification.verdict} (${classification.confidence}%) ${classification.reason || ''}\n` +
+      `ルール: ${form.rule.score} (${form.rule.tier}) ${form.rule.reasons.join('、')}`
+    await sendEmail(
+      emailBinding,
+      FROM_ADDRESS,
+      subject,
+      <ContactNotificationEmail
+        data={form}
+        classificationNote={classificationNote}
+      />,
+    )
+    return ok()
+  } catch (error) {
+    return err(`Notification email failed: ${formatError(error)}`)
+  }
+}
+
+export const sendReplyEmail = async (
+  emailBinding: SendEmail,
+  form: ContactFormData,
+) => {
+  try {
+    await sendEmail(
+      emailBinding,
+      form.email,
+      contactReplySubject(form.locale),
+      <ContactReplyEmail data={form} />,
+    )
+    return ok()
+  } catch (error) {
+    return err(`Reply email failed: ${formatError(error)}`)
+  }
+}

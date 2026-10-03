@@ -1,5 +1,5 @@
-import type { Classification } from './classify'
-import type { ContactInquiry } from '../types'
+import type { Classification } from './classify.ts'
+import type { ContactInquiry } from '../types.ts'
 
 export type RoutedAs = 'sales' | 'normal'
 

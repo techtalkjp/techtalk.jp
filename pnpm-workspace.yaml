@@ -1,11 +1,61 @@
 minimumReleaseAge: 10080
+# remix 3.0.0 とその構成パッケージは 2026-10-01 公開。7 日待たずに入れるため、
+# このバージョンに限って除外する（2026-10-08 以降は不要になるので消してよい）
+minimumReleaseAgeExclude:
+  - remix@3.0.0
+  - '@remix-run/assert@1.0.0'
+  - '@remix-run/assets@1.0.0'
+  - '@remix-run/async-context-middleware@1.0.0'
+  - '@remix-run/auth-middleware@1.0.0'
+  - '@remix-run/auth@1.0.0'
+  - '@remix-run/cli@1.0.0'
+  - '@remix-run/component-hmr@1.0.0'
+  - '@remix-run/component@1.0.0'
+  - '@remix-run/compression-middleware@1.0.0'
+  - '@remix-run/cookie@1.0.0'
+  - '@remix-run/cop-middleware@1.0.0'
+  - '@remix-run/cors-middleware@1.0.0'
+  - '@remix-run/csrf-middleware@1.0.0'
+  - '@remix-run/data-schema@1.0.0'
+  - '@remix-run/data-table-mysql@1.0.0'
+  - '@remix-run/data-table-postgres@1.0.0'
+  - '@remix-run/data-table-sqlite@1.0.0'
+  - '@remix-run/data-table@1.0.0'
+  - '@remix-run/fetch-proxy@1.0.0'
+  - '@remix-run/fetch-router@1.0.0'
+  - '@remix-run/file-storage-s3@1.0.0'
+  - '@remix-run/file-storage@1.0.0'
+  - '@remix-run/form-data-middleware@1.0.0'
+  - '@remix-run/form-data-parser@1.0.0'
+  - '@remix-run/fs@1.0.0'
+  - '@remix-run/headers@1.0.0'
+  - '@remix-run/html-template@1.0.0'
+  - '@remix-run/lazy-file@5.0.8'
+  - '@remix-run/logger-middleware@1.0.0'
+  - '@remix-run/method-override-middleware@1.0.0'
+  - '@remix-run/mime@1.0.0'
+  - '@remix-run/multipart-parser@1.0.0'
+  - '@remix-run/multiple-import-maps-polyfill@1.0.0'
+  - '@remix-run/node-fetch-server@1.0.0'
+  - '@remix-run/node-hmr@1.0.0'
+  - '@remix-run/node-tsx@1.0.0'
+  - '@remix-run/render-middleware@1.0.0'
+  - '@remix-run/response@1.0.0'
+  - '@remix-run/route-pattern@1.0.0'
+  - '@remix-run/session-middleware@1.0.0'
+  - '@remix-run/session-storage-memcache@1.0.0'
+  - '@remix-run/session-storage-redis@1.0.0'
+  - '@remix-run/session@1.0.0'
+  - '@remix-run/spa@1.0.0'
+  - '@remix-run/static-middleware@1.0.0'
+  - '@remix-run/tar-parser@1.0.0'
+  - '@remix-run/terminal@1.0.0'
+  - '@remix-run/test@1.0.0'
+  - '@remix-run/ui@0.12.1'
 overrides:
   uuid: ^14.0.0
-  esbuild: ^0.25.0
 allowBuilds:
-  '@tailwindcss/oxide': true
   core-js-pure: false
-  duckdb: true
   esbuild: true
   lefthook: true
   sharp: true

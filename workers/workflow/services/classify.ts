@@ -1,4 +1,4 @@
-import type { ContactInquiry } from '../types'
+import type { ContactInquiry } from '../types.ts'
 
 export const CLASSIFY_MODEL = '@cf/meta/llama-3.1-8b-instruct-fp8'
 

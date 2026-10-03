@@ -1,25 +1,22 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "techtalkjp",
-  "main": "./workers/app.ts",
-  "compatibility_date": "2025-09-02",
-  "compatibility_flags": [
-    "nodejs_compat",
-    "nodejs_compat_populate_process_env"
-  ],
+  "main": "./worker.ts",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  // wrangler deploy / dev の前にブラウザ用バンドル（public/js、gitignore 済み）を作る。
+  // dev 中は app/ と client/ の変更で作り直す
+  "build": {
+    "command": "pnpm build:client",
+    "watch_dir": ["app", "client"]
+  },
   "assets": {
-    "directory": "./build/client",
+    "directory": "./public",
     "binding": "ASSETS"
   },
   "ai": {
     "binding": "AI"
   },
-  "r2_buckets": [
-    {
-      "binding": "R2",
-      "bucket_name": "techtalk"
-    }
-  ],
   "workflows": [
     {
       "name": "techtalkjp-contact-workflow",

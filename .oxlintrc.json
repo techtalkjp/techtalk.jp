@@ -23,11 +23,5 @@
       }
     }
   ],
-  "ignorePatterns": [
-    "app/components/ai-elements/**",
-    "app/components/ui/**",
-    "app/styles/globals.css",
-    "public/fts-search.js",
-    "worker-configuration.d.ts"
-  ]
+  "ignorePatterns": ["public/js/**", "worker-configuration.d.ts"]
 }

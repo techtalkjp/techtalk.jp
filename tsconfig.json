@@ -1,37 +1,30 @@
 {
   "include": [
-    "env.d.ts",
+    "worker.ts",
     "app/**/*.ts",
     "app/**/*.tsx",
-    "app/**/.server/**/*.ts",
-    "app/**/.server/**/*.tsx",
-    "app/**/.client/**/*.ts",
-    "app/**/.client/**/*.tsx",
+    "client/**/*.ts",
     "workers/**/*.ts",
-    ".react-router/types/**/*"
+    "workers/**/*.tsx",
+    "test/**/*.ts",
+    "test/**/*.tsx"
   ],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "types": ["./worker-configuration.d.ts", "vite/client", "node"],
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2024"],
+    "types": ["./worker-configuration.d.ts", "node"],
     "target": "ES2022",
-    "module": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "jsxImportSource": "remix/component",
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
     "strict": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "paths": {
-      "~/*": ["./app/*"]
-    },
-
     "noUncheckedIndexedAccess": true,
-    // Remix takes care of building everything in `remix build`.
-    "noEmit": true,
-    "rootDirs": [".", "./.react-router/types"],
-    "verbatimModuleSyntax": true
+    "skipLibCheck": true,
+    "noEmit": true
   }
 }

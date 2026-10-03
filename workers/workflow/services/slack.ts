@@ -1,24 +1,40 @@
 import { err, ok } from 'neverthrow'
-import type { Classification } from './classify'
-import type { ContactInquiry } from '../types'
+import type { Classification } from './classify.ts'
+import type { ContactInquiry } from '../types.ts'
+
+/**
+ * Slack の mrkdwn で制御文字になる &<> をエスケープする。
+ * 利用者の入力に `<!channel>` や `<https://…|偽リンク>` を書かれても効かないようにする
+ */
+export const escapeMrkdwn = (text: string) =>
+  text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+
+/**
+ * Slack の section の text は 3000 文字まで。超えると通知が失敗するので、
+ * 長いメッセージは途中で切ってメールで全文を見てもらう
+ */
+const SLACK_MESSAGE_LIMIT = 2500
+export const truncateForSlack = (text: string) =>
+  text.length <= SLACK_MESSAGE_LIMIT
+    ? text
+    : // エスケープ済みの文字列なので、&amp; などの途中で切れたら外す
+      `${text.slice(0, SLACK_MESSAGE_LIMIT).replace(/&[a-z]*$|[\uD800-\uDBFF]$/, '')}…\n_（長いため省略。全文は通知メールで確認）_`
 
 export const sendSlack = async (
   webhookUrl: string,
   data: ContactInquiry,
   classification: Classification,
 ) => {
-  const isSales = classification.verdict === 'sales'
-  const title = isSales ? '🚫 営業疑いの問い合わせ' : '📧 新しいお問い合わせ'
+  // 営業判定（sales）の問い合わせは Workflow 側で Slack 通知の前に止めている
+  const title = '📧 新しいお問い合わせ'
   const verdictLine =
     `*判定:* LLM=${classification.verdict} (${classification.confidence}%) / ` +
     `ルール=${data.rule.score} (${data.rule.tier})`
   const reasonLine =
-    `*理由:* LLM: ${classification.reason || '(なし)'} / ` +
+    `*理由:* LLM: ${escapeMrkdwn(classification.reason) || '(なし)'} / ` +
     `ルール: ${data.rule.reasons.join('、') || '(なし)'}`
   const payload = {
-    text: isSales
-      ? `[営業疑い] 新しいお問い合わせ: ${data.name}様`
-      : '新しいお問い合わせがあります',
+    text: '新しいお問い合わせがあります',
     blocks: [
       {
         type: 'header',
@@ -32,17 +48,17 @@ export const sendSlack = async (
         fields: [
           {
             type: 'mrkdwn',
-            text: `*名前:*\n${data.name}`,
+            text: `*名前:*\n${escapeMrkdwn(data.name)}`,
           },
           {
             type: 'mrkdwn',
-            text: `*メール:*\n${data.email}`,
+            text: `*メール:*\n${escapeMrkdwn(data.email)}`,
           },
           ...(data.company
             ? [
                 {
                   type: 'mrkdwn',
-                  text: `*会社:*\n${data.company}`,
+                  text: `*会社:*\n${escapeMrkdwn(data.company)}`,
                 },
               ]
             : []),
@@ -50,7 +66,7 @@ export const sendSlack = async (
             ? [
                 {
                   type: 'mrkdwn',
-                  text: `*電話:*\n${data.phone}`,
+                  text: `*電話:*\n${escapeMrkdwn(data.phone)}`,
                 },
               ]
             : []),
@@ -60,7 +76,7 @@ export const sendSlack = async (
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*メッセージ:*\n${data.message}`,
+          text: `*メッセージ:*\n${truncateForSlack(escapeMrkdwn(data.message))}`,
         },
       },
       {
@@ -88,11 +104,20 @@ export const sendSlack = async (
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
+    // 応答しない Webhook で後続の自動返信を待たせない
+    signal: AbortSignal.timeout(10_000),
   })
   if (!response.ok) {
-    return err(
-      `Failed to send Slack notification: ${response.status} ${response.statusText}`,
-    )
+    return err({
+      message: `Failed to send Slack notification: ${response.status} ${response.statusText}`,
+      // 4xx は Webhook の失効や内容の不備なので、リトライしても直らない。
+      // ただし 408（タイムアウト）と 429（流量制限）は待てば通るのでリトライする
+      permanent:
+        response.status >= 400 &&
+        response.status < 500 &&
+        response.status !== 408 &&
+        response.status !== 429,
+    })
   }
   return ok()
 }
