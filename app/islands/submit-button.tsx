@@ -14,7 +14,8 @@ export interface SubmitButtonProps {
 
 /**
  * 送信中は押せなくし、送信できなかったらその場でエラーを出す。
- * 状態は所属する Frame の再読み込みイベントと、client/entry.ts の失敗通知で切り替える。
+ * 送信中にするのはフォームの submit イベント（ブラウザの入力チェックを通ったとき）、
+ * 解くのは所属する Frame の reloadComplete、client/entry.ts の失敗通知、bfcache からの復帰
  */
 export const SubmitButton = clientEntry(
   '/js/entry.js#SubmitButton',
@@ -25,12 +26,23 @@ export const SubmitButton = clientEntry(
     // フォームの submit（ブラウザの入力チェックを通って送信が決まったとき）で送信中にする。
     // その場で disabled にすると送信が止まることがあるので、次のタスクで切り替える。
     // Navigation API がなく通常の POST になる場合も、二度押しはこれで防ぐ
+    // 今の送信の番号。完了やエラーが先に届いたら、遅れて動くタイマーは何もしない
+    let current = 0
+    let settled = 0
     function onSubmit() {
+      let id = ++current
+      failed = false
       setTimeout(() => {
+        if (settled >= id) return
         pending = true
-        failed = false
         void handle.update()
       }, 0)
+    }
+    function settle(next: { failed: boolean }) {
+      settled = current
+      pending = false
+      failed = next.failed
+      void handle.update()
     }
 
     // サーバー描画時は購読しない（workerd では handle.signal を addEventListener に渡せない）
@@ -38,9 +50,14 @@ export const SubmitButton = clientEntry(
       let { signal } = handle
       handle.frame.addEventListener(
         'reloadComplete',
-        () => {
-          pending = false
-          void handle.update()
+        () => settle({ failed }),
+        { signal },
+      )
+      // 通常の POST で離れたページに「戻る」で戻ると、送信中のまま残るので解く
+      window.addEventListener(
+        'pageshow',
+        (event) => {
+          if (event.persisted) settle({ failed: false })
         },
         { signal },
       )
@@ -48,9 +65,7 @@ export const SubmitButton = clientEntry(
         FRAME_SUBMIT_ERROR,
         (event) => {
           if ((event as CustomEvent).detail !== handle.props.frame) return
-          pending = false
-          failed = true
-          void handle.update()
+          settle({ failed: true })
         },
         { signal },
       )

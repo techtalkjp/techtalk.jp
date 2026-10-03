@@ -322,15 +322,21 @@ describe('contact form', () => {
     assert.equal(created[0]!.name, 'A B C D')
   })
 
-  it('handles long runs of whitespace quickly', async () => {
-    let { fetch } = setup()
-    let started = Date.now()
+  it('folds long runs of whitespace without newlines', async () => {
+    // 旧実装の /\s*\n\s*/g は、改行のない長い空白で 2 乗の時間がかかっていた
+    let { fetch, created } = setup()
     let response = await fetch(
       '/contact-form',
-      post({ ...validForm, name: `a${' \n'.repeat(9000)}b` }, frame),
+      post({ ...validForm, company: `a${' '.repeat(100_000)}b` }, frame),
     )
-    assert.ok(Date.now() - started < 1000)
+    assert.equal(response.status, 400)
+    assert.equal(created.length, 0)
+    response = await fetch(
+      '/contact-form',
+      post({ ...validForm, name: `  ${'\n  '.repeat(50)}太郎  ` }, frame),
+    )
     assert.equal(response.status, 200)
+    assert.equal(created[0]!.name, '太郎')
   })
 
   it('folds line breaks in single-line fields', async () => {

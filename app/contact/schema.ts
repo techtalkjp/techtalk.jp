@@ -28,16 +28,12 @@ const email = (): s.Check<string> => ({
   message: 'Expected valid email',
 })
 
-// 生の値が上限を大きく超えるものは、変換する前に弾く（長い空白などで CPU を使わせない）
-const RAW_LENGTH_LIMIT = contactLimits.message * 2
-
 // 改行を LF にそろえ、前後の空白を除いてから検証する。ブラウザは改行を CRLF で送るので、
 // そのまま数えると textarea の maxLength より長くなる。空白だけの入力も通さない
+// 本文全体は contactFormData() で 256KB までに絞ってあり、変換はどれも線形時間なので、
+// 長い入力でも CPU を使い切らない
 const trimmed = () =>
-  s
-    .string()
-    .pipe(maxLength(RAW_LENGTH_LIMIT))
-    .transform((value) => value.replace(/\r\n?/g, '\n').trim())
+  s.string().transform((value) => value.replace(/\r\n?/g, '\n').trim())
 const required = (max: number) =>
   f.field(trimmed().pipe(minLength(1), maxLength(max)))
 // 1 行の欄。改行類（LF、VT、FF、NEL、LS、PS）はメールの件名などに入ると困るので空白にする。

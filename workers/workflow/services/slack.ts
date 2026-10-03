@@ -10,7 +10,7 @@ export const escapeMrkdwn = (text: string) =>
   text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
 
 /**
- * Slack の section の text は 3000 文字まで。超えると通知が失敗し、後続のメール送信まで止まるので、
+ * Slack の section の text は 3000 文字まで。超えると通知が失敗するので、
  * 長いメッセージは途中で切ってメールで全文を見てもらう
  */
 const SLACK_MESSAGE_LIMIT = 2500
@@ -110,8 +110,13 @@ export const sendSlack = async (
   if (!response.ok) {
     return err({
       message: `Failed to send Slack notification: ${response.status} ${response.statusText}`,
-      // 4xx は Webhook の失効や内容の不備なので、リトライしても直らない
-      permanent: response.status >= 400 && response.status < 500,
+      // 4xx は Webhook の失効や内容の不備なので、リトライしても直らない。
+      // ただし 408（タイムアウト）と 429（流量制限）は待てば通るのでリトライする
+      permanent:
+        response.status >= 400 &&
+        response.status < 500 &&
+        response.status !== 408 &&
+        response.status !== 429,
     })
   }
   return ok()

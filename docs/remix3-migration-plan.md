@@ -90,7 +90,7 @@
 - ✔ **問い合わせフォームを Frame にする。** 送信するとフォーム部分だけがサーバーから描き直される。URL・スクロール位置・履歴は変わらず、ページ上のアイランドの状態も残る。現行の `useFetcher` + トーストと同じ体験を、JS なしでも動く普通の `<form>` で実現できる。POST 先をページ自身の URL にするので、ロケールも URL から分かる
 - ✔ **ページ間のソフトナビゲーション。** `/` ⇄ `/biography` の移動は `run()` がドキュメントを差分更新する。ヘッダーのアイランド（テーマ切替など）は状態を保ったまま残る。言語切替だけは i18n デモに倣い `data-rmx-document` で完全遷移にする
 - **ブラウザ標準の入力検証を使う。** Remix はネイティブの制約検証を通してから送信を横取りするので、HTML 属性だけで送信前の検証が効く
-- **送信中表示は Frame のイベントで出す。** `handle.frame` の `reloadStart` / `reloadComplete` を送信ボタンのアイランドで拾う
+- **送信中表示は送信ボタンのアイランドで出す。** フォームの submit で送信中にし、Frame の `reloadComplete` で解く（実装メモ: クリック時に disabled にすると送信が止まる）
 - **出現アニメーションを `@remix-run/ui/animation` で付ける。** 完了メッセージとモバイルメニューの開閉に `animateEntrance` / `animateExit` を使う。スクロール連動の演出は CSS の scroll-driven animations のまま
 - **ページの HTML を全員同じにする。** 問い合わせが POST と Frame に分かれたので、GET のページは言語ごとに固定の HTML になる。テーマはブラウザだけで cookie を読む。（実装メモ: Worker が返す HTML は Cloudflare のエッジに自動ではキャッシュされないため、`Cache-Control: public, max-age=0, must-revalidate` にとどめた。エッジキャッシュが必要になったら Cache API を使う）
 
@@ -185,7 +185,7 @@ test/*.test.ts             # remix test
    - フォームは `<Frame name="contact" src="(:lang/)contact-form">`（fallback なし＝SSR 時に解決）で埋め込む。`<form method="post" data-rmx-target="contact" data-rmx-reset-scroll="false">` で、action は空（＝今のページ URL）
    - POST ハンドラは `X-Remix-Frame: true` ならフォーム断片（エラー時 400、成功時は完了表示）を返す。JS なしの通常送信なら成功時 `303 → /{lang}?sent=1#contact`、エラー時 400 でトップ全体を再描画する
    - `required`、`type="email"`、`maxlength` を付け、ブラウザ標準の検証を先に効かせる（Remix は submit 時にネイティブ検証を通してから横取りする）
-   - 送信ボタンを小さなアイランドにし、`handle.frame` の `reloadStart` / `reloadComplete` で送信中表示を出す
+   - 送信ボタンを小さなアイランドにし、フォームの submit で送信中にして Frame の `reloadComplete` で解く
 6. **Workflow**
    - メール 2 本を JSX と `renderToString` で書き直す
    - 型の import 元を `app/contact/types.ts` に移す
