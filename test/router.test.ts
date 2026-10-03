@@ -322,7 +322,7 @@ describe('contact form', () => {
     assert.equal(created[0]!.name, 'A B C D')
   })
 
-  it('folds long runs of whitespace without newlines', async () => {
+  it('rejects long runs of whitespace quickly', { timeout: 1000 }, async () => {
     // 旧実装の /\s*\n\s*/g は、改行のない長い空白で 2 乗の時間がかかっていた
     let { fetch, created } = setup()
     let response = await fetch(

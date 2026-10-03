@@ -26,20 +26,18 @@ export const SubmitButton = clientEntry(
     // フォームの submit（ブラウザの入力チェックを通って送信が決まったとき）で送信中にする。
     // その場で disabled にすると送信が止まることがあるので、次のタスクで切り替える。
     // Navigation API がなく通常の POST になる場合も、二度押しはこれで防ぐ
-    // 今の送信の番号。完了やエラーが先に届いたら、遅れて動くタイマーは何もしない
-    let current = 0
-    let settled = 0
+    // 完了やエラーが先に届いたら、遅れて動くタイマーは止める
+    let timer: ReturnType<typeof setTimeout> | undefined
     function onSubmit() {
-      let id = ++current
       failed = false
-      setTimeout(() => {
-        if (settled >= id) return
+      clearTimeout(timer)
+      timer = setTimeout(() => {
         pending = true
         void handle.update()
       }, 0)
     }
     function settle(next: { failed: boolean }) {
-      settled = current
+      clearTimeout(timer)
       pending = false
       failed = next.failed
       void handle.update()

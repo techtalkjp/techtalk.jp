@@ -49,7 +49,7 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
     // 巻き込まれないようにする。どちらも届かなければ自動返信は送らずに Workflow を失敗にする
     // （利用者に「受け付けました」と返したあとで取りこぼすのを避ける）
     const [email, slack] = await Promise.allSettled([
-      step.do('sendNotificationEmail', NOTIFY_STEP, async () => {
+      step.do('sendNotificationEmail', async () => {
         const result = await sendNotificationEmail(
           env.EMAIL,
           inquiry,
@@ -58,7 +58,7 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
         if (result.isErr()) throw new Error(result.error)
         console.log('Notification email sent to info@techtalk.jp')
       }),
-      step.do('sendContactSlack', NOTIFY_STEP, async () => {
+      step.do('sendContactSlack', SLACK_STEP, async () => {
         const result = await sendSlack(
           env.SLACK_WEBHOOK,
           inquiry,
@@ -87,7 +87,7 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
     // 自動返信は宛先が利用者の入力なので失敗しやすい。失敗しても社内には届いているので、
     // 記録だけ残して Workflow は成功で終える
     try {
-      await step.do('sendReplyEmail', NOTIFY_STEP, async () => {
+      await step.do('sendReplyEmail', async () => {
         const result = await sendReplyEmail(env.EMAIL, inquiry)
         if (result.isErr()) throw new Error(result.error)
         console.log('Reply email sent to', inquiry.email)
@@ -99,8 +99,11 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
   }
 }
 
-/** 通知系のステップ。待たせすぎず、数回だけやり直す */
-const NOTIFY_STEP = {
+/**
+ * Slack は補助の通知なので、待たせすぎず数回だけやり直す。
+ * メールは問い合わせを取りこぼさないよう、Workflows の既定（長めのリトライ）に任せる
+ */
+const SLACK_STEP = {
   retries: { limit: 3, delay: '10 seconds', backoff: 'exponential' },
   timeout: '1 minute',
 } as const
