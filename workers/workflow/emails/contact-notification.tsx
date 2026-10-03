@@ -1,89 +1,57 @@
-import {
-  Body,
-  Container,
-  Head,
-  Heading,
-  Hr,
-  Html,
-  Preview,
-  Section,
-  Text,
-} from '@react-email/components'
-import type { ContactFormData } from '../types'
-import { container, footer, h1, hr, label, main } from './styles'
+import type { Handle } from 'remix/component'
 
-export const ContactNotificationEmail = ({
-  data,
-  classificationNote,
-}: {
-  data: ContactFormData
-  classificationNote?: string
-}) => (
-  <Html>
-    <Head />
-    <Preview>新しいお問い合わせ: {data.name}様</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>新しいお問い合わせ</Heading>
-        <Hr style={hr} />
+import type { ContactFormData } from '../types.ts'
+import { EmailLayout, styles } from './layout.tsx'
 
-        <Section>
-          <Text style={label}>名前</Text>
-          <Text style={value}>{data.name}</Text>
+export function ContactNotificationEmail(
+  handle: Handle<{ data: ContactFormData; classificationNote?: string }>,
+) {
+  return () => {
+    let { data, classificationNote } = handle.props
+    return (
+      <EmailLayout lang="ja" preview={`新しいお問い合わせ: ${data.name}様`}>
+        <h1 style={styles.h1}>新しいお問い合わせ</h1>
+        <hr style={styles.hr} />
 
-          <Text style={label}>メールアドレス</Text>
-          <Text style={value}>{data.email}</Text>
+        <p style={styles.label}>名前</p>
+        <p style={styles.value}>{data.name}</p>
 
-          {data.company && (
-            <>
-              <Text style={label}>会社名</Text>
-              <Text style={value}>{data.company}</Text>
-            </>
-          )}
+        <p style={styles.label}>メールアドレス</p>
+        <p style={styles.value}>{data.email}</p>
 
-          {data.phone && (
-            <>
-              <Text style={label}>電話番号</Text>
-              <Text style={value}>{data.phone}</Text>
-            </>
-          )}
-        </Section>
+        {data.company ? (
+          <>
+            <p style={styles.label}>会社名</p>
+            <p style={styles.value}>{data.company}</p>
+          </>
+        ) : null}
 
-        <Hr style={hr} />
+        {data.phone ? (
+          <>
+            <p style={styles.label}>電話番号</p>
+            <p style={styles.value}>{data.phone}</p>
+          </>
+        ) : null}
 
-        <Section>
-          <Text style={label}>メッセージ</Text>
-          <Text style={messageStyle}>{data.message}</Text>
-        </Section>
+        <hr style={styles.hr} />
 
-        {classificationNote && (
-          <Section>
-            <Text style={label}>自動判定</Text>
-            <Text style={messageStyle}>{classificationNote}</Text>
-          </Section>
-        )}
+        <p style={styles.label}>メッセージ</p>
+        <p style={styles.message}>{data.message}</p>
 
-        <Hr style={hr} />
+        {classificationNote ? (
+          <>
+            <p style={styles.label}>自動判定</p>
+            <p style={styles.message}>{classificationNote}</p>
+          </>
+        ) : null}
 
-        <Text style={footer}>
+        <hr style={styles.hr} />
+
+        <p style={styles.footer}>
           言語: {data.locale} | プライバシーポリシー:{' '}
           {data.privacyPolicy ? '同意済み' : '未同意'}
-        </Text>
-      </Container>
-    </Body>
-  </Html>
-)
-
-const value: React.CSSProperties = {
-  color: '#333',
-  fontSize: '16px',
-  margin: '0 0 8px',
-}
-
-const messageStyle: React.CSSProperties = {
-  color: '#333',
-  fontSize: '16px',
-  lineHeight: '1.6',
-  whiteSpace: 'pre-wrap',
-  margin: '0',
+        </p>
+      </EmailLayout>
+    )
+  }
 }

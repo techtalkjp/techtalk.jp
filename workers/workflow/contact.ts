@@ -1,15 +1,15 @@
-export type { ContactFormData } from '~/routes/_public/+api.contact/types'
+export type { ContactFormData } from './types.ts'
 import {
   env,
   WorkflowEntrypoint,
   type WorkflowEvent,
   type WorkflowStep,
 } from 'cloudflare:workers'
-import { classifyInquiry } from './services/classify'
-import { sendNotificationEmail, sendReplyEmail } from './services/email'
-import { logEvaluation, type RoutedAs } from './services/evaluations'
-import { sendSlack } from './services/slack'
-import type { ContactInquiry } from './types'
+import { classifyInquiry } from './services/classify.ts'
+import { sendNotificationEmail, sendReplyEmail } from './services/email.tsx'
+import { logEvaluation, type RoutedAs } from './services/evaluations.ts'
+import { sendSlack } from './services/slack.ts'
+import type { ContactInquiry } from './types.ts'
 
 export class ContactWorkflow extends WorkflowEntrypoint<Env> {
   async run(

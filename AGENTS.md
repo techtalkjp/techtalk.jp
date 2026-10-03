@@ -1,151 +1,42 @@
 # AGENTS.md
 
-This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
+This file provides guidance to coding agents (Codex など) when working with code in this repository.
 
 ## Development Commands
 
-**Primary Commands:**
+- `pnpm dev` - esbuild (client, watch) と `wrangler dev` を並列で起動（http://localhost:8787）
+- `pnpm build` - ブラウザ用バンドルを `public/js/` に出力
+- `pnpm deploy` - build して Cloudflare Workers にデプロイ
+- `pnpm test` - `remix test`（`test/**/*.test.{ts,tsx}`）
+- `pnpm typecheck` / `pnpm lint` / `pnpm format` / `pnpm format:fix`
+- `pnpm validate` - format, lint, typecheck, test を並列実行
+- `pnpm typegen` - `worker-configuration.d.ts` を再生成（secrets は `.env.example` から）
+- `pnpm migrations:apply` / `pnpm migrations:apply:production` - D1 マイグレーション
 
-- `pnpm dev` - Start React Router development server (port 5173)
-- `pnpm start` - Start Cloudflare Workers local development server (port 8788)
-- `pnpm build` - Build for production
-- `pnpm deploy` - Deploy to Cloudflare Workers
-- `pnpm validate` - Run format and lint checks in parallel
+変更後は必ず `pnpm validate` を通す。
 
-**Code Quality:**
+## Architecture
 
-- `pnpm lint` - Run Biome linter
-- `pnpm format` - Check formatting with Prettier
-- `pnpm format:fix` - Auto-fix formatting issues
-- `pnpm typecheck` - Generate types and run TypeScript check
-- `pnpm typegen` - Generate Wrangler types for Cloudflare bindings
+Remix 3（`remix@3.0.0`）を Cloudflare Workers で動かしている。React ではなく `remix/component` の JSX（`jsxImportSource: "remix/component"`、hooks なし）を使う。Remix のソースは `~/.opensrc/repos/github.com/remix-run/remix/3.0.0` にある（`pnpm dlx opensrc path remix@3.0.0`）。
 
-**Database:**
+- `worker.ts` - Worker のエントリ。`createAppRouter({ bindings })` を isolate ごとに作り、`ContactWorkflow` を re-export する
+- `app/routes.ts` - URL の定義。パターンは先頭 `/` なしで書く（`(:lang)` はロケール。ja は接頭辞なし、en は `/en`）
+- `app/router.ts` - ミドルウェア（logger, cop, formData, bindings, render）とルートの割り当て
+- `app/controllers/` - ルートごとのハンドラ。`context.render(<Page />)` で HTML を返す
+- `app/ui/` - サーバー描画のコンポーネント。スタイルは `css()` mixin、トークンは `app/ui/global-styles.ts` の CSS 変数
+- `app/islands/` - ブラウザでハイドレーションするコンポーネント（`clientEntry('/js/islands.js#Name', ...)`）。`client/islands.ts` に同名で export を足す
+- `client/entry.ts` - `run()` でアイランドを読み込み、ソフトナビゲーションを有効にする
+- `app/contact/` - 問い合わせのスキーマ（`remix/data-schema`）、honeypot、営業スコア、Workflow への投入
+- `app/i18n/` - `t('日本語の文言')` で翻訳。英訳は `app/i18n/en.json`（日本語の文言がキー）。`I18nProvider` / `getI18n(handle)` でツリーに渡す
+- `workers/workflow/` - `ContactWorkflow`（Workers AI で営業判定 → 評価ログ → Slack → 通知メール・自動返信）。メールは `renderToString` で JSX から作る
 
-- `pnpm migrations:list` - List all migrations
-- `pnpm migrations:apply` - Apply migrations to local D1 database
-- `pnpm migrations:apply:production` - Apply migrations to production
+## 決まりごと
 
-## Architecture Overview
-
-This is a React Router v7 full-stack application deployed on Cloudflare Workers with AI/LLM capabilities.
-
-**Core Stack:**
-
-- React Router v7 with SSR enabled (Vite-based)
-- Cloudflare Workers runtime with Node.js compatibility
-- TypeScript with strict type checking
-- Tailwind CSS v4 with shadcn/ui components
-
-**Infrastructure Services:**
-
-- **D1 Database**: SQLite database accessed via Kysely query builder
-- **R2 Storage**: Object storage for file uploads and media
-- **Workflows**: Async processing for contact forms and PDF extraction
-- **AI Integration**: Google Gemini and OpenAI providers via @ai-sdk
-
-**File-based Routing:**
-Routes use `react-router-auto-routes` in `app/routes/`:
-
-- Dots (.) create URL segments: `about.contact` → `/about/contact`
-- Plus (+) prefix marks colocated files/folders (ignored by router): `+components/`, `+schema.ts`
-- Underscores (\_) create pathless routes: `_public/` groups public pages without URL segment
-- `_layout.tsx` defines layout routes that wrap child routes
-- `_index.tsx` defines index routes
-- Parentheses create optional segments: `($lang)._index` → `/` or `/ja/`
-- Dollar signs ($) create dynamic segments: `$id` matches any value
-
-**Key Bindings (from wrangler.jsonc):**
-
-- `DB` - D1 database instance
-- `R2` - R2 storage bucket
-- `CONTACT_WORKFLOW` - Contact form workflow
-- `ASSETS` - Static assets from build/client
-
-## Important Patterns
-
-**Route Organization:**
-
-```
-app/routes/
-├── _public/                # Marketing/public pages with shared layout
-│   ├── ($lang)._index.tsx  # Localized homepage
-│   ├── +($lang)._index/    # Colocated components/hooks for homepage
-│   ├── api.contact.tsx      # Contact form API
-│   └── +api.contact/        # Colocated files for contact API
-├── demo/                    # Feature demonstrations
-│   ├── conform.nested-array.tsx
-│   ├── +conform.nested-array/  # Colocated components/schema
-│   └── ...
-├── llm.*/                   # AI/LLM feature routes
-├── api.*/                   # API endpoints
-└── resources/               # Resource management routes
-```
-
-**Form Handling with Conform:**
-
-- Use Zod schemas for validation
-- Implement server actions for form submission
-- Add honeypot fields for spam protection
-- Handle file uploads via R2 pre-signed URLs
-
-**Database Patterns:**
-
-- Kysely with CamelCase plugin for type-safe queries
-- Services abstract database operations in `app/services/`
-- Migrations in `/migrations/` directory
-- Generated Prisma types in `app/generated/prisma/`
-
-**AI/LLM Integration:**
-
-- Chat interfaces using @assistant-ui components
-- Custom attachment adapters for file handling
-- Artifact generation for code/documents
-- PDF text extraction via Cloudflare Workflows
-
-**Internationalization:**
-
-- Supported locales: en, ja, zh-Hans, zh-Hant
-- Locale detection in `app/i18n/utils/detectLocale.ts`
-- Translation files in `app/i18n/assets/locales/`
-- URL-based locale switching with `($lang)` routes
-
-**Component Architecture:**
-
-- UI primitives in `app/components/ui/` (shadcn/ui)
-- Assistant UI in `app/components/assistant-ui/`
-- Route-specific components in route directories
-- Shared utilities in `app/libs/utils.ts`
-
-**useEffect Policy:**
-
-`useEffect` must be used only for synchronizing with the external world — for example: API calls, WebSocket connections, browser APIs, external store subscriptions, or timers. In all other cases, it must not be used.
-
-Anti-patterns:
-
-- Copying props or derived values into local state
-- Running logic in response to flag changes
-- Handling user actions inside effects instead of event handlers
-- Updating derived or validation states within effects
-- Performing one-time initialization with an empty dependency array (use `useMemo` instead)
-
-Principles:
-
-1. Compute during render when a value can be derived from props or state
-2. Handle user actions in event handlers, not in effects
-3. Keep effects only for real side effects that touch external systems
-4. Whenever you write a `useEffect`, add a short comment explaining what external resource it synchronizes with
-
-**File Upload Flow:**
-
-1. Generate pre-signed URL via `/resources/upload-urls`
-2. Direct upload to R2 from client
-3. Process uploaded files in server actions
-4. Store references in D1 database
-
-**Testing & Validation:**
-When making changes, always run:
-
-1. `pnpm typecheck` - Ensure type safety
-2. `pnpm lint` - Check code quality
-3. `pnpm validate` - Run all checks in parallel
+- ブラウザ用 JS は esbuild で 1 回にまとめてビルドする（`--splitting`）。`remix/assets` は Node 専用なので使わない
+- バインディングは `cloudflare:workers` から import せず、`context.bindings`（`app/middleware/bindings.ts`）経由で使う。テストでは偽物を渡す
+- 問い合わせフォームはトップの `<Frame name="contact">`。送信は `data-rmx-target="contact"` でフォーム部分だけ差し替える。JS なしでも動くこと
+- テーマは cookie `theme` をブラウザだけで読み、`<html data-theme>` を付ける（HTML をキャッシュ可能に保つため、サーバーでは読まない）
+- アイランドの props はシリアライズ可能な値だけ。翻訳済みの文字列を渡す
+- workerd では `handle.signal` を `addEventListener` の `signal` に渡せないので、イベント購読はブラウザでだけ行う
+- `@remix-run/ui` は 0.x なのでバージョンを固定している。上げるときは差分を確認する
+- `remix/data-table` は D1 ドライバがないので使わない。D1 は `prepare()` で直接使う

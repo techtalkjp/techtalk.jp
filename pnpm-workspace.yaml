@@ -1,11 +1,12 @@
 minimumReleaseAge: 10080
+# remix 3.0.0 は 2026-10-01 公開。7 日待たずに入れるため除外する
+minimumReleaseAgeExclude:
+  - remix@3.0.0
+  - '@remix-run/*'
 overrides:
   uuid: ^14.0.0
-  esbuild: ^0.25.0
 allowBuilds:
-  '@tailwindcss/oxide': true
   core-js-pure: false
-  duckdb: true
   esbuild: true
   lefthook: true
   sharp: true

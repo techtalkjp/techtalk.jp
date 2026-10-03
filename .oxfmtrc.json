@@ -5,9 +5,6 @@
   "trailingComma": "all",
   "printWidth": 80,
   "sortPackageJson": false,
-  "sortTailwindcss": {
-    "functions": ["cn"]
-  },
   "overrides": [
     {
       "files": ["*.jsonc"],
@@ -19,7 +16,6 @@
   "ignorePatterns": [
     "pnpm-lock.yaml",
     "worker-configuration.d.ts",
-    "app/styles/globals.css",
-    "public/fts-search.js"
+    "public/js/**"
   ]
 }

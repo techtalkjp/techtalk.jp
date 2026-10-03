@@ -1,0 +1,51 @@
+import en from './en.json' with { type: 'json' }
+
+export const locales = ['ja', 'en'] as const
+export type Locale = (typeof locales)[number]
+
+const catalogs: Record<Exclude<Locale, 'ja'>, Record<string, string>> = { en }
+
+/**
+ * URL の `(:lang)` パラメータからロケールを決める。
+ * 省略時は ja、未対応の値は null（404 にする）。
+ */
+export function parseLocale(lang: string | undefined): Locale | null {
+  if (lang === undefined) return 'ja'
+  return lang === 'en' ? 'en' : null
+}
+
+/**
+ * 日本語の文言そのものをキーに翻訳する。訳がなければ日本語を返す。
+ * `{name}` 形式のプレースホルダーは vars で置き換える。
+ */
+export type Translate = (
+  ja: string,
+  vars?: Record<string, string | number>,
+) => string
+
+export function createTranslate(locale: Locale): Translate {
+  return (ja, vars) => {
+    let text = locale === 'ja' ? ja : (catalogs[locale][ja] ?? ja)
+    if (vars) {
+      for (let [key, value] of Object.entries(vars)) {
+        text = text.replaceAll(`{${key}}`, String(value))
+      }
+    }
+    return text
+  }
+}
+
+/** ロケールに応じたパスを返す。ja は接頭辞なし */
+export function localizedPath(locale: Locale, path: string): string {
+  if (locale === 'ja') return path
+  return path === '/' ? `/${locale}` : `/${locale}${path}`
+}
+
+export interface I18n {
+  locale: Locale
+  t: Translate
+}
+
+export function createI18n(locale: Locale): I18n {
+  return { locale, t: createTranslate(locale) }
+}

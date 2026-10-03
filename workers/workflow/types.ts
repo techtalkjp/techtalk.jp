@@ -3,4 +3,4 @@ export type {
   ContactInquiry,
   RuleScore,
   RuleTier,
-} from '~/routes/_public/+api.contact/types'
+} from '../../app/contact/types.ts'
