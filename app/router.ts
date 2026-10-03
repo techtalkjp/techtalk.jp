@@ -1,5 +1,4 @@
 import { cop } from 'remix/middleware/cop'
-import { formData } from 'remix/middleware/form-data'
 import { logger } from 'remix/middleware/logger'
 import { render } from 'remix/middleware/render'
 import {
@@ -15,14 +14,13 @@ import { home } from './controllers/home.tsx'
 import { notFound } from './controllers/not-found.tsx'
 import { privacy } from './controllers/privacy.tsx'
 import { bindings, type Bindings } from './middleware/bindings.ts'
-import { trailingSlash } from './middleware/trailing-slash.ts'
+import { canonicalPath } from './middleware/canonical-path.ts'
 import { routes } from './routes.ts'
 
 type AppContext = MiddlewareContext<
   [
-    ReturnType<typeof trailingSlash>,
+    ReturnType<typeof canonicalPath>,
     ReturnType<typeof cop>,
-    ReturnType<typeof formData>,
     ReturnType<typeof bindings>,
     ReturnType<typeof render>,
   ]
@@ -48,9 +46,8 @@ export function createAppRouter(options: AppRouterOptions) {
   let router = createRouter<AppContext>({
     middleware: [
       ...(options.log === false ? [] : [requestLogger()]),
-      trailingSlash(),
+      canonicalPath(),
       cop(),
-      formData(),
       bindings(options.bindings),
       render({ onError: (error) => console.error(error) }),
     ],
@@ -67,16 +64,14 @@ export function createAppRouter(options: AppRouterOptions) {
 }
 
 /**
- * リクエストログ。トップページの描画中にサーバー内で解決する contact Frame の GET は、
- * ページ本体と二重に数えないよう記録しない。
+ * リクエストログ。ページの描画中にサーバー内で解決する Frame の GET は、ページ本体と
+ * 二重に数えないよう記録しない。X-Remix-Top-Frame-Src は render ミドルウェアが
+ * サーバー内のサブリクエストにだけ付けるヘッダーで、ブラウザからは来ない。
  */
 function requestLogger(): Middleware {
   let log = logger()
   return (context, next) => {
-    let { request } = context
-    let isFrameGet =
-      request.method === 'GET' &&
-      request.headers.get('X-Remix-Frame') === 'true'
-    return isFrameGet ? next() : log(context, next)
+    let isInternalFrame = context.request.headers.has('X-Remix-Top-Frame-Src')
+    return isInternalFrame ? next() : log(context, next)
   }
 }

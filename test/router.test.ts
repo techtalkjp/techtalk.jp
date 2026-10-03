@@ -101,6 +101,9 @@ describe('pages', () => {
     ['//evil.com/', '/evil.com'],
     ['/ja', '/'],
     ['/ja/biography', '/biography'],
+    // 旧 /ja と末尾スラッシュが重なっても 1 回で寄せる
+    ['/ja/', '/'],
+    ['/ja/biography/', '/biography'],
   ] as const) {
     it(`GET ${from} redirects to ${to}`, async () => {
       let { fetch } = setup()
@@ -138,7 +141,9 @@ describe('pages', () => {
 
   it('a contact frame reload of the page URL returns only the form', async () => {
     let { fetch } = setup()
-    let html = await (await fetch('/en?sent=1', { headers: frame })).text()
+    let response = await fetch('/en?sent=1', { headers: frame })
+    assert.equal(response.headers.get('X-Robots-Tag'), 'noindex')
+    let html = await response.text()
     assert.doesNotMatch(html, /<html/)
     assert.match(html, /Thank you for your message/)
   })
@@ -197,6 +202,52 @@ describe('contact form', () => {
     assert.equal(response.status, 200)
     assert.match(await response.text(), /role="status"/)
     assert.equal(created.length, 0)
+  })
+
+  for (let email of ['taro@gmail.c', 'taro@example..com', 'taro@localhost']) {
+    it(`rejects malformed email ${email}`, async () => {
+      let { fetch, created } = setup()
+      let response = await fetch('/', post({ ...validForm, email }, frame))
+      assert.equal(response.status, 400)
+      assert.match(
+        await response.text(),
+        /正しいメールアドレスを入力してください/,
+      )
+      assert.equal(created.length, 0)
+    })
+  }
+
+  it('oversized form posts are rejected with 413', async () => {
+    let { fetch, created } = setup()
+    let fields = Object.fromEntries(
+      Array.from({ length: 1100 }, (_, i) => [`f${i}`, 'x']),
+    )
+    let response = await fetch('/', post(fields))
+    assert.equal(response.status, 413)
+    assert.equal(created.length, 0)
+  })
+
+  it('posts to other paths are not parsed as forms', async () => {
+    let { fetch } = setup()
+    let response = await fetch('/nope', post({ a: 'b' }))
+    assert.equal(response.status, 404)
+  })
+
+  it('form fields carry stable keys for in-place re-rendering', async () => {
+    // キーがないと、エラー表示の挿入で入力欄の値が別の欄に移る
+    let { fetch } = setup()
+    let html = await (await fetch('/', post({ name: 'x' }, frame))).text()
+    for (let key of [
+      'invalid',
+      'name',
+      'company',
+      'phone',
+      'email',
+      'message',
+      'privacyPolicy',
+    ]) {
+      assert.match(html, new RegExp(`data-rmx-key="${key}"`))
+    }
   })
 
   it('whitespace-only required fields are rejected', async () => {

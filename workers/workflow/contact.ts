@@ -1,6 +1,5 @@
 export type { ContactFormData } from './types.ts'
 import {
-  env,
   WorkflowEntrypoint,
   type WorkflowEvent,
   type WorkflowStep,
@@ -16,6 +15,7 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
     event: WorkflowEvent<ContactInquiry>,
     step: WorkflowStep,
   ): Promise<void> {
+    const env = this.env
     const inquiry = event.payload
     console.log('Received inquiry:', inquiry.name, inquiry.email)
 

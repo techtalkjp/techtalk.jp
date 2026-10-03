@@ -23,6 +23,6 @@ Slack の Webhook は `.env`（`.env.example` 参照）に置く。ローカル�
 ## デプロイ
 
 ```sh
-pnpm deploy
+pnpm run deploy
 pnpm migrations:apply:production
 ```

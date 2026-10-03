@@ -4,9 +4,9 @@ This file provides guidance to coding agents (Claude Code, Codex など) when wo
 
 ## Development Commands
 
-- `pnpm dev` - esbuild (client, watch) と `wrangler dev` を並列で起動（http://localhost:8787）
+- `pnpm dev` - `wrangler dev`（http://localhost:8787）。ブラウザ用バンドルは wrangler の build.command が作り、app/ と client/ の変更で作り直す
 - `pnpm build` - ブラウザ用バンドルを `public/js/` に出力
-- `pnpm deploy` - build して Cloudflare Workers にデプロイ
+- `pnpm run deploy` - `wrangler deploy`（build.command でバンドルを作ってからデプロイ）。`pnpm deploy` は pnpm 組み込みのコマンドなので使わない
 - `pnpm test` - `remix test`（`test/**/*.test.{ts,tsx}`）
 - `pnpm typecheck` / `pnpm lint` / `pnpm format` / `pnpm format:fix`
 - `pnpm validate` - format, lint, typecheck, test を並列実行

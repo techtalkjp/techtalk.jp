@@ -1,5 +1,6 @@
 import { css, type Handle } from 'remix/component'
 
+import { languageName, otherLocale } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
 import { MobileMenu } from '../../islands/mobile-menu.tsx'
 import { Brand, LanguageLink, ThemeSwitcher } from '../layout.tsx'
@@ -97,7 +98,7 @@ export function HomeHeader(handle: Handle<{ languageHref: string }>) {
               links={[...links, { ...contact, emphasis: true }]}
               language={{
                 href: handle.props.languageHref,
-                label: locale === 'ja' ? 'English' : '日本語',
+                label: languageName(otherLocale(locale)),
               }}
               labels={{
                 open: t('メニューを開く'),

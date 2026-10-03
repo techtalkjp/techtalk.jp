@@ -40,6 +40,11 @@ export function langParam(locale: Locale): { lang?: string } {
   return locale === 'ja' ? {} : { lang: locale }
 }
 
+/** 言語切替リンクに出す、その言語自身での名前 */
+export function languageName(locale: Locale): string {
+  return locale === 'ja' ? '日本語' : 'English'
+}
+
 export function otherLocale(locale: Locale): Locale {
   return locale === 'ja' ? 'en' : 'ja'
 }

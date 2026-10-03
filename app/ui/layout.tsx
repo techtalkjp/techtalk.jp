@@ -1,5 +1,6 @@
 import { css, type Handle, type RemixNode } from 'remix/component'
 
+import { languageName, otherLocale } from '../i18n/index.ts'
 import { getI18n } from '../i18n/provider.tsx'
 import { ThemeMenu } from '../islands/theme-menu.tsx'
 import { container, iconButton, md, mono } from './styles.ts'
@@ -107,12 +108,12 @@ export function LanguageLink(handle: Handle<{ href: string }>) {
     return (
       <a
         href={handle.props.href}
-        hrefLang={locale === 'ja' ? 'en' : 'ja'}
-        lang={locale === 'ja' ? 'en' : 'ja'}
+        hrefLang={otherLocale(locale)}
+        lang={otherLocale(locale)}
         data-rmx-document=""
         mix={iconButton}
       >
-        {locale === 'ja' ? 'English' : '日本語'}
+        {languageName(otherLocale(locale))}
       </a>
     )
   }

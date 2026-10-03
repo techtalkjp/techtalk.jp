@@ -2,16 +2,17 @@ import { createRedirectResponse } from 'remix/response/redirect'
 import { createController } from 'remix/router'
 
 import { submitContact } from '../contact/submit.ts'
+import { contactFormData } from '../middleware/contact-form-data.ts'
 import { locale } from '../middleware/locale.ts'
 import { paths } from '../paths.ts'
 import { routes } from '../routes.ts'
 import { CONTACT_FRAME } from '../ui/home/contact.tsx'
 import { HomePage } from '../ui/home/page.tsx'
 import { privateHeaders, publicPageHeaders } from './cache.ts'
-import { ContactFormFragment } from './contact-form.tsx'
+import { contactStateFromUrl, renderContactFragment } from './contact-form.tsx'
 
 export const home = createController(routes.home, {
-  middleware: [locale()],
+  middleware: [locale(), contactFormData()],
   actions: {
     index(context) {
       let { i18n } = context
@@ -19,12 +20,10 @@ export const home = createController(routes.home, {
 
       // 送信後に戻る・進むで contact Frame が再読み込みされると、この URL が Frame の src になる
       if (isContactFrameRequest(context.request)) {
-        return context.render(
-          <ContactFormFragment
-            i18n={i18n}
-            state={sent ? { status: 'sent' } : { status: 'idle' }}
-          />,
-          { headers: privateHeaders },
+        return renderContactFragment(
+          context,
+          i18n,
+          contactStateFromUrl(context.url),
         )
       }
 
@@ -47,10 +46,7 @@ export const home = createController(routes.home, {
       // ブラウザの Frame は 5xx を捨てるので、送信失敗も 200 で返してメッセージを見せる
       if (isContactFrameRequest(context.request)) {
         let status = result.status === 'invalid' ? 400 : 200
-        return context.render(
-          <ContactFormFragment i18n={i18n} state={result} />,
-          { status, headers: privateHeaders },
-        )
+        return renderContactFragment(context, i18n, result, status)
       }
 
       // JS なし: 成功したらリダイレクト、失敗したらページ全体をエラー付きで描く

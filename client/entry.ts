@@ -25,7 +25,9 @@ const app = run({
       let response = await fetch(src, {
         method,
         headers,
-        body: isSubmit ? toBody(options?.formData) : undefined,
+        body: isSubmit
+          ? toBody(options?.formData, options?.encType)
+          : undefined,
         mode: 'same-origin',
         signal: options?.signal,
       })
@@ -50,9 +52,20 @@ const app = run({
   },
 })
 
-/** 文字列だけのフォームは application/x-www-form-urlencoded で送る */
-function toBody(formData: FormData | undefined): BodyInit | undefined {
+/** Remix の既定の解決処理と同じく、フォームの enctype に合わせて本文を作る */
+function toBody(
+  formData: FormData | undefined,
+  encType: string | undefined,
+): BodyInit | undefined {
   if (!formData) return undefined
+  if (encType === 'multipart/form-data') return formData
+  if (encType === 'text/plain') {
+    let text = ''
+    for (let [name, value] of formData) {
+      text += `${name}=${typeof value === 'string' ? value : value.name}\r\n`
+    }
+    return new Blob([text.replace(/\r?\n|\r/g, '\r\n')], { type: 'text/plain' })
+  }
   let body = new URLSearchParams()
   for (let [name, value] of formData) {
     body.append(name, typeof value === 'string' ? value : value.name)

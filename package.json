@@ -19,12 +19,10 @@
     }
   },
   "scripts": {
-    "dev": "run-p dev:client dev:worker",
-    "dev:client": "pnpm build:client --watch",
-    "dev:worker": "wrangler dev",
+    "dev": "wrangler dev",
     "build": "pnpm build:client",
-    "build:client": "esbuild client/entry.ts client/islands.ts --bundle --splitting --format=esm --outdir=public/js --jsx=automatic --jsx-import-source=remix/component --minify --target=es2022 '--entry-names=[name]' '--chunk-names=chunk-[hash]'",
-    "deploy": "pnpm build && wrangler deploy",
+    "build:client": "rm -rf public/js && esbuild client/entry.ts client/islands.ts --bundle --splitting --format=esm --outdir=public/js --jsx=automatic --jsx-import-source=remix/component --minify --target=es2022 '--entry-names=[name]' '--chunk-names=chunk-[hash]'",
+    "deploy": "wrangler deploy",
     "typegen": "wrangler types --env-file .env.example",
     "typecheck": "tsc",
     "lint": "oxlint -c .oxlintrc.json",

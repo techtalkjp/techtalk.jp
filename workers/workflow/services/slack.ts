@@ -2,23 +2,28 @@ import { err, ok } from 'neverthrow'
 import type { Classification } from './classify.ts'
 import type { ContactInquiry } from '../types.ts'
 
+/**
+ * Slack の mrkdwn で制御文字になる &<> をエスケープする。
+ * 利用者の入力に `<!channel>` や `<https://…|偽リンク>` を書かれても効かないようにする
+ */
+export const escapeMrkdwn = (text: string) =>
+  text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+
 export const sendSlack = async (
   webhookUrl: string,
   data: ContactInquiry,
   classification: Classification,
 ) => {
-  const isSales = classification.verdict === 'sales'
-  const title = isSales ? '🚫 営業疑いの問い合わせ' : '📧 新しいお問い合わせ'
+  // 営業判定（sales）の問い合わせは Workflow 側で Slack 通知の前に止めている
+  const title = '📧 新しいお問い合わせ'
   const verdictLine =
     `*判定:* LLM=${classification.verdict} (${classification.confidence}%) / ` +
     `ルール=${data.rule.score} (${data.rule.tier})`
   const reasonLine =
-    `*理由:* LLM: ${classification.reason || '(なし)'} / ` +
+    `*理由:* LLM: ${escapeMrkdwn(classification.reason) || '(なし)'} / ` +
     `ルール: ${data.rule.reasons.join('、') || '(なし)'}`
   const payload = {
-    text: isSales
-      ? `[営業疑い] 新しいお問い合わせ: ${data.name}様`
-      : '新しいお問い合わせがあります',
+    text: '新しいお問い合わせがあります',
     blocks: [
       {
         type: 'header',
@@ -32,17 +37,17 @@ export const sendSlack = async (
         fields: [
           {
             type: 'mrkdwn',
-            text: `*名前:*\n${data.name}`,
+            text: `*名前:*\n${escapeMrkdwn(data.name)}`,
           },
           {
             type: 'mrkdwn',
-            text: `*メール:*\n${data.email}`,
+            text: `*メール:*\n${escapeMrkdwn(data.email)}`,
           },
           ...(data.company
             ? [
                 {
                   type: 'mrkdwn',
-                  text: `*会社:*\n${data.company}`,
+                  text: `*会社:*\n${escapeMrkdwn(data.company)}`,
                 },
               ]
             : []),
@@ -50,7 +55,7 @@ export const sendSlack = async (
             ? [
                 {
                   type: 'mrkdwn',
-                  text: `*電話:*\n${data.phone}`,
+                  text: `*電話:*\n${escapeMrkdwn(data.phone)}`,
                 },
               ]
             : []),
@@ -60,7 +65,7 @@ export const sendSlack = async (
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*メッセージ:*\n${data.message}`,
+          text: `*メッセージ:*\n${escapeMrkdwn(data.message)}`,
         },
       },
       {

@@ -1,8 +1,28 @@
 import * as s from 'remix/data-schema'
-import { email, maxLength, minLength } from 'remix/data-schema/checks'
+import { maxLength, minLength } from 'remix/data-schema/checks'
 import * as f from 'remix/data-schema/form-data'
 
 import type { Translate } from '../i18n/index.ts'
+
+/** 入力欄の文字数上限。サーバーの検証とフォームの maxLength で共有する */
+export const contactLimits = {
+  name: 100,
+  company: 100,
+  phone: 20,
+  email: 100,
+  message: 10000,
+} as const
+
+/**
+ * メールアドレスの形式。remix/data-schema の email() は `a@b.c` も通すので、
+ * ドメインの各ラベルが空でなく、最後が 2 文字以上の英字であることまで見る
+ */
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[a-z]{2,}$/i
+const email = (): s.Check<string> => ({
+  check: (value) => EMAIL_PATTERN.test(value),
+  code: 'string.email',
+  message: 'Expected valid email',
+})
 
 // 前後の空白を除いてから検証する（空白だけの入力を通さない）
 const trimmed = () => s.string().transform((value) => value.trim())
@@ -17,11 +37,13 @@ const optional = (max: number) =>
   )
 
 export const contactSchema = f.object({
-  name: required(100),
-  company: optional(100),
-  phone: optional(20),
-  email: f.field(trimmed().pipe(minLength(1), maxLength(100), email())),
-  message: required(10000),
+  name: required(contactLimits.name),
+  company: optional(contactLimits.company),
+  phone: optional(contactLimits.phone),
+  email: f.field(
+    trimmed().pipe(minLength(1), maxLength(contactLimits.email), email()),
+  ),
+  message: required(contactLimits.message),
   privacyPolicy: f.field(s.literal('on')),
 })
 

@@ -4,6 +4,12 @@
   "main": "./worker.ts",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"],
+  // wrangler deploy / dev の前にブラウザ用バンドル（public/js、gitignore 済み）を作る。
+  // dev 中は app/ と client/ の変更で作り直す
+  "build": {
+    "command": "pnpm build:client",
+    "watch_dir": ["app", "client"]
+  },
   "assets": {
     "directory": "./public",
     "binding": "ASSETS"

@@ -1,5 +1,6 @@
 import { css, Frame, type Handle } from 'remix/component'
 
+import { contactLimits } from '../../contact/schema.ts'
 import type {
   ContactErrors,
   ContactFieldName,
@@ -119,27 +120,23 @@ const fields: {
   type?: 'text' | 'email' | 'tel'
   autoComplete: string
   required?: boolean
-  maxLength: number
 }[] = [
   {
     name: 'name',
     label: 'お名前',
     autoComplete: 'name',
     required: true,
-    maxLength: 100,
   },
   {
     name: 'company',
     label: '会社名（任意）',
     autoComplete: 'organization',
-    maxLength: 100,
   },
   {
     name: 'phone',
     label: '電話番号（任意）',
     type: 'tel',
     autoComplete: 'tel',
-    maxLength: 20,
   },
   {
     name: 'email',
@@ -147,7 +144,6 @@ const fields: {
     type: 'email',
     autoComplete: 'email',
     required: true,
-    maxLength: 100,
   },
 ]
 
@@ -196,22 +192,23 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
       errors[name] ? `${id(name)}-error` : undefined
 
     return (
+      // action を省くと今のページ URL（クエリ込み）に送る。ページと同じ URL への送信なので
+      // 履歴は置き換えになり、アドレスバーも変わらない。サーバーは (:lang) からロケールを決める
       <form
         method="post"
-        action={paths.contactAction(locale)}
         data-rmx-target={CONTACT_FRAME}
-        data-rmx-history="replace"
         data-rmx-reset-scroll="false"
         mix={css({ display: 'flex', flexDirection: 'column', gap: '1rem' })}
       >
         {state.status === 'invalid' ? (
-          <p role="alert" mix={errorStyle}>
+          <p role="alert" data-rmx-key="invalid" mix={errorStyle}>
             {t('入力内容を確認してください')}
           </p>
         ) : null}
         {state.status === 'failed' ? (
           <p
             role="alert"
+            data-rmx-key="failed"
             mix={[
               errorStyle,
               css({
@@ -226,7 +223,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
         ) : null}
 
         {fields.map((field) => (
-          <div key={field.name} mix={fieldStyle}>
+          <div key={field.name} data-rmx-key={field.name} mix={fieldStyle}>
             <label for={id(field.name)} mix={labelStyle}>
               {t(field.label)}
             </label>
@@ -237,7 +234,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
               type={(field.type ?? 'text') as 'text'}
               autoComplete={field.autoComplete}
               required={field.required}
-              maxLength={field.maxLength}
+              maxLength={contactLimits[field.name]}
               value={values[field.name] ?? ''}
               aria-invalid={errors[field.name] ? 'true' : undefined}
               aria-describedby={describedBy(field.name)}
@@ -251,7 +248,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
           </div>
         ))}
 
-        <div mix={fieldStyle}>
+        <div data-rmx-key="message" mix={fieldStyle}>
           <label for={id('message')} mix={labelStyle}>
             {t('メッセージ')}
           </label>
@@ -259,7 +256,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
             id={id('message')}
             name="message"
             required
-            maxLength={10000}
+            maxLength={contactLimits.message}
             rows={6}
             aria-invalid={errors.message ? 'true' : undefined}
             aria-describedby={describedBy('message')}
@@ -273,9 +270,10 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
           ) : null}
         </div>
 
+        {/* 送信後の差し替えで入力欄の取り違えが起きないよう、並びの要素には data-rmx-key を付ける */}
         {/* honeypot: 人には見えない欄。ボットが埋めたら送信したことにして捨てる。
             画面外に置くだけだと自動入力で埋まることがあるので display: none にする */}
-        <div hidden mix={css({ display: 'none' })}>
+        <div hidden data-rmx-key="companyPhone" mix={css({ display: 'none' })}>
           <input
             type="text"
             name="companyPhone"
@@ -285,7 +283,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
           />
         </div>
 
-        <div mix={fieldStyle}>
+        <div data-rmx-key="privacyPolicy" mix={fieldStyle}>
           <label
             mix={css({
               display: 'flex',

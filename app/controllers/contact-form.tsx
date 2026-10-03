@@ -1,4 +1,5 @@
 import type { Handle } from 'remix/component'
+import type { RenderFunction } from 'remix/middleware/render'
 import { createAction } from 'remix/router'
 
 import type { I18n } from '../i18n/index.ts'
@@ -19,17 +20,35 @@ export function ContactFormFragment(
   )
 }
 
+/**
+ * 問い合わせフォームの Frame 用の応答。訪問者ごとに変わるので保存させず、
+ * 単体で開かれても検索結果に出さない
+ */
+export function renderContactFragment(
+  context: { render: RenderFunction },
+  i18n: I18n,
+  state: ContactFormState,
+  status = 200,
+): Response {
+  return context.render(<ContactFormFragment i18n={i18n} state={state} />, {
+    status,
+    headers: { ...privateHeaders, 'X-Robots-Tag': 'noindex' },
+  })
+}
+
+/** `?sent=1` のときは送信完了の表示、それ以外は空のフォーム */
+export function contactStateFromUrl(url: URL): ContactFormState {
+  return url.searchParams.get('sent') === '1'
+    ? { status: 'sent' }
+    : { status: 'idle' }
+}
+
 export const contactForm = createAction(routes.contactForm, {
   middleware: [locale()],
-  handler(context) {
-    let { i18n } = context
-    let state: ContactFormState =
-      context.url.searchParams.get('sent') === '1'
-        ? { status: 'sent' }
-        : { status: 'idle' }
-    // 単体で開かれても検索結果に出さない
-    return context.render(<ContactFormFragment i18n={i18n} state={state} />, {
-      headers: { ...privateHeaders, 'X-Robots-Tag': 'noindex' },
-    })
-  },
+  handler: (context) =>
+    renderContactFragment(
+      context,
+      context.i18n,
+      contactStateFromUrl(context.url),
+    ),
 })
