@@ -2,7 +2,7 @@ import { css, type Handle } from 'remix/component'
 
 import { getI18n } from '../../i18n/provider.tsx'
 import { sm } from '../styles.ts'
-import { Section } from './section.tsx'
+import { Section } from '../section.tsx'
 
 const rows: [label: string, value: string][] = [
   ['会社名', '株式会社TechTalk'],
@@ -19,7 +19,7 @@ export function CompanySection(handle: Handle) {
   return () => {
     let { t } = getI18n(handle)
     return (
-      <Section id="company" name={t('会社概要')}>
+      <Section id="company" name={t('会社概要')} nameIsHeading>
         <dl>
           {rows.map(([label, value]) => (
             <div
@@ -30,17 +30,16 @@ export function CompanySection(handle: Handle) {
                 gap: '2px',
                 padding: '18px 0',
                 borderBottom: '1px solid var(--border)',
-                // 上の罫線は置かず、1 行目を左のセクション名と同じ線に乗せる
-                '&:first-child': { paddingTop: '8px' },
+                '&:first-child': { paddingTop: 0 },
                 [sm]: {
                   gridTemplateColumns: '160px minmax(0, 1fr)',
+                  alignItems: 'baseline',
                   gap: '24px',
                 },
               })}
             >
               <dt
                 mix={css({
-                  paddingTop: '1px',
                   fontSize: 'var(--t-14)',
                   color: 'var(--text-subtle)',
                 })}

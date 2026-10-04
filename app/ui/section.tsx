@@ -1,16 +1,32 @@
 import { css, type Handle, type RemixNode } from 'remix/component'
 
-import { container, wide } from '../styles.ts'
+import { container, wide } from './styles.ts'
 
 /**
- * トップの各セクションの枠。左にセクション名、右に中身の 2 カラム。
- * セクション名の 1 行目は h2（28px × 1.5 = 42px）と同じ高さにして、右の見出しと同じ線に乗せる
+ * ページの各セクションの枠。左にセクション名、右に中身の 2 カラム。
+ * 2 カラムのときは、セクション名と中身の 1 行目をベースラインでそろえる。
+ * 中身が自分の見出し（h2）で始まらないセクションは、nameIsHeading でセクション名を h2 にする
  */
 export function Section(
-  handle: Handle<{ id: string; name: string; children?: RemixNode }>,
+  handle: Handle<{
+    id: string
+    name: string
+    /** セクション名を見出しにするか。中身が h2 で始まるなら付けない */
+    nameIsHeading?: boolean
+    children?: RemixNode
+  }>,
 ) {
   return () => {
-    let { id, name, children } = handle.props
+    let { id, name, nameIsHeading, children } = handle.props
+    let nameProps = {
+      id: `section-${id}`,
+      mix: css({
+        fontSize: 'var(--t-14)',
+        lineHeight: 1.5,
+        fontWeight: 700,
+        color: 'var(--text-subtle)',
+      }),
+    }
     return (
       <section
         id={id}
@@ -30,23 +46,17 @@ export function Section(
               gap: '20px',
               [wide]: {
                 gridTemplateColumns: '220px minmax(0, 1fr)',
+                alignItems: 'baseline',
                 gap: '48px',
               },
             }),
           ]}
         >
-          <p
-            id={`section-${id}`}
-            mix={css({
-              fontSize: 'var(--t-14)',
-              fontWeight: 700,
-              color: 'var(--text-subtle)',
-              lineHeight: 1.5,
-              [wide]: { lineHeight: '42px' },
-            })}
-          >
-            {name}
-          </p>
+          {nameIsHeading ? (
+            <h2 {...nameProps}>{name}</h2>
+          ) : (
+            <p {...nameProps}>{name}</p>
+          )}
           <div>{children}</div>
         </div>
       </section>

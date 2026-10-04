@@ -1,17 +1,15 @@
-import { css, type Handle, type RemixNode } from 'remix/component'
+import { css, type Handle } from 'remix/component'
 
 import { otherLocale, type I18n } from '../../i18n/index.ts'
 import { paths } from '../../paths.ts'
 import { getI18n, I18nProvider } from '../../i18n/provider.tsx'
 import { Document, type Seo } from '../document.tsx'
-import {
-  ExternalLinkIcon,
-  FacebookIcon,
-  GithubIcon,
-  TwitterIcon,
-} from '../icons.tsx'
 import { PageShell } from '../layout.tsx'
-import { fadeUpOnLoad, md, narrowContainer, sm } from '../styles.ts'
+import { PageIntro } from '../page-intro.tsx'
+import { PressList } from '../press-list.tsx'
+import { ProfileLinks, ProfilePhoto } from '../profile-parts.tsx'
+import { Section } from '../section.tsx'
+import { medium } from '../styles.ts'
 
 function biographySeo({ locale }: I18n): Seo {
   let ja = locale === 'ja'
@@ -20,8 +18,8 @@ function biographySeo({ locale }: I18n): Seo {
       ? '溝口 浩二 - Biography | TechTalk, Inc.'
       : 'Coji Mizoguchi - Biography | TechTalk, Inc.',
     description: ja
-      ? '技術と事業の両面から0→1を生み出すことを専門としています。フリークアウト、IRIS、TechTalkでの経験。'
-      : 'Specializing in creating 0→1 value from both technical and business perspectives. Experience at FreakOut, IRIS, and TechTalk.',
+      ? '株式会社TechTalk 代表取締役 溝口浩二の経歴。ドワンゴ、フリークアウト、IRISを経て、技術と事業の両面から新しい事業を立ち上げてきました。'
+      : 'Biography of Coji Mizoguchi, CEO of TechTalk, Inc. After Dwango, FreakOut, and IRIS, he has launched new businesses from both the technical and the business side.',
     path: paths.biography(locale),
     ogType: 'profile',
     alternates: { ja: paths.biography('ja'), en: paths.biography('en') },
@@ -55,69 +53,6 @@ const careers = [
   },
 ]
 
-const articles = [
-  {
-    href: 'https://forbesjapan.com/articles/detail/22941',
-    image:
-      'https://shareboss.net/wp-content/uploads/2019/11/c0ef11a7611e6c1a64940ca869d9adf5.jpg',
-    publisher: 'Forbes JAPAN',
-    title: '合弁会社で世界へ タクシーメディアの掲げる野望',
-  },
-  {
-    href: 'https://thebridge.jp/2014/06/takanori-oshiba-interview-series-vol-7',
-    image: 'https://thebridge.jp/wp-content/uploads/2014/06/freakout1.jpg',
-    publisher: 'THE BRIDGE',
-    title:
-      '「本田の描く広告の未来を実現する」ーー隠れたキーマンを調べるお・フリークアウト、溝口氏インタビュー',
-  },
-  {
-    href: 'https://japan.cnet.com/article/20361283/',
-    image:
-      'https://japan.cnet.com/story_media/20361283/CNETJ/071117_niwango2.jpg',
-    publisher: 'CNET Japan',
-    title: 'ニワンゴ技術責任者が語る、「ニコニコ動画」成功の鍵',
-  },
-]
-
-const socials: { href: string; label: string; icon: () => RemixNode }[] = [
-  {
-    href: 'https://x.com/techtalkjp',
-    label: 'X',
-    icon: () => <TwitterIcon size={20} />,
-  },
-  {
-    href: 'https://www.facebook.com/mizoguchi.coji',
-    label: 'Facebook',
-    icon: () => <FacebookIcon size={20} />,
-  },
-  {
-    href: 'https://github.com/coji',
-    label: 'GitHub',
-    icon: () => <GithubIcon size={20} />,
-  },
-]
-
-const sectionLabel = css({
-  marginBottom: '3rem',
-  fontSize: '0.875rem',
-  fontWeight: 600,
-  letterSpacing: '0.05em',
-  color: 'var(--text-subtle)',
-})
-
-const cardStyle = css({
-  borderRadius: '1rem',
-  border: '1px solid var(--border)',
-  background: 'var(--surface)',
-  transition: 'border-color 150ms',
-  '&:hover': { borderColor: 'var(--border-strong)' },
-})
-
-const sectionStyle = css({
-  borderTop: '1px solid var(--border)',
-  paddingBlock: '6rem',
-})
-
 export function BiographyPage(handle: Handle<{ i18n: I18n }>) {
   return () => {
     let { i18n } = handle.props
@@ -126,10 +61,11 @@ export function BiographyPage(handle: Handle<{ i18n: I18n }>) {
         <I18nProvider value={i18n}>
           <PageShell languageHref={paths.biography(otherLocale(i18n.locale))}>
             <main>
-              <BiographyHero />
-              <SocialLinks />
-              <CareerTimeline />
-              <MediaCoverage />
+              <BiographyIntro />
+              <CareerSection />
+              <Section id="press" name={i18n.t('掲載記事')} nameIsHeading>
+                <PressList />
+              </Section>
             </main>
           </PageShell>
         </I18nProvider>
@@ -138,247 +74,76 @@ export function BiographyPage(handle: Handle<{ i18n: I18n }>) {
   }
 }
 
-function BiographyHero(handle: Handle) {
+function BiographyIntro(handle: Handle) {
   return () => {
     let { t } = getI18n(handle)
     return (
-      <section mix={css({ paddingBlock: '6rem' })}>
-        <div
-          mix={[narrowContainer, fadeUpOnLoad, css({ textAlign: 'center' })]}
+      <PageIntro
+        before={
+          <div mix={css({ marginBottom: '32px' })}>
+            <ProfilePhoto alt={t('溝口浩二の写真')} />
+          </div>
+        }
+        title={t('溝口 浩二')}
+        lede={t(
+          '株式会社TechTalk 代表取締役。技術と事業の両面から、新しい事業を立ち上げてきました。',
+        )}
+      >
+        <div mix={css({ marginTop: '24px' })}>
+          <ProfileLinks />
+        </div>
+      </PageIntro>
+    )
+  }
+}
+
+function CareerSection(handle: Handle) {
+  return () => {
+    let { t } = getI18n(handle)
+    return (
+      <Section id="career" name={t('経歴')} nameIsHeading>
+        <ol
+          // リストの見た目を消すと Safari の読み上げがリストとして扱わなくなるので、明示する
+          role="list"
         >
-          <div
-            mix={css({
-              display: 'flex',
-              justifyContent: 'center',
-              marginBottom: '2rem',
-            })}
-          >
-            <img
-              src="/images/coji.webp"
-              alt="Coji Mizoguchi"
-              width={128}
-              height={128}
+          {careers.map((career) => (
+            <li
+              key={career.title}
               mix={css({
-                width: '8rem',
-                height: '8rem',
-                borderRadius: '9999px',
-                border: '4px solid var(--border)',
+                display: 'grid',
+                gridTemplateColumns: 'minmax(0, 1fr)',
+                gap: '4px',
+                padding: '28px 0',
+                borderBottom: '1px solid var(--border)',
+                '&:first-child': { paddingTop: 0 },
+                [medium]: {
+                  gridTemplateColumns: '160px minmax(0, 1fr)',
+                  alignItems: 'baseline',
+                  gap: '24px',
+                },
               })}
-            />
-          </div>
-          <h1
-            mix={css({
-              marginBottom: '1rem',
-              fontSize: '3rem',
-              fontWeight: 700,
-              color: 'var(--text-strong)',
-              [md]: { fontSize: '3.75rem' },
-            })}
-          >
-            {t('Coji Mizoguchi')}
-          </h1>
-          <p
-            mix={css({
-              marginBottom: '2rem',
-              fontSize: '1.25rem',
-              color: 'var(--text-muted)',
-              [md]: { fontSize: '1.5rem' },
-            })}
-          >
-            {t('溝口 浩二')}
-          </p>
-          <p
-            mix={css({
-              maxWidth: '42rem',
-              marginInline: 'auto',
-              fontSize: '1.125rem',
-              color: 'var(--text-muted)',
-            })}
-          >
-            {t('技術と事業の両面から0→1を生み出す')}
-          </p>
-        </div>
-      </section>
-    )
-  }
-}
-
-function SocialLinks(handle: Handle) {
-  return () => {
-    let { t } = getI18n(handle)
-    return (
-      <section mix={[sectionStyle, css({ paddingBlock: '3rem' })]}>
-        <div mix={narrowContainer}>
-          <h2 mix={[sectionLabel, css({ marginBottom: '1.5rem' })]}>
-            {t('CONNECT')}
-          </h2>
-          <div
-            mix={css({
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.75rem',
-              [sm]: { flexDirection: 'row', gap: '1rem' },
-            })}
-          >
-            {socials.map((social) => (
-              <a
-                key={social.href}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                mix={[
-                  cardStyle,
-                  css({
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    borderRadius: '0.5rem',
-                    padding: '0.75rem 1.5rem',
-                    color: 'var(--text-strong)',
-                  }),
-                ]}
+            >
+              <p
+                mix={css({
+                  fontSize: 'var(--t-14)',
+                  fontVariantNumeric: 'tabular-nums',
+                  color: 'var(--text-subtle)',
+                })}
               >
-                {social.icon()}
-                <span>{social.label}</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-    )
-  }
-}
-
-function CareerTimeline(handle: Handle) {
-  return () => {
-    let { t } = getI18n(handle)
-    return (
-      <section mix={sectionStyle}>
-        <div mix={narrowContainer}>
-          <h2 mix={sectionLabel}>{t('CAREER')}</h2>
-          <div
-            mix={css({ display: 'flex', flexDirection: 'column', gap: '2rem' })}
-          >
-            {careers.map((career) => (
-              <div
-                key={career.title}
-                mix={[cardStyle, css({ padding: '2rem' })]}
-              >
-                <div
-                  mix={css({
-                    marginBottom: '0.5rem',
-                    fontSize: '0.875rem',
-                    color: 'var(--text-subtle)',
-                  })}
-                >
-                  {t(career.period)}
-                </div>
-                <h3
-                  mix={css({
-                    marginBottom: '1rem',
-                    fontSize: '1.25rem',
-                    fontWeight: 600,
-                    color: 'var(--text-strong)',
-                  })}
-                >
+                {t(career.period)}
+              </p>
+              <div>
+                <h3 mix={css({ fontSize: 'var(--t-16)', lineHeight: 1.6 })}>
                   {t(career.title)}
                 </h3>
-                <p mix={css({ lineHeight: 1.625, color: 'var(--text-muted)' })}>
+                <p mix={css({ marginTop: '6px', color: 'var(--text-muted)' })}>
                   {t(career.description)}
                 </p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    )
-  }
-}
-
-function MediaCoverage(handle: Handle) {
-  return () => {
-    let { t } = getI18n(handle)
-    return (
-      <section mix={sectionStyle}>
-        <div mix={narrowContainer}>
-          <h2 mix={sectionLabel}>{t('MEDIA COVERAGE')}</h2>
-          <div
-            mix={css({
-              display: 'grid',
-              gap: '1.5rem',
-              [md]: { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' },
-            })}
-          >
-            {articles.map((article) => (
-              <a
-                key={article.href}
-                href={article.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                mix={[
-                  cardStyle,
-                  css({
-                    display: 'block',
-                    overflow: 'hidden',
-                    '&:hover img': { transform: 'scale(1.05)' },
-                  }),
-                ]}
-              >
-                <div mix={css({ aspectRatio: '16 / 9', overflow: 'hidden' })}>
-                  <img
-                    src={article.image}
-                    alt={t(article.title)}
-                    loading="lazy"
-                    mix={css({
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 300ms',
-                    })}
-                  />
-                </div>
-                <div mix={css({ padding: '1.5rem' })}>
-                  <div
-                    mix={css({
-                      marginBottom: '0.5rem',
-                      fontSize: '0.75rem',
-                      color: 'var(--text-subtle)',
-                    })}
-                  >
-                    {t(article.publisher)}
-                  </div>
-                  <h3
-                    mix={css({
-                      marginBottom: '0.75rem',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                      fontSize: '0.875rem',
-                      fontWeight: 500,
-                      color: 'var(--text-strong)',
-                    })}
-                  >
-                    {t(article.title)}
-                  </h3>
-                  <div
-                    mix={css({
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.25rem',
-                      fontSize: '0.75rem',
-                      color: 'var(--text-subtle)',
-                    })}
-                  >
-                    <span>Read more</span>
-                    <ExternalLinkIcon size={12} />
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+            </li>
+          ))}
+        </ol>
+      </Section>
     )
   }
 }

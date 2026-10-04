@@ -1,8 +1,8 @@
 import { css, type Handle } from 'remix/component'
 
 import { getI18n } from '../../i18n/provider.tsx'
-import { phrase } from '../styles.ts'
-import { Section, sectionHeading, sectionLede } from './section.tsx'
+import { medium, phrase } from '../styles.ts'
+import { Section, sectionHeading, sectionLede } from '../section.tsx'
 
 /** 支援の内容と、それを裏付ける代表の経験 */
 const services = [
@@ -75,7 +75,7 @@ export function ServicesSection(handle: Handle) {
                 gap: '8px',
                 padding: '28px 0',
                 borderBottom: '1px solid var(--border)',
-                '@media (min-width: 760px)': {
+                [medium]: {
                   gridTemplateColumns: '220px minmax(0, 1fr)',
                   gap: '32px',
                 },

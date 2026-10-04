@@ -3,7 +3,7 @@ import { css, type Handle } from 'remix/component'
 import { getI18n } from '../../i18n/provider.tsx'
 import { ArrowUpRightIcon } from '../icons.tsx'
 import { externalLink, phrase, sm, textLink } from '../styles.ts'
-import { Section, sectionHeading, sectionLede } from './section.tsx'
+import { Section, sectionHeading, sectionLede } from '../section.tsx'
 
 const features = [
   {
