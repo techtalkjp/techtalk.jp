@@ -1,9 +1,9 @@
 import { css, type Handle } from 'remix/component'
 
 import { getI18n } from '../../i18n/provider.tsx'
+import { PageIntro } from '../page-intro.tsx'
 import {
   caption,
-  container,
   phrase,
   primaryButton,
   secondaryButton,
@@ -39,59 +39,35 @@ export function HeroSection(handle: Handle) {
   return () => {
     let { t } = getI18n(handle)
     return (
-      <section
-        mix={css({
-          padding: '64px 0 72px',
-          [wide]: { padding: '104px 0 96px' },
-        })}
-      >
-        <div mix={container}>
-          <h1
-            mix={css({
-              fontSize: 'var(--t-display)',
-              lineHeight: 1.25,
-              fontWeight: 700,
-              letterSpacing: '-0.025em',
-            })}
-          >
+      <PageIntro
+        title={
+          <>
             <span mix={phrase}>{t('事業の構想を、')}</span>
             <span mix={phrase}>{t('動くシステムにする。')}</span>
-          </h1>
-          <p
-            mix={css({
-              marginTop: '32px',
-              maxWidth: '32em',
-              fontSize: 'var(--t-18)',
-              color: 'var(--text-muted)',
-              '@media (min-width: 760px)': {
-                fontSize: 'var(--t-20)',
-                lineHeight: 1.6,
-              },
-            })}
-          >
-            {t(
-              '株式会社TechTalkは、事業の立ち上げに必要な技術判断から設計・実装までを、代表がひとりで引き受けるソフトウェア会社です。',
-            )}
-          </p>
-          <div
-            mix={css({
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '12px',
-              marginTop: '40px',
-            })}
-          >
-            <a href="#contact" mix={primaryButton}>
-              {t('相談する')}
-            </a>
-            <a href="#services" mix={secondaryButton}>
-              {t('支援の内容を見る')}
-            </a>
-          </div>
-
-          <CareerRail />
+          </>
+        }
+        lede={t(
+          '株式会社TechTalkは、事業の立ち上げに必要な技術判断から設計・実装までを、代表がひとりで引き受けるソフトウェア会社です。',
+        )}
+      >
+        <div
+          mix={css({
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '12px',
+            marginTop: '40px',
+          })}
+        >
+          <a href="#contact" mix={primaryButton}>
+            {t('相談する')}
+          </a>
+          <a href="#services" mix={secondaryButton}>
+            {t('支援の内容を見る')}
+          </a>
         </div>
-      </section>
+
+        <CareerRail />
+      </PageIntro>
     )
   }
 }

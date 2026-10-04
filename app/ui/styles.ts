@@ -1,6 +1,8 @@
 import { css } from 'remix/component'
 
 export const sm = '@media (min-width: 640px)'
+/** 一覧の行を「見出しの列＋本文」の 2 列にする幅 */
+export const medium = '@media (min-width: 760px)'
 /** セクションを左右 2 カラムにする幅 */
 export const wide = '@media (min-width: 900px)'
 /** ヘッダーのナビを 1 段に収める幅。global-styles.ts の --header-height と同じ境目 */

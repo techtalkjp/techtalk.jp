@@ -1,7 +1,7 @@
-import { css, type Handle } from 'remix/component'
+import { css } from 'remix/component'
 
 import { ArrowUpRightIcon } from './icons.tsx'
-import { sm } from './styles.ts'
+import { medium } from './styles.ts'
 
 const press = [
   {
@@ -13,7 +13,7 @@ const press = [
     href: 'https://thebridge.jp/2014/06/takanori-oshiba-interview-series-vol-7',
     publisher: 'THE BRIDGE',
     title:
-      '「本田の描く広告の未来を実現する」フリークアウト 溝口氏インタビュー',
+      '「本田の描く広告の未来を実現する」ーー隠れたキーマンを調べるお・フリークアウト、溝口氏インタビュー',
   },
   {
     href: 'https://japan.cnet.com/article/20361283/',
@@ -23,7 +23,7 @@ const press = [
 ]
 
 /** 掲載記事の一覧。媒体名・題名・外部リンクの矢印を 1 行に並べる */
-export function PressList(handle: Handle<{ firstRowAligned?: boolean }>) {
+export function PressList() {
   return () => (
     <ul
       // リストの見た目を消すと Safari の読み上げがリストとして扱わなくなるので、明示する
@@ -42,11 +42,7 @@ export function PressList(handle: Handle<{ firstRowAligned?: boolean }>) {
               padding: '16px 0',
               borderBottom: '1px solid var(--border)',
               '&:hover .title': { color: 'var(--accent)' },
-              // 左のセクション名と 1 行目を同じ線に乗せる
-              'li:first-child > &': handle.props.firstRowAligned
-                ? { paddingTop: '6px' }
-                : {},
-              [sm]: {
+              [medium]: {
                 gridTemplateColumns: '160px minmax(0, 1fr) auto',
                 gap: '24px',
                 alignItems: 'baseline',
@@ -73,7 +69,7 @@ export function PressList(handle: Handle<{ firstRowAligned?: boolean }>) {
               mix={css({
                 display: 'none',
                 color: 'var(--text-subtle)',
-                [sm]: { display: 'block' },
+                [medium]: { display: 'block' },
               })}
             >
               <ArrowUpRightIcon size={13} />

@@ -4,12 +4,12 @@ import { otherLocale, type I18n } from '../../i18n/index.ts'
 import { paths } from '../../paths.ts'
 import { getI18n, I18nProvider } from '../../i18n/provider.tsx'
 import { Document, type Seo } from '../document.tsx'
-import { ArrowUpRightIcon } from '../icons.tsx'
 import { PageShell } from '../layout.tsx'
 import { PageIntro } from '../page-intro.tsx'
 import { PressList } from '../press-list.tsx'
+import { ProfileLinks, ProfilePhoto } from '../profile-parts.tsx'
 import { Section } from '../section.tsx'
-import { externalLink, textLink } from '../styles.ts'
+import { medium } from '../styles.ts'
 
 function biographySeo({ locale }: I18n): Seo {
   let ja = locale === 'ja'
@@ -18,8 +18,8 @@ function biographySeo({ locale }: I18n): Seo {
       ? '溝口 浩二 - Biography | TechTalk, Inc.'
       : 'Coji Mizoguchi - Biography | TechTalk, Inc.',
     description: ja
-      ? '技術と事業の両面から0→1を生み出すことを専門としています。フリークアウト、IRIS、TechTalkでの経験。'
-      : 'Specializing in creating 0→1 value from both technical and business perspectives. Experience at FreakOut, IRIS, and TechTalk.',
+      ? '株式会社TechTalk 代表取締役 溝口浩二の経歴。ドワンゴ、フリークアウト、IRISを経て、技術と事業の両面から新しい事業を立ち上げてきました。'
+      : 'Biography of Coji Mizoguchi, CEO of TechTalk, Inc. After Dwango, FreakOut, and IRIS, he has launched new businesses from both the technical and the business side.',
     path: paths.biography(locale),
     ogType: 'profile',
     alternates: { ja: paths.biography('ja'), en: paths.biography('en') },
@@ -53,13 +53,6 @@ const careers = [
   },
 ]
 
-const links = [
-  { href: 'https://github.com/coji', label: 'GitHub' },
-  { href: 'https://zenn.dev/coji', label: 'Zenn' },
-  { href: 'https://x.com/techtalkjp', label: 'X' },
-  { href: 'https://www.facebook.com/mizoguchi.coji', label: 'Facebook' },
-]
-
 export function BiographyPage(handle: Handle<{ i18n: I18n }>) {
   return () => {
     let { i18n } = handle.props
@@ -70,8 +63,8 @@ export function BiographyPage(handle: Handle<{ i18n: I18n }>) {
             <main>
               <BiographyIntro />
               <CareerSection />
-              <Section id="press" name={i18n.t('掲載記事')}>
-                <PressList firstRowAligned />
+              <Section id="press" name={i18n.t('掲載記事')} nameIsHeading>
+                <PressList />
               </Section>
             </main>
           </PageShell>
@@ -87,50 +80,17 @@ function BiographyIntro(handle: Handle) {
     return (
       <PageIntro
         before={
-          <img
-            src="/images/coji.webp"
-            alt={t('溝口浩二の写真')}
-            width={112}
-            height={112}
-            mix={css({
-              width: '112px',
-              height: '112px',
-              marginBottom: '32px',
-              borderRadius: '50%',
-              objectFit: 'cover',
-              boxShadow: '0 0 0 1px var(--border-strong)',
-            })}
-          />
+          <div mix={css({ marginBottom: '32px' })}>
+            <ProfilePhoto alt={t('溝口浩二の写真')} />
+          </div>
         }
         title={t('溝口 浩二')}
-        lede={
-          <>
-            {t('株式会社TechTalk 代表取締役。')}
-            {t('技術と事業の両面から、新しい事業を立ち上げてきました。')}
-          </>
-        }
+        lede={t(
+          '株式会社TechTalk 代表取締役。技術と事業の両面から、新しい事業を立ち上げてきました。',
+        )}
       >
-        <div
-          mix={css({
-            display: 'flex',
-            flexWrap: 'wrap',
-            columnGap: '24px',
-            marginTop: '24px',
-            fontSize: 'var(--t-14)',
-          })}
-        >
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              target="_blank"
-              rel="noopener"
-              mix={[textLink, externalLink]}
-            >
-              {link.label}
-              <ArrowUpRightIcon size={12} />
-            </a>
-          ))}
+        <div mix={css({ marginTop: '24px' })}>
+          <ProfileLinks />
         </div>
       </PageIntro>
     )
@@ -141,7 +101,7 @@ function CareerSection(handle: Handle) {
   return () => {
     let { t } = getI18n(handle)
     return (
-      <Section id="career" name={t('経歴')}>
+      <Section id="career" name={t('経歴')} nameIsHeading>
         <ol
           // リストの見た目を消すと Safari の読み上げがリストとして扱わなくなるので、明示する
           role="list"
@@ -155,10 +115,10 @@ function CareerSection(handle: Handle) {
                 gap: '4px',
                 padding: '28px 0',
                 borderBottom: '1px solid var(--border)',
-                // 左のセクション名と 1 行目を同じ線に乗せる
-                '&:first-child': { paddingTop: '8px' },
-                '@media (min-width: 760px)': {
+                '&:first-child': { paddingTop: 0 },
+                [medium]: {
                   gridTemplateColumns: '160px minmax(0, 1fr)',
+                  alignItems: 'baseline',
                   gap: '24px',
                 },
               })}
@@ -166,7 +126,6 @@ function CareerSection(handle: Handle) {
               <p
                 mix={css({
                   fontSize: 'var(--t-14)',
-                  lineHeight: '25.6px',
                   fontVariantNumeric: 'tabular-nums',
                   color: 'var(--text-subtle)',
                 })}
@@ -174,9 +133,9 @@ function CareerSection(handle: Handle) {
                 {t(career.period)}
               </p>
               <div>
-                <h2 mix={css({ fontSize: 'var(--t-16)', lineHeight: 1.6 })}>
+                <h3 mix={css({ fontSize: 'var(--t-16)', lineHeight: 1.6 })}>
                   {t(career.title)}
-                </h2>
+                </h3>
                 <p mix={css({ marginTop: '6px', color: 'var(--text-muted)' })}>
                   {t(career.description)}
                 </p>

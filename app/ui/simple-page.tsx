@@ -6,7 +6,7 @@ import { getI18n, I18nProvider } from '../i18n/provider.tsx'
 import { Document } from './document.tsx'
 import { PageShell } from './layout.tsx'
 import { PageIntro } from './page-intro.tsx'
-import { container, primaryButton, textLink } from './styles.ts'
+import { container, secondaryButton, textLink } from './styles.ts'
 
 export function PrivacyPage() {
   return () => (
@@ -79,7 +79,7 @@ function NotFoundContent(handle: Handle) {
           lede={t('お探しのページは移動または削除された可能性があります。')}
         >
           <div mix={css({ marginTop: '40px' })}>
-            <a href={paths.home(locale)} mix={primaryButton}>
+            <a href={paths.home(locale)} mix={secondaryButton}>
               {t('トップへ戻る')}
             </a>
           </div>
