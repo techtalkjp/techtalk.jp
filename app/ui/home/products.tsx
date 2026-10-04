@@ -19,11 +19,11 @@ export function ProductsSection(handle: Handle) {
       <Section id="products" name={t('プロダクト')}>
         <h2 mix={sectionHeading}>
           <span mix={phrase}>{t('同じやり方で、')}</span>
-          <span mix={phrase}>{t('自分の事業も動かしています。')}</span>
+          <span mix={phrase}>{t('自社の事業も動かしています。')}</span>
         </h2>
         <p mix={sectionLede}>
           {t(
-            'Artifact Shareは、AIがつくったレポートや資料をURLひとつで共有するサービスです。企画から開発、運営まで代表が一人で手がけています。ご相談の場でお話しする進め方は、自分の事業でいま使っているものです。',
+            'Artifact Shareは、AIが作ったレポートや資料をURLひとつで共有するサービスです。何を作るかを決めるところから開発、運営まで、代表がひとりで手がけています。',
           )}
         </p>
 

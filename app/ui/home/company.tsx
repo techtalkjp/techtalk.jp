@@ -1,17 +1,18 @@
 import { css, type Handle } from 'remix/component'
 
+import type { MessageKey } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
 import { sm } from '../styles.ts'
 import { Section } from '../section.tsx'
 
-const rows: [label: string, value: string][] = [
+const rows: [label: MessageKey, value: MessageKey][] = [
   ['会社名', '株式会社TechTalk'],
   ['代表取締役', '溝口 浩二'],
   ['設立', '2019年7月'],
   ['所在地', '東京都中央区'],
   [
     '事業内容',
-    '新規事業の技術面の相談と立ち上げ、ソフトウェア開発、自社プロダクトArtifact Shareの開発・運営',
+    '新規事業の立ち上げと技術面の相談、ソフトウェア開発、自社プロダクトArtifact Shareの開発・運営',
   ],
 ]
 

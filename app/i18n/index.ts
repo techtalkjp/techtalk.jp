@@ -3,7 +3,7 @@ import en from './en.json' with { type: 'json' }
 export const locales = ['ja', 'en'] as const
 export type Locale = (typeof locales)[number]
 
-const catalogs: Record<Exclude<Locale, 'ja'>, Record<string, string>> = { en }
+const catalogs: Record<Exclude<Locale, 'ja'>, typeof en> = { en }
 
 /**
  * URL の `(:lang)` パラメータからロケールを決める。
@@ -15,17 +15,23 @@ export function parseLocale(lang: string | undefined): Locale | null {
 }
 
 /**
- * 日本語の文言そのものをキーに翻訳する。訳がなければ日本語を返す。
+ * 翻訳できる文言。en.json のキーなので、訳のない文言を t() に渡すと型エラーになる
+ */
+export type MessageKey = keyof typeof en
+
+/**
+ * 日本語の文言そのものをキーに翻訳する。
  * `{name}` 形式のプレースホルダーは vars で置き換える。
  */
 export type Translate = (
-  ja: string,
+  ja: MessageKey,
   vars?: Record<string, string | number>,
 ) => string
 
 export function createTranslate(locale: Locale): Translate {
   return (ja, vars) => {
-    let text = locale === 'ja' ? ja : (catalogs[locale][ja] ?? ja)
+    // 型で漏れは防いでいるが、型を通らない経路に備えて日本語に戻す
+    let text: string = locale === 'ja' ? ja : (catalogs[locale][ja] ?? ja)
     if (vars) {
       for (let [key, value] of Object.entries(vars)) {
         text = text.replaceAll(`{${key}}`, () => String(value))

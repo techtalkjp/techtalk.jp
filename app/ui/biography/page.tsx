@@ -1,6 +1,6 @@
 import { css, type Handle } from 'remix/component'
 
-import { otherLocale, type I18n } from '../../i18n/index.ts'
+import { otherLocale, type I18n, type MessageKey } from '../../i18n/index.ts'
 import { paths } from '../../paths.ts'
 import { getI18n, I18nProvider } from '../../i18n/provider.tsx'
 import { Document, type Seo } from '../document.tsx'
@@ -18,38 +18,42 @@ function biographySeo({ locale }: I18n): Seo {
       ? '溝口 浩二 - Biography | TechTalk, Inc.'
       : 'Coji Mizoguchi - Biography | TechTalk, Inc.',
     description: ja
-      ? '株式会社TechTalk 代表取締役 溝口浩二の経歴。ドワンゴ、フリークアウト、IRISを経て、技術と事業の両面から新しい事業を立ち上げてきました。'
-      : 'Biography of Coji Mizoguchi, CEO of TechTalk, Inc. After Dwango, FreakOut, and IRIS, he has launched new businesses from both the technical and the business side.',
+      ? '株式会社TechTalk 代表取締役 溝口浩二の経歴。ドワンゴ、フリークアウト、IRISで技術と経営の間を行き来し、いまは作る前の段階から経営者と話して新しい事業を形にしています。'
+      : 'Coji Mizoguchi, CEO of TechTalk. He moved between technology and management at Dwango, FreakOut, and IRIS, and now shapes new businesses with their owners.',
     path: paths.biography(locale),
     ogType: 'profile',
     alternates: { ja: paths.biography('ja'), en: paths.biography('en') },
   }
 }
 
-const careers = [
+const careers: {
+  period: MessageKey
+  title: MessageKey
+  description: MessageKey
+}[] = [
   {
     period: '2019年 - 現在',
     title: '株式会社TechTalk 代表取締役',
     description:
-      'ひとり法人として複数の企業に対して技術実装を提供。化学物質検索システム、AI活用MVP、データパイプライン、マーケティング統合など、幅広い領域で実装を継続。',
+      '経営者と直接話し、事業になるかを一緒に見極めて、最初の版まで自分で作る。化学物質の検索システム、AIを使った試作、データの集計基盤などを手がける。自社プロダクトArtifact Shareも開発・運営。',
   },
   {
     period: '2016年 - 2019年',
     title: '株式会社IRIS 代表取締役副社長',
     description:
-      'FreakOutでの事業開発・アライアンス業務の中で、JapanTaxiとの合弁会社として設立。タクシーサイネージ事業を2名体制で立ち上げ、事業計画の立案から経営レベルのマネジメント、ハードウェア・動画広告・配信システムの統合まで、事業と技術のすべてを統括。',
+      'FreakOut在籍中に、JapanTaxiとの合弁会社として設立。タクシーサイネージ事業を2名で立ち上げ、事業計画と経営から、ハードウェア、動画広告、配信システムの統合までを担う。',
   },
   {
     period: '2013年 - 2019年',
-    title: '株式会社FreakOut(現 株式会社フリークアウト・ホールディングス)',
+    title: '株式会社FreakOut（現 株式会社フリークアウト・ホールディングス）',
     description:
-      '技術に基づいた事業開発やアライアンスに従事。DSPの入札ロジック構築では、データアナリストとしてビジネス要件を数値化し、機械学習チームとの橋渡しを担当。',
+      '技術をもとにした事業開発とアライアンスに従事。DSP（広告枠を自動で買い付ける仕組み）の入札ロジックづくりでは、事業の要件を数値に落とし込み、機械学習チームとの橋渡しを担当。',
   },
   {
     period: '1999年 - 2013年',
     title: '株式会社ドワンゴ / 株式会社ニワンゴ',
     description:
-      'エンジニア、プログラマーとしてキャリアをスタート。着メロサービスやポータルサイトなどのエンジニアリングマネージャーのほか、経営企画室長、新規事業の企画開発部長を経験。ニワンゴでは技術担当取締役を担当。',
+      'プログラマーとしてキャリアをスタート。着メロサービスやポータルサイトの開発責任者のほか、経営企画室長、新規事業の企画開発部長を務める。ニワンゴでは技術担当の取締役。',
   },
 ]
 
@@ -86,7 +90,7 @@ function BiographyIntro(handle: Handle) {
         }
         title={t('溝口 浩二')}
         lede={t(
-          '株式会社TechTalk 代表取締役。技術と事業の両面から、新しい事業を立ち上げてきました。',
+          '株式会社TechTalk 代表取締役。プログラマーから経営企画、合弁会社の副社長まで、技術と経営の間を行き来してきました。作ったものが事業にならない経験を重ねたことが、いまの仕事のしかたにつながっています。',
         )}
       >
         <div mix={css({ marginTop: '24px' })}>

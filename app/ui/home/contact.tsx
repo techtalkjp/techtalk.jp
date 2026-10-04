@@ -6,6 +6,7 @@ import {
   type ContactFieldName,
 } from '../../contact/schema.ts'
 import type { ContactSubmitResult } from '../../contact/submit.ts'
+import type { MessageKey } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
 import { SubmitButton } from '../../islands/submit-button.tsx'
 import { paths } from '../../paths.ts'
@@ -42,16 +43,18 @@ export function ContactSection(
         >
           <div>
             <h2 mix={sectionHeading}>
-              <span mix={phrase}>{t('固まる前の話から、')}</span>
-              <span mix={phrase}>{t('聞かせてください。')}</span>
+              <span mix={phrase}>{t('事業の話を、')}</span>
+              <span mix={phrase}>{t('そのまま聞かせてください。')}</span>
             </h2>
             <p mix={noteStyle}>
               {t(
-                '新しい事業の構想、技術的にできるかの見立て、進め方の相談など、まだ形になっていない段階で結構です。',
+                '新しい事業の構想、技術でできるかどうか、進め方などのご相談を、まだ形になっていない段階からうかがいます。',
               )}
             </p>
             <p mix={noteStyle}>
-              {t('いただいた内容は代表の溝口が直接読み、返信します。')}
+              {t(
+                'いただいた内容は代表の溝口が直接読み、返信します。初回の打ち合わせは無料です。',
+              )}
             </p>
           </div>
           <div>
@@ -125,7 +128,7 @@ const errorStyle = css({ fontSize: 'var(--t-14)', color: 'var(--danger)' })
 
 interface Field {
   name: 'name' | 'company' | 'email'
-  label: string
+  label: MessageKey
   type?: 'text' | 'email'
   autoComplete: string
   required?: boolean

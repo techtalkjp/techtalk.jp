@@ -1,6 +1,6 @@
 import { css, type Handle, type RemixNode } from 'remix/component'
 
-import { languageName, otherLocale } from '../i18n/index.ts'
+import { languageName, otherLocale, type Translate } from '../i18n/index.ts'
 import { getI18n } from '../i18n/provider.tsx'
 import { SectionNav } from '../islands/section-nav.tsx'
 import { paths } from '../paths.ts'
@@ -45,7 +45,7 @@ export function Wordmark(handle: Handle<{ href?: string; size?: 'sm' }>) {
  * 収まらない幅ではナビが折り返す
  */
 function sectionLinks(
-  t: (ja: string) => string,
+  t: Translate,
   base: string,
 ): { href: string; label: string }[] {
   return [
