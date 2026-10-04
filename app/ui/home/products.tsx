@@ -43,7 +43,7 @@ export function ProductsSection(handle: Handle) {
             loading="lazy"
             decoding="async"
             alt={t(
-              'Artifact Shareで共有した月次売上レポートの画面。版番号と閲覧数が表示されている',
+              'Artifact Shareで共有した月次売上レポートの画面。バージョン番号と閲覧数が表示されている',
             )}
             mix={css({
               width: '100%',
@@ -63,7 +63,7 @@ export function ProductsSection(handle: Handle) {
             })}
           >
             {t(
-              'サンプルのレポートを共有した画面。同じURLのまま版を重ねて更新できる',
+              'サンプルのレポートを共有した画面。同じURLのままバージョンを重ねて更新できる',
             )}
           </figcaption>
         </figure>
