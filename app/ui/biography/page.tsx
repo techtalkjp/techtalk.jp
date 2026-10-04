@@ -1,6 +1,6 @@
 import { css, type Handle } from 'remix/component'
 
-import { otherLocale, type I18n } from '../../i18n/index.ts'
+import { otherLocale, type I18n, type MessageKey } from '../../i18n/index.ts'
 import { paths } from '../../paths.ts'
 import { getI18n, I18nProvider } from '../../i18n/provider.tsx'
 import { Document, type Seo } from '../document.tsx'
@@ -19,14 +19,18 @@ function biographySeo({ locale }: I18n): Seo {
       : 'Coji Mizoguchi - Biography | TechTalk, Inc.',
     description: ja
       ? '株式会社TechTalk 代表取締役 溝口浩二の経歴。ドワンゴ、フリークアウト、IRISで技術と経営の間を行き来し、いまは作る前の段階から経営者と話して新しい事業を形にしています。'
-      : 'Biography of Coji Mizoguchi, CEO of TechTalk, Inc. After moving between technology and management at Dwango, FreakOut, and IRIS, he now works with business owners before anything is built to shape new businesses.',
+      : 'Biography of Coji Mizoguchi, CEO of TechTalk, Inc. After Dwango, FreakOut, and IRIS, he now works with business owners on new businesses before anything is built.',
     path: paths.biography(locale),
     ogType: 'profile',
     alternates: { ja: paths.biography('ja'), en: paths.biography('en') },
   }
 }
 
-const careers = [
+const careers: {
+  period: MessageKey
+  title: MessageKey
+  description: MessageKey
+}[] = [
   {
     period: '2019年 - 現在',
     title: '株式会社TechTalk 代表取締役',
@@ -86,7 +90,7 @@ function BiographyIntro(handle: Handle) {
         }
         title={t('溝口 浩二')}
         lede={t(
-          '株式会社TechTalk 代表取締役。プログラマーから経営企画、合弁会社の副社長まで、技術と経営の間を行き来してきました。作ったものが事業にならない経験を重ねて、いまは作る前の段階から経営者と話しています。',
+          '株式会社TechTalk 代表取締役。プログラマーから経営企画、合弁会社の副社長まで、技術と経営の間を行き来してきました。作ったものが事業にならない経験を重ねたことが、いまの仕事のしかたにつながっています。',
         )}
       >
         <div mix={css({ marginTop: '24px' })}>

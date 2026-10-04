@@ -1,10 +1,11 @@
 import { css, type Handle } from 'remix/component'
 
+import type { MessageKey } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
 import { Section, sectionHeading, sectionLede } from '../section.tsx'
 import { medium, phrase } from '../styles.ts'
 
-const steps = [
+const steps: { title: MessageKey; body: MessageKey }[] = [
   {
     title: '構想を聞く',
     body: '事業の目的と、予算や体制、期限といった前提から話を始めます。何から手をつけるか、開発の規模はどのくらいになりそうかを、一緒に考えます。',

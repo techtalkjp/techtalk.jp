@@ -1,11 +1,12 @@
 import { css, type Handle } from 'remix/component'
 
+import type { MessageKey } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
 import { Section, sectionHeading, sectionLede } from '../section.tsx'
 import { medium, phrase } from '../styles.ts'
 
 /** 相談に来る経営者がよく抱えている状況と、それへの応え方 */
-const cases = [
+const cases: { situation: MessageKey; answer: MessageKey }[] = [
   {
     situation: 'アイデアはあるが、技術的にできるのか見当がつかない',
     answer:

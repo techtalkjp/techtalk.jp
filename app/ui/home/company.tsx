@@ -1,10 +1,11 @@
 import { css, type Handle } from 'remix/component'
 
+import type { MessageKey } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
 import { sm } from '../styles.ts'
 import { Section } from '../section.tsx'
 
-const rows: [label: string, value: string][] = [
+const rows: [label: MessageKey, value: MessageKey][] = [
   ['会社名', '株式会社TechTalk'],
   ['代表取締役', '溝口 浩二'],
   ['設立', '2019年7月'],

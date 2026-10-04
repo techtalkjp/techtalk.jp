@@ -27,7 +27,7 @@ Remix 3（`remix@3.0.0`）を Cloudflare Workers で動かしている。React �
 - `app/islands/` - ブラウザでハイドレーションするコンポーネント（`clientEntry('/js/entry.js#Name', ...)`）。`client/islands.ts` に同名で export を足す
 - `client/entry.ts` - `run()` を起動する。アイランドも同じファイルにまとめて入れる（`/js/entry.js` 1 本）
 - `app/contact/` - 問い合わせのスキーマ（`remix/data-schema`）、honeypot、営業スコア、Workflow への投入
-- `app/i18n/` - `t('日本語の文言')` で翻訳。英訳は `app/i18n/en.json`（日本語の文言がキー）。`I18nProvider` / `getI18n(handle)` でツリーに渡す
+- `app/i18n/` - `t('日本語の文言')` で翻訳。英訳は `app/i18n/en.json`（日本語の文言がキー）。`t()` の引数は en.json のキーに型で縛っているので、文言を変えたら en.json のキーも直す（直さないと typecheck が落ちる）。`I18nProvider` / `getI18n(handle)` でツリーに渡す
 - `workers/workflow/` - `ContactWorkflow`。Workers AI で営業判定 → 評価ログ → 通知メールと Slack を並べて送る（片方が失敗してももう片方は送る。両方失敗したら自動返信を送らずに Workflow を失敗にする）→ 自動返信（入力内容は載せない。失敗は記録だけ）。メールは `renderToString` で JSX から作る
 
 ## 決まりごと

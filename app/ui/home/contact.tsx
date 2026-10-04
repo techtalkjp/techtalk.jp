@@ -6,6 +6,7 @@ import {
   type ContactFieldName,
 } from '../../contact/schema.ts'
 import type { ContactSubmitResult } from '../../contact/submit.ts'
+import type { MessageKey } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
 import { SubmitButton } from '../../islands/submit-button.tsx'
 import { paths } from '../../paths.ts'
@@ -127,7 +128,7 @@ const errorStyle = css({ fontSize: 'var(--t-14)', color: 'var(--danger)' })
 
 interface Field {
   name: 'name' | 'company' | 'email'
-  label: string
+  label: MessageKey
   type?: 'text' | 'email'
   autoComplete: string
   required?: boolean

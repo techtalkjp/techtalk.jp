@@ -2,7 +2,7 @@ import * as s from 'remix/data-schema'
 import { maxLength, minLength } from 'remix/data-schema/checks'
 import * as f from 'remix/data-schema/form-data'
 
-import type { Translate } from '../i18n/index.ts'
+import type { MessageKey, Translate } from '../i18n/index.ts'
 
 /** 入力欄の文字数上限。サーバーの検証とフォームの maxLength で共有する */
 export const contactLimits = {
@@ -75,9 +75,8 @@ export const contactFieldNames = [
 ] as const
 export type ContactFieldName = (typeof contactFieldNames)[number]
 
-const requiredMessages: Record<ContactFieldName, string> = {
+const requiredMessages: Partial<Record<ContactFieldName, MessageKey>> = {
   name: 'お名前を入力してください',
-  company: '',
   email: 'メールアドレスを入力してください',
   message: '相談内容を入力してください',
   privacyPolicy: 'プライバシーポリシーへの同意が必要です',

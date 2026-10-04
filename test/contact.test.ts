@@ -43,8 +43,7 @@ describe('createTranslate', () => {
     assert.equal(createTranslate('en')('会社概要'), 'Company')
   })
 
-  it('falls back to Japanese and fills placeholders', () => {
-    assert.equal(createTranslate('en')('未翻訳の文言'), '未翻訳の文言')
+  it('fills placeholders', () => {
     assert.equal(
       createTranslate('en')('{max}文字以内で入力してください', { max: 100 }),
       'Please enter 100 characters or fewer.',
