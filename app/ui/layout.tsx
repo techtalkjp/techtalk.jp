@@ -41,7 +41,8 @@ export function Wordmark(handle: Handle<{ href?: string; size?: 'sm' }>) {
 
 /**
  * ヘッダーに出すトップの各セクションへのリンク。トップではハッシュだけにしてページ内を移動する。
- * スマホの幅に収まるよう 4 つまでにし、会社概要はフッターにだけ出す
+ * スマホで 1 行に収まりやすいよう 4 つまでにし、会社概要はフッターにだけ出す。
+ * 収まらない幅ではナビが折り返す
  */
 function sectionLinks(
   t: (ja: string) => string,

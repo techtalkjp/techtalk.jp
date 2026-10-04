@@ -75,7 +75,7 @@ export function ProductsSection(handle: Handle) {
             rel="noopener"
             mix={[textLink, externalLink]}
           >
-            {t('artifactshare.com を見る')}
+            {t('artifactshare.comを見る')}
             <ArrowUpRightIcon size={13} />
           </a>
         </p>

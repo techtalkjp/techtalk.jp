@@ -49,7 +49,7 @@ function homeSeo({ locale }: I18n): Seo {
       url: SITE_URL,
       logo: `${SITE_URL}/logo.svg`,
       description: ja
-        ? '株式会社TechTalkは、経営者と直接話し合いながら新しい事業の構想から最初の版の開発までを手がける会社です。自社サービスArtifact Shareを開発・運営しています。'
+        ? '株式会社TechTalkは、経営者と直接話し合いながら新しい事業の構想から最初の版の開発までを手がける会社です。自社プロダクトArtifact Shareを開発・運営しています。'
         : 'TechTalk, Inc. works directly with business owners to take new businesses from the first idea to a working first version, and develops and operates Artifact Share.',
       address: {
         '@type': 'PostalAddress',

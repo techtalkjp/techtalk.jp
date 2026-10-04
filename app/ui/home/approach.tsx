@@ -92,11 +92,12 @@ export function ApproachSection(handle: Handle) {
             marginTop: '40px',
             maxWidth: '40em',
             padding: '20px 24px',
+            // 強制カラーモードでも枠が残るよう、box-shadow ではなく border で描く
+            border: '1px solid var(--border)',
             borderRadius: 'var(--r-control)',
-            boxShadow: 'inset 0 0 0 1px var(--border)',
           })}
         >
-          <p
+          <h3
             mix={css({
               marginBottom: '6px',
               fontSize: 'var(--t-14)',
@@ -104,7 +105,7 @@ export function ApproachSection(handle: Handle) {
             })}
           >
             {t('お受けしていないご依頼')}
-          </p>
+          </h3>
           <p mix={css({ fontSize: 'var(--t-14)', color: 'var(--text-muted)' })}>
             {t(
               '仕様が決まっていて開発だけを頼みたいご依頼、常駐や人月単位で人を出すご依頼はお受けしていません。作るものを一緒に決める進め方をとっているためです。',

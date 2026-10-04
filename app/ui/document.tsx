@@ -11,7 +11,6 @@ export interface Seo {
   path?: string
   ogType?: 'website' | 'profile'
   siteName?: string
-  keywords?: string
   /** hreflang の ja / en それぞれのパス */
   alternates?: { ja: string; en: string }
   jsonLd?: unknown
@@ -43,9 +42,6 @@ export function Document(handle: Handle<DocumentProps>) {
           <title>{seo.title}</title>
           {seo.description ? (
             <meta name="description" content={seo.description} />
-          ) : null}
-          {seo.keywords ? (
-            <meta name="keywords" content={seo.keywords} />
           ) : null}
           <meta name="author" content="TechTalk, Inc." />
           <meta name="robots" content="index, follow" />
