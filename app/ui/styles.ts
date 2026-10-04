@@ -48,7 +48,6 @@ export const panel = css({
   borderRadius: '1.5rem',
   border: '1px solid var(--border)',
   background: 'var(--surface)',
-  backdropFilter: 'blur(4px)',
 })
 
 export const primaryButton = css({

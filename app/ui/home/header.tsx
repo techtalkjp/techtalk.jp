@@ -27,7 +27,6 @@ export function HomeHeader(handle: Handle<{ languageHref: string }>) {
           width: '100%',
           borderBottom: '1px solid var(--border)',
           background: 'var(--bg-translucent)',
-          backdropFilter: 'blur(12px)',
         })}
       >
         <div
