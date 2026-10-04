@@ -45,7 +45,8 @@ function sectionLinks(
   base: string,
 ): { href: string; label: string }[] {
   return [
-    { href: `${base}#services`, label: t('技術支援') },
+    { href: `${base}#when`, label: t('こんなとき') },
+    { href: `${base}#approach`, label: t('進め方') },
     { href: `${base}#products`, label: t('プロダクト') },
     { href: `${base}#profile`, label: t('代表') },
     { href: `${base}#company`, label: t('会社概要') },

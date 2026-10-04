@@ -84,7 +84,7 @@ describe('pages', () => {
       /hrefLang="x-default" href="https:\/\/www\.techtalk\.jp"/i,
     )
     assert.match(html, /<script type="application\/ld\+json">/)
-    assert.match(html, /Implement Your Business\./)
+    assert.match(html, /From a conversation about technology to a new business/)
   })
 
   it('top page embeds the contact form frame for its locale', async () => {

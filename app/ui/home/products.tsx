@@ -2,30 +2,8 @@ import { css, type Handle } from 'remix/component'
 
 import { getI18n } from '../../i18n/provider.tsx'
 import { ArrowUpRightIcon } from '../icons.tsx'
-import { externalLink, phrase, sm, textLink } from '../styles.ts'
+import { externalLink, phrase, textLink } from '../styles.ts'
 import { Section, sectionHeading, sectionLede } from '../section.tsx'
-
-const features = [
-  {
-    title: 'すぐに共有できる',
-    description:
-      'HTML、Markdown、静的サイトを、閲覧用の安定したURLで共有できます。',
-  },
-  {
-    title: '同じURLで更新できる',
-    description:
-      '成果物を更新しても共有先はそのまま。レビューと改善を続けられます。',
-  },
-  {
-    title: 'AIエージェントから使える',
-    description:
-      'Web、CLI、MCPから、人とAIエージェントのどちらでも操作できます。',
-  },
-  {
-    title: '共有範囲を選べる',
-    description: '公開、ワークスペース内、個別の共有を、用途に応じて選べます。',
-  },
-]
 
 /** 画面写真は Artifact Share のサイトと同じもの。ロケールごとに UI の言語が違う */
 const screenshots = {
@@ -40,12 +18,12 @@ export function ProductsSection(handle: Handle) {
     return (
       <Section id="products" name={t('プロダクト')}>
         <h2 mix={sectionHeading}>
-          <span mix={phrase}>{t('自社サービスArtifact Shareを、')}</span>
-          <span mix={phrase}>{t('企画から運営まで手がけています。')}</span>
+          <span mix={phrase}>{t('同じやり方で、')}</span>
+          <span mix={phrase}>{t('自分の事業も動かしています。')}</span>
         </h2>
         <p mix={sectionLede}>
           {t(
-            'AIエージェントや開発ツールで作ったレポート、ドキュメント、Webサイトを、URLひとつで共有するサービスです。レビューを受けながら、同じURLのまま更新し続けられます。',
+            'Artifact Shareは、AIがつくったレポートや資料をURLひとつで共有するサービスです。企画から開発、運営まで代表が一人で手がけています。ご相談の場でお話しする進め方は、自分の事業でいま使っているものです。',
           )}
         </p>
 
@@ -85,48 +63,10 @@ export function ProductsSection(handle: Handle) {
             })}
           >
             {t(
-              'サンプルのレポートを共有した画面。同じURLのまま、版を重ねて更新している',
+              'サンプルのレポートを共有した画面。同じURLのまま版を重ねて更新できる',
             )}
           </figcaption>
         </figure>
-
-        <ul
-          // リストの見た目を消すと Safari の読み上げがリストとして扱わなくなるので、明示する
-          role="list"
-          mix={css({
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1fr)',
-            marginTop: '48px',
-            borderTop: '1px solid var(--border)',
-            [sm]: {
-              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-              columnGap: '40px',
-            },
-          })}
-        >
-          {features.map((feature) => (
-            <li
-              key={feature.title}
-              mix={css({
-                padding: '20px 0',
-                borderBottom: '1px solid var(--border)',
-              })}
-            >
-              <h3 mix={css({ fontSize: 'var(--t-16)', lineHeight: 1.6 })}>
-                {t(feature.title)}
-              </h3>
-              <p
-                mix={css({
-                  marginTop: '4px',
-                  fontSize: 'var(--t-14)',
-                  color: 'var(--text-muted)',
-                })}
-              >
-                {t(feature.description)}
-              </p>
-            </li>
-          ))}
-        </ul>
 
         <p mix={css({ marginTop: '24px' })}>
           <a
@@ -135,7 +75,7 @@ export function ProductsSection(handle: Handle) {
             rel="noopener"
             mix={[textLink, externalLink]}
           >
-            {t('artifactshare.comで詳しく見る')}
+            {t('artifactshare.com を見る')}
             <ArrowUpRightIcon size={13} />
           </a>
         </p>
