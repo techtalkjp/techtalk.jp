@@ -79,7 +79,7 @@ const requiredMessages: Record<ContactFieldName, string> = {
   name: 'お名前を入力してください',
   company: '',
   email: 'メールアドレスを入力してください',
-  message: 'メッセージを入力してください',
+  message: '相談内容を入力してください',
   privacyPolicy: 'プライバシーポリシーへの同意が必要です',
 }
 

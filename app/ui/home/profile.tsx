@@ -2,12 +2,11 @@ import { css, type Handle } from 'remix/component'
 
 import { getI18n } from '../../i18n/provider.tsx'
 import { paths } from '../../paths.ts'
-import { PressList } from '../press-list.tsx'
 import { ProfileLinks, ProfilePhoto } from '../profile-parts.tsx'
 import { Section, sectionHeading } from '../section.tsx'
-import { caption, medium, textLink } from '../styles.ts'
+import { medium, textLink } from '../styles.ts'
 
-/** 経歴は冒頭の年表で見せているので、ここは写真・肩書・リンク・掲載記事だけにする */
+/** 代表の写真と、この仕事をしている理由。経歴の詳細は経歴ページに任せる */
 export function ProfileSection(handle: Handle) {
   return () => {
     let { t, locale } = getI18n(handle)
@@ -16,10 +15,12 @@ export function ProfileSection(handle: Handle) {
         <div
           mix={css({
             display: 'grid',
-            gridTemplateColumns: '112px minmax(0, 1fr)',
-            alignItems: 'center',
+            gridTemplateColumns: 'minmax(0, 1fr)',
             gap: '24px',
-            [medium]: { gap: '32px' },
+            [medium]: {
+              gridTemplateColumns: '112px minmax(0, 1fr)',
+              gap: '32px',
+            },
           })}
         >
           <ProfilePhoto alt={t('溝口浩二の写真')} lazy />
@@ -29,31 +30,42 @@ export function ProfileSection(handle: Handle) {
             <p
               mix={css({
                 marginTop: '4px',
-                marginBottom: '8px',
                 fontSize: 'var(--t-14)',
                 color: 'var(--text-subtle)',
               })}
             >
               {t('代表取締役 ／ Coji Mizoguchi')}
             </p>
-            <ProfileLinks>
-              <a
-                href={paths.biography(locale)}
-                mix={[textLink, css({ paddingBlock: '10px' })]}
-              >
-                {t('詳しい経歴')}
-              </a>
-            </ProfileLinks>
+            <p mix={why}>
+              {t(
+                'がんばって作ったものが、事業として立ち上がらず無駄になる。そんな経験を何度もしてきました。良いものを作っただけでは、まだ足りません。ビジネスとして成り立ったとき、はじめて作った意味が生まれます。',
+              )}
+            </p>
+            <p mix={why}>
+              {t(
+                'だから今は、作る前の段階から経営者と話し、事業になるかを一緒に見極めたうえで、自分の手で形にしています。',
+              )}
+            </p>
+            <div mix={css({ marginTop: '8px' })}>
+              <ProfileLinks>
+                <a
+                  href={paths.biography(locale)}
+                  mix={[textLink, css({ paddingBlock: '10px' })]}
+                >
+                  {t('経歴を見る')}
+                </a>
+              </ProfileLinks>
+            </div>
           </div>
-        </div>
-
-        <div
-          mix={css({ marginTop: '56px', borderTop: '1px solid var(--border)' })}
-        >
-          <p mix={[caption, css({ padding: '20px 0 4px' })]}>{t('掲載記事')}</p>
-          <PressList />
         </div>
       </Section>
     )
   }
 }
+
+const why = css({
+  marginTop: '16px',
+  maxWidth: '34em',
+  color: 'var(--text-muted)',
+  '& + &': { marginTop: '12px' },
+})

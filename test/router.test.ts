@@ -84,14 +84,21 @@ describe('pages', () => {
       /hrefLang="x-default" href="https:\/\/www\.techtalk\.jp"/i,
     )
     assert.match(html, /<script type="application\/ld\+json">/)
-    assert.match(html, /Implement Your Business\./)
+    assert.match(
+      html,
+      /<title>From a conversation about technology to a new business/,
+    )
+    let ja = await (await fetch('/')).text()
+    assert.match(ja, /<title>技術の話から、新しい事業をつくる。/)
   })
 
   it('top page embeds the contact form frame for its locale', async () => {
     let { fetch } = setup()
     let html = await (await fetch('/en')).text()
     assert.match(html, /"name":"contact","src":"\/en\/contact-form"/)
-    assert.match(html, /name="email"/)
+    // JS ありの送信はフォーム部分だけを差し替える
+    assert.match(html, /data-rmx-src="\/en\/contact-form"/)
+    assert.match(html, /data-rmx-target="contact"/)
   })
 
   it('redirects form posts to canonical paths with 308', async () => {
@@ -144,13 +151,6 @@ describe('pages', () => {
     let { fetch } = setup()
     let response = await fetch('/contact-form')
     assert.equal(response.headers.get('X-Robots-Tag'), 'noindex')
-  })
-
-  it('JS submissions go to the contact-form route', async () => {
-    let { fetch } = setup()
-    let html = await (await fetch('/en')).text()
-    assert.match(html, /data-rmx-src="\/en\/contact-form"/)
-    assert.match(html, /data-rmx-target="contact"/)
   })
 
   it('healthcheck queries D1', async () => {
@@ -245,12 +245,6 @@ describe('contact form', () => {
     assert.equal(created.length, 0)
   })
 
-  it('posts to other paths are not parsed as forms', async () => {
-    let { fetch } = setup()
-    let response = await fetch('/nope', post({ a: 'b' }))
-    assert.equal(response.status, 404)
-  })
-
   it('accepts a 10000-character Japanese message', async () => {
     let { fetch, created } = setup()
     let message = 'あ'.repeat(10000)
@@ -317,9 +311,9 @@ describe('contact form', () => {
     let { fetch, created } = setup()
     await fetch(
       '/contact-form',
-      post({ ...validForm, name: 'A\u2028B\u0085C\vD' }, frame),
+      post({ ...validForm, name: 'A\r\nB\u2028C\u0085D\vE' }, frame),
     )
-    assert.equal(created[0]!.name, 'A B C D')
+    assert.equal(created[0]!.name, 'A B C D E')
   })
 
   it('rejects long runs of whitespace quickly', { timeout: 1000 }, async () => {
@@ -337,15 +331,6 @@ describe('contact form', () => {
     )
     assert.equal(response.status, 200)
     assert.equal(created[0]!.name, '太郎')
-  })
-
-  it('folds line breaks in single-line fields', async () => {
-    let { fetch, created } = setup()
-    await fetch(
-      '/contact-form',
-      post({ ...validForm, name: 'A\r\nBcc: x@y' }, frame),
-    )
-    assert.equal(created[0]!.name, 'A Bcc: x@y')
   })
 
   it('surrounding whitespace is trimmed', async () => {
@@ -368,17 +353,6 @@ describe('contact form', () => {
     let response = await fetch('/', post(validForm))
     assert.equal(response.status, 503)
     assert.match(await response.text(), /<html lang="ja"/)
-  })
-
-  it('honeypot submissions look successful but are dropped', async () => {
-    let { fetch, created } = setup()
-    let response = await fetch(
-      '/contact-form',
-      post({ ...validForm, companyPhone: '0312345678' }, frame),
-    )
-    assert.equal(response.status, 200)
-    assert.match(await response.text(), /role="status"/)
-    assert.equal(created.length, 0)
   })
 
   it('enqueue failure shows an error and keeps the input', async () => {

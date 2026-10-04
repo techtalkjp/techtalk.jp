@@ -42,20 +42,16 @@ export function ContactSection(
         >
           <div>
             <h2 mix={sectionHeading}>
-              <span mix={phrase}>{t('課題と、')}</span>
-              <span mix={phrase}>{t('期待する成果を')}</span>
+              <span mix={phrase}>{t('固まる前の話から、')}</span>
               <span mix={phrase}>{t('聞かせてください。')}</span>
             </h2>
-            <p
-              mix={css({
-                marginTop: '20px',
-                maxWidth: '30em',
-                color: 'var(--text-muted)',
-              })}
-            >
+            <p mix={noteStyle}>
               {t(
-                '技術の実装、プロジェクトの推進、技術顧問など、どんな形のご相談でも受け付けています。',
+                '新しい事業の構想、技術的にできるかの見立て、進め方の相談など、まだ形になっていない段階で結構です。',
               )}
+            </p>
+            <p mix={noteStyle}>
+              {t('いただいた内容は代表の溝口が直接読み、返信します。')}
             </p>
           </div>
           <div>
@@ -73,6 +69,15 @@ export function ContactSection(
     )
   }
 }
+
+// 続く段落の間隔は同じクラスの中で決める。別の css() で上書きすると、
+// どちらが勝つかがページ内で先に使われた順で変わる
+const noteStyle = css({
+  marginTop: '20px',
+  maxWidth: '30em',
+  color: 'var(--text-muted)',
+  '& + &': { marginTop: '12px' },
+})
 
 const fieldStyle = css({ display: 'grid', gap: '8px' })
 
@@ -102,6 +107,7 @@ const inputStyle = css({
     outline: 'none',
     boxShadow: 'inset 0 0 0 1.5px var(--accent), 0 0 0 4px var(--accent-soft)',
   },
+  '&::placeholder': { color: 'var(--text-subtle)' },
   '&[aria-invalid="true"]': {
     boxShadow: 'inset 0 0 0 1.5px var(--danger)',
   },
@@ -161,7 +167,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
             {t('お問い合わせありがとうございます')}
           </p>
           <p mix={css({ marginTop: '8px', color: 'var(--text-muted)' })}>
-            {t('内容を確認のうえ、担当者からご連絡します。')}
+            {t('内容を確認のうえ、溝口からご連絡します。')}
           </p>
         </div>
       )
@@ -252,7 +258,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
 
         <div data-rmx-key="message" mix={fieldStyle}>
           <label for={id('message')} mix={labelStyle}>
-            {t('ご相談の内容')}
+            {t('相談内容')}
           </label>
           <textarea
             id={id('message')}
@@ -260,6 +266,9 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
             required
             maxLength={contactLimits.message}
             rows={6}
+            placeholder={t(
+              '考えている事業と、いま困っていることを、思いつくままで',
+            )}
             aria-invalid={errors.message ? 'true' : undefined}
             aria-describedby={describedBy('message')}
             value={values.message ?? ''}
@@ -333,7 +342,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
         </div>
 
         <SubmitButton
-          label={t('相談する')}
+          label={t('相談を送る')}
           pendingLabel={t('送信中…')}
           errorLabel={t('送信できませんでした。時間をおいて再度お試しください')}
           frame={CONTACT_FRAME}
