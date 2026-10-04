@@ -8,7 +8,7 @@ import { ArrowUpRightIcon } from './icons.tsx'
 import { container, externalLink, navWide, primaryButton } from './styles.ts'
 
 /**
- * 社名のワードマーク。字を詰め、経歴レールの「いま」と同じ青い点を句点として打つ
+ * 社名のワードマーク。字を詰め、アクセントの青い点を句点として打つ
  */
 export function Wordmark(handle: Handle<{ href?: string; size?: 'sm' }>) {
   return () => {
@@ -39,7 +39,10 @@ export function Wordmark(handle: Handle<{ href?: string; size?: 'sm' }>) {
   }
 }
 
-/** トップの各セクションへのリンク。トップではハッシュだけにしてページ内を移動する */
+/**
+ * ヘッダーに出すトップの各セクションへのリンク。トップではハッシュだけにしてページ内を移動する。
+ * スマホの幅に収まるよう 4 つまでにし、会社概要はフッターにだけ出す
+ */
 function sectionLinks(
   t: (ja: string) => string,
   base: string,
@@ -49,7 +52,6 @@ function sectionLinks(
     { href: `${base}#approach`, label: t('進め方') },
     { href: `${base}#products`, label: t('プロダクト') },
     { href: `${base}#profile`, label: t('代表') },
-    { href: `${base}#company`, label: t('会社概要') },
   ]
 }
 
@@ -124,7 +126,7 @@ export function SiteHeader(handle: Handle<SiteHeaderProps>) {
           <SectionNav
             label={t('ページ内')}
             links={sectionLinks(t, base)}
-            extraSections={['#contact']}
+            extraSections={['#company', '#contact']}
           />
           <div
             mix={css({ display: 'flex', alignItems: 'center', gap: '20px' })}
@@ -179,7 +181,10 @@ export function Footer(handle: Handle) {
             aria-label={t('フッター')}
             mix={css({ display: 'flex', flexWrap: 'wrap', gap: '8px 24px' })}
           >
-            {sectionLinks(t, paths.home(locale)).map((link) => (
+            {[
+              ...sectionLinks(t, paths.home(locale)),
+              { href: `${paths.home(locale)}#company`, label: t('会社概要') },
+            ].map((link) => (
               <a key={link.href} href={link.href} mix={linkHover}>
                 {link.label}
               </a>

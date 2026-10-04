@@ -29,12 +29,12 @@ export function ContactReplyEmail(handle: Handle<{ data: ContactFormData }>) {
           <p style={styles.paragraph}>
             この度はお問い合わせいただき、誠にありがとうございます。
             <br />
-            内容を確認の上、担当者より改めてご連絡させていただきます。
+            内容を確認のうえ、代表の溝口から改めてご連絡いたします。
           </p>
         ) : (
           <p style={styles.paragraph}>
-            Thank you for contacting us. We have received your message and will
-            get back to you shortly.
+            Thank you for contacting us. Coji Mizoguchi, our founder, will
+            review your message and get back to you.
           </p>
         )}
 

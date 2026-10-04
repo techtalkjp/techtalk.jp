@@ -10,11 +10,6 @@ import { medium, textLink } from '../styles.ts'
 export function ProfileSection(handle: Handle) {
   return () => {
     let { t, locale } = getI18n(handle)
-    let why = css({
-      marginTop: '16px',
-      maxWidth: '34em',
-      color: 'var(--text-muted)',
-    })
     return (
       <Section id="profile" name={t('代表')}>
         <div
@@ -46,7 +41,7 @@ export function ProfileSection(handle: Handle) {
                 'がんばって作ったものが、事業として立ち上がらず無駄になる。そんな経験を何度もしてきました。良いものを作っただけでは、まだ足りません。ビジネスとして成り立ったとき、はじめて作った意味が生まれます。',
               )}
             </p>
-            <p mix={[why, css({ marginTop: '12px' })]}>
+            <p mix={why}>
               {t(
                 'だから今は、作る前の段階から経営者と話し、事業になるかを一緒に見極めたうえで、自分の手で形にしています。',
               )}
@@ -67,3 +62,10 @@ export function ProfileSection(handle: Handle) {
     )
   }
 }
+
+const why = css({
+  marginTop: '16px',
+  maxWidth: '34em',
+  color: 'var(--text-muted)',
+  '& + &': { marginTop: '12px' },
+})

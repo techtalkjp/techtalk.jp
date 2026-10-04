@@ -55,7 +55,9 @@ export function ApproachSection(handle: Handle) {
               })}
             >
               <h3 mix={css({ fontSize: 'var(--t-16)', lineHeight: 1.6 })}>
+                {/* 順番は ol が伝えるので、見出しの名前には入れない */}
                 <span
+                  aria-hidden="true"
                   mix={css({
                     display: 'inline-block',
                     width: '2em',

@@ -40,8 +40,6 @@ function homeSeo({ locale }: I18n): Seo {
       : 'A founder with experience in both management and engineering works directly with business owners, from the first idea to a working first version. TechTalk, Inc.',
     path: paths.home(locale),
     siteName: ja ? '株式会社TechTalk' : 'TechTalk, Inc.',
-    keywords:
-      'Artifact Share,AIエージェント,MVP開発,AI統合,React Router,TypeScript,Cloudflare Workers,D1,R2',
     alternates: { ja: paths.home('ja'), en: paths.home('en') },
     jsonLd: {
       '@context': 'https://schema.org',

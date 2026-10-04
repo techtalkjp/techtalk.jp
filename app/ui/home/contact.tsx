@@ -50,7 +50,7 @@ export function ContactSection(
                 '新しい事業の構想、技術的にできるかの見立て、進め方の相談など、まだ形になっていない段階で結構です。',
               )}
             </p>
-            <p mix={[noteStyle, css({ marginTop: '12px' })]}>
+            <p mix={noteStyle}>
               {t('いただいた内容は代表の溝口が直接読み、返信します。')}
             </p>
           </div>
@@ -70,10 +70,13 @@ export function ContactSection(
   }
 }
 
+// 続く段落の間隔は同じクラスの中で決める。別の css() で上書きすると、
+// どちらが勝つかがページ内で先に使われた順で変わる
 const noteStyle = css({
   marginTop: '20px',
   maxWidth: '30em',
   color: 'var(--text-muted)',
+  '& + &': { marginTop: '12px' },
 })
 
 const fieldStyle = css({ display: 'grid', gap: '8px' })

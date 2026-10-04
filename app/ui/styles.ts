@@ -87,10 +87,3 @@ export const externalLink = css({
   gap: '3px',
   paddingBlock: '10px',
 })
-
-/** 小さな補足ラベル（「代表 溝口浩二の経歴」「掲載記事」など） */
-export const caption = css({
-  fontSize: 'var(--t-12)',
-  color: 'var(--text-subtle)',
-  letterSpacing: '0.04em',
-})

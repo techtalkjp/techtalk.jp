@@ -116,15 +116,21 @@ function hashOf(href: string): string | undefined {
 
 const navStyle = css({
   display: 'flex',
-  gap: '24px',
+  // 横スクロールにすると、はみ出したリンクがあることに気づけない。狭い幅では折り返す
+  flexWrap: 'wrap',
+  columnGap: '16px',
   order: 3,
   width: '100%',
   marginTop: '4px',
-  overflowX: 'auto',
-  scrollbarWidth: 'none',
   fontSize: 'var(--t-14)',
   color: 'var(--text-muted)',
-  [navWide]: { order: 0, width: 'auto', marginTop: 0, gap: '28px' },
+  [navWide]: {
+    order: 0,
+    width: 'auto',
+    flexWrap: 'nowrap',
+    marginTop: 0,
+    columnGap: '28px',
+  },
 })
 
 const linkStyle = css({

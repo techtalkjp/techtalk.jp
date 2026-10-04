@@ -12,7 +12,7 @@ export function PageIntro(
     lede?: RemixNode
     /** 見出しの上に置くもの（経歴ページの写真など） */
     before?: RemixNode
-    /** リード文の下に置くもの（ボタンや年表） */
+    /** リード文の下に置くもの（ボタンなど） */
     children?: RemixNode
   }>,
 ) {
