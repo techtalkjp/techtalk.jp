@@ -23,11 +23,15 @@ export interface DocumentProps {
   children?: RemixNode
 }
 
-const OG_IMAGE = `${SITE_URL}/og-image.jpeg?v=2`
+const OG_IMAGES: Record<Locale, string> = {
+  ja: `${SITE_URL}/og-image.jpeg?v=2`,
+  en: `${SITE_URL}/og-image-en.jpeg`,
+}
 
 export function Document(handle: Handle<DocumentProps>) {
   return () => {
     let { locale, seo, children } = handle.props
+    let ogImage = OG_IMAGES[locale]
     let url =
       seo.path === undefined ? undefined : SITE_URL + absolutePath(seo.path)
 
@@ -55,7 +59,7 @@ export function Document(handle: Handle<DocumentProps>) {
           {seo.siteName ? (
             <meta property="og:site_name" content={seo.siteName} />
           ) : null}
-          <meta property="og:image" content={OG_IMAGE} />
+          <meta property="og:image" content={ogImage} />
           <meta property="og:image:width" content="1200" />
           <meta property="og:image:height" content="630" />
           <meta
@@ -68,7 +72,7 @@ export function Document(handle: Handle<DocumentProps>) {
           {seo.description ? (
             <meta name="twitter:description" content={seo.description} />
           ) : null}
-          <meta name="twitter:image" content={OG_IMAGE} />
+          <meta name="twitter:image" content={ogImage} />
 
           {url ? <link rel="canonical" href={url} /> : null}
           {seo.alternates ? (

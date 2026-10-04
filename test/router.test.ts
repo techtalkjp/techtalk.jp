@@ -87,6 +87,15 @@ describe('pages', () => {
     assert.match(html, /From a conversation about technology to a new business/)
   })
 
+  it('uses an OGP image in the page language', async () => {
+    let { fetch } = setup()
+    let ja = await (await fetch('/')).text()
+    let en = await (await fetch('/en')).text()
+    assert.match(ja, /property="og:image" content="[^"]*\/og-image\.jpeg/)
+    assert.match(en, /property="og:image" content="[^"]*\/og-image-en\.jpeg"/)
+    assert.match(en, /name="twitter:image" content="[^"]*\/og-image-en\.jpeg"/)
+  })
+
   it('top page embeds the contact form frame for its locale', async () => {
     let { fetch } = setup()
     let html = await (await fetch('/en')).text()
