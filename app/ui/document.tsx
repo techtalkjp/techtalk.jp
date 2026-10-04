@@ -91,9 +91,11 @@ export function Document(handle: Handle<DocumentProps>) {
             </>
           ) : null}
 
-          <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-          <link rel="icon" type="image/jpeg" href="/logo.jpeg" />
-          <link rel="apple-touch-icon" sizes="180x180" href="/logo.jpeg" />
+          {/* SVG を読めないブラウザは favicon.ico（16/32/48px、画素にそろえて描いたもの）を使う */}
+          <link rel="icon" href="/favicon.ico" sizes="48x48" />
+          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+          <link rel="manifest" href="/site.webmanifest" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
