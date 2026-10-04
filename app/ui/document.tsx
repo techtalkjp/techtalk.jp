@@ -23,7 +23,7 @@ export interface DocumentProps {
   children?: RemixNode
 }
 
-const OG_IMAGE = `${SITE_URL}/og-image.jpeg`
+const OG_IMAGE = `${SITE_URL}/og-image.jpeg?v=2`
 
 export function Document(handle: Handle<DocumentProps>) {
   return () => {
