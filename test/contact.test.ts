@@ -4,8 +4,11 @@ import { describe, it } from 'remix/test'
 import { scoreSales } from '../app/contact/score-sales.ts'
 import type { ContactFormData } from '../app/contact/types.ts'
 import { createTranslate } from '../app/i18n/index.ts'
+import type { Classification } from '../workers/workflow/services/classify.ts'
 import {
   escapeMrkdwn,
+  sendSlack,
+  SlackError,
   truncateForSlack,
 } from '../workers/workflow/services/slack.ts'
 
@@ -61,5 +64,40 @@ describe('slack', () => {
     let text = truncateForSlack(escapeMrkdwn('&'.repeat(3000)))
     assert.ok(text.length < 3000)
     assert.doesNotMatch(text, /&[a-z]*…/)
+  })
+})
+
+describe('sendSlack', () => {
+  let inquiry = { ...base, message: 'hi', rule: scoreSales(base) }
+  let classification = {
+    verdict: 'normal',
+    confidence: 90,
+    reason: '',
+  } as Classification
+
+  async function sendWithStatus(status: number) {
+    let original = globalThis.fetch
+    globalThis.fetch = async () => new Response(null, { status })
+    try {
+      await sendSlack('https://hooks.example/x', inquiry, classification)
+      return null
+    } catch (error) {
+      return error
+    } finally {
+      globalThis.fetch = original
+    }
+  }
+
+  it('resolves when Slack accepts the message', async () => {
+    assert.equal(await sendWithStatus(200), null)
+  })
+
+  it('marks revoked webhooks as permanent and rate limits as retryable', async () => {
+    let revoked = await sendWithStatus(404)
+    assert.ok(revoked instanceof SlackError && revoked.permanent)
+    let limited = await sendWithStatus(429)
+    assert.ok(limited instanceof SlackError && !limited.permanent)
+    let down = await sendWithStatus(503)
+    assert.ok(down instanceof SlackError && !down.permanent)
   })
 })
