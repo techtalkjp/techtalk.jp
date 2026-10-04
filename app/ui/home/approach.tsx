@@ -27,7 +27,7 @@ export function ApproachSection(handle: Handle) {
       <Section id="approach" name={t('進め方')}>
         <h2 mix={sectionHeading}>
           <span mix={phrase}>{t('話し合いから、')}</span>
-          <span mix={phrase}>{t('最初の版が動くまで。')}</span>
+          <span mix={phrase}>{t('最初のバージョンが動くまで。')}</span>
         </h2>
         <p mix={sectionLede}>
           {t(
