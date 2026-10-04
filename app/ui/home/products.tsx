@@ -63,22 +63,10 @@ export function ProductsSection(handle: Handle) {
             inset: 0,
             overflow: 'hidden',
             pointerEvents: 'none',
+            backgroundImage:
+              'radial-gradient(420px circle at 50% 0%, rgb(59 130 246 / 0.15), transparent 70%)',
           })}
-        >
-          <div
-            mix={css({
-              position: 'absolute',
-              top: 0,
-              left: '50%',
-              width: '20rem',
-              height: '20rem',
-              transform: 'translateX(-50%)',
-              borderRadius: '9999px',
-              background: 'rgb(59 130 246 / 0.15)',
-              filter: 'blur(110px)',
-            })}
-          />
-        </div>
+        ></div>
 
         <div mix={[container, css({ position: 'relative' })]}>
           <div

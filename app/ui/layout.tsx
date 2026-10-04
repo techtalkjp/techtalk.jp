@@ -5,27 +5,9 @@ import { getI18n } from '../i18n/provider.tsx'
 import { ThemeMenu } from '../islands/theme-menu.tsx'
 import { container, iconButton, md, mono } from './styles.ts'
 
-/** ページの背景（グリッドとぼかした光） */
+/** ページの背景（グリッドと淡い光） */
 export function Background() {
-  return () => (
-    <>
-      <div aria-hidden="true" mix={gridStyle} />
-      <div
-        aria-hidden="true"
-        mix={[
-          glowStyle,
-          css({ top: 0, right: 0, background: 'var(--glow-blue)' }),
-        ]}
-      />
-      <div
-        aria-hidden="true"
-        mix={[
-          glowStyle,
-          css({ bottom: 0, left: 0, background: 'var(--glow-indigo)' }),
-        ]}
-      />
-    </>
-  )
+  return () => <div aria-hidden="true" mix={backgroundStyle} />
 }
 
 /** 「TT」のロゴマーク */
@@ -183,24 +165,24 @@ export function PageShell(handle: Handle<{ children?: RemixNode }>) {
   )
 }
 
-const gridStyle = css({
+/**
+ * 背景はスクロールしない 1 枚のレイヤーに、グラデーションだけで描く。
+ * 大きな blur や mask を固定レイヤーに使うと、iOS Safari ではスクロール中に
+ * 本文の描画が追いつかず、背景だけが見える時間ができてしまう
+ */
+const backgroundStyle = css({
   position: 'fixed',
   inset: 0,
   zIndex: 0,
-  height: '100vh',
   pointerEvents: 'none',
-  backgroundSize: '40px 40px',
-  backgroundImage:
-    'linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)',
-  maskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)',
-})
-
-const glowStyle = css({
-  position: 'fixed',
-  zIndex: 0,
-  width: '500px',
-  height: '500px',
-  borderRadius: '9999px',
-  filter: 'blur(120px)',
-  pointerEvents: 'none',
+  backgroundImage: [
+    // 右上と左下の淡い光
+    'radial-gradient(600px circle at calc(100% - 250px) 250px, var(--glow-blue), transparent 70%)',
+    'radial-gradient(600px circle at 250px calc(100% - 250px), var(--glow-indigo), transparent 70%)',
+    // 下に行くほどグリッドを背景色で消す
+    'linear-gradient(to bottom, transparent 40%, var(--bg) 100%)',
+    'linear-gradient(to right, var(--grid-line) 1px, transparent 1px)',
+    'linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)',
+  ].join(', '),
+  backgroundSize: 'auto, auto, auto, 40px 40px, 40px 40px',
 })

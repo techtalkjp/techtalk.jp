@@ -8,7 +8,7 @@
 const lightTokens = `
   color-scheme: light;
   --bg: #f8fafc;
-  --bg-translucent: rgb(255 255 255 / 0.8);
+  --bg-translucent: rgb(255 255 255 / 0.95);
   --surface: #ffffff;
   --surface-hover: #f8fafc;
   --surface-muted: #f1f5f9;
@@ -40,7 +40,7 @@ const lightTokens = `
 const darkTokens = `
   color-scheme: dark;
   --bg: #020617;
-  --bg-translucent: rgb(2 6 23 / 0.8);
+  --bg-translucent: rgb(2 6 23 / 0.95);
   --surface: rgb(15 23 42 / 0.4);
   --surface-hover: rgb(15 23 42 / 0.8);
   --surface-muted: rgb(30 41 59 / 0.5);

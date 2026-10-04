@@ -117,16 +117,7 @@ function IconBadge(
         border: `1px solid rgb(${handle.props.tint} / 0.2)`,
         backgroundImage: `linear-gradient(to bottom right, rgb(${handle.props.tint} / 0.2), transparent)`,
         color: handle.props.accent,
-        '&::after': {
-          content: '""',
-          position: 'absolute',
-          inset: 0,
-          zIndex: -1,
-          borderRadius: 'inherit',
-          background: 'inherit',
-          filter: 'blur(12px)',
-          opacity: 0.4,
-        },
+        boxShadow: `0 0 20px rgb(${handle.props.tint} / 0.25)`,
       })}
     >
       {handle.props.children}
