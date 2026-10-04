@@ -4,6 +4,11 @@
   "main": "./worker.ts",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"],
+  // esbuild の keepNames を切る。既定の true だと関数を作るたびに __name() が走り、
+  // 描画のたびに関数を作る remix/component では 1 リクエストあたり 0.2〜0.5ms 遅くなる。
+  // minify はしていないので関数名はコードに残り、スタックトレースはソースマップで元に戻す
+  "keep_names": false,
+  "upload_source_maps": true,
   // wrangler deploy / dev の前にブラウザ用バンドル（public/js、gitignore 済み）を作る。
   // dev 中は app/ と client/ の変更で作り直す
   "build": {
