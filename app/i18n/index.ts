@@ -30,7 +30,8 @@ export type Translate = (
 
 export function createTranslate(locale: Locale): Translate {
   return (ja, vars) => {
-    let text: string = locale === 'ja' ? ja : catalogs[locale][ja]
+    // 型で漏れは防いでいるが、型を通らない経路に備えて日本語に戻す
+    let text: string = locale === 'ja' ? ja : (catalogs[locale][ja] ?? ja)
     if (vars) {
       for (let [key, value] of Object.entries(vars)) {
         text = text.replaceAll(`{${key}}`, () => String(value))

@@ -75,7 +75,11 @@ export const contactFieldNames = [
 ] as const
 export type ContactFieldName = (typeof contactFieldNames)[number]
 
-const requiredMessages: Partial<Record<ContactFieldName, MessageKey>> = {
+// 必須でない会社名だけを外す。新しい項目を足したら、ここにメッセージを書くか外すかを決める
+const requiredMessages: Record<
+  Exclude<ContactFieldName, 'company'>,
+  MessageKey
+> = {
   name: 'お名前を入力してください',
   email: 'メールアドレスを入力してください',
   message: '相談内容を入力してください',
@@ -107,7 +111,7 @@ export function parseContactForm(
       if (context.code === 'string.email') {
         return t('正しいメールアドレスを入力してください')
       }
-      if (field && requiredMessages[field]) {
+      if (field && field !== 'company') {
         return t(requiredMessages[field])
       }
       return undefined

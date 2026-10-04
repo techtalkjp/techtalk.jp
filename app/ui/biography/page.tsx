@@ -19,7 +19,7 @@ function biographySeo({ locale }: I18n): Seo {
       : 'Coji Mizoguchi - Biography | TechTalk, Inc.',
     description: ja
       ? '株式会社TechTalk 代表取締役 溝口浩二の経歴。ドワンゴ、フリークアウト、IRISで技術と経営の間を行き来し、いまは作る前の段階から経営者と話して新しい事業を形にしています。'
-      : 'Biography of Coji Mizoguchi, CEO of TechTalk, Inc. After Dwango, FreakOut, and IRIS, he now works with business owners on new businesses before anything is built.',
+      : 'Coji Mizoguchi, CEO of TechTalk. He moved between technology and management at Dwango, FreakOut, and IRIS, and now shapes new businesses with their owners.',
     path: paths.biography(locale),
     ogType: 'profile',
     alternates: { ja: paths.biography('ja'), en: paths.biography('en') },
