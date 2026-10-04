@@ -7,7 +7,7 @@ import { medium, phrase } from '../styles.ts'
 const steps = [
   {
     title: '構想を聞く',
-    body: '事業の目的と、いまある前提から話を始めます。技術で実現できるか、何から手をつけるか、どのくらいの規模になりそうかを、打ち合わせで一緒に考えます。',
+    body: '事業の目的と、予算や体制、期限といった前提から話を始めます。何から手をつけるか、開発の規模はどのくらいになりそうかを、一緒に考えます。',
   },
   {
     title: '最初に作るものを絞る',
@@ -30,7 +30,7 @@ export function ApproachSection(handle: Handle) {
         </h2>
         <p mix={sectionLede}>
           {t(
-            '決める人と作る人が同じなので、話の往復が少なく、手戻りが出にくい進め方です。',
+            '話し合う相手と作る人が同じなので、話したことがそのまま形になり、手戻りが出にくい進め方です。',
           )}
         </p>
 
@@ -74,19 +74,6 @@ export function ApproachSection(handle: Handle) {
           ))}
         </ol>
 
-        <p
-          mix={css({
-            marginTop: '24px',
-            maxWidth: '36em',
-            fontSize: 'var(--t-14)',
-            color: 'var(--text-subtle)',
-          })}
-        >
-          {t(
-            '開発の責任者、取締役、経営企画室長として、技術と事業の両方を同じ席で話し合ってきました。その経験がこの進め方の土台です。',
-          )}
-        </p>
-
         <div
           mix={css({
             marginTop: '40px',
@@ -108,7 +95,7 @@ export function ApproachSection(handle: Handle) {
           </h3>
           <p mix={css({ fontSize: 'var(--t-14)', color: 'var(--text-muted)' })}>
             {t(
-              '仕様が決まっていて開発だけを頼みたいご依頼、常駐や人月単位で人を出すご依頼はお受けしていません。作るものを一緒に決める進め方をとっているためです。',
+              '仕様が決まっていて開発だけを頼みたい場合や、常駐・人月単位での契約はお受けしていません。作るものから一緒に決める進め方をとっているためです。',
             )}
           </p>
         </div>

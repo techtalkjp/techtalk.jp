@@ -42,12 +42,12 @@ export function ContactSection(
         >
           <div>
             <h2 mix={sectionHeading}>
-              <span mix={phrase}>{t('固まる前の話から、')}</span>
-              <span mix={phrase}>{t('聞かせてください。')}</span>
+              <span mix={phrase}>{t('事業の話を、')}</span>
+              <span mix={phrase}>{t('そのまま聞かせてください。')}</span>
             </h2>
             <p mix={noteStyle}>
               {t(
-                '新しい事業の構想、技術的にできるかの見立て、進め方の相談など、まだ形になっていない段階で結構です。',
+                '新しい事業の構想、技術でできるかどうか、進め方など、どんなご相談でもかまいません。',
               )}
             </p>
             <p mix={noteStyle}>

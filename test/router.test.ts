@@ -92,6 +92,22 @@ describe('pages', () => {
     assert.match(ja, /<title>技術の話から、新しい事業をつくる。/)
   })
 
+  for (let path of ['/en', '/en/biography']) {
+    it(`GET ${path} shows no untranslated Japanese`, async () => {
+      // 英訳がないと t() は日本語をそのまま返すので、文言の変更で en.json を直し忘れると気づけない
+      let { fetch } = setup()
+      let html = await (await fetch(path)).text()
+      let text = html
+        .replace(/<(script|style|head)\b[^>]*>[\s\S]*?<\/\1>/g, '')
+        .replace(/<[^>]*\blang="ja"[^>]*>[^<]*/g, '')
+        .replace(/<[^>]+>/g, '\n')
+      let japanese = text
+        .split('\n')
+        .filter((line) => /[\u3040-\u30ff\u4e00-\u9fff]/.test(line))
+      assert.deepEqual(japanese, [])
+    })
+  }
+
   it('top page embeds the contact form frame for its locale', async () => {
     let { fetch } = setup()
     let html = await (await fetch('/en')).text()
