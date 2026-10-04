@@ -67,6 +67,10 @@ export const globalStyles = `
   @media (width <= 860px) {
     :root { --header-height: 108px; }
   }
+  /* さらに狭いと、ボタンとナビが折り返して 3〜4 段になる（JS がない間の目安） */
+  @media (width < 360px) {
+    :root { --header-height: 190px; }
+  }
 
   *, *::before, *::after { box-sizing: border-box; }
   * { margin: 0; }
