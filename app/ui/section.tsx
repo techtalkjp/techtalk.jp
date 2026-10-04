@@ -1,9 +1,9 @@
 import { css, type Handle, type RemixNode } from 'remix/component'
 
-import { container, wide } from '../styles.ts'
+import { container, wide } from './styles.ts'
 
 /**
- * トップの各セクションの枠。左にセクション名、右に中身の 2 カラム。
+ * ページの各セクションの枠。左にセクション名、右に中身の 2 カラム。
  * セクション名の 1 行目は h2（28px × 1.5 = 42px）と同じ高さにして、右の見出しと同じ線に乗せる
  */
 export function Section(

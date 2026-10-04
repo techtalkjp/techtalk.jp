@@ -1,7 +1,6 @@
 import { css } from 'remix/component'
 
 export const sm = '@media (min-width: 640px)'
-export const md = '@media (min-width: 768px)'
 /** セクションを左右 2 カラムにする幅 */
 export const wide = '@media (min-width: 900px)'
 /** ヘッダーのナビを 1 段に収める幅。global-styles.ts の --header-height と同じ境目 */
@@ -10,13 +9,6 @@ export const navWide = '@media (width > 860px)'
 /** 横幅 1120px（左右 24px の余白込み）のコンテナ */
 export const container = css({
   maxWidth: '70rem',
-  marginInline: 'auto',
-  paddingInline: '1.5rem',
-})
-
-/** 文章を読ませるページ用の、横幅 48rem のコンテナ */
-export const narrowContainer = css({
-  maxWidth: '48rem',
   marginInline: 'auto',
   paddingInline: '1.5rem',
 })

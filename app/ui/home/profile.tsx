@@ -4,31 +4,13 @@ import { getI18n } from '../../i18n/provider.tsx'
 import { paths } from '../../paths.ts'
 import { ArrowUpRightIcon } from '../icons.tsx'
 import { caption, externalLink, sm, textLink } from '../styles.ts'
-import { Section, sectionHeading } from './section.tsx'
+import { PressList } from '../press-list.tsx'
+import { Section, sectionHeading } from '../section.tsx'
 
 const links = [
   { href: 'https://github.com/coji', label: 'GitHub' },
   { href: 'https://zenn.dev/coji', label: 'Zenn' },
   { href: 'https://x.com/techtalkjp', label: 'X' },
-]
-
-const press = [
-  {
-    href: 'https://forbesjapan.com/articles/detail/22941',
-    publisher: 'Forbes JAPAN',
-    title: '合弁会社で世界へ タクシーメディアの掲げる野望',
-  },
-  {
-    href: 'https://thebridge.jp/2014/06/takanori-oshiba-interview-series-vol-7',
-    publisher: 'THE BRIDGE',
-    title:
-      '「本田の描く広告の未来を実現する」フリークアウト 溝口氏インタビュー',
-  },
-  {
-    href: 'https://japan.cnet.com/article/20361283/',
-    publisher: 'CNET Japan',
-    title: 'ニワンゴ技術責任者が語る、「ニコニコ動画」成功の鍵',
-  },
 ]
 
 /** 経歴は冒頭の年表で見せているので、ここは写真・肩書・リンク・掲載記事だけにする */
@@ -107,53 +89,7 @@ export function ProfileSection(handle: Handle) {
           mix={css({ marginTop: '56px', borderTop: '1px solid var(--border)' })}
         >
           <p mix={[caption, css({ padding: '20px 0 4px' })]}>{t('掲載記事')}</p>
-          {press.map((article) => (
-            <a
-              key={article.href}
-              href={article.href}
-              target="_blank"
-              rel="noopener"
-              mix={css({
-                display: 'grid',
-                gridTemplateColumns: 'minmax(0, 1fr)',
-                gap: '2px',
-                padding: '16px 0',
-                borderBottom: '1px solid var(--border)',
-                '&:hover .title': { color: 'var(--accent)' },
-                [sm]: {
-                  gridTemplateColumns: '160px minmax(0, 1fr) auto',
-                  gap: '24px',
-                  alignItems: 'baseline',
-                },
-              })}
-            >
-              <span
-                mix={css({
-                  fontSize: 'var(--t-14)',
-                  color: 'var(--text-subtle)',
-                })}
-              >
-                {article.publisher}
-              </span>
-              {/* 記事の題名は原題のまま載せる */}
-              <span
-                class="title"
-                lang="ja"
-                mix={css({ transition: 'color 150ms ease-out' })}
-              >
-                {article.title}
-              </span>
-              <span
-                mix={css({
-                  display: 'none',
-                  color: 'var(--text-subtle)',
-                  [sm]: { display: 'block' },
-                })}
-              >
-                <ArrowUpRightIcon size={13} />
-              </span>
-            </a>
-          ))}
+          <PressList />
         </div>
       </Section>
     )

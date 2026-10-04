@@ -2,7 +2,7 @@ import { css, type Handle } from 'remix/component'
 
 import { getI18n } from '../../i18n/provider.tsx'
 import { sm } from '../styles.ts'
-import { Section } from './section.tsx'
+import { Section } from '../section.tsx'
 
 const rows: [label: string, value: string][] = [
   ['会社名', '株式会社TechTalk'],

@@ -10,7 +10,7 @@ import { getI18n } from '../../i18n/provider.tsx'
 import { SubmitButton } from '../../islands/submit-button.tsx'
 import { paths } from '../../paths.ts'
 import { fadeUpOnLoad, phrase, textLink } from '../styles.ts'
-import { Section, sectionHeading } from './section.tsx'
+import { Section, sectionHeading } from '../section.tsx'
 
 export type ContactFormState = ContactSubmitResult | { status: 'idle' }
 

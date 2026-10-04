@@ -16,9 +16,6 @@
   "事業内容": "Business",
   "自社プロダクトの開発・運営、ソフトウェア開発、技術コンサルティング": "Product Development and Operations, Software Development, Technical Consulting",
   "トップへ戻る": "Back to Top",
-  "技術と事業の両面から0→1を生み出す": "Creating 0→1 value from both technical and business perspectives",
-  "CONNECT": "CONNECT",
-  "CAREER": "CAREER",
   "2019年 - 現在": "2019 - Present",
   "株式会社TechTalk 代表取締役": "TechTalk, Inc. - CEO",
   "ひとり法人として複数の企業に対して技術実装を提供。化学物質検索システム、AI活用MVP、データパイプライン、マーケティング統合など、幅広い領域で実装を継続。": "Providing technical implementation to multiple companies as a solo corporation. Continues implementing across a wide range of areas including chemical substance search systems, AI-leveraged MVPs, data pipelines, and marketing integration.",
@@ -30,13 +27,6 @@
   "技術に基づいた事業開発やアライアンスに従事。DSPの入札ロジック構築では、データアナリストとしてビジネス要件を数値化し、機械学習チームとの橋渡しを担当。": "Engaged in technology-driven business development and alliances. In DSP bidding logic development, served as a data analyst quantifying business requirements and bridging communication with the machine learning team.",
   "1999年 - 2013年": "1999 - 2013",
   "株式会社ドワンゴ / 株式会社ニワンゴ": "Dwango Co., Ltd. / Niwango, Inc.",
-  "MEDIA COVERAGE": "MEDIA COVERAGE",
-  "Forbes JAPAN": "Forbes JAPAN",
-  "合弁会社で世界へ タクシーメディアの掲げる野望": "A Joint Venture to Go Global: The Ambitions of Taxi Media",
-  "THE BRIDGE": "THE BRIDGE",
-  "「本田の描く広告の未来を実現する」ーー隠れたキーマンを調べるお・フリークアウト、溝口氏インタビュー": "\"Realizing Honda's Vision of Advertising's Future\" - Interview with FreakOut's Hidden Key Person, Mizoguchi",
-  "CNET Japan": "CNET Japan",
-  "ニワンゴ技術責任者が語る、「ニコニコ動画」成功の鍵": "Niwango's CTO Discusses the Key to 'Niconico Douga's' Success",
   "お名前": "Name",
   "メールアドレス": "Email",
   "プライバシーポリシー": "Privacy Policy",
@@ -108,5 +98,8 @@
   "フッター": "Footer",
   "エンジニア、プログラマーとしてキャリアをスタート。着メロサービスやポータルサイトなどのエンジニアリングマネージャーを経験。ニワンゴでは技術担当取締役を担当。": "Started career as an engineer and programmer. Served as engineering manager for services including ringtones and portal sites. Served as CTO at Niwango.",
   "Artifact Shareで共有した月次売上レポートの画面。版番号と閲覧数が表示されている": "A monthly revenue report shared on Artifact Share, showing its version number and view count",
-  "サンプルのレポートを共有した画面。同じURLのまま、版を重ねて更新している": "A sample report, updated version after version at the same URL"
+  "サンプルのレポートを共有した画面。同じURLのまま、版を重ねて更新している": "A sample report, updated version after version at the same URL",
+  "株式会社TechTalk 代表取締役。": "CEO of TechTalk, Inc. ",
+  "経歴": "Career",
+  "技術と事業の両面から、新しい事業を立ち上げてきました。": "Has launched new businesses from both the technical and the business side."
 }

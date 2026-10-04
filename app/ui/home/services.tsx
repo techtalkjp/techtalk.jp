@@ -2,7 +2,7 @@ import { css, type Handle } from 'remix/component'
 
 import { getI18n } from '../../i18n/provider.tsx'
 import { phrase } from '../styles.ts'
-import { Section, sectionHeading, sectionLede } from './section.tsx'
+import { Section, sectionHeading, sectionLede } from '../section.tsx'
 
 /** 支援の内容と、それを裏付ける代表の経験 */
 const services = [
