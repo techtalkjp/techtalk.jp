@@ -1,223 +1,151 @@
-import { css, type Handle, type RemixNode } from 'remix/component'
+import { css, type Handle } from 'remix/component'
 
 import { getI18n } from '../../i18n/provider.tsx'
-import {
-  ArrowUpRightIcon,
-  BotIcon,
-  LinkIcon,
-  RefreshIcon,
-  ShieldCheckIcon,
-} from '../icons.tsx'
-import { container, lg, md, mono, sm } from '../styles.ts'
+import { ArrowUpRightIcon } from '../icons.tsx'
+import { phrase, sm, textLink } from '../styles.ts'
+import { Section, sectionHeading, sectionLede } from './section.tsx'
 
-const features: {
-  icon: () => RemixNode
-  title: string
-  description: string
-}[] = [
+const features = [
   {
-    icon: () => <LinkIcon size={20} strokeWidth={1.75} />,
     title: 'すぐに共有できる',
     description:
       'HTML、Markdown、静的サイトを、閲覧用の安定したURLで共有できます。',
   },
   {
-    icon: () => <RefreshIcon size={20} strokeWidth={1.75} />,
     title: '同じURLで更新できる',
     description:
-      '成果物を更新しても共有先はそのまま。レビューと改善を継続できます。',
+      '成果物を更新しても共有先はそのまま。レビューと改善を続けられます。',
   },
   {
-    icon: () => <BotIcon size={20} strokeWidth={1.75} />,
     title: 'AIエージェントから使える',
     description:
-      'Web、CLI、MCPを通じて、人とAIエージェントのどちらからでも操作できます。',
+      'Web、CLI、MCPから、人とAIエージェントのどちらでも操作できます。',
   },
   {
-    icon: () => <ShieldCheckIcon size={20} strokeWidth={1.75} />,
-    title: '共有範囲を管理できる',
-    description: '公開、ワークスペース、個別共有を用途に応じて選択できます。',
+    title: '共有範囲を選べる',
+    description: '公開、ワークスペース内、個別の共有を、用途に応じて選べます。',
   },
 ]
 
-/** 自社プロダクト（Artifact Share）の紹介。テーマに関わらず暗い配色 */
+/** 画面写真は Artifact Share のサイトと同じもの。ロケールごとに UI の言語が違う */
+const screenshots = {
+  ja: { src: '/images/artifact-share-ja.webp', width: 1493, height: 1260 },
+  en: { src: '/images/artifact-share-en.webp', width: 1600, height: 1163 },
+}
+
 export function ProductsSection(handle: Handle) {
   return () => {
-    let { t } = getI18n(handle)
-
+    let { t, locale } = getI18n(handle)
+    let shot = screenshots[locale]
     return (
-      <section
-        id="products"
-        mix={css({
-          position: 'relative',
-          borderTop: '1px solid var(--border)',
-          background: '#020617',
-          color: '#ffffff',
-          paddingBlock: '6rem',
-        })}
-      >
-        <div
-          aria-hidden="true"
-          mix={css({
-            position: 'absolute',
-            inset: 0,
-            overflow: 'hidden',
-            pointerEvents: 'none',
-            backgroundImage:
-              'radial-gradient(420px circle at 50% 0%, rgb(59 130 246 / 0.15), transparent 70%)',
-          })}
-        ></div>
+      <Section id="product" name={t('プロダクト')}>
+        <h2 mix={sectionHeading}>
+          <span mix={phrase}>{t('自社サービスArtifact Shareを、')}</span>
+          <span mix={phrase}>{t('企画から運営まで手がけています。')}</span>
+        </h2>
+        <p mix={sectionLede}>
+          {t(
+            'AIエージェントや開発ツールで作ったレポート、ドキュメント、Webサイトを、URLひとつで共有するサービスです。レビューを受けながら、同じURLのまま更新し続けられます。',
+          )}
+        </p>
 
-        <div mix={[container, css({ position: 'relative' })]}>
-          <div
-            mix={[
-              css({
-                display: 'grid',
-                gap: '3rem',
-                [lg]: {
-                  gridTemplateColumns: '1.05fr 0.95fr',
-                  alignItems: 'end',
-                },
-              }),
-            ]}
+        <figure
+          mix={css({
+            margin: '48px 0 0',
+            borderRadius: 'var(--r-image)',
+            overflow: 'hidden',
+            boxShadow: 'var(--shadow-image)',
+            background: '#fcfaf8',
+          })}
+        >
+          <img
+            src={shot.src}
+            width={shot.width}
+            height={shot.height}
+            loading="lazy"
+            decoding="async"
+            alt={t(
+              'Artifact Shareで共有した月次売上レポートの画面。版番号、閲覧数、コメント数が表示されている',
+            )}
+            mix={css({
+              width: '100%',
+              // 画面写真はライト UI しかないので、ダークでは少し落として白く浮かせない
+              '@media (prefers-color-scheme: dark)': {
+                filter: 'brightness(0.86) contrast(1.04)',
+              },
+            })}
+          />
+          <figcaption
+            mix={css({
+              padding: '12px 16px',
+              fontSize: 'var(--t-12)',
+              color: 'var(--text-subtle)',
+              borderTop: '1px solid var(--border)',
+              background: 'var(--surface)',
+            })}
           >
-            <div>
-              <p
-                mix={css({
-                  marginBottom: '1.25rem',
-                  fontFamily: mono,
-                  fontSize: '0.875rem',
-                  color: '#60a5fa',
-                })}
-              >
-                {t('OUR PRODUCT')}
-              </p>
-              <div
-                mix={css({
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  marginBottom: '1.5rem',
-                })}
-              >
-                <div
-                  mix={css({
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '3.5rem',
-                    height: '3.5rem',
-                    borderRadius: '0.75rem',
-                    background: '#ffffff',
-                    color: '#020617',
-                    fontSize: '1.25rem',
-                    fontWeight: 900,
-                    letterSpacing: '-0.05em',
-                  })}
-                >
-                  AS
-                </div>
-                <h2
-                  mix={css({
-                    fontSize: '2.25rem',
-                    fontWeight: 900,
-                    letterSpacing: '-0.025em',
-                    [md]: { fontSize: '3rem' },
-                  })}
-                >
-                  Artifact Share
-                </h2>
-              </div>
-              <h3
-                mix={css({
-                  maxWidth: '42rem',
-                  fontSize: '1.5rem',
-                  lineHeight: 1.375,
-                  fontWeight: 700,
-                  color: '#f1f5f9',
-                  [md]: { fontSize: '1.875rem' },
-                })}
-              >
-                {t('AIがつくった成果物を、チームや顧客へ届ける。')}
+            {t(
+              'サンプルのレポートを共有した画面。同じURLのまま更新した版番号と、届いたコメントの数が並ぶ',
+            )}
+          </figcaption>
+        </figure>
+
+        <ul
+          mix={css({
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1fr)',
+            marginTop: '48px',
+            borderTop: '1px solid var(--border)',
+            [sm]: {
+              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+              columnGap: '40px',
+            },
+          })}
+        >
+          {features.map((feature) => (
+            <li
+              key={feature.title}
+              mix={css({
+                padding: '20px 0',
+                borderBottom: '1px solid var(--border)',
+              })}
+            >
+              <h3 mix={css({ fontSize: 'var(--t-16)', lineHeight: 1.6 })}>
+                {t(feature.title)}
               </h3>
               <p
                 mix={css({
-                  marginTop: '1.5rem',
-                  maxWidth: '42rem',
-                  lineHeight: 1.625,
-                  color: '#94a3b8',
+                  marginTop: '4px',
+                  fontSize: 'var(--t-14)',
+                  color: 'var(--text-muted)',
                 })}
               >
-                {t(
-                  'Artifact Shareは、AIエージェントや開発ツールで作ったレポート、ドキュメント、Webサイトを、共有・レビュー・継続更新するためのサービスです。株式会社TechTalkが企画・開発・運営しています。',
-                )}
+                {t(feature.description)}
               </p>
-              <a
-                href="https://artifactshare.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                mix={css({
-                  marginTop: '2rem',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  borderRadius: '0.25rem',
-                  background: '#ffffff',
-                  color: '#020617',
-                  padding: '0.75rem 1.5rem',
-                  fontWeight: 700,
-                  transition: 'background-color 150ms',
-                  '&:hover': { background: '#dbeafe' },
-                })}
-              >
-                {t('Artifact Shareを見る')}
-                <ArrowUpRightIcon size={16} />
-              </a>
-            </div>
+            </li>
+          ))}
+        </ul>
 
-            <div
-              mix={css({
-                display: 'grid',
-                gap: '1px',
-                overflow: 'hidden',
-                borderRadius: '1rem',
-                border: '1px solid #1e293b',
-                background: '#1e293b',
-                [sm]: { gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' },
-              })}
-            >
-              {features.map((feature) => (
-                <div
-                  key={feature.title}
-                  mix={css({ background: '#0f172a', padding: '1.5rem' })}
-                >
-                  <div mix={css({ marginBottom: '1rem', color: '#60a5fa' })}>
-                    {feature.icon()}
-                  </div>
-                  <h4
-                    mix={css({
-                      marginBottom: '0.5rem',
-                      fontWeight: 700,
-                      color: '#f1f5f9',
-                    })}
-                  >
-                    {t(feature.title)}
-                  </h4>
-                  <p
-                    mix={css({
-                      fontSize: '0.875rem',
-                      lineHeight: 1.625,
-                      color: '#94a3b8',
-                    })}
-                  >
-                    {t(feature.description)}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+        <p mix={css({ marginTop: '24px' })}>
+          <a
+            href="https://artifactshare.com"
+            target="_blank"
+            rel="noopener"
+            mix={[textLink, externalLink]}
+          >
+            {t('artifactshare.comで詳しく見る')}
+            <ArrowUpRightIcon size={13} />
+          </a>
+        </p>
+      </Section>
     )
   }
 }
+
+/** 外部リンク。文字の後ろに小さな矢印を添え、押しやすいよう上下に余白をとる */
+export const externalLink = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '3px',
+  paddingBlock: '10px',
+})

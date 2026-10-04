@@ -2,116 +2,101 @@ import { css, type Handle, type RemixNode } from 'remix/component'
 
 import { languageName, otherLocale } from '../i18n/index.ts'
 import { getI18n } from '../i18n/provider.tsx'
-import { ThemeMenu } from '../islands/theme-menu.tsx'
-import { container, iconButton, md, mono } from './styles.ts'
+import { SectionNav } from '../islands/section-nav.tsx'
+import { paths } from '../paths.ts'
+import { ArrowUpRightIcon } from './icons.tsx'
+import { container, navWide, primaryButton } from './styles.ts'
 
-/** ページの背景（グリッドと淡い光） */
-export function Background() {
-  return () => <div aria-hidden="true" mix={backgroundStyle} />
-}
-
-/** 「TT」のロゴマーク */
-function TtBadge(
-  handle: Handle<{ size?: 'sm' | 'md'; tone?: 'header' | 'footer' }>,
-) {
+/**
+ * 社名のワードマーク。字を詰め、経歴レールの「いま」と同じ青い点を句点として打つ
+ */
+export function Wordmark(handle: Handle<{ href?: string; size?: 'sm' }>) {
   return () => {
-    let small = handle.props.size === 'sm'
-    let footer = handle.props.tone === 'footer'
-    return (
-      <span
-        aria-hidden="true"
-        mix={css({
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: small ? '1.5rem' : '2rem',
-          height: small ? '1.5rem' : '2rem',
-          borderRadius: '0.125rem',
-          background: footer ? 'var(--footer-badge-bg)' : 'var(--button-bg)',
-          color: footer ? '#ffffff' : 'var(--button-text)',
-          fontSize: small ? '0.75rem' : '0.875rem',
-          fontWeight: 900,
-          letterSpacing: 0,
-        })}
-      >
-        TT
-      </span>
-    )
-  }
-}
-
-/** 「TT」ロゴ付きのサイト名 */
-export function Brand(
-  handle: Handle<{ href: string; size?: 'sm' | 'md'; label?: string }>,
-) {
-  return () => {
-    let { href, size = 'md', label = 'TechTalk' } = handle.props
-    return (
-      <a
-        href={href}
-        mix={css({
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          fontSize: size === 'sm' ? '1rem' : '1.25rem',
-          fontWeight: 700,
-          letterSpacing: '-0.05em',
-          color: 'var(--text-strong)',
-        })}
-      >
-        <TtBadge size={size} />
-        {label}
+    let { href, size } = handle.props
+    let style = css({
+      display: 'inline-flex',
+      alignItems: 'baseline',
+      fontSize: size === 'sm' ? 'var(--t-16)' : 'var(--t-20)',
+      fontWeight: 800,
+      letterSpacing: '-0.04em',
+      color: 'var(--text-strong)',
+      '&::after': {
+        content: '""',
+        width: '0.3em',
+        height: '0.3em',
+        marginLeft: '0.08em',
+        borderRadius: '50%',
+        background: 'var(--accent)',
+      },
+    })
+    return href ? (
+      <a href={href} mix={style}>
+        TechTalk
       </a>
+    ) : (
+      <span mix={style}>TechTalk</span>
     )
   }
 }
 
-/** テーマ切替メニュー。文言をサーバー側で翻訳して渡す */
-export function ThemeSwitcher(handle: Handle) {
-  return () => {
-    let { t } = getI18n(handle)
-    return (
-      <ThemeMenu
-        labels={{
-          theme: t('テーマ'),
-          light: t('ライト'),
-          dark: t('ダーク'),
-          system: t('システム'),
-        }}
-      />
-    )
-  }
+/** トップの各セクションへのリンク。トップではハッシュだけにしてページ内を移動する */
+function sectionLinks(
+  t: (ja: string) => string,
+  base: string,
+): { href: string; label: string }[] {
+  return [
+    { href: `${base}#services`, label: t('技術支援') },
+    { href: `${base}#product`, label: t('プロダクト') },
+    { href: `${base}#profile`, label: t('代表') },
+    { href: `${base}#company`, label: t('会社概要') },
+  ]
 }
 
 /** もう一方の言語へのリンク。ページ全体を読み直して切り替える */
 export function LanguageLink(handle: Handle<{ href: string }>) {
   return () => {
     let { locale } = getI18n(handle)
+    let other = otherLocale(locale)
     return (
       <a
         href={handle.props.href}
-        hrefLang={otherLocale(locale)}
-        lang={otherLocale(locale)}
+        hrefLang={other}
+        lang={other}
         data-rmx-document=""
-        mix={iconButton}
+        mix={css({
+          paddingBlock: '10px',
+          fontSize: 'var(--t-14)',
+          color: 'var(--text-subtle)',
+          transition: 'color 150ms ease-out',
+          '&:hover': { color: 'var(--text-strong)' },
+        })}
       >
-        {languageName(otherLocale(locale))}
+        {languageName(other)}
       </a>
     )
   }
 }
 
-export function Footer(handle: Handle) {
+export interface SiteHeaderProps {
+  /** トップページならハッシュだけのリンクにする */
+  home?: boolean
+  /** もう一方の言語の同じページ。なければ言語切替を出さない */
+  languageHref?: string
+}
+
+export function SiteHeader(handle: Handle<SiteHeaderProps>) {
   return () => {
-    let { t } = getI18n(handle)
+    let { t, locale } = getI18n(handle)
+    let { home, languageHref } = handle.props
+    let base = home ? '' : paths.home(locale)
     return (
-      <footer
+      <header
         mix={css({
-          position: 'relative',
+          position: 'sticky',
+          top: 0,
           zIndex: 10,
-          borderTop: '1px solid var(--border)',
           background: 'var(--bg)',
-          paddingBlock: '3rem',
+          borderBottom: '1px solid var(--border)',
         })}
       >
         <div
@@ -119,70 +104,120 @@ export function Footer(handle: Handle) {
             container,
             css({
               display: 'flex',
-              flexDirection: 'column',
+              flexWrap: 'wrap',
               alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '1.5rem',
-              [md]: { flexDirection: 'row' },
+              columnGap: '16px',
+              paddingTop: '12px',
+              [navWide]: {
+                flexWrap: 'nowrap',
+                columnGap: '32px',
+                height: 'var(--header-height)',
+                paddingTop: 0,
+              },
             }),
           ]}
         >
+          <span mix={css({ marginRight: 'auto' })}>
+            <Wordmark href={home ? '#top' : paths.home(locale)} />
+          </span>
+          <SectionNav label={t('ページ内')} links={sectionLinks(t, base)} />
           <div
-            mix={css({
+            mix={css({ display: 'flex', alignItems: 'center', gap: '20px' })}
+          >
+            {languageHref ? <LanguageLink href={languageHref} /> : null}
+            <a
+              href={`${base}#contact`}
+              mix={[
+                primaryButton,
+                css({ height: '36px', paddingInline: '14px' }),
+              ]}
+            >
+              {t('相談する')}
+            </a>
+          </div>
+        </div>
+      </header>
+    )
+  }
+}
+
+export function Footer(handle: Handle) {
+  return () => {
+    let { t, locale } = getI18n(handle)
+    let linkHover = css({
+      transition: 'color 150ms ease-out',
+      '&:hover': { color: 'var(--text-strong)' },
+    })
+    return (
+      <footer
+        mix={css({
+          borderTop: '1px solid var(--border)',
+          padding: '40px 0 56px',
+          fontSize: 'var(--t-14)',
+          color: 'var(--text-subtle)',
+        })}
+      >
+        <div
+          mix={[
+            container,
+            css({
               display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              fontWeight: 700,
-              color: 'var(--text-strong)',
-            })}
+              flexWrap: 'wrap',
+              alignItems: 'baseline',
+              justifyContent: 'space-between',
+              gap: '16px 32px',
+            }),
+          ]}
+        >
+          <Wordmark size="sm" />
+          <nav
+            aria-label={t('フッター')}
+            mix={css({ display: 'flex', flexWrap: 'wrap', gap: '8px 24px' })}
           >
-            <TtBadge size="sm" tone="footer" />
-            {t('TechTalk Inc.')}
-          </div>
-          <div
-            mix={css({
-              fontFamily: mono,
-              fontSize: '0.875rem',
-              color: 'var(--text-subtle)',
-            })}
-          >
-            {t('© TechTalk Inc. All Rights Reserved.')}
-          </div>
+            {sectionLinks(t, paths.home(locale)).map((link) => (
+              <a key={link.href} href={link.href} mix={linkHover}>
+                {link.label}
+              </a>
+            ))}
+            <a
+              href="https://records.techtalk.jp"
+              target="_blank"
+              rel="noopener"
+              mix={[
+                linkHover,
+                css({
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '3px',
+                }),
+              ]}
+            >
+              TechTalk Records
+              <ArrowUpRightIcon size={12} />
+            </a>
+            <a href={paths.privacy()} mix={linkHover}>
+              {t('プライバシーポリシー')}
+            </a>
+          </nav>
+          <span>© 2019–{new Date().getFullYear()} TechTalk, Inc.</span>
         </div>
       </footer>
     )
   }
 }
 
-/** ページ全体の枠（背景、本文、フッター） */
-export function PageShell(handle: Handle<{ children?: RemixNode }>) {
-  return () => (
-    <div mix={css({ position: 'relative', minHeight: '100vh' })}>
-      <Background />
-      {handle.props.children}
-      <Footer />
-    </div>
-  )
+/** ページ全体の枠（ヘッダー、本文、フッター） */
+export function PageShell(
+  handle: Handle<SiteHeaderProps & { children?: RemixNode }>,
+) {
+  return () => {
+    let { children, ...header } = handle.props
+    return (
+      <>
+        <SiteHeader {...header} />
+        {children}
+        <Footer />
+      </>
+    )
+  }
 }
-
-/**
- * 背景はスクロールしない 1 枚のレイヤーに、グラデーションだけで描く。
- * 大きな blur や mask を固定レイヤーに使うと、iOS Safari ではスクロール中に
- * 本文の描画が追いつかず、背景だけが見える時間ができてしまう
- */
-const backgroundStyle = css({
-  position: 'fixed',
-  inset: 0,
-  zIndex: 0,
-  pointerEvents: 'none',
-  backgroundImage: [
-    // 右上と左下の淡い光
-    'radial-gradient(600px circle at calc(100% - 250px) 250px, var(--glow-blue), transparent 70%)',
-    'radial-gradient(600px circle at 250px calc(100% - 250px), var(--glow-indigo), transparent 70%)',
-    // 下に行くほどグリッドを背景色で消す
-    'linear-gradient(to bottom, transparent 40%, var(--bg) 100%)',
-    'linear-gradient(to right, var(--grid-line) 1px, transparent 1px)',
-    'linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)',
-  ].join(', '),
-  backgroundSize: 'auto, auto, auto, 40px 40px, 40px 40px',
-})

@@ -36,7 +36,6 @@
     "prepare": "lefthook install || true"
   },
   "dependencies": {
-    "@remix-run/ui": "0.12.1",
     "mimetext": "3.0.28",
     "remix": "3.0.0"
   },

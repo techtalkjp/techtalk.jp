@@ -294,7 +294,7 @@ describe('contact form', () => {
       'invalid',
       'name',
       'company',
-      'phone',
+      'who',
       'email',
       'message',
       'privacyPolicy',

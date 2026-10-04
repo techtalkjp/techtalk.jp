@@ -40,7 +40,7 @@ describe('scoreSales', () => {
 describe('createTranslate', () => {
   it('returns Japanese as-is and translates to English', () => {
     assert.equal(createTranslate('ja')('会社概要'), '会社概要')
-    assert.equal(createTranslate('en')('会社概要'), 'Company Information')
+    assert.equal(createTranslate('en')('会社概要'), 'Company')
   })
 
   it('falls back to Japanese and fills placeholders', () => {
