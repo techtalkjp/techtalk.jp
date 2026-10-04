@@ -1,4 +1,4 @@
-import { css, type Handle } from 'remix/component'
+import type { Handle } from 'remix/component'
 
 import { SITE_URL } from '../../config.ts'
 import { otherLocale, type I18n } from '../../i18n/index.ts'
@@ -8,7 +8,6 @@ import { Document, type Seo } from '../document.tsx'
 import { PageShell } from '../layout.tsx'
 import { CompanySection } from './company.tsx'
 import { ContactSection, type ContactFormState } from './contact.tsx'
-import { HomeHeader } from './header.tsx'
 import { HeroSection } from './hero.tsx'
 import { ProductsSection } from './products.tsx'
 import { ProfileSection } from './profile.tsx'
@@ -53,7 +52,6 @@ function homeSeo({ locale }: I18n): Seo {
         : 'TechTalk, Inc. develops and operates Artifact Share and provides end-to-end technical support from business development through implementation.',
       address: {
         '@type': 'PostalAddress',
-        streetAddress: '佃2-1-2',
         addressLocality: '中央区',
         addressRegion: '東京都',
         addressCountry: 'JP',
@@ -82,18 +80,11 @@ export function HomePage(handle: Handle<HomePageProps>) {
     return (
       <Document locale={i18n.locale} seo={homeSeo(i18n)}>
         <I18nProvider value={i18n}>
-          <PageShell>
-            <HomeHeader languageHref={paths.home(otherLocale(i18n.locale))} />
-            <main
-              mix={css({
-                position: 'relative',
-                zIndex: 10,
-                paddingTop: '5rem',
-              })}
-            >
+          <PageShell home languageHref={paths.home(otherLocale(i18n.locale))}>
+            <main id="top">
               <HeroSection />
-              <ProductsSection />
               <ServicesSection />
+              <ProductsSection />
               <ProfileSection />
               <CompanySection />
               <ContactSection fallbackState={contactState} sent={sent} />

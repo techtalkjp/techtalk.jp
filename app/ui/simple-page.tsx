@@ -50,7 +50,7 @@ export function PrivacyPage() {
                 flexDirection: 'column',
                 gap: '1.25rem',
                 lineHeight: 1.75,
-                color: 'var(--text-body)',
+                color: 'var(--text-muted)',
               })}
             >
               <p>

@@ -169,9 +169,6 @@ importers:
 
   .:
     dependencies:
-      '@remix-run/ui':
-        specifier: 0.12.1
-        version: 0.12.1
       mimetext:
         specifier: 3.0.28
         version: 3.0.28
@@ -1842,9 +1839,6 @@ packages:
     peerDependenciesMeta:
       playwright:
         optional: true
-
-  '@remix-run/ui@0.12.1':
-    resolution: {integrity: sha512-eB1qhDODNXPFQFb7Zomn8c+DlIlPwz+c6Uk70nqnEUjNxCF8GM0tcG+USG/XjaaBfdvFhvvd2GWzoINnTekxRA==}
 
   '@sindresorhus/is@7.2.0':
     resolution: {integrity: sha512-P1Cz1dWaFfR4IR+U13mqqiGsLFf1KbayybWwdd2vfctdV6hDpUkgCY0nKOLLTMSoRd/jJNjtbqzf13K8DCCXQw==}
@@ -4112,10 +4106,6 @@ snapshots:
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
-
-  '@remix-run/ui@0.12.1':
-    dependencies:
-      '@remix-run/component': 1.0.0
 
   '@sindresorhus/is@7.2.0': {}
 

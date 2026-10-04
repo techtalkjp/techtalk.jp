@@ -5,13 +5,12 @@ import { paths } from '../../paths.ts'
 import { getI18n, I18nProvider } from '../../i18n/provider.tsx'
 import { Document, type Seo } from '../document.tsx'
 import {
-  ArrowLeftIcon,
   ExternalLinkIcon,
   FacebookIcon,
   GithubIcon,
   TwitterIcon,
 } from '../icons.tsx'
-import { LanguageLink, PageShell, ThemeSwitcher } from '../layout.tsx'
+import { PageShell } from '../layout.tsx'
 import { fadeUpOnLoad, md, narrowContainer, sm } from '../styles.ts'
 
 function biographySeo({ locale }: I18n): Seo {
@@ -52,7 +51,7 @@ const careers = [
     period: '1999年 - 2013年',
     title: '株式会社ドワンゴ / 株式会社ニワンゴ',
     description:
-      'エンジニア、プログラマーとしてキャリアをスタート。着メロサービス、動画サービス、ポータルサイトなどのエンジニアリングマネージャーを経験。ニワンゴでは技術担当取締役を担当。',
+      'エンジニア、プログラマーとしてキャリアをスタート。着メロサービスやポータルサイトなどのエンジニアリングマネージャーを経験。ニワンゴでは技術担当取締役を担当。',
   },
 ]
 
@@ -113,7 +112,7 @@ const cardStyle = css({
   transition: 'border-color 150ms, background-color 150ms',
   '&:hover': {
     borderColor: 'var(--border-strong)',
-    background: 'var(--surface-hover)',
+    background: 'var(--surface)',
   },
 })
 
@@ -128,63 +127,16 @@ export function BiographyPage(handle: Handle<{ i18n: I18n }>) {
     return (
       <Document locale={i18n.locale} seo={biographySeo(i18n)}>
         <I18nProvider value={i18n}>
-          <PageShell>
-            <div mix={css({ position: 'relative', zIndex: 10 })}>
-              <BiographyNav
-                languageHref={paths.biography(otherLocale(i18n.locale))}
-              />
+          <PageShell languageHref={paths.biography(otherLocale(i18n.locale))}>
+            <main>
               <BiographyHero />
               <SocialLinks />
               <CareerTimeline />
               <MediaCoverage />
-            </div>
+            </main>
           </PageShell>
         </I18nProvider>
       </Document>
-    )
-  }
-}
-
-function BiographyNav(handle: Handle<{ languageHref: string }>) {
-  return () => {
-    let { t, locale } = getI18n(handle)
-    return (
-      <nav mix={css({ borderBottom: '1px solid var(--border)' })}>
-        <div
-          mix={[
-            narrowContainer,
-            css({
-              maxWidth: '80rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingBlock: '1rem',
-            }),
-          ]}
-        >
-          <a
-            href={paths.home(locale)}
-            mix={css({
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              fontSize: '0.875rem',
-              color: 'var(--text-muted)',
-              transition: 'color 150ms',
-              '&:hover': { color: 'var(--text-strong)' },
-            })}
-          >
-            <ArrowLeftIcon size={16} />
-            {t('トップへ戻る')}
-          </a>
-          <div
-            mix={css({ display: 'flex', alignItems: 'center', gap: '0.5rem' })}
-          >
-            <ThemeSwitcher />
-            <LanguageLink href={handle.props.languageHref} />
-          </div>
-        </div>
-      </nav>
     )
   }
 }
@@ -232,7 +184,7 @@ function BiographyHero(handle: Handle) {
             mix={css({
               marginBottom: '2rem',
               fontSize: '1.25rem',
-              color: 'var(--text-body)',
+              color: 'var(--text-muted)',
               [md]: { fontSize: '1.5rem' },
             })}
           >

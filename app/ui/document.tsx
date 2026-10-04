@@ -2,7 +2,7 @@ import { unsafeHTML, type Handle, type RemixNode } from 'remix/component'
 
 import { SITE_URL } from '../config.ts'
 import type { Locale } from '../i18n/index.ts'
-import { globalStyles, themeScript } from './global-styles.ts'
+import { globalStyles } from './global-styles.ts'
 
 export interface Seo {
   title: string
@@ -32,12 +32,10 @@ export function Document(handle: Handle<DocumentProps>) {
       seo.path === undefined ? undefined : SITE_URL + absolutePath(seo.path)
 
     return (
-      // data-theme はクライアント側で付けるので、ソフトナビゲーションの差分更新で消さない
-      <html lang={locale} data-rmx-preserve-attrs="data-theme">
+      <html lang={locale}>
         <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <script innerHTML={unsafeHTML(themeScript)} />
           <title>{seo.title}</title>
           {seo.description ? (
             <meta name="description" content={seo.description} />
@@ -96,6 +94,16 @@ export function Document(handle: Handle<DocumentProps>) {
           <link rel="icon" type="image/svg+xml" href="/logo.svg" />
           <link rel="icon" type="image/jpeg" href="/logo.jpeg" />
           <link rel="apple-touch-icon" sizes="180x180" href="/logo.jpeg" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=LINE+Seed+JP:wght@400;700;800&display=swap"
+          />
           <style innerHTML={unsafeHTML(globalStyles)} />
           {seo.jsonLd ? (
             <script
