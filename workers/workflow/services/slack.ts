@@ -72,14 +72,6 @@ export const sendSlack = async (
                 },
               ]
             : []),
-          ...(data.phone
-            ? [
-                {
-                  type: 'mrkdwn',
-                  text: `*電話:*\n${escapeMrkdwn(data.phone)}`,
-                },
-              ]
-            : []),
         ],
       },
       {

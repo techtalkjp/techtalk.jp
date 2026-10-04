@@ -62,6 +62,8 @@ export function ServicesSection(handle: Handle) {
         </p>
 
         <ul
+          // リストの見た目を消すと Safari の読み上げがリストとして扱わなくなるので、明示する
+          role="list"
           mix={css({ marginTop: '48px', borderTop: '1px solid var(--border)' })}
         >
           {services.map((service) => (

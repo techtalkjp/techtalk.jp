@@ -359,12 +359,8 @@ describe('contact form', () => {
 
   it('empty optional fields are sent as undefined', async () => {
     let { fetch, created } = setup()
-    await fetch(
-      '/contact-form',
-      post({ ...validForm, company: '', phone: '' }, frame),
-    )
+    await fetch('/contact-form', post({ ...validForm, company: '' }, frame))
     assert.equal(created[0]!.company, undefined)
-    assert.equal(created[0]!.phone, undefined)
   })
 
   it('enqueue failure without JS returns 503', async () => {

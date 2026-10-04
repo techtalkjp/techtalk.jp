@@ -105,6 +105,14 @@ const inputStyle = css({
   '&[aria-invalid="true"]': {
     boxShadow: 'inset 0 0 0 1.5px var(--danger)',
   },
+  '&[aria-invalid="true"]:focus-visible': {
+    boxShadow: 'inset 0 0 0 1.5px var(--danger), 0 0 0 4px var(--accent-soft)',
+  },
+  // 強制カラーモードでは box-shadow が消えるので、枠とフォーカスを実線で描く
+  '@media (forced-colors: active)': {
+    border: '1px solid CanvasText',
+    '&:focus-visible': { outline: '2px solid Highlight' },
+  },
 })
 
 const errorStyle = css({ fontSize: 'var(--t-14)', color: 'var(--danger)' })
@@ -327,7 +335,6 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
         <SubmitButton
           label={t('相談する')}
           pendingLabel={t('送信中…')}
-          note={t('送信すると確認メールが届きます')}
           errorLabel={t('送信できませんでした。時間をおいて再度お試しください')}
           frame={CONTACT_FRAME}
         />

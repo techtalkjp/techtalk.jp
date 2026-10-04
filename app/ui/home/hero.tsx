@@ -61,7 +61,7 @@ export function HeroSection(handle: Handle) {
             mix={css({
               marginTop: '32px',
               maxWidth: '32em',
-              fontSize: '1.125rem',
+              fontSize: 'var(--t-18)',
               color: 'var(--text-muted)',
               '@media (min-width: 760px)': {
                 fontSize: 'var(--t-20)',
@@ -113,6 +113,8 @@ function CareerRail(handle: Handle) {
           {t('代表 溝口浩二の経歴')}
         </p>
         <ol
+          // リストの見た目を消すと Safari の読み上げがリストとして扱わなくなるので、明示する
+          role="list"
           mix={css({
             position: 'relative',
             display: 'grid',

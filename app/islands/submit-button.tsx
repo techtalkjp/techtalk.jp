@@ -6,8 +6,6 @@ import { FRAME_SUBMIT_ERROR } from './events.ts'
 export interface SubmitButtonProps {
   label: string
   pendingLabel: string
-  /** ボタンの横に添える補足 */
-  note?: string
   /** 通信エラーなどで送信できなかったときの文言 */
   errorLabel: string
   /** 所属する Frame の名前 */
@@ -72,46 +70,24 @@ export const SubmitButton = clientEntry(
     }
 
     return () => (
-      <div mix={css({ display: 'grid', gap: '12px' })}>
-        <div
-          mix={css({
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '16px',
-          })}
+      <div mix={css({ display: 'grid', justifyItems: 'start', gap: '12px' })}>
+        <button
+          type="submit"
+          mix={[
+            primaryButton,
+            ref((node, signal) => {
+              ;(node as HTMLButtonElement).form?.addEventListener(
+                'submit',
+                onSubmit,
+                { signal },
+              )
+            }),
+          ]}
+          disabled={pending}
+          aria-busy={pending}
         >
-          <button
-            type="submit"
-            mix={[
-              primaryButton,
-              ref((node, signal) => {
-                ;(node as HTMLButtonElement).form?.addEventListener(
-                  'submit',
-                  onSubmit,
-                  {
-                    signal,
-                  },
-                )
-              }),
-            ]}
-            disabled={pending}
-            aria-busy={pending}
-          >
-            {pending ? handle.props.pendingLabel : handle.props.label}
-          </button>
-          {handle.props.note ? (
-            <small
-              mix={css({
-                fontSize: 'var(--t-12)',
-                color: 'var(--text-subtle)',
-              })}
-            >
-              {handle.props.note}
-            </small>
-          ) : null}
-        </div>
+          {pending ? handle.props.pendingLabel : handle.props.label}
+        </button>
         {failed ? (
           <p
             role="alert"

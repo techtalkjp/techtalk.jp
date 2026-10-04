@@ -3,7 +3,7 @@
  * 個々の見た目は各コンポーネントの css() mixin（`rmx` レイヤー）で書く。
  *
  * 色は暖かみのある無彩色の階調にアクセント 1 色（Artifact Share の青）だけ。
- * 文字は 12 / 14 / 16 / 20 / 28 と見出しの display の 6 段、余白は 8px 刻み、
+ * 文字は 12 / 14 / 16 / 18 / 20 / 28 と見出しの display（18 はモバイルのリード文だけ）、余白は 8px 刻み、
  * 角丸は 6px（ボタン・入力）と 12px（画像）の 2 値。
  * テーマは OS の設定（prefers-color-scheme）に従う。
  */
@@ -52,6 +52,7 @@ export const globalStyles = `
     --t-12: 0.75rem;
     --t-14: 0.875rem;
     --t-16: 1rem;
+    --t-18: 1.125rem;
     --t-20: 1.25rem;
     --t-28: 1.75rem;
     --t-display: clamp(1.875rem, 1rem + 4.6vw, 4.25rem);
@@ -63,7 +64,7 @@ export const globalStyles = `
     :root { ${darkTokens} }
   }
   /* モバイルではヘッダーの 2 段目にナビを出す */
-  @media (max-width: 860px) {
+  @media (width <= 860px) {
     :root { --header-height: 108px; }
   }
 
@@ -99,7 +100,7 @@ export const globalStyles = `
   img { height: auto; }
   a { color: inherit; text-decoration: inherit; }
   button, input, textarea { font: inherit; color: inherit; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
   @keyframes fade-up {
     from { opacity: 0; transform: translateY(1.25rem); }
