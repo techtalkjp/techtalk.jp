@@ -18,8 +18,8 @@ function biographySeo({ locale }: I18n): Seo {
       ? '溝口 浩二 - Biography | TechTalk, Inc.'
       : 'Coji Mizoguchi - Biography | TechTalk, Inc.',
     description: ja
-      ? '株式会社TechTalk 代表取締役 溝口浩二の経歴。ドワンゴ、フリークアウト、IRISを経て、技術と事業の両面から新しい事業を立ち上げてきました。'
-      : 'Biography of Coji Mizoguchi, CEO of TechTalk, Inc. After Dwango, FreakOut, and IRIS, he has launched new businesses from both the technical and the business side.',
+      ? '株式会社TechTalk 代表取締役 溝口浩二の経歴。ドワンゴ、フリークアウト、IRISで技術と経営の間を行き来し、いまは作る前の段階から経営者と話して新しい事業を形にしています。'
+      : 'Biography of Coji Mizoguchi, CEO of TechTalk, Inc. After moving between technology and management at Dwango, FreakOut, and IRIS, he now works with business owners before anything is built to shape new businesses.',
     path: paths.biography(locale),
     ogType: 'profile',
     alternates: { ja: paths.biography('ja'), en: paths.biography('en') },
@@ -31,7 +31,7 @@ const careers = [
     period: '2019年 - 現在',
     title: '株式会社TechTalk 代表取締役',
     description:
-      '作る前の段階から経営者と直接話し、事業になるかを一緒に見極めて、最初の版まで自分で作る。化学物質の検索システム、AIを使った試作、データの集計基盤などを手がける。自社プロダクトArtifact Shareも開発・運営。',
+      '経営者と直接話し、事業になるかを一緒に見極めて、最初の版まで自分で作る。化学物質の検索システム、AIを使った試作、データの集計基盤などを手がける。自社プロダクトArtifact Shareも開発・運営。',
   },
   {
     period: '2016年 - 2019年',
@@ -86,7 +86,7 @@ function BiographyIntro(handle: Handle) {
         }
         title={t('溝口 浩二')}
         lede={t(
-          '株式会社TechTalk 代表取締役。エンジニアから経営企画、合弁会社の副社長まで、技術と経営の間を行き来してきました。作ったものが事業にならない経験を重ねて、いまは作る前の段階から経営者と話しています。',
+          '株式会社TechTalk 代表取締役。プログラマーから経営企画、合弁会社の副社長まで、技術と経営の間を行き来してきました。作ったものが事業にならない経験を重ねて、いまは作る前の段階から経営者と話しています。',
         )}
       >
         <div mix={css({ marginTop: '24px' })}>

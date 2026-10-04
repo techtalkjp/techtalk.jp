@@ -2,6 +2,7 @@ import * as assert from 'remix/assert'
 import { describe, it } from 'remix/test'
 
 import type { ContactInquiry } from '../app/contact/types.ts'
+import { missingTranslations } from '../app/i18n/index.ts'
 import { createAppRouter } from '../app/router.ts'
 
 function setup(options: { failEnqueue?: boolean } = {}) {
@@ -92,21 +93,21 @@ describe('pages', () => {
     assert.match(ja, /<title>技術の話から、新しい事業をつくる。/)
   })
 
-  for (let path of ['/en', '/en/biography']) {
-    it(`GET ${path} shows no untranslated Japanese`, async () => {
-      // 英訳がないと t() は日本語をそのまま返すので、文言の変更で en.json を直し忘れると気づけない
-      let { fetch } = setup()
-      let html = await (await fetch(path)).text()
-      let text = html
-        .replace(/<(script|style|head)\b[^>]*>[\s\S]*?<\/\1>/g, '')
-        .replace(/<[^>]*\blang="ja"[^>]*>[^<]*/g, '')
-        .replace(/<[^>]+>/g, '\n')
-      let japanese = text
-        .split('\n')
-        .filter((line) => /[\u3040-\u30ff\u4e00-\u9fff]/.test(line))
-      assert.deepEqual(japanese, [])
-    })
-  }
+  it('every English page and form state has its translations', async () => {
+    // 英訳がないと t() は日本語をそのまま返すので、文言の変更で en.json を直し忘れると気づけない
+    missingTranslations.clear()
+    let { fetch } = setup()
+    for (let path of ['/en', '/en/biography', '/en/nope', '/en?sent=1']) {
+      await (await fetch(path)).text()
+    }
+    await (await fetch('/en/contact-form?sent=1')).text()
+    await (await fetch('/en/contact-form', post({ name: '' }, frame))).text()
+    let failing = setup({ failEnqueue: true })
+    await (
+      await failing.fetch('/en/contact-form', post(validForm, frame))
+    ).text()
+    assert.deepEqual([...missingTranslations], [])
+  })
 
   it('top page embeds the contact form frame for its locale', async () => {
     let { fetch } = setup()

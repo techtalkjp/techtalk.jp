@@ -23,9 +23,19 @@ export type Translate = (
   vars?: Record<string, string | number>,
 ) => string
 
+/**
+ * 訳が見つからなかった文言。訳がないと日本語がそのまま出るので、テストで空であることを確かめる
+ */
+export const missingTranslations = new Set<string>()
+
 export function createTranslate(locale: Locale): Translate {
   return (ja, vars) => {
-    let text = locale === 'ja' ? ja : (catalogs[locale][ja] ?? ja)
+    let text = ja
+    if (locale !== 'ja') {
+      let translated = catalogs[locale][ja]
+      if (translated === undefined) missingTranslations.add(ja)
+      else text = translated
+    }
     if (vars) {
       for (let [key, value] of Object.entries(vars)) {
         text = text.replaceAll(`{${key}}`, () => String(value))
