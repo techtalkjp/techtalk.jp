@@ -5,7 +5,7 @@ import { getI18n } from '../i18n/provider.tsx'
 import { SectionNav } from '../islands/section-nav.tsx'
 import { paths } from '../paths.ts'
 import { ArrowUpRightIcon } from './icons.tsx'
-import { container, navWide, primaryButton } from './styles.ts'
+import { container, externalLink, navWide, primaryButton } from './styles.ts'
 
 /**
  * 社名のワードマーク。字を詰め、経歴レールの「いま」と同じ青い点を句点として打つ
@@ -46,7 +46,7 @@ function sectionLinks(
 ): { href: string; label: string }[] {
   return [
     { href: `${base}#services`, label: t('技術支援') },
-    { href: `${base}#product`, label: t('プロダクト') },
+    { href: `${base}#products`, label: t('プロダクト') },
     { href: `${base}#profile`, label: t('代表') },
     { href: `${base}#company`, label: t('会社概要') },
   ]
@@ -111,7 +111,7 @@ export function SiteHeader(handle: Handle<SiteHeaderProps>) {
               [navWide]: {
                 flexWrap: 'nowrap',
                 columnGap: '32px',
-                height: 'var(--header-height)',
+                height: '64px',
                 paddingTop: 0,
               },
             }),
@@ -120,7 +120,11 @@ export function SiteHeader(handle: Handle<SiteHeaderProps>) {
           <span mix={css({ marginRight: 'auto' })}>
             <Wordmark href={home ? '#top' : paths.home(locale)} />
           </span>
-          <SectionNav label={t('ページ内')} links={sectionLinks(t, base)} />
+          <SectionNav
+            label={t('ページ内')}
+            links={sectionLinks(t, base)}
+            extraSections={['#contact']}
+          />
           <div
             mix={css({ display: 'flex', alignItems: 'center', gap: '20px' })}
           >
@@ -183,14 +187,7 @@ export function Footer(handle: Handle) {
               href="https://records.techtalk.jp"
               target="_blank"
               rel="noopener"
-              mix={[
-                linkHover,
-                css({
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '3px',
-                }),
-              ]}
+              mix={[linkHover, externalLink, css({ paddingBlock: 0 })]}
             >
               TechTalk Records
               <ArrowUpRightIcon size={12} />

@@ -26,13 +26,6 @@ export function ContactNotificationEmail(
           </>
         ) : null}
 
-        {data.phone ? (
-          <>
-            <p style={styles.label}>電話番号</p>
-            <p style={styles.value}>{data.phone}</p>
-          </>
-        ) : null}
-
         <hr style={styles.hr} />
 
         <p style={styles.label}>メッセージ</p>

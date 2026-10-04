@@ -2,7 +2,7 @@ import { css, type Handle } from 'remix/component'
 
 import { getI18n } from '../../i18n/provider.tsx'
 import { ArrowUpRightIcon } from '../icons.tsx'
-import { phrase, sm, textLink } from '../styles.ts'
+import { externalLink, phrase, sm, textLink } from '../styles.ts'
 import { Section, sectionHeading, sectionLede } from './section.tsx'
 
 const features = [
@@ -38,7 +38,7 @@ export function ProductsSection(handle: Handle) {
     let { t, locale } = getI18n(handle)
     let shot = screenshots[locale]
     return (
-      <Section id="product" name={t('プロダクト')}>
+      <Section id="products" name={t('プロダクト')}>
         <h2 mix={sectionHeading}>
           <span mix={phrase}>{t('自社サービスArtifact Shareを、')}</span>
           <span mix={phrase}>{t('企画から運営まで手がけています。')}</span>
@@ -55,7 +55,7 @@ export function ProductsSection(handle: Handle) {
             borderRadius: 'var(--r-image)',
             overflow: 'hidden',
             boxShadow: 'var(--shadow-image)',
-            background: '#fcfaf8',
+            background: 'var(--surface)',
           })}
         >
           <img
@@ -65,7 +65,7 @@ export function ProductsSection(handle: Handle) {
             loading="lazy"
             decoding="async"
             alt={t(
-              'Artifact Shareで共有した月次売上レポートの画面。版番号、閲覧数、コメント数が表示されている',
+              'Artifact Shareで共有した月次売上レポートの画面。版番号と閲覧数が表示されている',
             )}
             mix={css({
               width: '100%',
@@ -85,12 +85,14 @@ export function ProductsSection(handle: Handle) {
             })}
           >
             {t(
-              'サンプルのレポートを共有した画面。同じURLのまま更新した版番号と、届いたコメントの数が並ぶ',
+              'サンプルのレポートを共有した画面。同じURLのまま、版を重ねて更新している',
             )}
           </figcaption>
         </figure>
 
         <ul
+          // リストの見た目を消すと Safari の読み上げがリストとして扱わなくなるので、明示する
+          role="list"
           mix={css({
             display: 'grid',
             gridTemplateColumns: 'minmax(0, 1fr)',
@@ -141,11 +143,3 @@ export function ProductsSection(handle: Handle) {
     )
   }
 }
-
-/** 外部リンク。文字の後ろに小さな矢印を添え、押しやすいよう上下に余白をとる */
-export const externalLink = css({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '3px',
-  paddingBlock: '10px',
-})

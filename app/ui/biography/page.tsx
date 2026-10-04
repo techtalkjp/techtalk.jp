@@ -109,11 +109,8 @@ const cardStyle = css({
   borderRadius: '1rem',
   border: '1px solid var(--border)',
   background: 'var(--surface)',
-  transition: 'border-color 150ms, background-color 150ms',
-  '&:hover': {
-    borderColor: 'var(--border-strong)',
-    background: 'var(--surface)',
-  },
+  transition: 'border-color 150ms',
+  '&:hover': { borderColor: 'var(--border-strong)' },
 })
 
 const sectionStyle = css({

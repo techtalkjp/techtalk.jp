@@ -4,8 +4,8 @@ export const sm = '@media (min-width: 640px)'
 export const md = '@media (min-width: 768px)'
 /** セクションを左右 2 カラムにする幅 */
 export const wide = '@media (min-width: 900px)'
-/** ヘッダーのナビを 1 段に収める幅 */
-export const navWide = '@media (min-width: 861px)'
+/** ヘッダーのナビを 1 段に収める幅。global-styles.ts の --header-height と同じ境目 */
+export const navWide = '@media (width > 860px)'
 
 /** 横幅 1120px（左右 24px の余白込み）のコンテナ */
 export const container = css({
@@ -50,6 +50,8 @@ const buttonBase = {
   cursor: 'pointer',
   transition: 'background-color 150ms ease-out, transform 150ms ease-out',
   '&:active': { transform: 'scale(0.97)' },
+  // 強制カラーモードでは背景と box-shadow が消えるので、枠を実線で描く
+  '@media (forced-colors: active)': { border: '1px solid ButtonText' },
 } as const
 
 /** 塗りのボタン。1 画面に 1 つだけ置く */
@@ -82,6 +84,14 @@ export const textLink = css({
   textDecorationColor: 'color-mix(in srgb, var(--accent) 40%, transparent)',
   transition: 'text-decoration-color 150ms ease-out',
   '&:hover': { textDecorationColor: 'var(--accent)' },
+})
+
+/** 外部リンク。文字の後ろに小さな矢印を添え、押しやすいよう上下に余白をとる */
+export const externalLink = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '3px',
+  paddingBlock: '10px',
 })
 
 /** 小さな補足ラベル（「代表 溝口浩二の経歴」「掲載記事」など） */

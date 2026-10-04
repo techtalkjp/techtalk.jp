@@ -25,8 +25,6 @@ export function PrivacyPage() {
             mix={[
               narrowContainer,
               css({
-                position: 'relative',
-                zIndex: 10,
                 maxWidth: '48rem',
                 paddingBlock: '6rem',
               }),
@@ -114,8 +112,6 @@ function NotFoundContent(handle: Handle) {
         mix={[
           narrowContainer,
           css({
-            position: 'relative',
-            zIndex: 10,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',

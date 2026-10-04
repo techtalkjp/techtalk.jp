@@ -36,7 +36,7 @@ Remix 3（`remix@3.0.0`）を Cloudflare Workers で動かしている。React �
 - バインディングは `cloudflare:workers` から import せず、`context.bindings`（`app/middleware/bindings.ts`）経由で使う。テストでは偽物を渡す
 - 問い合わせフォームはトップの `<Frame name="contact">`。JS ありの送信は `data-rmx-src` で `/contact-form` に送り、フォーム部分だけ差し替える。JS なしの送信はトップの URL が受ける。どちらも動くこと
 - テーマは OS の設定（`prefers-color-scheme`）に従うだけで、切り替え UI は置かない
-- デザインのトークン（色、文字サイズ 12/14/16/20/28/display、角丸 6px/12px）は `app/ui/global-styles.ts` にある。色はアクセント 1 色（青）と無彩色だけ。新しい値を足す前にトークンで済まないか考える
+- デザインのトークン（色、文字サイズ 12/14/16/18/20/28/display、角丸 6px/12px）は `app/ui/global-styles.ts` にある。色はアクセント 1 色（青）と無彩色だけ。新しい値を足す前にトークンで済まないか考える
 - 固定・大きなレイヤーに blur、backdrop-filter、mask を使わない（iOS Safari でスクロール中の描画が遅れる）
 - アイランドの props はシリアライズ可能な値だけ。翻訳済みの文字列を渡す
 - workerd では `handle.signal` を `addEventListener` の `signal` に渡せないので、イベント購読はブラウザでだけ行う

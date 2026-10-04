@@ -3,7 +3,6 @@ import type { RuleScore } from './score-sales.ts'
 export type ContactFormData = {
   name: string
   company?: string
-  phone?: string
   email: string
   message: string
   privacyPolicy: boolean

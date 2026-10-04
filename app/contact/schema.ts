@@ -8,7 +8,6 @@ import type { Translate } from '../i18n/index.ts'
 export const contactLimits = {
   name: 100,
   company: 100,
-  phone: 20,
   email: 100,
   message: 10000,
 } as const
@@ -60,7 +59,6 @@ const optional = (max: number) =>
 export const contactSchema = f.object({
   name: requiredLine(contactLimits.name),
   company: optional(contactLimits.company),
-  phone: optional(contactLimits.phone),
   email: f.field(
     singleLine().pipe(minLength(1), maxLength(contactLimits.email), email()),
   ),
@@ -71,7 +69,6 @@ export const contactSchema = f.object({
 export const contactFieldNames = [
   'name',
   'company',
-  'phone',
   'email',
   'message',
   'privacyPolicy',
@@ -81,7 +78,6 @@ export type ContactFieldName = (typeof contactFieldNames)[number]
 const requiredMessages: Record<ContactFieldName, string> = {
   name: 'お名前を入力してください',
   company: '',
-  phone: '',
   email: 'メールアドレスを入力してください',
   message: 'メッセージを入力してください',
   privacyPolicy: 'プライバシーポリシーへの同意が必要です',
