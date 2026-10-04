@@ -203,7 +203,6 @@ export function Footer(handle: Handle) {
               {t('プライバシーポリシー')}
             </a>
           </nav>
-          <span>© 2019–{new Date().getFullYear()} TechTalk, Inc.</span>
         </div>
       </footer>
     )
