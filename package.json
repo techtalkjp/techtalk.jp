@@ -19,9 +19,12 @@
     }
   },
   "scripts": {
-    "dev": "wrangler dev",
+    "dev": "portless run --name techtalk sh -c 'exec wrangler dev --port \"${PORT:-8787}\"'",
     "build": "pnpm build:client",
-    "build:client": "rm -rf public/js && esbuild client/entry.ts --bundle --format=esm --outdir=public/js --jsx=automatic --jsx-import-source=remix/component --minify --target=es2022",
+    "build:client": "pnpm fonts:ensure && rm -rf public/js && esbuild client/entry.ts --bundle --format=esm --outdir=public/js --jsx=automatic --jsx-import-source=remix/component --minify --target=es2022",
+    "fonts:build": "uv run scripts/build-fonts.py",
+    "fonts:check": "node scripts/check-fonts.mjs",
+    "fonts:ensure": "node scripts/check-fonts.mjs --ensure",
     "deploy": "wrangler deploy",
     "typegen": "wrangler types --env-file .env.example",
     "typecheck": "tsc",
@@ -29,7 +32,7 @@
     "format": "oxfmt -c .oxfmtrc.json --check",
     "format:fix": "oxfmt -c .oxfmtrc.json",
     "test": "remix test",
-    "validate": "run-p format lint typecheck test",
+    "validate": "pnpm fonts:ensure && run-p format lint typecheck test fonts:check",
     "migrations:list": "wrangler d1 migrations list techtalkjp --local",
     "migrations:apply": "wrangler d1 migrations apply techtalkjp --local",
     "migrations:apply:production": "wrangler d1 migrations apply techtalkjp --remote",
@@ -48,6 +51,7 @@
     "npm-run-all": "4.1.5",
     "oxfmt": "0.70.0",
     "oxlint": "1.85.0",
+    "portless": "0.15.6",
     "typescript": "7.0.2",
     "wrangler": "4.141.0"
   }

@@ -200,6 +200,9 @@ importers:
       oxlint:
         specifier: 1.85.0
         version: 1.85.0
+      portless:
+        specifier: 0.15.6
+        version: 0.15.6
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -2756,6 +2759,12 @@ packages:
     resolution: {integrity: sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==}
     engines: {node: '>=4'}
 
+  portless@0.15.6:
+    resolution: {integrity: sha512-uOAwWLF32rmyEGFASzSO0VOaqb/AQxFCCzyZbPGd82UNNOfIEvc09zy92nroNibE5HNfzV4oVB0ObKbPXgkM9A==}
+    engines: {node: '>=24'}
+    os: [darwin, linux, win32]
+    hasBin: true
+
   possible-typed-array-names@1.1.0:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
     engines: {node: '>= 0.4'}
@@ -5075,6 +5084,8 @@ snapshots:
   pidtree@0.3.1: {}
 
   pify@3.0.0: {}
+
+  portless@0.15.6: {}
 
   possible-typed-array-names@1.1.0: {}
 
