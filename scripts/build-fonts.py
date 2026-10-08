@@ -37,7 +37,11 @@ for weight, name in [(400, "Regular"), (700, "Bold"), (800, "ExtraBold")]:
     wanted = set(map(ord, "TechTalk")) if weight == 800 else characters
     supported = wanted & set(font.getBestCmap())
     options = subset.Options()
-    options.layout_features = ["*"]
+    # Keep normal horizontal shaping. Optional historical, vertical, full-width,
+    # and fraction alternates are not enabled by this site's CSS.
+    options.layout_features = [
+        "ccmp", "locl", "rlig", "liga", "clig", "calt", "kern", "mark", "mkmk",
+    ]
     options.name_IDs += [13, 14]
     subsetter = subset.Subsetter(options=options)
     subsetter.populate(unicodes=sorted(supported))

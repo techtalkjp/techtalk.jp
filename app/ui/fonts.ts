@@ -5,20 +5,20 @@ export const fontStyles = `
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/line-seed-jp-400-cc16ebff57e7.woff2') format('woff2');
+  src: url('/fonts/line-seed-jp-400-189673bb3a72.woff2') format('woff2');
 }
 @font-face {
   font-family: 'LINE Seed JP';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('/fonts/line-seed-jp-700-1592284d45a9.woff2') format('woff2');
+  src: url('/fonts/line-seed-jp-700-23e56be198d9.woff2') format('woff2');
 }
 @font-face {
   font-family: 'LINE Seed JP';
   font-style: normal;
   font-weight: 800;
   font-display: swap;
-  src: url('/fonts/line-seed-jp-800-578b4cdc4b34.woff2') format('woff2');
+  src: url('/fonts/line-seed-jp-800-15ce895e04a3.woff2') format('woff2');
 }
 `
