@@ -2,6 +2,7 @@ import { unsafeHTML, type Handle, type RemixNode } from 'remix/component'
 
 import { SITE_URL } from '../config.ts'
 import type { Locale } from '../i18n/index.ts'
+import { fontStyles } from './fonts.ts'
 import { globalStyles } from './global-styles.ts'
 
 export interface Seo {
@@ -96,17 +97,7 @@ export function Document(handle: Handle<DocumentProps>) {
           <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
           <link rel="manifest" href="/site.webmanifest" />
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=LINE+Seed+JP:wght@400;700;800&display=swap"
-          />
-          <style innerHTML={unsafeHTML(globalStyles)} />
+          <style innerHTML={unsafeHTML(fontStyles + globalStyles)} />
           {seo.jsonLd ? (
             <script
               type="application/ld+json"
