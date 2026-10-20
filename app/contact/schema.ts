@@ -15,11 +15,13 @@ export const contactLimits = {
 /**
  * メールアドレスの形式。remix/data-schema の email() は `a@b.c` や `x>y@example.com` も通すので、
  * ローカル部は RFC 5322 の atext をドットでつないだもの（先頭・末尾・連続のドットは不可）、ドメインは英数字とハイフンのラベル、
- * 最後のラベルは 2 文字以上の英字に限る（メール送信で壊れる文字を入れさせない）
+ * 最後のラベルは 2 文字以上の英字か punycode（xn--...）に限る（メール送信で壊れる文字を入れさせない）
  */
 const ATEXT = "[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+"
+// punycode の TLD は xn-- で始まり、英数字とハイフンだけでできている
+const TLD = '(?:[A-Za-z]{2,}|xn--[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)'
 const EMAIL_PATTERN = new RegExp(
-  `^${ATEXT}(?:\\.${ATEXT})*@[A-Za-z0-9-]+(?:\\.[A-Za-z0-9-]+)*\\.[A-Za-z]{2,}$`,
+  `^${ATEXT}(?:\\.${ATEXT})*@[A-Za-z0-9-]+(?:\\.[A-Za-z0-9-]+)*\\.${TLD}$`,
 )
 const email = (): s.Check<string> => ({
   check: (value) => EMAIL_PATTERN.test(value),

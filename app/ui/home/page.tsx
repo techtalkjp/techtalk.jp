@@ -1,6 +1,6 @@
 import type { Handle } from 'remix/component'
 
-import { SITE_URL } from '../../config.ts'
+import { PROFILE_URLS, SITE_URL } from '../../config.ts'
 import { otherLocale, type I18n } from '../../i18n/index.ts'
 import { paths } from '../../paths.ts'
 import { I18nProvider } from '../../i18n/provider.tsx'
@@ -22,12 +22,7 @@ export interface HomePageProps {
   sent?: boolean
 }
 
-const SOCIAL = [
-  'https://github.com/coji',
-  'https://x.com/techtalkjp',
-  'https://zenn.dev/coji',
-  'https://www.facebook.com/mizoguchi.coji',
-]
+const SOCIAL = Object.values(PROFILE_URLS)
 
 function homeSeo({ locale }: I18n): Seo {
   let ja = locale === 'ja'
@@ -67,7 +62,7 @@ function homeSeo({ locale }: I18n): Seo {
         name: 'Coji Mizoguchi',
         alternateName: '溝口浩二',
         jobTitle: ja ? '代表取締役' : 'CEO',
-        url: 'https://github.com/coji',
+        url: PROFILE_URLS.github,
         sameAs: SOCIAL,
       },
       sameAs: SOCIAL,

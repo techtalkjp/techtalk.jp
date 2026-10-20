@@ -72,6 +72,13 @@ describe('pages', () => {
     })
   }
 
+  it('renders 404 pages in the locale from the path', async () => {
+    let { fetch } = setup()
+    let html = await (await fetch('/en/nope')).text()
+    assert.match(html, /<html lang="en"/)
+    assert.match(html, /Page not found/)
+  })
+
   it('top page carries SEO tags and JSON-LD', async () => {
     let { fetch } = setup()
     let html = await (await fetch('/en')).text()
@@ -235,6 +242,17 @@ describe('contact form', () => {
     })
   }
 
+  it('accepts a punycode TLD', async () => {
+    let { fetch, created } = setup()
+    let email = 'taro@example.xn--wgv71a'
+    let response = await fetch(
+      '/contact-form',
+      post({ ...validForm, email }, frame),
+    )
+    assert.equal(response.status, 200)
+    assert.equal(created[0]!.email, email)
+  })
+
   it('oversized form posts are rejected with 413', async () => {
     let { fetch, created } = setup()
     let fields = Object.fromEntries(
@@ -355,14 +373,11 @@ describe('contact form', () => {
     assert.match(await response.text(), /<html lang="ja"/)
   })
 
-  it('enqueue failure shows an error and keeps the input', async () => {
+  it('enqueue failure returns 503 so the client shows the error', async () => {
     let { fetch } = setup({ failEnqueue: true })
-    // ブラウザの Frame は 5xx を捨てるので、Frame には 200 で返す
+    // 5xx はクライアントの resolveFrame が失敗として扱い、送信ボタンにエラーを出す
     let response = await fetch('/contact-form', post(validForm, frame))
-    assert.equal(response.status, 200)
-    let html = await response.text()
-    assert.match(html, /送信できませんでした/)
-    assert.match(html, /taro@example\.com/)
+    assert.equal(response.status, 503)
   })
 
   it('submit without JS redirects to the localized thank-you state', async () => {
