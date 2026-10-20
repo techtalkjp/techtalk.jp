@@ -1,0 +1,224 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-20T12:16:05+00:00",
+  "title": "Design System: TechTalk",
+  "extensions": {
+    "colorMeta": {
+      "ink-blue": {
+        "role": "primary",
+        "displayName": "ペンの青",
+        "canonical": "#1d62ab",
+        "tonalRamp": [
+          "#0d2c4d",
+          "#143f6e",
+          "#1d62ab",
+          "#3d7fc4",
+          "#7fb0e6",
+          "#a9c9ee",
+          "#cfe0f5",
+          "#e6eef7"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "紙",
+        "canonical": "#f8f6f2",
+        "tonalRamp": [
+          "#161513",
+          "#1e1d1a",
+          "#2f2d29",
+          "#44413b",
+          "#6c6962",
+          "#cfcac0",
+          "#e4e0d8",
+          "#f8f6f2"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "インク",
+        "canonical": "#1c1b18"
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "罫線",
+        "canonical": "#e4e0d8"
+      },
+      "field-edge": {
+        "role": "neutral",
+        "displayName": "入力欄の縁",
+        "canonical": "#8a857c"
+      },
+      "alert-red": {
+        "role": "error",
+        "displayName": "警告の赤",
+        "canonical": "#b42318"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "ページの冒頭の 1 行だけ。"
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "各セクションの見出し。"
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "セクション名、ボタン、フォームのラベル。"
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-image",
+        "value": "0 0 0 1px rgb(28 27 24 / 0.07), 0 24px 48px -24px rgb(28 27 24 / 0.22), 0 8px 16px -8px rgb(28 27 24 / 0.08)",
+        "purpose": "画面写真の台紙だけ。"
+      },
+      {
+        "name": "button-sheen",
+        "value": "inset 0 1px 0 rgb(255 255 255 / 0.12)",
+        "purpose": "塗りのボタンの上端の照り返し。"
+      }
+    ],
+    "motion": [
+      {
+        "name": "state",
+        "value": "150ms ease-out",
+        "purpose": "色と押下の変化。"
+      },
+      {
+        "name": "press",
+        "value": "scale(0.97)",
+        "purpose": "ボタンの押下。"
+      },
+      {
+        "name": "fade-up",
+        "value": "0.6s ease-out",
+        "purpose": "送信完了の知らせ。reduced-motion では動かさない。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "medium",
+        "value": "760px"
+      },
+      {
+        "name": "navWide",
+        "value": "860px"
+      },
+      {
+        "name": "wide",
+        "value": "900px"
+      },
+      {
+        "name": "contact",
+        "value": "960px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "1 画面に 1 つだけの塗りのボタン。",
+      "html": "<button class=\"ds-btn-primary\">相談する</button>",
+      "css": ".ds-btn-primary{position:relative;display:inline-flex;align-items:center;height:40px;padding:0 18px;border:0;border-radius:var(--r-control,6px);background:var(--button-bg,#1c1b18);color:var(--button-text,#f8f6f2);font:700 14px/1 'LINE Seed JP',system-ui,sans-serif;letter-spacing:.02em;box-shadow:inset 0 1px 0 rgb(255 255 255 / .12);cursor:pointer;transition:background-color 150ms ease-out,transform 150ms ease-out}.ds-btn-primary:hover{background:color-mix(in srgb,var(--button-bg,#1c1b18) 86%,var(--bg,#f8f6f2))}.ds-btn-primary:active{transform:scale(.97)}.ds-btn-primary:focus-visible{outline:2px solid var(--accent,#1d62ab);outline-offset:3px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "枠線だけのボタン。",
+      "html": "<button class=\"ds-btn-secondary\">進め方を見る</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;height:40px;padding:0 18px;border:0;border-radius:var(--r-control,6px);background:transparent;color:var(--text-strong,#1c1b18);font:700 14px/1 'LINE Seed JP',system-ui,sans-serif;letter-spacing:.02em;box-shadow:inset 0 0 0 1px var(--border-strong,#cfcac0);cursor:pointer;transition:background-color 150ms ease-out,transform 150ms ease-out}.ds-btn-secondary:hover{background:var(--surface,#fff)}.ds-btn-secondary:active{transform:scale(.97)}.ds-btn-secondary:focus-visible{outline:2px solid var(--accent,#1d62ab);outline-offset:3px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "一枚紙の面に、3:1 以上の縁。",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">お名前</span><input class=\"ds-input\" /></label>",
+      "css": ".ds-field{display:grid;gap:8px;font-family:'LINE Seed JP',system-ui,sans-serif}.ds-field-label{font-size:14px;font-weight:700;line-height:1.5;color:var(--text-strong,#1c1b18)}.ds-input{width:100%;padding:10px 12px;border:0;border-radius:var(--r-control,6px);background:var(--surface,#fff);color:var(--text-strong,#1c1b18);font:16px/1.7 inherit;box-shadow:inset 0 0 0 1px var(--border-input,#8a857c);transition:box-shadow 150ms ease-out}.ds-input:focus-visible{outline:none;box-shadow:inset 0 0 0 1.5px var(--accent,#1d62ab),0 0 0 4px var(--accent-soft,#e6eef7)}"
+    },
+    {
+      "name": "Ruled List",
+      "kind": "custom",
+      "description": "罫線で区切った行に、左に見出し、右に本文。",
+      "html": "<ul class=\"ds-ruled\"><li><h3>開発会社に相談したら、まず仕様書を求められた</h3><p>仕様書がなくてもかまいません。</p></li><li><h3>社内に、技術の判断を任せられる人がいない</h3><p>技術の選択肢を、費用や時間に置き換えてお話しします。</p></li></ul>",
+      "css": ".ds-ruled{list-style:none;margin:0;padding:0;border-top:1px solid var(--border,#e4e0d8);font-family:'LINE Seed JP',system-ui,sans-serif}.ds-ruled li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:32px;padding:24px 0;border-bottom:1px solid var(--border,#e4e0d8)}.ds-ruled h3{margin:0;font-size:16px;line-height:1.6;color:var(--text-strong,#1c1b18)}.ds-ruled p{margin:0;color:var(--text-muted,#4a4843);line-height:1.7}"
+    },
+    {
+      "name": "Section Nav",
+      "kind": "nav",
+      "description": "ヘッダーのページ内ナビ。いま読んでいる場所に下線。",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">こんなとき</a><a href=\"#\" aria-current=\"location\">進め方</a><a href=\"#\">プロダクト</a><a href=\"#\">代表</a></nav>",
+      "css": ".ds-nav{display:flex;gap:28px;font:14px/1.7 'LINE Seed JP',system-ui,sans-serif;color:var(--text-muted,#4a4843)}.ds-nav a{padding:12px 0;color:inherit;text-decoration:none;transition:color 150ms ease-out}.ds-nav a:hover,.ds-nav a[aria-current=location]{color:var(--text-strong,#1c1b18)}.ds-nav a[aria-current=location]{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--accent,#1d62ab);outline-offset:3px}"
+    },
+    {
+      "name": "Wordmark",
+      "kind": "custom",
+      "description": "字間を詰めた TechTalk と、青い円の句点。",
+      "html": "<span class=\"ds-wordmark\">TechTalk</span>",
+      "css": ".ds-wordmark{display:inline-flex;align-items:baseline;font:800 20px/1 'LINE Seed JP',sans-serif;letter-spacing:-.04em;color:var(--text-strong,#1c1b18)}.ds-wordmark::after{content:'';width:.3em;height:.3em;margin-left:.08em;border-radius:50%;background:var(--accent,#1d62ab)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "打ち合わせの机",
+    "overview": "経営者と向かい合って座る机の上を、そのまま画面にしたサイト。紙（暖かみのある無彩色の地）の上に、話の順に要点が罫線で区切って置かれ、必要なところにだけ青いペンで印が付く。机の上には飾りを置かない。見せるのは話の中身と、話している本人。\n\n密度は低めで、余白は話の間合いとして使う。各セクションは左に小さな見出し（いま何の話か）、右に本文の 2 段組で、罫線が話題の切れ目になる。カードの並びや大きな数字、装飾的な図版は使わない。本物の画面写真と代表の写真だけを置く。\n\n部品は「静かで確か」。普段は目立たないが、押したとき・入力したとき・間違えたときには、はっきり応える。テーマは OS の設定に従い、明るい机と夜の机の 2 つを同じ構造で持つ。",
+    "keyCharacteristics": [
+      "暖かみのある無彩色の階調と、アクセントの青 1 色だけ",
+      "罫線（1px）で区切る。面や影で区切らない",
+      "左にセクション名、右に本文の 2 段組（900px 以上）",
+      "書体は LINE Seed JP の 1 ファミリー（400 / 700、ワードマークだけ 800）",
+      "日本語の見出しは文節で折り返す"
+    ],
+    "rules": [
+      {
+        "name": "The 青いペン 1 本 Rule",
+        "body": "アクセントは青 1 色だけ。2 色目の強調色、グラデーション、色付きの面を足さない。青は「印」なので、広い面を塗らない。",
+        "section": "colors"
+      },
+      {
+        "name": "The 罫線で区切る Rule",
+        "body": "話題の切れ目は 1px の罫線で示す。背景色の切り替えや影で段を作らない。",
+        "section": "colors"
+      },
+      {
+        "name": "The 文節で折る Rule",
+        "body": "日本語の見出しは文節ごとに `display: inline-block` の塊にし、単語の途中で折り返さない。本文には `word-break: auto-phrase` と `line-break: strict` を掛ける。英語の訳文には塊を使わない。",
+        "section": "typography"
+      },
+      {
+        "name": "The 太さで分ける Rule",
+        "body": "階層はサイズと太さで作る。書体を足したり、斜体や全大文字にしたりしない。",
+        "section": "typography"
+      },
+      {
+        "name": "The 影は写真だけ Rule",
+        "body": "カード、注記、フォームに影を付けない。持ち上げたいときは sheet の面と罫線で済ませる。",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do 色を足す前に、既存のトークン（`app/ui/global-styles.ts`）で済まないか考える。",
+      "Do 話題の切れ目には 1px の罫線（rule）を引く。",
+      "Do 押せるものは見た目の大きさにかかわらず 44px の範囲を確保する。",
+      "Do ライトとダークの両方で、本文 4.5:1、入力欄の縁 3:1 を確かめる。",
+      "Do 画像には width と height を書き、本物の画面写真か本人の写真だけを使う。",
+      "Do アニメーションは `prefers-reduced-motion: no-preference` のときだけ動かす（送信完了の知らせの fade-up と、ボタンの押下）。"
+    ],
+    "donts": [
+      "Don't 青以外のアクセント色やグラデーションを使わない。",
+      "Don't 固定・大きなレイヤーに blur、backdrop-filter、mask を使わない（iOS Safari でスクロール中の描画が遅れる）。",
+      "Don't 同じ大きさのカードを並べる構成や、大きな数字の実績パネルを使わない。",
+      "Don't テーマの切り替え UI を置かない。OS の設定に従うだけにする。",
+      "Don't 角丸に 6px と 12px（と写真の円）以外の値を使わない。"
+    ]
+  }
+}
