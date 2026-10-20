@@ -13,7 +13,7 @@
     "app/controllers/home.tsx": "3cbeeb43061caea29291661bc6b5d85600fc67513c09239fc712af57c32bd3e2",
     "app/controllers/not-found.tsx": "845f7330a4e6a7fbece378e9e143df65b61afe0f1021bcb30dcfa6f673766a72",
     "app/controllers/privacy.tsx": "24e39ec5bb76fcaf1704e2cc2dffdbbcd8ba3042fdf5e35c55f59e7d1bd3e9b9",
-    "app/i18n/en.json": "7688a15ea74c68989593c7733dc835964c5d80ade1d82b6fda39844a6bf85486",
+    "app/i18n/en.json": "baa0ed3d01bc2e0842cfea7dbc4a5d853882975c81bf5edcc9fca4802445d0af",
     "app/i18n/index.ts": "2137cf01f80b0651233af632899763997a8040095a719378b6cf30bdc60aaf96",
     "app/i18n/provider.tsx": "b884d59799e153f24d0611b65f534bec9264fb55235d8738fda459d26b06a00d",
     "app/islands/events.ts": "f0fe49b9e5f9162d96969829f21c834bcd68e5c82a79612f606945476258f7a2",
@@ -35,8 +35,8 @@
     "app/ui/home/contact.tsx": "840b8c1ec3c0a63d02b92b9fccb2ec8d44f308555a845bbca40909392f819bb9",
     "app/ui/home/hero.tsx": "e50c71740f0b49e8752e3980e478049dc4baa4018c1139467c995384f84e5991",
     "app/ui/home/page.tsx": "9e1c2af6c0aa75d96e348d236482a08442b77557e51075bb327e661441800194",
-    "app/ui/home/product-preview.tsx": "225d30efc8dfadc833395dcb862b4d44cb17551910ba90c0df51ba2f92131cda",
-    "app/ui/home/products.tsx": "8d336afb641be3434d500548c747ac3761ea3b994cd7f14fff7f45f709a8f412",
+    "app/ui/home/product-preview.tsx": "a5fc3a458ad0e7bbe45d38697f67528a6b061479f23012eee6618ddd81ffa673",
+    "app/ui/home/products.tsx": "979114a20c11345579b3590ac2a3f5a6d96fdbe275235aff7741c5cfe8ab19fa",
     "app/ui/home/profile.tsx": "10772f99e52c6190e5112a123711a8ba5613833b4cef50b9dce5ea3d218250f2",
     "app/ui/icons.tsx": "48faca4355bafbf070d359f3d91d7ed4e208ff516ff8ddb47a34fbb450fce0dd",
     "app/ui/layout.tsx": "1ec740b49b4986ba3b93403f4fcfe4284cc8355d792f4478e8aa505fa8c075fc",
@@ -48,8 +48,8 @@
     "app/ui/styles.ts": "e5ef50714261c83cee43b25fcb768499df7f24c93da466e000504199aa0ed0ec"
   },
   "fonts": {
-    "line-seed-jp-400-a35713c9e55a.woff2": "a35713c9e55aa3e22099a7b962e6d12bc732948b3b8e2d28dbf39f33343bc9d9",
-    "line-seed-jp-700-7f307b76135f.woff2": "7f307b76135fbc47d2fb915f2e8d6807d5edbb08a21011db21af52654d33f958",
+    "line-seed-jp-400-0bfcb7d131b7.woff2": "0bfcb7d131b7a4ceb49e396b529ecaed82982926b53f375170094f19e4e613f1",
+    "line-seed-jp-700-0cb1f909b19a.woff2": "0cb1f909b19ad0846c9d96fda90f59a0f4a01a3a5df8d0ca16783114c35bd2ea",
     "line-seed-jp-800-15ce895e04a3.woff2": "15ce895e04a3a3d26a95eb0b59b12db46aafb95063b2b585d81ba049476d2bf9"
   }
 }

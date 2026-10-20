@@ -48,7 +48,6 @@
   "ページ内": "On this page",
   "フッター": "Footer",
   "プログラマーとしてキャリアをスタート。着メロサービスやポータルサイトの開発責任者のほか、経営企画室長、新規事業の企画開発部長を務める。ニワンゴでは技術担当の取締役。": "Started career as a programmer. Led development of ringtone services and portal sites, and served as head of corporate planning and head of new-business planning and development. Director in charge of technology at Niwango.",
-  "Artifact Shareで共有した月次売上レポートの画面。バージョン番号と閲覧数が表示されている": "A monthly revenue report shared on Artifact Share, showing its version number and view count",
   "経歴": "Career",
   "株式会社TechTalk 代表取締役。プログラマーから経営企画、合弁会社の副社長まで、技術と経営の間を行き来してきました。作ったものが事業にならない経験を重ねたことが、いまの仕事のしかたにつながっています。": "CEO of TechTalk, Inc. He has moved back and forth between technology and management, from programmer to head of corporate planning to vice president of a joint venture. Seeing things he built fail to become businesses is what shaped the way he works today.",
   "技術の話から、": "From a conversation about technology ",
@@ -78,10 +77,6 @@
   "設計から実装まで進めます。動くものを見ながら次に作るものを決め、必要なら社内の開発体制づくりまで手伝います。": "I handle design through implementation. We decide what comes next while looking at something that works, and I can help set up your in-house development team if needed.",
   "お受けしていないご依頼": "Work I don't take on",
   "仕様が決まっていて開発だけを頼みたい場合や、常駐・人月単位での契約はお受けしていません。作るものから一緒に決める進め方をとっているためです。": "I don't take on development-only work against a fixed specification, or on-site and time-and-materials contracts, because this approach starts by deciding together what to build.",
-  "同じやり方で、": "I run my own business ",
-  "自社の事業も動かしています。": "the same way.",
-  "Artifact Shareは、AIが作ったレポートや資料をURLひとつで共有するサービスです。何を作るかを決めるところから開発、運営まで、代表がひとりで手がけています。": "Artifact Share is a service for sharing AI-generated reports and documents through a single URL. From deciding what to build to development and operation, I do it all myself.",
-  "サンプルのレポートを共有した画面。同じURLのままバージョンを重ねて更新できる": "A sample report. It can be updated version after version at the same URL.",
   "artifactshare.comを見る": "Visit artifactshare.com",
   "がんばって作ったものが、事業として立ち上がらず無駄になる。そんな経験を何度もしてきました。良いものを作っただけでは、まだ足りません。ビジネスとして成り立ったとき、はじめて作った意味が生まれます。": "More than once, I have seen something we worked hard to build go to waste because the business never took off. Building something good isn't enough. What we build only means something once it works as a business.",
   "だから今は、作る前の段階から経営者と話し、事業になるかを一緒に見極めたうえで、自分の手で形にしています。": "So now I talk with business owners before anything is built, work out together whether it can become a business, and then build it myself.",
@@ -95,5 +90,11 @@
   "考えている事業と、いま困っていることを、思いつくままで": "The business you have in mind and what's on your mind, in whatever form",
   "相談を送る": "Send",
   "プロダクト": "Product",
-  "本文へ移動": "Skip to main content"
+  "本文へ移動": "Skip to main content",
+  "検証の結果は、": "I deliver validation results ",
+  "自分で作った Artifact Share で届けています。": "through Artifact Share, a product I built myself.",
+  "技術を試して測った結果は、レポートにして Artifact Share で共有します。気になる箇所にコメントをもらえば、答えを書き足した新しい版が同じ URL に届きます。Artifact Share は AI が作ったレポートや資料を URL ひとつで共有するサービスで、何を作るかを決めるところから開発、運営まで、ひとりで手がけています。": "I share the results of technical tests as reports on Artifact Share. Comment on anything you want to dig into, and an updated version with the answer arrives at the same URL. Artifact Share is a service for sharing AI-generated reports and documents through a single URL. From deciding what to build to development and operation, I do it all myself.",
+  "Artifact Share で共有した技術検証レポートのサンプル。試した技術、確かめたこと、製品の種が並び、右のコメント欄には質問と、答えを書き足して v2 に更新したという返信がある": "A sample technical validation report shared on Artifact Share. It shows the technology tested, what was measured, and the product seed. In the comments on the right, a question is answered with a reply saying the report was updated to v2.",
+  "サンプルの技術検証レポート。コメントの質問に答えて、同じ URL のまま v2 に更新したところ": "A sample technical validation report, updated to v2 at the same URL to answer a comment.",
+  "このサンプルを開く": "Open this sample"
 }
