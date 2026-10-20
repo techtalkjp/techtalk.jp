@@ -54,8 +54,13 @@ export const contactForm = createController(routes.contactForm, {
         t: i18n.t,
         workflow: context.bindings.contactWorkflow,
       })
-      // ブラウザの Frame は 5xx を捨てるので、送信失敗も 200 で返してメッセージを見せる
-      let status = result.status === 'invalid' ? 400 : 200
+      // 5xx はクライアントの resolveFrame が失敗として扱い、送信ボタンにエラーを出す
+      let status =
+        result.status === 'invalid'
+          ? 400
+          : result.status === 'failed'
+            ? 503
+            : 200
       return context.render(
         <ContactFormFragment i18n={i18n} state={result} />,
         { status, headers: fragmentHeaders },

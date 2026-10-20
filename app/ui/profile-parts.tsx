@@ -1,13 +1,14 @@
 import { css, type Handle, type RemixNode } from 'remix/component'
 
+import { PROFILE_URLS } from '../config.ts'
 import { ArrowUpRightIcon } from './icons.tsx'
 import { externalLink, textLink } from './styles.ts'
 
 const socialLinks = [
-  { href: 'https://github.com/coji', label: 'GitHub' },
-  { href: 'https://zenn.dev/coji', label: 'Zenn' },
-  { href: 'https://x.com/techtalkjp', label: 'X' },
-  { href: 'https://www.facebook.com/mizoguchi.coji', label: 'Facebook' },
+  { href: PROFILE_URLS.github, label: 'GitHub' },
+  { href: PROFILE_URLS.zenn, label: 'Zenn' },
+  { href: PROFILE_URLS.x, label: 'X' },
+  { href: PROFILE_URLS.facebook, label: 'Facebook' },
 ]
 
 /** 代表の丸い写真 */
