@@ -7,12 +7,12 @@ This file provides guidance to coding agents (Claude Code, Codex など) when wo
 - `pnpm dev` - Portless 経由で `wrangler dev`（https://techtalk.localhost、worktree では名前の接頭辞つき）。Portless の `PORT` を `--port` に渡す。`PORTLESS=0 pnpm dev` で http://localhost:8787 に直接起動できる。ブラウザ用バンドルは wrangler の build.command が作り、app/ と client/ の変更で作り直す
 - `pnpm build` - ブラウザ用バンドルを `public/js/` に出力
 - `pnpm fonts:build` - uv で LINE Seed JP の WOFF2 サブセットを再生成。dev の監視・build・validate・deploy で `fonts:ensure` が必要なときだけ自動再生成する。生成物もコミットする。再生成には uv が必要
-- `pnpm run deploy` - `wrangler deploy`（build.command でバンドルを作ってからデプロイ）。`pnpm deploy` は pnpm 組み込みのコマンドなので使わない
+- `pnpm run deploy` - `wrangler deploy`（build.command でバンドルを作ってからデプロイ）。本番へは main へのマージで Workers Builds が自動でデプロイするので、手元から出すのは出し直すときだけ。`pnpm deploy` は pnpm 組み込みのコマンドなので使わない
 - `pnpm test` - `remix test`（`test/**/*.test.{ts,tsx}`）
 - `pnpm typecheck` / `pnpm lint` / `pnpm format` / `pnpm format:fix`
 - `pnpm validate` - `fonts:ensure` のあと、format, lint, typecheck, test, fonts:check を並列実行
 - `pnpm typegen` - `worker-configuration.d.ts` を再生成（secrets は `.env.example` から）
-- `pnpm migrations:apply` / `pnpm migrations:apply:production` - D1 マイグレーション
+- `pnpm migrations:apply` / `pnpm migrations:apply:production` - D1 マイグレーション。本番は自動では当たらない。マージとの順番は README の「デプロイ」に従う
 
 変更後は必ず `pnpm validate` を通す。
 
