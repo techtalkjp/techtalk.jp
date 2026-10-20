@@ -21,7 +21,7 @@ jobs:
       # pnpm v12 successor of pnpm/action-setup: installs pnpm (from
       # packageManager) + Node.js (from devEngines.runtime) in one step,
       # then runs `pnpm install` automatically. No actions/setup-node needed.
-      - uses: pnpm/setup@v2
+      - uses: pnpm/setup@v3
         with:
           cache: true
           require-lockfile: true
