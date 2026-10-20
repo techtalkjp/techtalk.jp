@@ -35,7 +35,8 @@
     "app/ui/home/contact.tsx": "840b8c1ec3c0a63d02b92b9fccb2ec8d44f308555a845bbca40909392f819bb9",
     "app/ui/home/hero.tsx": "e50c71740f0b49e8752e3980e478049dc4baa4018c1139467c995384f84e5991",
     "app/ui/home/page.tsx": "9e1c2af6c0aa75d96e348d236482a08442b77557e51075bb327e661441800194",
-    "app/ui/home/products.tsx": "e3392e75f3cbb74ae8ec4cfa73d433ee6bbff8f665832afaa37d47f0589bf054",
+    "app/ui/home/product-preview.tsx": "225d30efc8dfadc833395dcb862b4d44cb17551910ba90c0df51ba2f92131cda",
+    "app/ui/home/products.tsx": "8d336afb641be3434d500548c747ac3761ea3b994cd7f14fff7f45f709a8f412",
     "app/ui/home/profile.tsx": "10772f99e52c6190e5112a123711a8ba5613833b4cef50b9dce5ea3d218250f2",
     "app/ui/icons.tsx": "48faca4355bafbf070d359f3d91d7ed4e208ff516ff8ddb47a34fbb450fce0dd",
     "app/ui/layout.tsx": "1ec740b49b4986ba3b93403f4fcfe4284cc8355d792f4478e8aa505fa8c075fc",
@@ -47,8 +48,8 @@
     "app/ui/styles.ts": "e5ef50714261c83cee43b25fcb768499df7f24c93da466e000504199aa0ed0ec"
   },
   "fonts": {
-    "line-seed-jp-400-3a7865d42ed8.woff2": "3a7865d42ed821006f766b04662c75f3f6282edb8c3ca496ea2a86818a11f117",
-    "line-seed-jp-700-dec67374b03d.woff2": "dec67374b03df37a79215770f402e37141d78c395d7673194ae62442b965999b",
+    "line-seed-jp-400-a35713c9e55a.woff2": "a35713c9e55aa3e22099a7b962e6d12bc732948b3b8e2d28dbf39f33343bc9d9",
+    "line-seed-jp-700-7f307b76135f.woff2": "7f307b76135fbc47d2fb915f2e8d6807d5edbb08a21011db21af52654d33f958",
     "line-seed-jp-800-15ce895e04a3.woff2": "15ce895e04a3a3d26a95eb0b59b12db46aafb95063b2b585d81ba049476d2bf9"
   }
 }

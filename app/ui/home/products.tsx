@@ -4,17 +4,11 @@ import { getI18n } from '../../i18n/provider.tsx'
 import { ArrowUpRightIcon } from '../icons.tsx'
 import { externalLink, phrase, textLink } from '../styles.ts'
 import { Section, sectionHeading, sectionLede } from '../section.tsx'
-
-/** 画面写真は Artifact Share のサイトと同じもの。ロケールごとに UI の言語が違う */
-const screenshots = {
-  ja: { src: '/images/artifact-share-ja.webp', width: 1493, height: 1260 },
-  en: { src: '/images/artifact-share-en.webp', width: 1600, height: 1163 },
-}
+import { ProductPreview } from './product-preview.tsx'
 
 export function ProductsSection(handle: Handle) {
   return () => {
     let { t, locale } = getI18n(handle)
-    let shot = screenshots[locale]
     return (
       <Section id="products" name={t('プロダクト')}>
         <h2 mix={sectionHeading}>
@@ -36,22 +30,11 @@ export function ProductsSection(handle: Handle) {
             background: 'var(--surface)',
           })}
         >
-          <img
-            src={shot.src}
-            width={shot.width}
-            height={shot.height}
-            loading="lazy"
-            decoding="async"
-            alt={t(
+          <ProductPreview
+            locale={locale}
+            label={t(
               'Artifact Shareで共有した月次売上レポートの画面。バージョン番号と閲覧数が表示されている',
             )}
-            mix={css({
-              width: '100%',
-              // 画面写真はライト UI しかないので、ダークでは少し落として白く浮かせない
-              '@media (prefers-color-scheme: dark)': {
-                filter: 'brightness(0.86) contrast(1.04)',
-              },
-            })}
           />
           <figcaption
             mix={css({

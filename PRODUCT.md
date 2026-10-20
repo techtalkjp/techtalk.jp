@@ -43,7 +43,7 @@ web
 
 - 代表の経歴（1999 年〜現在。ドワンゴ／ニワンゴ、FreakOut、IRIS、TechTalk）と顔写真: `public/images/coji.webp`
 - 掲載記事 3 本（Forbes JAPAN、THE BRIDGE、CNET Japan）: `app/ui/press-list.tsx`
-- 自社プロダクト Artifact Share の画面: `public/images/artifact-share-ja.webp`、`artifact-share-en.webp`
+- 自社プロダクト Artifact Share の画面: 公開しているサンプルのレポート（ja: `artifactshare.com/a/z0pxvsducu`、en: `artifactshare.com/a/owcpuixuqq`）を、閲覧画面ごと HTML で描いたもの（`app/ui/home/product-preview.tsx`）
 - 匿名の事例なら今後追加できる（業種や規模をぼかしたもの）。顧客名つきの事例、推薦の声、顧客ロゴ、数値の実績はない。作らない。
 
 ## Product Principles
