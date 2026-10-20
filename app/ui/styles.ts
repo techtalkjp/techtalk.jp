@@ -44,6 +44,14 @@ const buttonBase = {
   cursor: 'pointer',
   transition: 'background-color 150ms ease-out, transform 150ms ease-out',
   '&:active': { transform: 'scale(0.97)' },
+  // 見た目の高さ（36〜40px）は変えずに、押せる範囲だけを上下に広げて 44px にする
+  position: 'relative',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    insetInline: 0,
+    insetBlock: 'min(0px, calc((100% - 44px) / 2))',
+  },
   // 強制カラーモードでは背景と box-shadow が消えるので、枠を実線で描く
   '@media (forced-colors: active)': { border: '1px solid ButtonText' },
 } as const

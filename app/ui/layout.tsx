@@ -122,7 +122,7 @@ export function SiteHeader(handle: Handle<SiteHeaderProps>) {
           ]}
         >
           <span mix={css({ marginRight: 'auto' })}>
-            <Wordmark href={home ? '#top' : paths.home(locale)} />
+            <Wordmark href={home ? '#main' : paths.home(locale)} />
           </span>
           <SectionNav
             label={t('ページ内')}
@@ -152,7 +152,9 @@ export function SiteHeader(handle: Handle<SiteHeaderProps>) {
 export function Footer(handle: Handle) {
   return () => {
     let { t, locale } = getI18n(handle)
+    // 上下の余白で押せる高さを 44px にとる。行の間隔はその余白で足りるので、gap は横だけにする
     let linkHover = css({
+      paddingBlock: '10px',
       transition: 'color 150ms ease-out',
       '&:hover': { color: 'var(--text-strong)' },
     })
@@ -160,7 +162,7 @@ export function Footer(handle: Handle) {
       <footer
         mix={css({
           borderTop: '1px solid var(--border)',
-          padding: '40px 0 56px',
+          padding: '30px 0 46px',
           fontSize: 'var(--t-14)',
           color: 'var(--text-subtle)',
         })}
@@ -180,7 +182,7 @@ export function Footer(handle: Handle) {
           <Wordmark size="sm" />
           <nav
             aria-label={t('フッター')}
-            mix={css({ display: 'flex', flexWrap: 'wrap', gap: '8px 24px' })}
+            mix={css({ display: 'flex', flexWrap: 'wrap', columnGap: '24px' })}
           >
             {[
               ...sectionLinks(t, paths.home(locale)),
@@ -194,7 +196,7 @@ export function Footer(handle: Handle) {
               href="https://records.techtalk.jp"
               target="_blank"
               rel="noopener"
-              mix={[linkHover, externalLink, css({ paddingBlock: 0 })]}
+              mix={[linkHover, externalLink]}
             >
               TechTalk Records
               <ArrowUpRightIcon size={12} />
@@ -209,6 +211,43 @@ export function Footer(handle: Handle) {
   }
 }
 
+/**
+ * キーボードで最初に届くリンク。ヘッダーのリンクを飛ばして本文（各ページの main#main）へ移る。
+ * フォーカスされたときだけ左上に出す
+ */
+function SkipLink(handle: Handle) {
+  return () => {
+    let { t } = getI18n(handle)
+    return (
+      <a
+        href="#main"
+        mix={css({
+          position: 'absolute',
+          top: '8px',
+          left: '8px',
+          zIndex: 20,
+          padding: '10px 16px',
+          borderRadius: 'var(--r-control)',
+          background: 'var(--button-bg)',
+          color: 'var(--button-text)',
+          fontSize: 'var(--t-14)',
+          fontWeight: 700,
+          '&:not(:focus)': {
+            clipPath: 'inset(50%)',
+            width: '1px',
+            height: '1px',
+            padding: 0,
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+          },
+        })}
+      >
+        {t('本文へ移動')}
+      </a>
+    )
+  }
+}
+
 /** ページ全体の枠（ヘッダー、本文、フッター） */
 export function PageShell(
   handle: Handle<SiteHeaderProps & { children?: RemixNode }>,
@@ -217,6 +256,7 @@ export function PageShell(
     let { children, ...header } = handle.props
     return (
       <>
+        <SkipLink />
         <SiteHeader {...header} />
         {children}
         <Footer />
