@@ -10,7 +10,7 @@ This file provides guidance to coding agents (Claude Code, Codex など) when wo
 - `pnpm run deploy` - `wrangler deploy`（build.command でバンドルを作ってからデプロイ）。`pnpm deploy` は pnpm 組み込みのコマンドなので使わない
 - `pnpm test` - `remix test`（`test/**/*.test.{ts,tsx}`）
 - `pnpm typecheck` / `pnpm lint` / `pnpm format` / `pnpm format:fix`
-- `pnpm validate` - format, lint, typecheck, test を並列実行
+- `pnpm validate` - `fonts:ensure` のあと、format, lint, typecheck, test, fonts:check を並列実行
 - `pnpm typegen` - `worker-configuration.d.ts` を再生成（secrets は `.env.example` から）
 - `pnpm migrations:apply` / `pnpm migrations:apply:production` - D1 マイグレーション
 
@@ -33,6 +33,7 @@ Remix 3（`remix@3.0.0`）を Cloudflare Workers で動かしている。React �
 
 ## 決まりごと
 
+- 見た目を変えるときは `DESIGN.md`（トークン、部品、やらないこと）に従う。誰に何を伝えるサイトか、出してよい実績は何かは `PRODUCT.md` にある
 - ブラウザ用 JS は esbuild で `public/js/entry.js` 1 本にまとめる（デプロイ前後で古いページと新しいチャンクが混ざらないように）。`remix/assets` は Node 専用なので使わない
 - バインディングは `cloudflare:workers` から import せず、`context.bindings`（`app/middleware/bindings.ts`）経由で使う。テストでは偽物を渡す
 - 問い合わせフォームはトップの `<Frame name="contact">`。JS ありの送信は `data-rmx-src` で `/contact-form` に送り、フォーム部分だけ差し替える。JS なしの送信はトップの URL が受ける。どちらも動くこと
