@@ -5,14 +5,14 @@ export const fontStyles = `
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/line-seed-jp-400-3a7865d42ed8.woff2') format('woff2');
+  src: url('/fonts/line-seed-jp-400-0bfcb7d131b7.woff2') format('woff2');
 }
 @font-face {
   font-family: 'LINE Seed JP';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('/fonts/line-seed-jp-700-dec67374b03d.woff2') format('woff2');
+  src: url('/fonts/line-seed-jp-700-0cb1f909b19a.woff2') format('woff2');
 }
 @font-face {
   font-family: 'LINE Seed JP';
@@ -24,6 +24,6 @@ export const fontStyles = `
 `
 
 export const fontPreloads = [
-  '/fonts/line-seed-jp-400-3a7865d42ed8.woff2',
-  '/fonts/line-seed-jp-700-dec67374b03d.woff2',
+  '/fonts/line-seed-jp-400-0bfcb7d131b7.woff2',
+  '/fonts/line-seed-jp-700-0cb1f909b19a.woff2',
 ]
