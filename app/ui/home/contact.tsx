@@ -102,7 +102,7 @@ const inputStyle = css({
   border: 0,
   borderRadius: 'var(--r-control)',
   background: 'var(--surface)',
-  boxShadow: 'inset 0 0 0 1px var(--border-strong)',
+  boxShadow: 'inset 0 0 0 1px var(--border-input)',
   fontSize: 'var(--t-16)',
   color: 'var(--text-strong)',
   transition: 'box-shadow 150ms ease-out',

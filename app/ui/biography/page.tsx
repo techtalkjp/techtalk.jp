@@ -64,7 +64,7 @@ export function BiographyPage(handle: Handle<{ i18n: I18n }>) {
       <Document locale={i18n.locale} seo={biographySeo(i18n)}>
         <I18nProvider value={i18n}>
           <PageShell languageHref={paths.biography(otherLocale(i18n.locale))}>
-            <main>
+            <main id="main">
               <BiographyIntro />
               <CareerSection />
               <Section id="press" name={i18n.t('掲載記事')} nameIsHeading>

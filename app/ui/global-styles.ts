@@ -5,6 +5,7 @@
  * 色は暖かみのある無彩色の階調にアクセント 1 色（Artifact Share の青）だけ。
  * 文字は 12 / 14 / 16 / 18 / 20 / 28 と見出しの display（18 はモバイルのリード文だけ）、余白は 8px 刻み、
  * 角丸は 6px（ボタン・入力）と 12px（画像）の 2 値。
+ * 入力欄の枠（--border-input）だけは、どこに書けばいいか見分けられるよう背景との差を 3:1 以上にする。
  * テーマは OS の設定（prefers-color-scheme）に従う。
  */
 const lightTokens = `
@@ -13,6 +14,7 @@ const lightTokens = `
   --surface: #ffffff;
   --border: #e4e0d8;
   --border-strong: #cfcac0;
+  --border-input: #8a857c;
   --text-strong: #1c1b18;
   --text-muted: #4a4843;
   --text-subtle: #6c6962;
@@ -31,6 +33,7 @@ const darkTokens = `
   --surface: #1e1d1a;
   --border: #2f2d29;
   --border-strong: #44413b;
+  --border-input: #77736b;
   --text-strong: #f1eee8;
   --text-muted: #c4c0b7;
   --text-subtle: #8f8b83;

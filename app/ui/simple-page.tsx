@@ -16,7 +16,7 @@ export function PrivacyPage() {
     >
       <I18nProvider value={createI18n('ja')}>
         <PageShell>
-          <main>
+          <main id="main">
             <PageIntro title="プライバシーポリシー" />
             <div mix={[container, css({ paddingBottom: '112px' })]}>
               <div
@@ -73,7 +73,7 @@ function NotFoundContent(handle: Handle) {
   return () => {
     let { t, locale } = getI18n(handle)
     return (
-      <main mix={css({ minHeight: '60vh' })}>
+      <main id="main" mix={css({ minHeight: '60vh' })}>
         <PageIntro
           title={t('ページが見つかりません')}
           lede={t('お探しのページは移動または削除された可能性があります。')}

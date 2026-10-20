@@ -2,7 +2,7 @@ import { unsafeHTML, type Handle, type RemixNode } from 'remix/component'
 
 import { SITE_URL } from '../config.ts'
 import type { Locale } from '../i18n/index.ts'
-import { fontStyles } from './fonts.ts'
+import { fontPreloads, fontStyles } from './fonts.ts'
 import { globalStyles } from './global-styles.ts'
 
 export interface Seo {
@@ -97,6 +97,17 @@ export function Document(handle: Handle<DocumentProps>) {
           <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
           <link rel="manifest" href="/site.webmanifest" />
+          {/* 本文の 2 書体は先に読み始め、表示後に書体が切り替わって行が組み直されるのを減らす */}
+          {fontPreloads.map((href) => (
+            <link
+              key={href}
+              rel="preload"
+              href={href}
+              as="font"
+              type="font/woff2"
+              crossOrigin="anonymous"
+            />
+          ))}
           <style innerHTML={unsafeHTML(fontStyles + globalStyles)} />
           {seo.jsonLd ? (
             <script

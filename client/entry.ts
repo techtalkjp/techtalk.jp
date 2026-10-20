@@ -82,4 +82,47 @@ app.addEventListener('error', (event) => {
   console.error(event.error)
 })
 
+// Frame への送信中は送信ボタンが押せなくなり、描き直しで中身も差し替わるので、フォーカスが body に落ちる。
+// 終わったら、最初のエラーの欄（なければ結果の知らせ）にフォーカスを移す。
+// 送れなかったとき（5xx、通信エラー）は Frame が描き直されず前回の表示が残るので、送信ボタンに戻す。
+// 待っている間に利用者が別の場所へ移っていたら動かさない
+document.addEventListener('submit', (event) => {
+  let form = event.target
+  if (!(form instanceof HTMLFormElement)) return
+  let target = form.getAttribute('data-rmx-target')
+  let frame = target ? app.frames.get(target) : undefined
+  let scope = form.closest('section')
+  if (!frame || !scope) return
+  let done = new AbortController()
+  let failed = false
+  document.addEventListener(
+    FRAME_SUBMIT_ERROR,
+    (error) => {
+      if ((error as CustomEvent).detail === target) failed = true
+    },
+    { signal: done.signal },
+  )
+  frame.addEventListener(
+    'reloadComplete',
+    () => {
+      done.abort()
+      // 送信ボタン（アイランド）の描き直しを待ってから探す
+      requestAnimationFrame(() => {
+        let active = document.activeElement
+        if (active && active !== document.body) return
+        let next = failed
+          ? scope.querySelector<HTMLElement>('button[type="submit"]')
+          : (scope.querySelector<HTMLElement>('[aria-invalid="true"]') ??
+            scope.querySelector<HTMLElement>('[role="alert"], [role="status"]'))
+        if (!next) return
+        if (!next.matches('input, textarea, button, a[href]')) {
+          next.tabIndex = -1
+        }
+        next.focus()
+      })
+    },
+    { once: true },
+  )
+})
+
 await app.ready()

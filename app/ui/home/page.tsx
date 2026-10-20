@@ -77,7 +77,7 @@ export function HomePage(handle: Handle<HomePageProps>) {
       <Document locale={i18n.locale} seo={homeSeo(i18n)}>
         <I18nProvider value={i18n}>
           <PageShell home languageHref={paths.home(otherLocale(i18n.locale))}>
-            <main id="top">
+            <main id="main">
               <HeroSection />
               <CasesSection />
               <ApproachSection />
