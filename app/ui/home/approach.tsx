@@ -36,6 +36,28 @@ export function ApproachSection(handle: Handle) {
           )}
         </p>
 
+        {/* 原石を切り出して、光る完成品にするまでの 3 段を、下の 3 段に合わせて描いた生成画像。
+            四辺はページの地の色に溶かしてある。飾りなので読み上げない */}
+        <picture>
+          <source
+            srcset="/images/approach-dark.webp"
+            media="(prefers-color-scheme: dark)"
+          />
+          <img
+            src="/images/approach-light.webp"
+            alt=""
+            width={1600}
+            height={560}
+            loading="lazy"
+            decoding="async"
+            mix={css({
+              width: '100%',
+              marginTop: '32px',
+              [wide]: { marginTop: '40px' },
+            })}
+          />
+        </picture>
+
         <ol
           // リストの見た目を消すと Safari の読み上げがリストとして扱わなくなるので、明示する
           role="list"
@@ -43,11 +65,11 @@ export function ApproachSection(handle: Handle) {
             display: 'grid',
             gridTemplateColumns: 'minmax(0, 1fr)',
             gap: '40px',
-            marginTop: '56px',
+            marginTop: '32px',
             [wide]: {
               gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
               gap: '48px',
-              marginTop: '72px',
+              marginTop: '16px',
             },
           })}
         >
