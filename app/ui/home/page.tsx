@@ -11,7 +11,6 @@ import { CasesSection } from './cases.tsx'
 import { CompanySection } from './company.tsx'
 import { ContactSection, type ContactFormState } from './contact.tsx'
 import { HeroSection } from './hero.tsx'
-import { ProductsSection } from './products.tsx'
 import { ProfileSection } from './profile.tsx'
 
 export interface HomePageProps {
@@ -81,7 +80,6 @@ export function HomePage(handle: Handle<HomePageProps>) {
               <HeroSection />
               <CasesSection />
               <ApproachSection />
-              <ProductsSection />
               <ProfileSection />
               <CompanySection />
               <ContactSection fallbackState={contactState} sent={sent} />

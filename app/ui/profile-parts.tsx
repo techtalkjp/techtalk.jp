@@ -16,14 +16,14 @@ export function ProfilePhoto(handle: Handle<{ alt: string; lazy?: boolean }>) {
   return () => (
     <img
       src="/images/coji.webp"
-      width={112}
-      height={112}
+      width={160}
+      height={160}
       loading={handle.props.lazy ? 'lazy' : undefined}
       decoding="async"
       alt={handle.props.alt}
       mix={css({
-        width: '112px',
-        height: '112px',
+        width: 'clamp(96px, 20vw, 160px)',
+        height: 'clamp(96px, 20vw, 160px)',
         borderRadius: '50%',
         objectFit: 'cover',
         boxShadow: '0 0 0 1px var(--border-strong)',

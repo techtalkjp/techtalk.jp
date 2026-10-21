@@ -52,9 +52,7 @@ export function ContactSection(
               )}
             </p>
             <p mix={noteStyle}>
-              {t(
-                'いただいた内容は代表の溝口が直接読み、返信します。初回の打ち合わせは無料です。',
-              )}
+              {t('いただいた内容は代表の溝口が直接読み、返信します。')}
             </p>
           </div>
           <div>

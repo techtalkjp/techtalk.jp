@@ -8,9 +8,9 @@ export const wide = '@media (min-width: 900px)'
 /** ヘッダーのナビを 1 段に収める幅。global-styles.ts の --header-height と同じ境目 */
 export const navWide = '@media (width > 860px)'
 
-/** 横幅 1120px（左右 24px の余白込み）のコンテナ */
+/** 横幅 1200px（左右 24px の余白込み）のコンテナ */
 export const container = css({
-  maxWidth: '70rem',
+  maxWidth: '75rem',
   marginInline: 'auto',
   paddingInline: '1.5rem',
 })
@@ -33,18 +33,19 @@ const buttonBase = {
   alignItems: 'center',
   justifyContent: 'center',
   gap: '0.5rem',
-  height: '40px',
-  paddingInline: '18px',
+  height: '44px',
+  paddingInline: '22px',
   border: 0,
-  borderRadius: 'var(--r-control)',
+  borderRadius: 'var(--r-pill)',
   fontSize: 'var(--t-14)',
   fontWeight: 700,
   letterSpacing: '0.02em',
   whiteSpace: 'nowrap',
   cursor: 'pointer',
-  transition: 'background-color 150ms ease-out, transform 150ms ease-out',
+  transition:
+    'background-color 150ms ease-out, box-shadow 150ms ease-out, transform 150ms ease-out',
   '&:active': { transform: 'scale(0.97)' },
-  // 見た目の高さ（36〜40px）は変えずに、押せる範囲だけを上下に広げて 44px にする
+  // 見た目の高さ（36〜44px）は変えずに、押せる範囲だけを上下に広げて 44px にする
   position: 'relative',
   '&::before': {
     content: '""',
@@ -61,9 +62,8 @@ export const primaryButton = css({
   ...buttonBase,
   background: 'var(--button-bg)',
   color: 'var(--button-text)',
-  boxShadow: 'inset 0 1px 0 rgb(255 255 255 / 0.12)',
   '&:hover': {
-    background: 'color-mix(in srgb, var(--button-bg) 86%, var(--bg))',
+    background: 'color-mix(in srgb, var(--button-bg) 84%, var(--bg))',
   },
   '&:disabled': { opacity: 0.6, cursor: 'progress' },
 })
@@ -74,7 +74,10 @@ export const secondaryButton = css({
   background: 'transparent',
   color: 'var(--text-strong)',
   boxShadow: 'inset 0 0 0 1px var(--border-strong)',
-  '&:hover': { background: 'var(--surface)' },
+  '&:hover': {
+    background: 'var(--surface)',
+    boxShadow: 'inset 0 0 0 1px var(--text-subtle)',
+  },
 })
 
 /** 本文中のリンク */
