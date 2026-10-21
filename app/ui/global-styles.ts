@@ -20,7 +20,6 @@ const lightTokens = `
   --text-subtle: #626977;
   --accent: #2453d6;
   --accent-soft: #e7edfc;
-  --glow: rgb(36 83 214 / 0.3);
   --button-bg: #0b0d12;
   --button-text: #ffffff;
   --danger: #b42318;
@@ -40,7 +39,6 @@ const darkTokens = `
   --text-subtle: #8b93a2;
   --accent: #7fa2ff;
   --accent-soft: #172038;
-  --glow: rgb(84 120 255 / 0.36);
   --button-bg: #f2f4f8;
   --button-text: #0b0d12;
   --danger: #ff9a8f;
