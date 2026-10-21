@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-21T07:23:23+00:00",
+  "generatedAt": "2026-10-21T13:57:31+00:00",
   "title": "Design System: TechTalk",
   "extensions": {
     "colorMeta": {
@@ -23,16 +23,6 @@
         "role": "primary",
         "displayName": "信号の青（夜）",
         "canonical": "#7fa2ff"
-      },
-      "signal-glow": {
-        "role": "primary",
-        "displayName": "青の光",
-        "canonical": "rgb(36 83 214 / 0.3)"
-      },
-      "night-signal-glow": {
-        "role": "primary",
-        "displayName": "青の光（夜）",
-        "canonical": "rgb(84 120 255 / 0.36)"
       },
       "signal-blue-soft": {
         "role": "primary",
@@ -152,7 +142,7 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "ボタン、フォームのラベル、役割の札。"
+        "purpose": "ボタン、フォームのラベル、枠の見出し。"
       },
       "caption": {
         "displayName": "Caption",
@@ -167,22 +157,12 @@
       {
         "name": "shadow-image",
         "value": "0 0 0 1px rgb(11 13 18 / 0.08), 0 32px 64px -32px rgb(11 13 18 / 0.28), 0 12px 24px -12px rgb(11 13 18 / 0.1)",
-        "purpose": "プロダクトの画面だけ（昼）。"
+        "purpose": "進め方のプロダクトの画面だけ（昼）。"
       },
       {
         "name": "shadow-image-night",
         "value": "0 0 0 1px rgb(255 255 255 / 0.1), 0 40px 80px -32px rgb(0 0 0 / 0.7)",
-        "purpose": "プロダクトの画面だけ（夜）。"
-      },
-      {
-        "name": "glow-leak",
-        "value": "0 -40px 72px -36px var(--glow)",
-        "purpose": "画面の上端から漏れる青い光。画面の影と重ねる。"
-      },
-      {
-        "name": "glow-backdrop",
-        "value": "radial-gradient(ellipse 48% 56% at 50% 50%, var(--glow), transparent 70%)",
-        "purpose": "1 画面目の画面の後ろの光（背景）。ぼかしは使わない。"
+        "purpose": "進め方のプロダクトの画面だけ（夜）。"
       },
       {
         "name": "photo-ring",
@@ -204,7 +184,7 @@
       {
         "name": "rise",
         "value": "rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both",
-        "purpose": "プロダクトの画面が 48px 下からせり上がる。"
+        "purpose": "1 画面目の生成画像が 48px 下からせり上がる。"
       },
       {
         "name": "fade-up",
@@ -268,17 +248,17 @@
       "name": "Section Nav",
       "kind": "nav",
       "refersTo": "",
-      "description": "ヘッダーのページ内ナビ。いまのセクションは強い文字と 1px の下線。",
-      "html": "<nav class=\"ds-nav\"><a href=\"#\">こんなとき</a><a href=\"#\" aria-current=\"location\">進め方</a><a href=\"#\">プロダクト</a><a href=\"#\">代表</a></nav>",
+      "description": "ヘッダーのページ内ナビ。並びはページの順。いまのセクションは強い文字と 1px の下線。",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">こんなとき</a><a href=\"#\" aria-current=\"location\">進め方</a><a href=\"#\">代表</a></nav>",
       "css": ".ds-nav{display:flex;gap:28px;font:400 14px/1.7 'LINE Seed JP',system-ui,sans-serif}.ds-nav a{padding-block:10px;color:var(--text-muted,#474e5c);text-decoration:none;transition:color 150ms ease-out}.ds-nav a:hover,.ds-nav a[aria-current=location]{color:var(--text-strong,#0b0d12)}.ds-nav a[aria-current=location]{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--accent,#2453d6);outline-offset:3px;}"
     },
     {
       "name": "Panel",
       "kind": "card",
       "refersTo": "panel",
-      "description": "代表の経歴の枠。一段明るい面と内側の線、影なし。役割の札は青い文字だけ。",
-      "html": "<div class=\"ds-panel\"><div><h3 class=\"ds-tag\">経営</h3><ul><li>経営企画室長</li><li>合弁会社の代表取締役副社長</li></ul></div><div><h3 class=\"ds-tag\">開発</h3><ul><li>プログラマー</li><li>技術担当取締役</li></ul></div></div>",
-      "css": ".ds-panel{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--r-image,16px);background:var(--surface,#f5f6f8);box-shadow:inset 0 0 0 1px var(--border,#e5e7eb);font-family:'LINE Seed JP',system-ui,sans-serif}.ds-panel>div{padding:28px}.ds-panel>div+div{border-left:1px solid var(--border,#e5e7eb)}.ds-tag{margin:0;font-size:14px;font-weight:700;color:var(--accent,#2453d6)}.ds-panel ul{margin:12px 0 0;padding:0;list-style:none}.ds-panel li{padding-block:8px;font-size:14px;line-height:1.6}.ds-panel li+li{border-top:1px solid var(--border,#e5e7eb)}"
+      "description": "代表の「いま手がけている仕事」の枠。一段明るい面と内側の線、影なし。見出しは青い文字だけ。",
+      "html": "<div class=\"ds-panel\"><h3 class=\"ds-panel-title\">いま手がけている仕事</h3><ul><li>化学物質の検索システム</li><li>AIを使った試作</li><li>データの集計基盤</li><li>自社プロダクト Artifact Share の開発・運営</li></ul></div>",
+      "css": ".ds-panel{padding:28px;border-radius:var(--r-image,16px);background:var(--surface,#f5f6f8);box-shadow:inset 0 0 0 1px var(--border,#e5e7eb);font-family:'LINE Seed JP',system-ui,sans-serif}.ds-panel-title{margin:0;font-size:14px;font-weight:700;color:var(--accent,#2453d6)}.ds-panel ul{margin:12px 0 0;padding:0;list-style:none}.ds-panel li{padding-block:10px;font-size:16px;line-height:1.6;color:var(--text-strong,#0b0d12)}.ds-panel li+li{border-top:1px solid var(--border,#e5e7eb)}"
     },
     {
       "name": "Step Number",
@@ -292,9 +272,9 @@
       "name": "Product Screen",
       "kind": "custom",
       "refersTo": "product-screen",
-      "description": "光を背にした実物の画面。放射状の光、漏れる光、画面の影、48px のせり上がり。",
-      "html": "<div class=\"ds-stage\"><div class=\"ds-screen\"><div class=\"ds-screen-bar\"></div><div class=\"ds-screen-body\"></div></div></div>",
-      "css": ".ds-stage{position:relative;padding:48px 24px 0;overflow:hidden}.ds-stage::before{content:'';position:absolute;inset:-60px 0 auto;height:360px;background:radial-gradient(ellipse 48% 56% at 50% 50%,var(--glow,rgb(36 83 214 / .3)),transparent 70%);pointer-events:none}.ds-screen{position:relative;height:200px;border-radius:var(--r-image,16px);overflow:hidden;background:var(--surface,#f5f6f8);box-shadow:0 -40px 72px -36px var(--glow,rgb(36 83 214 / .3)),var(--shadow-image,0 0 0 1px rgb(11 13 18 / .08),0 32px 64px -32px rgb(11 13 18 / .28),0 12px 24px -12px rgb(11 13 18 / .1))}.ds-screen-bar{height:32px;border-bottom:1px solid var(--border,#e5e7eb)}@media (prefers-reduced-motion:no-preference){.ds-screen{animation:ds-rise .9s cubic-bezier(.16,1,.3,1) both}}@keyframes ds-rise{from{transform:translateY(48px)}to{transform:none}}"
+      "description": "進め方のレポートの実例。台紙に角丸 16px と画面の影。光もせり上がりもなし。下に左揃えの説明とリンク。",
+      "html": "<figure class=\"ds-shot\"><div class=\"ds-screen\"><div class=\"ds-screen-bar\"></div></div><figcaption><p class=\"ds-shot-title\">検証の結果は、自分で作った Artifact Share で届けています。</p><p class=\"ds-shot-desc\">サンプルの技術検証レポート。</p><p class=\"ds-shot-links\"><a href=\"#\">このサンプルを開く</a><a href=\"#\">artifactshare.comを見る</a></p></figcaption></figure>",
+      "css": ".ds-shot{margin:0;font:400 16px/1.7 'LINE Seed JP',system-ui,sans-serif}.ds-screen{height:200px;border-radius:var(--r-image,16px);overflow:hidden;background:var(--surface,#f5f6f8);box-shadow:var(--shadow-image,0 0 0 1px rgb(11 13 18 / .08),0 32px 64px -32px rgb(11 13 18 / .28),0 12px 24px -12px rgb(11 13 18 / .1))}.ds-screen-bar{height:32px;border-bottom:1px solid var(--border,#e5e7eb)}.ds-shot figcaption{display:grid;gap:8px;margin-top:20px}.ds-shot p{margin:0}.ds-shot-title{font-weight:700;color:var(--text-strong,#0b0d12)}.ds-shot-desc{color:var(--text-muted,#474e5c)}.ds-shot-links{display:flex;flex-wrap:wrap;column-gap:24px}.ds-shot-links a{color:var(--accent,#2453d6);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent,#2453d6) 40%,transparent);text-underline-offset:4px}.ds-shot-links a:hover{text-decoration-color:var(--accent,#2453d6)}.ds-shot-links a:focus-visible{outline:2px solid var(--accent,#2453d6);outline-offset:3px}"
     },
     {
       "name": "Wordmark",
@@ -307,23 +287,23 @@
   ],
   "narrative": {
     "northStar": "光を背にした実物",
-    "overview": "一人の会社を、今の開発者向けプロダクトと同じ水準で見せるサイト。夜は青みのある黒、昼は冷たい白の地に、中央の大きな見出しを置き、その下から自分で作った製品の本物の画面が青い光を背にせり上がる。見せるのは言葉で飾った実績ではなく、動いている実物と、それを作った本人。\n\n地は平らで、区切りは 1px の細い線と、一段だけ明るい面（surface）の 2 つだけ。アクセントの青は「光」と「印」にだけ使い、ボタンの塗りには使わない。塗りのボタンは文字色と同じ無彩色を反転させたピルで、1 画面に 1 つ。見出しは LINE Seed JP の 700 を大きく詰めて組み、本文は控えめな灰色で短く置く。\n\nテーマは OS の設定に従い、夜と昼の 2 つを同じ役割・同じ構造で持つ。",
+    "overview": "一人の会社を、今の開発者向けプロダクトと同じ水準で見せるサイト。夜は青みのある黒、昼は冷たい白の地に、中央の大きな見出しと代表の 1 行を置き、その下から、技術の種が青い光を放つ製品になるまでを描いた横長の画像がせり上がる。自分で作った製品の本物の画面は、進め方の中で、届けているレポートの実例として見せる。見せるのは言葉で飾った実績ではなく、動いている実物と、それを作った本人。\n\n地は平らで、区切りは 1px の細い線と、一段だけ明るい面（surface）の 2 つだけ。アクセントの青は「光」と「印」にだけ使い、ボタンの塗りには使わない。光は 1 画面目の画像の中にだけあり、CSS では描かない。塗りのボタンは文字色と同じ無彩色を反転させたピルで、1 画面に 1 つ。見出しは LINE Seed JP の 700 を大きく詰めて組み、本文は控えめな灰色で短く置く。\n\nテーマは OS の設定に従い、夜と昼の 2 つを同じ役割・同じ構造で持つ。",
     "keyCharacteristics": [
       "青みのある無彩色の階調（夜は黒、昼は白）と、明るい青 1 色だけ",
       "区切りは 1px の線と、一段明るい面。影を持つのはプロダクトの画面だけ",
-      "1 画面目は中央揃えの大見出し、リード、ピルのボタン 2 つ、代表の 1 行、せり上がる画面",
+      "1 画面目は中央揃えの大見出し、リード、ピルのボタン 2 つ、代表の 1 行、せり上がる生成画像",
       "書体は LINE Seed JP の 1 ファミリー（400 / 700、ワードマークだけ 800）",
       "日本語の見出しは文節で折り返す"
     ],
     "rules": [
       {
         "name": "The 青は光と印 Rule",
-        "body": "アクセントは青 1 色だけ。光（画面の後ろ）と印（リンク、番号、札、句点、フォーカス）にだけ使い、ボタンや面を青で塗らない。2 色目の強調色を足さない。",
+        "body": "アクセントは青 1 色だけ。光（1 画面目の生成画像の中）と印（リンク、番号、枠の見出し、句点、フォーカス）にだけ使い、ボタンや面を青で塗らない。2 色目の強調色を足さない。",
         "section": "colors"
       },
       {
         "name": "The 光は 1 か所 Rule",
-        "body": "グラデーションは 1 画面目の画面の後ろの光（放射状、ぼかしなし）だけ。文字、ボタン、面、背景全体にグラデーションを掛けない。",
+        "body": "青い光は 1 画面目の生成画像の中にだけ描く。CSS では光もグラデーションも描かず、文字、ボタン、面、背景全体のどれにも掛けない。例外は、プロダクトの画面の中で実物の見た目に合わせたものだけ。",
         "section": "colors"
       },
       {
@@ -353,12 +333,12 @@
       "**Do** 押せるものは見た目の大きさにかかわらず 44px の範囲を確保する。",
       "**Do** 夜と昼の両方で、本文 4.5:1、入力欄の縁 3:1 を確かめる。",
       "**Do** 画像には width と height を書く。プロダクトの画面は本物（写真か、それを忠実に描いた HTML）、人物は本人の写真だけを使う。生成画像は夜用と昼用を対で作り、来歴を残す。",
-      "**Do** アニメーションは `prefers-reduced-motion: no-preference` のときだけ動かす（画面のせり上がり、送信完了の fade-up、ボタンの押下）。"
+      "**Do** アニメーションは `prefers-reduced-motion: no-preference` のときだけ動かす（1 画面目の画像のせり上がり、送信完了の fade-up、ボタンの押下）。"
     ],
     "donts": [
       "**Don't** 青以外のアクセント色を使わない。青でボタンや広い面を塗らない。",
-      "**Don't** グラデーションを、1 画面目の画面の後ろの光以外に使わない。",
-      "**Don't** 固定・大きなレイヤーに blur、backdrop-filter、mask を使わない（iOS Safari でスクロール中の描画が遅れる）。光もぼかしではなくグラデーションで描く。",
+      "**Don't** CSS でグラデーションや光を描かない（プロダクトの画面の中で実物に合わせるものを除く）。青い光は 1 画面目の生成画像の中にだけ置く。",
+      "**Don't** 固定・大きなレイヤーに blur、backdrop-filter、mask を使わない（iOS Safari でスクロール中の描画が遅れる）。",
       "**Don't** 塗りや影の付いたカードを並べない。並べるときは線で区切る。大きな数字の実績パネルも使わない。",
       "**Don't** セクション見出しの上に小さなラベルを置かない。",
       "**Don't** テーマの切り替え UI を置かない。OS の設定に従うだけにする。",
