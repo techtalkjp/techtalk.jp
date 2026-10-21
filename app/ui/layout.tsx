@@ -41,7 +41,8 @@ export function Wordmark(handle: Handle<{ href?: string; size?: 'sm' }>) {
 
 /**
  * ヘッダーに出すトップの各セクションへのリンク。トップではハッシュだけにしてページ内を移動する。
- * スマホで 1 行に収まりやすいよう 4 つまでにし、会社概要はフッターにだけ出す。
+ * 並びはページの上からの順にそろえ、スクロールで現在地の印が前後に飛ばないようにする。
+ * プロダクトは 1 画面目にあるので載せない。会社概要はフッターにだけ出す。
  * 収まらない幅ではナビが折り返す
  */
 function sectionLinks(
@@ -51,7 +52,6 @@ function sectionLinks(
   return [
     { href: `${base}#when`, label: t('こんなとき') },
     { href: `${base}#approach`, label: t('進め方') },
-    { href: `${base}#products`, label: t('プロダクト') },
     { href: `${base}#profile`, label: t('代表') },
   ]
 }
