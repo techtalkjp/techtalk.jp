@@ -1,54 +1,65 @@
 ---
 name: TechTalk
-description: 経営者と向かい合って話す、打ち合わせの机のようなコーポレートサイト
+description: 青みのある黒の地に大見出しを置き、光を背にした本物の画面を見せる、一人の会社のプロダクトサイト
 colors:
-  paper: '#f8f6f2'
-  sheet: '#ffffff'
-  rule: '#e4e0d8'
-  rule-strong: '#cfcac0'
-  field-edge: '#8a857c'
-  ink: '#1c1b18'
-  ink-muted: '#4a4843'
-  ink-subtle: '#6c6962'
-  ink-blue: '#1d62ab'
-  ink-blue-wash: '#e6eef7'
-  alert-red: '#b42318'
-  alert-red-wash: '#fbeae8'
-  night-paper: '#161513'
-  night-sheet: '#1e1d1a'
-  night-rule: '#2f2d29'
-  night-rule-strong: '#44413b'
-  night-field-edge: '#77736b'
-  night-ink: '#f1eee8'
-  night-ink-muted: '#c4c0b7'
-  night-ink-subtle: '#8f8b83'
-  night-blue: '#7fb0e6'
-  night-blue-wash: '#1d2a38'
-  night-alert-red: '#f2998f'
-  night-alert-red-wash: '#3a1f1c'
+  signal-blue: '#2453d6'
+  signal-blue-soft: '#e7edfc'
+  signal-glow: 'rgb(36 83 214 / 0.3)'
+  white-ground: '#ffffff'
+  cool-surface: '#f5f6f8'
+  hairline: '#e5e7eb'
+  hairline-strong: '#d0d4db'
+  field-edge: '#858c99'
+  text-strong: '#0b0d12'
+  text-muted: '#474e5c'
+  text-subtle: '#626977'
+  button-fill: '#0b0d12'
+  button-ink: '#ffffff'
+  danger: '#b42318'
+  danger-surface: '#fdecea'
+  night-signal-blue: '#7fa2ff'
+  night-signal-blue-soft: '#172038'
+  night-signal-glow: 'rgb(84 120 255 / 0.36)'
+  night-ground: '#0b0d12'
+  night-surface: '#13161d'
+  night-hairline: '#20242d'
+  night-hairline-strong: '#2f3440'
+  night-field-edge: '#646b79'
+  night-text-strong: '#f2f4f8'
+  night-text-muted: '#b3bac7'
+  night-text-subtle: '#8b93a2'
+  night-button-fill: '#f2f4f8'
+  night-button-ink: '#0b0d12'
+  night-danger: '#ff9a8f'
+  night-danger-surface: '#3a1c1b'
 typography:
   display:
     fontFamily: "'LINE Seed JP', system-ui, -apple-system, 'Hiragino Sans', sans-serif"
-    fontSize: 'clamp(1.875rem, 1rem + 4.6vw, 4.25rem)'
+    fontSize: 'clamp(2.25rem, 1rem + 5.4vw, 5.25rem)'
     fontWeight: 700
-    lineHeight: 1.25
-    letterSpacing: '-0.025em'
+    lineHeight: 1.15
+    letterSpacing: '-0.035em'
   headline:
     fontFamily: "'LINE Seed JP', system-ui, -apple-system, 'Hiragino Sans', sans-serif"
-    fontSize: '1.75rem'
+    fontSize: 'clamp(1.5rem, 1rem + 2.4vw, 2.5rem)'
     fontWeight: 700
-    lineHeight: 1.5
-    letterSpacing: '-0.005em'
-  lede:
+    lineHeight: 1.3
+    letterSpacing: '-0.02em'
+  page-lede:
     fontFamily: "'LINE Seed JP', system-ui, -apple-system, 'Hiragino Sans', sans-serif"
     fontSize: '1.25rem'
     fontWeight: 400
     lineHeight: 1.6
+  section-lede:
+    fontFamily: "'LINE Seed JP', system-ui, -apple-system, 'Hiragino Sans', sans-serif"
+    fontSize: '1.125rem'
+    fontWeight: 400
+    lineHeight: 1.7
   title:
     fontFamily: "'LINE Seed JP', system-ui, -apple-system, 'Hiragino Sans', sans-serif"
-    fontSize: '1rem'
+    fontSize: '1.25rem'
     fontWeight: 700
-    lineHeight: 1.6
+    lineHeight: 1.5
   body:
     fontFamily: "'LINE Seed JP', system-ui, -apple-system, 'Hiragino Sans', sans-serif"
     fontSize: '1rem'
@@ -59,7 +70,7 @@ typography:
     fontFamily: "'LINE Seed JP', system-ui, -apple-system, 'Hiragino Sans', sans-serif"
     fontSize: '0.875rem'
     fontWeight: 700
-    lineHeight: 1.5
+    letterSpacing: '0.02em'
   caption:
     fontFamily: "'LINE Seed JP', system-ui, -apple-system, 'Hiragino Sans', sans-serif"
     fontSize: '0.75rem'
@@ -70,52 +81,62 @@ typography:
     fontWeight: 800
     letterSpacing: '-0.04em'
 rounded:
-  control: '6px'
-  image: '12px'
+  control: '8px'
+  image: '16px'
+  pill: '999px'
 spacing:
   xs: '8px'
   sm: '16px'
   md: '24px'
   lg: '40px'
-  xl: '72px'
-  section: '112px'
+  xl: '64px'
+  section: '80px'
+  section-wide: '128px'
 components:
   button-primary:
-    backgroundColor: '{colors.ink}'
-    textColor: '{colors.paper}'
+    backgroundColor: '{colors.button-fill}'
+    textColor: '{colors.button-ink}'
     typography: '{typography.label}'
-    rounded: '{rounded.control}'
-    padding: '0 18px'
-    height: '40px'
+    rounded: '{rounded.pill}'
+    padding: '0 22px'
+    height: '44px'
   button-primary-compact:
-    backgroundColor: '{colors.ink}'
-    textColor: '{colors.paper}'
+    backgroundColor: '{colors.button-fill}'
+    textColor: '{colors.button-ink}'
     typography: '{typography.label}'
-    rounded: '{rounded.control}'
+    rounded: '{rounded.pill}'
     padding: '0 14px'
     height: '36px'
   button-secondary:
     backgroundColor: 'transparent'
-    textColor: '{colors.ink}'
+    textColor: '{colors.text-strong}'
     typography: '{typography.label}'
-    rounded: '{rounded.control}'
-    padding: '0 18px'
-    height: '40px'
+    rounded: '{rounded.pill}'
+    padding: '0 22px'
+    height: '44px'
   button-secondary-hover:
-    backgroundColor: '{colors.sheet}'
+    backgroundColor: '{colors.cool-surface}'
   input:
-    backgroundColor: '{colors.sheet}'
-    textColor: '{colors.ink}'
+    backgroundColor: '{colors.cool-surface}'
+    textColor: '{colors.text-strong}'
     typography: '{typography.body}'
     rounded: '{rounded.control}'
     padding: '10px 12px'
+  panel:
+    backgroundColor: '{colors.cool-surface}'
+    rounded: '{rounded.image}'
+    padding: '28px'
   note-box:
-    backgroundColor: 'transparent'
-    textColor: '{colors.ink-muted}'
+    backgroundColor: '{colors.cool-surface}'
+    textColor: '{colors.text-muted}'
     rounded: '{rounded.control}'
     padding: '20px 24px'
-  product-figure:
-    backgroundColor: '{colors.sheet}'
+  step-number:
+    textColor: '{colors.signal-blue}'
+    typography: '{typography.label}'
+    size: '40px'
+  product-screen:
+    backgroundColor: '{colors.cool-surface}'
     rounded: '{rounded.image}'
 ---
 
@@ -123,152 +144,182 @@ components:
 
 ## Overview
 
-**Creative North Star: "打ち合わせの机"**
+**Creative North Star: "光を背にした実物"**
 
-経営者と向かい合って座る机の上を、そのまま画面にしたサイト。紙（暖かみのある無彩色の地）の上に、話の順に要点が罫線で区切って置かれ、必要なところにだけ青いペンで印が付く。机の上には飾りを置かない。見せるのは話の中身と、話している本人。
+一人の会社を、今の開発者向けプロダクトと同じ水準で見せるサイト。夜は青みのある黒、昼は冷たい白の地に、中央の大きな見出しを置き、その下から自分で作った製品の本物の画面が青い光を背にせり上がる。見せるのは言葉で飾った実績ではなく、動いている実物と、それを作った本人。
 
-密度は低めで、余白は話の間合いとして使う。各セクションは左に小さな見出し（いま何の話か）、右に本文の 2 段組で、罫線が話題の切れ目になる。カードの並びや大きな数字、装飾的な図版は使わない。置くのは自社プロダクトの本物の画面（写真か、それを忠実に描いた HTML）と代表の写真だけ。
+地は平らで、区切りは 1px の細い線と、一段だけ明るい面（surface）の 2 つだけ。アクセントの青は「光」と「印」にだけ使い、ボタンの塗りには使わない。塗りのボタンは文字色と同じ無彩色を反転させたピルで、1 画面に 1 つ。見出しは LINE Seed JP の 700 を大きく詰めて組み、本文は控えめな灰色で短く置く。
 
-部品は「静かで確か」。普段は目立たないが、押したとき・入力したとき・間違えたときには、はっきり応える。テーマは OS の設定に従い、明るい机と夜の机の 2 つを同じ構造で持つ。
+テーマは OS の設定に従い、夜と昼の 2 つを同じ役割・同じ構造で持つ。
 
 **Key Characteristics:**
 
-- 暖かみのある無彩色の階調と、アクセントの青 1 色だけ
-- 罫線（1px）で区切る。面や影で区切らない
-- 左にセクション名、右に本文の 2 段組（900px 以上）
+- 青みのある無彩色の階調（夜は黒、昼は白）と、明るい青 1 色だけ
+- 区切りは 1px の線と、一段明るい面。影を持つのはプロダクトの画面だけ
+- 1 画面目は中央揃えの大見出し、リード、ピルのボタン 2 つ、代表の 1 行、せり上がる画面
 - 書体は LINE Seed JP の 1 ファミリー（400 / 700、ワードマークだけ 800）
 - 日本語の見出しは文節で折り返す
 
 ## Colors
 
-紙とインクの無彩色に、青いペン 1 本。ライトとダークは同じ役割を同じ構造で持つ。
+青みを帯びた無彩色の階調に、明るい青を 1 色。夜と昼は同じ役割を同じ名前の対で持つ（夜は `night-` を付けたもの）。
 
 ### Primary
 
-- **ペンの青**（ink-blue / 夜は night-blue）: 本文中のリンク、進め方の番号、フォーカスの枠、ワードマークの句点、選択範囲。印を付ける場所にだけ使う。
-- **青のにじみ**（ink-blue-wash / night-blue-wash）: 入力欄のフォーカス時の外側の輪。面の塗りには使わない。
+- **信号の青**（signal-blue / night-signal-blue）: 本文中のリンク、進め方の番号の輪、「経営」「開発」の役割の札、ワードマークの句点、フォーカスの枠、選択範囲、チェックボックス。印を付ける場所にだけ使う。
+- **青の光**（signal-glow / night-signal-glow）: 1 画面目の画面の後ろに広がる放射状の光と、画面の上端から漏れる光。この 1 か所だけに使う。
+- **青のにじみ**（signal-blue-soft / night-signal-blue-soft）: 入力欄のフォーカス時の外側の輪。
 
 ### Neutral
 
-- **紙**（paper / night-paper）: ページの地。ヘッダーも同じ色で、透かしやぼかしは使わない。
-- **一枚紙**（sheet / night-sheet）: 入力欄、プロダクト画面の台紙、送信完了の知らせなど、地から一段持ち上げたい面。
-- **罫線**（rule / night-rule）: セクションの区切り、一覧の行の区切り、注記の枠。
-- **濃い罫線**（rule-strong / night-rule-strong）: 枠線だけのボタン、写真の縁。
-- **入力欄の縁**（field-edge / night-field-edge）: 入力欄の枠だけに使う。地との差を 3:1 以上にして、どこに書けばいいかを見分けられるようにする。
-- **インク**（ink / night-ink）: 見出しと本文。塗りのボタンの地にもなる。
-- **薄いインク**（ink-muted / night-ink-muted）: リード文、一覧の答えの側、注記の本文。
-- **淡いインク**（ink-subtle / night-ink-subtle）: セクション名、日付、補足、キャプション。地に対して 4.5:1 以上を保つ。
-- **警告の赤**（alert-red / alert-red-wash ほか）: 入力エラーと送信失敗だけ。
+- **地**（white-ground / night-ground）: ページの地。ヘッダーも同じ色の不透明な面で、下端に線を引く。
+- **一段明るい面**（cool-surface / night-surface）: 入力欄、代表の経歴の枠、送信完了の知らせ、お受けしていない依頼の注記、画面の台紙。地から一段だけ持ち上げたい面。
+- **細い線**（hairline / night-hairline）: ヘッダーとフッターの区切り、一覧の行と列の区切り、面の縁。
+- **濃い線**（hairline-strong / night-hairline-strong）: 枠線だけのボタン、写真の縁、進め方の段をつなぐ線、スクロールバー。
+- **入力欄の縁**（field-edge / night-field-edge）: 入力欄の枠だけに使う。地との差を 3:1 以上にする。
+- **強い文字**（text-strong / night-text-strong）: 見出しと本文。
+- **抑えた文字**（text-muted / night-text-muted）: リード文、一覧の答えの側、注記、ページ内ナビ。
+- **淡い文字**（text-subtle / night-text-subtle）: 会社概要の項目名、肩書き、フッター、言語の切り替え、プレースホルダー。地に対して 4.5:1 以上を保つ。
+- **ボタンの塗り**（button-fill / button-ink と夜の対）: 強い文字の色を反転させた塗り。夜は白いピルに黒い文字、昼は黒いピルに白い文字。
+- **警告の赤**（danger / danger-surface と夜の対）: 入力エラーと送信失敗だけ。
 
 ### Named Rules
 
-**The 青いペン 1 本 Rule.** アクセントは青 1 色だけ。2 色目の強調色、グラデーション、色付きの面を足さない。青は「印」なので、広い面を塗らない。
+**The 青は光と印 Rule.** アクセントは青 1 色だけ。光（画面の後ろ）と印（リンク、番号、札、句点、フォーカス）にだけ使い、ボタンや面を青で塗らない。2 色目の強調色を足さない。
 
-**The 罫線で区切る Rule.** 話題の切れ目は 1px の罫線で示す。背景色の切り替えや影で段を作らない。
+**The 光は 1 か所 Rule.** グラデーションは 1 画面目の画面の後ろの光（放射状、ぼかしなし）だけ。文字、ボタン、面、背景全体にグラデーションを掛けない。
 
 ## Typography
 
 **Display / Body Font:** LINE Seed JP（system-ui、-apple-system、Hiragino Sans にフォールバック）
 
-**Character:** 1 ファミリーで、太さだけで階層を作る。丸みのある骨格が、話し言葉の文面を硬くしすぎない。使う文字だけに絞った WOFF2 を自前で配信し、400 と 700 は preload する。
+**Character:** 1 ファミリーで、大きさと太さだけで階層を作る。大見出しは 700 を大きく、字間を詰めて組み、プロダクトサイトの張りを出す。丸みのある骨格が、話し言葉の文面を硬くしすぎない。使う文字だけに絞った WOFF2 を自前で配信する。
 
 ### Hierarchy
 
-- **Display**（700、clamp(1.875rem → 4.25rem)、1.25）: ページの冒頭の 1 行だけ。トップのキャッチと経歴ページの名前。
-- **Headline**（700、28px、1.5、最大 22em）: 各セクションの見出し。全セクションで共通。
-- **Lede**（400、18px → 760px 以上で 20px、1.6）: 冒頭の見出しの下のリード文。
-- **Title**（700、16px、1.6）: 一覧の行の見出し（こんなとき、進め方の各段）。
-- **Body**（400、16px、1.7、字間 0.01em）: 本文。リード文は最大 36em、注記は最大 30〜40em。
-- **Label**（700、14px、1.5）: セクション名、ボタン、フォームのラベル。
-- **Caption**（400、12px）: プロダクト画面のキャプション。
+- **Display**（700、clamp(2.25rem → 5.25rem)、1.15、字間 -0.035em）: ページの冒頭の見出しだけ。トップのキャッチ（中央揃え、2 行）と、経歴・プライバシーの名前。
+- **Headline**（700、clamp(1.5rem → 2.5rem)、1.3、字間 -0.02em、最大 20em）: 各セクションの見出し。全セクションで共通。
+- **Page lede**（400、18px → 760px 以上で 20px、1.6）: Display の下のリード文。トップは最大 44em、ほかのページは 32em。
+- **Section lede**（400、16px → 760px 以上で 18px、1.7、最大 34em、抑えた文字）: セクション見出しの下のリード文。
+- **Title**（700、18〜20px、1.5）: 一覧の各項目の見出し（こんなとき、進め方の各段）、1 画面目の画面の説明の見出し（20px → 28px）。
+- **Body**（400、16px、1.7、字間 0.01em）: 本文。段落は最大 30〜36em。
+- **Label**（700、14px、字間 0.02em）: ボタン、フォームのラベル、役割の札、注記の見出し。ナビとフッターのリンクは同じ 14px の 400。
+- **Caption**（400、12px）: プロダクトの画面の中の小さな文字だけ。
 
 ### Named Rules
 
-**The 文節で折る Rule.** 日本語の見出しは文節ごとに `display: inline-block` の塊にし、単語の途中で折り返さない。本文には `word-break: auto-phrase` と `line-break: strict` を掛ける。英語の訳文には塊を使わない。
+**The 文節で折る Rule.** 日本語の見出しは文節ごとに inline-block の塊にし、単語の途中で折り返さない。本文には `word-break: auto-phrase` と `line-break: strict` を掛ける。英語の訳文には塊を使わない。
+
+**The 見出しに語らせる Rule.** セクション見出しの上に小さなラベル（いま何の話か）を置かない。見出しそのものが話題を言う。
 
 **The 太さで分ける Rule.** 階層はサイズと太さで作る。書体を足したり、斜体や全大文字にしたりしない。
 
 ## Layout
 
-- **コンテナ:** 最大幅 70rem（左右の余白 24px を含めて 1120px）、中央寄せ。
-- **セクション:** 上下の余白 72px、900px 以上で 112px。上端に罫線。900px 以上で左 220px（セクション名）、右に本文の 2 段組、間隔 48px、1 行目をベースラインで揃える。
-- **一覧の行:** 760px 以上で「見出し：本文 ＝ 1：1.2」の 2 列、行の上下 24〜28px、行ごとに罫線。
-- **問い合わせ:** 960px 以上で説明とフォームを 0.9：1.1 の 2 列。
-- **ヘッダー:** 上部に固定（地と同じ色、下端に罫線）。860px 以下ではページ内ナビが 2 段目に回り、狭い幅では折り返す。横スクロールにはしない。
-- **余白の刻み:** 8px を基準に、8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64 / 72 / 112px を使う。
-- **ブレークポイント:** 640 / 760 / 860（ナビ）/ 900（2 段組）/ 960（問い合わせ）px。
+- **コンテナ:** 最大幅 75rem（左右の余白 24px を含めて 1200px）、中央寄せ。
+- **1 画面目:** 中央揃えの 1 列。上の余白 72px（900px 以上で 104px）。見出し → 24px → リード → 36px → ボタン 2 つ（間隔 12px）→ 40px → 代表の 1 行 → 56px（900px 以上で 72px）→ プロダクトの画面。画面はコンテナの幅いっぱいで、1 画面目では上の一部だけが見える。
+- **セクション:** 1 列、左揃え。上下の余白 80px、900px 以上で 128px。セクション同士は余白だけで区切り、線を引かない。
+- **3 列の一覧:** こんなとき・進め方は、900px 以上で同じ幅の 3 列。こんなときは列の間に縦の線、進め方は番号の輪を横の線でつなぐ。狭い幅では 1 列に積み、こんなときは行の線、進め方は縦の線でつなぐ。
+- **代表:** 写真と名前の行の下に、900px 以上で「理由の文 : 経歴の枠 = 1 : 1.1」の 2 列。
+- **問い合わせ:** 960px 以上で説明とフォームを 0.9 : 1.1 の 2 列。名前と会社名は 560px 以上で横に並べる。
+- **会社概要:** 640px 以上で項目名 160px と値の 2 列、行ごとに下に線。
+- **ヘッダー:** 上部に固定、高さ 64px。860px 以下ではページ内ナビが 2 段目に回り（108px）、360px 未満では 3〜4 段に折り返す（190px）。横スクロールにはしない。
+- **余白の刻み:** 8px を基準に、8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 56 / 64 / 72 / 80 / 104 / 128px を使う。
+- **ブレークポイント:** 560（フォームの欄）/ 640 / 760 / 860（ナビ）/ 900（列）/ 960（問い合わせ）px。
 
 ## Elevation & Depth
 
-基本は平ら。奥行きは罫線と、紙（paper）と一枚紙（sheet）のわずかな明るさの差で示す。影を持つのは自社プロダクトの画面だけで、机の上に置いた 1 枚の写真として扱う。
+地は平ら。奥行きは 1px の線と、地から一段明るい面（surface）で示す。線は `border` か `inset 0 0 0 1px` の内側の線で引く。影と光を持つのはプロダクトの画面だけで、光を背にした 1 枚の実物として扱う。
 
 ### Shadow Vocabulary
 
-- **写真の影**（`--shadow-image`）: 1px の縁取りと、下へ落ちる柔らかい 2 段の影。プロダクト画面の台紙だけに使う。
-- **ボタンの照り**（`inset 0 1px 0 rgb(255 255 255 / 0.12)`）: 塗りのボタンの上端に 1px の照り返し。
+- **画面の影**（`--shadow-image`）: 1px の縁取りと、下へ落ちる柔らかい影（昼は 2 段、夜は 1 段の深い影）。プロダクトの画面だけに使う。
+- **漏れる光**（`0 -40px 72px -36px var(--glow)`）: 画面の上端から漏れる青い光。画面の影と重ねて使う。
+- **写真の輪**（`0 0 0 1px var(--border-strong)`）: 代表の丸い写真の縁。
 
 ### Named Rules
 
-**The 影は写真だけ Rule.** カード、注記、フォームに影を付けない。持ち上げたいときは sheet の面と罫線で済ませる。
+**The 影は画面だけ Rule.** 一覧、面、注記、フォームに落ち影を付けない。持ち上げたいときは一段明るい面と 1px の線で済ませる。
 
 ## Shapes
 
-角丸は 2 値だけ。操作するもの（ボタン、入力欄、注記の枠）は 6px、画像は 12px。代表の写真だけは円形にする。ワードマークの句点も円。それ以外の形（斜め、切り欠き、ブロブ）は使わない。
+角丸は 3 値と円。押すボタンはピル（999px）、入力欄・注記・スキップリンクは 8px、大きな面と画面は 16px。代表の写真、進め方の番号の輪、ワードマークの句点は円。それ以外の形（斜め、切り欠き、ブロブ）は使わない。プロダクトの画面の中は、実物（Artifact Share）の角丸に合わせる。
 
 ## Components
 
 ### Buttons
 
-静かで確か。普段は小さく平らだが、押すと 0.97 倍に縮んで応える。
+丸いピルで、押すと応える。
 
-- **Shape:** 控えめな角丸（6px）。見た目の高さは 40px（ヘッダーだけ 36px）、押せる範囲は `::before` で上下に広げて 44px にする。
-- **Primary:** インクの地に紙色の文字、ラベル書体（14px / 700、字間 0.02em）。1 画面に 1 つだけ。
-- **Secondary:** 透明の地に濃い罫線の縁（内側 1px）。hover で一枚紙の面が出る。
-- **Hover / Focus / Active:** 背景色を 150ms で変える。フォーカスは 2px の青い枠（3px 離す）。押下で縮む。無効時は不透明度 0.6。
+- **Shape:** ピル（999px）。高さ 44px、左右 22px。ヘッダーだけ高さ 36px・左右 14px にし、押せる範囲は `::before` で上下に広げて 44px にする。
+- **Primary:** ボタンの塗り（文字色を反転した無彩色）に、ラベル書体。1 画面に 1 つだけ（ヘッダーと 1 画面目の「相談する」、フォームの送信）。hover で地の色を 16% 混ぜて少し沈める。
+- **Secondary:** 透明の地に濃い線の内側の縁。hover で一段明るい面が出て、縁が淡い文字の色になる。
+- **Hover / Focus / Active:** 150ms ease-out で変える。フォーカスは 2px の青い枠（3px 離す）。押下で 0.97 倍に縮む。無効時は不透明度 0.6。
 - **強制カラーモード:** 背景と影が消えるので、実線の枠を描く。
 
 ### Inputs / Fields
 
-- **Style:** 一枚紙の面に、入力欄の縁（field-edge）の 1px の内側の線。角丸 6px、余白 10px 12px、文字は 16px（iOS で拡大されない大きさ）。
+- **Style:** 一段明るい面に、入力欄の縁の 1px の内側の線。角丸 8px、余白 10px 12px、文字は 16px（iOS で拡大されない大きさ）。
 - **Focus:** 縁が 1.5px の青になり、外側に 4px の青のにじみ。
-- **Error:** 縁が 1.5px の赤になり、欄の下に 14px の赤い文で原因を書く。フォームの先頭にも知らせを出し、送信後は最初のエラーの欄にフォーカスを移す。
-- **Optional:** 任意の欄にだけ、ラベルの横に淡いインクで「任意」と添える。
+- **Error:** 縁が 1.5px の赤になり、欄の下に 14px の赤い文で原因を書く。送信失敗は赤の面（danger-surface）に角丸 8px で知らせる。
+- **Optional:** 任意の欄にだけ、ラベルの横に淡い文字で「任意」と添える。
+- **Checkbox:** 18px、`accent-color` を青に。ラベルごと 44px の高さで押せる。
 
-### Lists（こんなとき・進め方・会社概要・掲載記事）
+### Panels（代表の経歴、送信完了）
 
-このサイトの主役の部品。罫線で区切った行に、左に見出し、右に本文を置く。番号は手順に順序があるときだけ（進め方）、青の桁揃えの数字（tabular-nums）で示す。
+- **Corner Style:** 16px。
+- **Background:** 一段明るい面に、細い線の内側の縁。影は付けない。
+- **Internal Padding:** 24〜32px。中を分けるときは細い線で区切る（経歴の枠は 760px 以上で左右 2 つに分け、縦の線を引く）。
+
+### Note Box
+
+お受けしていない依頼の注記。一段明るい面、細い線の縁（強制カラーモードでも残るよう border で描く）、角丸 8px、余白 20px 24px、最大 44em。見出しも本文も 14px。
+
+### Lists（こんなとき・進め方・会社概要・経歴）
+
+区切りは塗りではなく線。こんなときは 3 列を縦の線で、会社概要と経歴は行を横の線で分ける。進め方の番号は、青の 1px の輪（40px の円）に青の桁揃えの数字（tabular-nums）で示し、段と段を濃い線でつなぐ。番号は順序があるときだけ使う。
+
+### Role Tag
+
+「経営」「開発」の札。14px / 700 の青い文字だけで、枠も塗りも付けない。1 画面目の代表の 1 行と、代表のセクションの経歴の枠の見出しに使う。
 
 ### Navigation
 
-- **Header:** ワードマーク、ページ内ナビ（14px、薄いインク）、言語の切り替え、塗りのボタン「相談する」。いま読んでいるセクションのリンクは、インクの色にして 8px 下に 1px の下線を引く（`aria-current="location"`）。
-- **Footer:** 小さいワードマークと、14px の淡いインクのリンク。各リンクは上下に余白を持たせて 44px の高さにする。
-- **Skip link:** フォーカスされたときだけ左上に、塗りのボタンと同じ見た目で出る。
+- **Header:** ワードマーク、ページ内ナビ（14px、抑えた文字）、言語の切り替え（14px、淡い文字）、塗りのピル「相談する」（36px）。いま読んでいるセクションのリンクは、強い文字の色にして 1px の下線を引く（`aria-current="location"`）。地と同じ色の不透明な面で、透かしやぼかしは使わない。
+- **Footer:** 上に細い線、小さいワードマークと 14px の淡い文字のリンク。各リンクは上下 10px の余白で 44px の高さにする。外部リンクには小さな右上向きの矢印（Lucide の SVG を埋め込んだもの）を添える。
+- **Skip link:** フォーカスされたときだけ左上に、塗りのボタンの配色で出る。
 
-### Product Figure
+### Product Screen
 
-自社プロダクトの画面。一枚紙の台紙に角丸 12px、写真の影、下に罫線で区切った 12px のキャプション。
+このサイトの主役の部品。Artifact Share で技術検証レポートのサンプルを開いた画面を、ブラウザの枠ごと HTML で描いたもの。一段明るい面の台紙に角丸 16px、画面の影と漏れる光。後ろに青の光（放射状のグラデーション、幅 48%・高さ 56% の楕円、70% で透明に）を敷く。表示時に 48px 下から 0.9s でせり上がる（`cubic-bezier(0.16, 1, 0.3, 1)`、動きを減らす設定では動かさない）。下に、中央揃えの見出しと説明、サンプルと artifactshare.com への外部リンクを置く。
 
-中身は Artifact Share で技術検証レポートのサンプルを開いた画面を、ブラウザの枠ごと HTML で描いたもの。上のバーと右のコメント欄は Artifact Share の閲覧画面の並びと配色（ライト / ダーク）に、レポートとコメントは公開しているサンプルの文言と数値に合わせる。寸法は枠の幅から決めた単位で書き、画面写真のように全体を縮める。狭い枠では仮想の画面幅を詰め、コメント欄と一部のボタンを隠す。レポートはライトの配色しかないので、ダークでは明るさを少し落として浮かせない。実物にない機能や数値は描かない。
+中身の配色・並び・文言・数値は実物とサンプルに合わせ、実物にない機能や数値は描かない。寸法は枠の幅から決めた単位で書き、画面写真のように全体を縮める。
+
+### Generated Image（進め方）
+
+進め方のリードと 3 段の間に置く、横長（1600×560）の生成画像。夜用と昼用の 2 枚を `<picture>` で `prefers-color-scheme` に合わせて出し分け、四辺はページの地の色に溶かしてあるので枠も角丸も付けない。飾りなので `alt=""`。来歴は画像の横の `.json` に残す。
 
 ### Wordmark
 
-「TechTalk」を 800 の太さで字間を詰め（-0.04em）、末尾に青い円の句点を打つ。色を変えたり、句点を外したりしない。
+「TechTalk」を 800 の太さで字間を詰め（-0.04em）、末尾に青い円の句点（0.3em）を打つ。ヘッダーは 20px、フッターは 16px。色を変えたり、句点を外したりしない。
 
 ## Do's and Don'ts
 
 ### Do:
 
 - **Do** 色を足す前に、既存のトークン（`app/ui/global-styles.ts`）で済まないか考える。
-- **Do** 話題の切れ目には 1px の罫線（rule）を引く。
+- **Do** 区切りには 1px の線（hairline）か、一段明るい面（surface）を使う。
 - **Do** 押せるものは見た目の大きさにかかわらず 44px の範囲を確保する。
-- **Do** ライトとダークの両方で、本文 4.5:1、入力欄の縁 3:1 を確かめる。
-- **Do** 画像には width と height を書く。プロダクトの画面は本物（写真か、それを忠実に描いた HTML）、人物は本人の写真だけを使う。
-- **Do** アニメーションは `prefers-reduced-motion: no-preference` のときだけ動かす（送信完了の知らせの fade-up と、ボタンの押下）。
+- **Do** 夜と昼の両方で、本文 4.5:1、入力欄の縁 3:1 を確かめる。
+- **Do** 画像には width と height を書く。プロダクトの画面は本物（写真か、それを忠実に描いた HTML）、人物は本人の写真だけを使う。生成画像は夜用と昼用を対で作り、来歴を残す。
+- **Do** アニメーションは `prefers-reduced-motion: no-preference` のときだけ動かす（画面のせり上がり、送信完了の fade-up、ボタンの押下）。
 
 ### Don't:
 
-- **Don't** 青以外のアクセント色やグラデーションを使わない。
-- **Don't** 固定・大きなレイヤーに blur、backdrop-filter、mask を使わない（iOS Safari でスクロール中の描画が遅れる）。
-- **Don't** 同じ大きさのカードを並べる構成や、大きな数字の実績パネルを使わない。
+- **Don't** 青以外のアクセント色を使わない。青でボタンや広い面を塗らない。
+- **Don't** グラデーションを、1 画面目の画面の後ろの光以外に使わない。
+- **Don't** 固定・大きなレイヤーに blur、backdrop-filter、mask を使わない（iOS Safari でスクロール中の描画が遅れる）。光もぼかしではなくグラデーションで描く。
+- **Don't** 塗りや影の付いたカードを並べない。並べるときは線で区切る。大きな数字の実績パネルも使わない。
+- **Don't** セクション見出しの上に小さなラベルを置かない。
 - **Don't** テーマの切り替え UI を置かない。OS の設定に従うだけにする。
-- **Don't** 角丸に 6px と 12px（と写真の円）以外の値を使わない。
+- **Don't** 角丸にピル・8px・16px・円以外の値を使わない（プロダクトの画面の中を除く）。
