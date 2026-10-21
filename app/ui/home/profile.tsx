@@ -7,27 +7,15 @@ import { ProfileLinks, ProfilePhoto } from '../profile-parts.tsx'
 import { Section, sectionHeading } from '../section.tsx'
 import { medium, textLink, wide } from '../styles.ts'
 
-/** 経営と開発、それぞれで担ってきた役割。詳しくは経歴ページに任せる */
-const tracks: { name: MessageKey; roles: MessageKey[] }[] = [
-  {
-    name: '経営',
-    roles: [
-      'ドワンゴの経営企画室長、新規事業の企画開発部長',
-      '合弁会社 IRIS の代表取締役副社長',
-      'TechTalk の代表取締役',
-    ],
-  },
-  {
-    name: '開発',
-    roles: [
-      'ドワンゴのプログラマー、開発責任者',
-      'ニワンゴの技術担当取締役',
-      'TechTalk で Artifact Share を開発・運営',
-    ],
-  },
+/** いま手がけている仕事。過去の肩書きは経歴ページに任せる */
+const works: MessageKey[] = [
+  '化学物質の検索システム',
+  'AIを使った試作',
+  'データの集計基盤',
+  '自社プロダクト Artifact Share の開発・運営',
 ]
 
-/** 代表の写真と、この仕事をしている理由、経営と開発の両方の経歴 */
+/** 代表の写真と、この仕事をしている理由、いま手がけている仕事 */
 export function ProfileSection(handle: Handle) {
   return () => {
     let { t, locale } = getI18n(handle)
@@ -93,55 +81,37 @@ export function ProfileSection(handle: Handle) {
 
           <div
             mix={css({
-              display: 'grid',
-              gridTemplateColumns: 'minmax(0, 1fr)',
+              alignSelf: 'start',
+              padding: '24px',
               borderRadius: 'var(--r-image)',
               background: 'var(--surface)',
               boxShadow: 'inset 0 0 0 1px var(--border)',
-              [medium]: { gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' },
+              [medium]: { padding: '28px' },
             })}
           >
-            {tracks.map((track) => (
-              <div
-                key={track.name}
-                mix={css({
-                  padding: '24px',
-                  '& + &': { borderTop: '1px solid var(--border)' },
-                  [medium]: {
-                    padding: '28px',
-                    '& + &': {
-                      borderTop: 0,
-                      borderLeft: '1px solid var(--border)',
-                    },
-                  },
-                })}
-              >
-                <h3
+            <h3
+              mix={css({
+                fontSize: 'var(--t-14)',
+                fontWeight: 700,
+                color: 'var(--accent)',
+              })}
+            >
+              {t('いま手がけている仕事')}
+            </h3>
+            <ul role="list" mix={css({ marginTop: '12px' })}>
+              {works.map((work) => (
+                <li
+                  key={work}
                   mix={css({
-                    fontSize: 'var(--t-14)',
-                    fontWeight: 700,
-                    color: 'var(--accent)',
+                    paddingBlock: '10px',
+                    lineHeight: 1.6,
+                    '& + &': { borderTop: '1px solid var(--border)' },
                   })}
                 >
-                  {t(track.name)}
-                </h3>
-                <ul role="list" mix={css({ marginTop: '12px' })}>
-                  {track.roles.map((role) => (
-                    <li
-                      key={role}
-                      mix={css({
-                        paddingBlock: '8px',
-                        fontSize: 'var(--t-14)',
-                        lineHeight: 1.6,
-                        '& + &': { borderTop: '1px solid var(--border)' },
-                      })}
-                    >
-                      {t(role)}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+                  {t(work)}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </Section>
