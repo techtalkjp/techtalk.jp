@@ -13,7 +13,7 @@
     "app/controllers/home.tsx": "3cbeeb43061caea29291661bc6b5d85600fc67513c09239fc712af57c32bd3e2",
     "app/controllers/not-found.tsx": "845f7330a4e6a7fbece378e9e143df65b61afe0f1021bcb30dcfa6f673766a72",
     "app/controllers/privacy.tsx": "24e39ec5bb76fcaf1704e2cc2dffdbbcd8ba3042fdf5e35c55f59e7d1bd3e9b9",
-    "app/i18n/en.json": "f261827fd1026bfd779eee60d3fe8b2a836bb2c52f166b16422f041f474ef944",
+    "app/i18n/en.json": "035f5a1d0693b51acd79546340c69e1913d6db9baeec44a0ae2d874a16b1d98b",
     "app/i18n/index.ts": "2137cf01f80b0651233af632899763997a8040095a719378b6cf30bdc60aaf96",
     "app/i18n/provider.tsx": "b884d59799e153f24d0611b65f534bec9264fb55235d8738fda459d26b06a00d",
     "app/islands/events.ts": "f0fe49b9e5f9162d96969829f21c834bcd68e5c82a79612f606945476258f7a2",
@@ -29,7 +29,7 @@
     "app/ui/biography/page.tsx": "21cd786b7f17ad3fe87818a056c7c590d10f15d2bc58879cee2df0f176dc955e",
     "app/ui/document.tsx": "3958125039a2d3ffb854224b778b2f7d13b7159fae9bda0daae04f3958389237",
     "app/ui/global-styles.ts": "95e295074b2bd0726b70a9515b8b53dd18bbb1414903445e488d19ce8f6b2685",
-    "app/ui/home/approach.tsx": "d229db9d26b884bc0386f7e4560d23a4d341224bcdfe6f5cbf93fa5beb876636",
+    "app/ui/home/approach.tsx": "7dbf8952053cff89d3c76cf89d5f29684ab1d60db248ab8ad6450f6f453de1d5",
     "app/ui/home/cases.tsx": "66b5ad8b8d11d290db41ed121b7780b4e6567e2fe1e7e855929b280983baff1d",
     "app/ui/home/company.tsx": "06791f3ff73b04104abcbaee47c5838ef6d2f66949c77e1ad247b107819e4761",
     "app/ui/home/contact.tsx": "5a21c13a27aaf0f4d25a3fedcf0e2ddb3e5ad275c14751a70cca3b3f12260a1b",
@@ -47,8 +47,8 @@
     "app/ui/styles.ts": "2069ada7b0fc9ca8bdb95b14a7259d10a8531469e092dc765046582d5d32fbde"
   },
   "fonts": {
-    "line-seed-jp-400-0ccd40003d04.woff2": "0ccd40003d043b4c36c761edcaa1d69853cbbc50ebaae21025e940ea105867e1",
-    "line-seed-jp-700-1c619118e555.woff2": "1c619118e555441753c220c0de2ad0d262b178fd4bfb45b1934a992d2ae5da67",
+    "line-seed-jp-400-fc178f410abd.woff2": "fc178f410abdb1fc6e5715e9f39a1055f0b74744725e5c7b21dacb201aa7b21a",
+    "line-seed-jp-700-d21ed8c23d15.woff2": "d21ed8c23d15418fe707f165ef81919e4f580b789df3316b6debfcc2b39c1599",
     "line-seed-jp-800-15ce895e04a3.woff2": "15ce895e04a3a3d26a95eb0b59b12db46aafb95063b2b585d81ba049476d2bf9"
   }
 }
