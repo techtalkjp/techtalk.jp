@@ -29,11 +29,11 @@
     "app/ui/biography/page.tsx": "f19884bb44ac45e98ae63630901ba98cec1921d40d96f46f038a41b2334e090c",
     "app/ui/document.tsx": "3958125039a2d3ffb854224b778b2f7d13b7159fae9bda0daae04f3958389237",
     "app/ui/global-styles.ts": "95e295074b2bd0726b70a9515b8b53dd18bbb1414903445e488d19ce8f6b2685",
-    "app/ui/home/approach.tsx": "7dbf8952053cff89d3c76cf89d5f29684ab1d60db248ab8ad6450f6f453de1d5",
+    "app/ui/home/approach.tsx": "17452bd1280218efe3e839ee9b283e4e1775f8219f4f93be088cd0af34696662",
     "app/ui/home/cases.tsx": "66b5ad8b8d11d290db41ed121b7780b4e6567e2fe1e7e855929b280983baff1d",
     "app/ui/home/company.tsx": "06791f3ff73b04104abcbaee47c5838ef6d2f66949c77e1ad247b107819e4761",
     "app/ui/home/contact.tsx": "5a21c13a27aaf0f4d25a3fedcf0e2ddb3e5ad275c14751a70cca3b3f12260a1b",
-    "app/ui/home/hero.tsx": "24b9491a75da696e0fe3c8949ccb412414bbe919123ee50aba17658bc73f0ecc",
+    "app/ui/home/hero.tsx": "98a67bde482ec3b83ad3fed5a3550b1959cd719a10a494e904a47a7bf1ef24e9",
     "app/ui/home/page.tsx": "13fa119eb9015b49aae9ce6710f5298b30f94cf4d8cee14fcc1777d7a3daf8c9",
     "app/ui/home/product-preview.tsx": "a5fc3a458ad0e7bbe45d38697f67528a6b061479f23012eee6618ddd81ffa673",
     "app/ui/home/profile.tsx": "7097970177f3e210d3d439a999220556ad60d46fce8452b0531f73e34231bc78",
@@ -47,8 +47,8 @@
     "app/ui/styles.ts": "2069ada7b0fc9ca8bdb95b14a7259d10a8531469e092dc765046582d5d32fbde"
   },
   "fonts": {
-    "line-seed-jp-400-9433448d85d0.woff2": "9433448d85d00f2b289446b556adf9a83e8d322a1b2a879fcf07d098e893b657",
-    "line-seed-jp-700-fd10165dbd5a.woff2": "fd10165dbd5a1fdd2839fafd6d6dd7887c1d4d88472174fc31a4bcac356dbeb5",
+    "line-seed-jp-400-bbd465c4a31f.woff2": "bbd465c4a31f13732ad3f01aef8a746aa01ef0c40a11e2c39d1e93588193b71f",
+    "line-seed-jp-700-bf78fab29888.woff2": "bf78fab29888ab25f30ab51aa9cf7f162364c8692542b263fa273d75748beebc",
     "line-seed-jp-800-15ce895e04a3.woff2": "15ce895e04a3a3d26a95eb0b59b12db46aafb95063b2b585d81ba049476d2bf9"
   }
 }

@@ -2,8 +2,16 @@ import { css, type Handle } from 'remix/component'
 
 import type { MessageKey } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
+import { ArrowUpRightIcon } from '../icons.tsx'
 import { Section, sectionHeading, sectionLede } from '../section.tsx'
-import { phrase, wide } from '../styles.ts'
+import { externalLink, phrase, textLink, wide } from '../styles.ts'
+import { ProductPreview } from './product-preview.tsx'
+
+/** 技術検証レポートのサンプル（Artifact Share で公開しているもの） */
+const SAMPLE_URLS = {
+  ja: 'https://kblg7hwkv2.artifactshare.link/',
+  en: 'https://0w3cy597f1.artifactshare.link/',
+}
 
 const steps: { title: MessageKey; body: MessageKey }[] = [
   {
@@ -22,7 +30,7 @@ const steps: { title: MessageKey; body: MessageKey }[] = [
 
 export function ApproachSection(handle: Handle) {
   return () => {
-    let { t } = getI18n(handle)
+    let { t, locale } = getI18n(handle)
     return (
       <Section id="approach" name={t('進め方')}>
         <h2 mix={sectionHeading}>
@@ -36,28 +44,6 @@ export function ApproachSection(handle: Handle) {
           )}
         </p>
 
-        {/* 原石（技術の種）を切り出して、光る完成品にするまでの 3 段を、下の 3 段に合わせて描いた生成画像。
-            四辺はページの地の色に溶かしてある。飾りなので読み上げない */}
-        <picture>
-          <source
-            srcset="/images/approach-dark.webp"
-            media="(prefers-color-scheme: dark)"
-          />
-          <img
-            src="/images/approach-light.webp"
-            alt=""
-            width={1600}
-            height={560}
-            loading="lazy"
-            decoding="async"
-            mix={css({
-              width: '100%',
-              marginTop: '32px',
-              [wide]: { marginTop: '40px' },
-            })}
-          />
-        </picture>
-
         <ol
           // リストの見た目を消すと Safari の読み上げがリストとして扱わなくなるので、明示する
           role="list"
@@ -65,11 +51,11 @@ export function ApproachSection(handle: Handle) {
             display: 'grid',
             gridTemplateColumns: 'minmax(0, 1fr)',
             gap: '40px',
-            marginTop: '32px',
+            marginTop: '40px',
             [wide]: {
               gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
               gap: '48px',
-              marginTop: '16px',
+              marginTop: '56px',
             },
           })}
         >
@@ -142,6 +128,77 @@ export function ApproachSection(handle: Handle) {
             </li>
           ))}
         </ol>
+
+        {/* 2 番目の手順で届けるレポートの実物。Artifact Share は売り物としてではなく、届け方として見せる */}
+        <figure
+          aria-label={t('プロダクト')}
+          mix={css({ marginTop: '64px', [wide]: { marginTop: '80px' } })}
+        >
+          <div
+            mix={css({
+              borderRadius: 'var(--r-image)',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-image)',
+              background: 'var(--surface)',
+            })}
+          >
+            <ProductPreview
+              locale={locale}
+              label={t(
+                'Artifact Share で共有した技術検証レポートのサンプル。試した技術、確かめたこと、製品の種が並び、右のコメント欄には質問と、答えを書き足して v2 に更新したという返信がある',
+              )}
+            />
+          </div>
+          <figcaption
+            mix={css({
+              display: 'grid',
+              gap: '8px',
+              marginTop: '20px',
+            })}
+          >
+            <p mix={css({ fontWeight: 700, color: 'var(--text-strong)' })}>
+              <span mix={phrase}>{t('検証の結果は、')}</span>
+              <span mix={phrase}>
+                {/* 製品名の途中で折り返さない */}
+                {t('自分で作った Artifact Share で届けています。').replace(
+                  'Artifact Share',
+                  'Artifact\u00a0Share',
+                )}
+              </span>
+            </p>
+            <p mix={css({ color: 'var(--text-muted)' })}>
+              {t(
+                'サンプルの技術検証レポート。コメントの質問に答えて、同じ URL のまま v2 に更新したところ',
+              )}
+            </p>
+            <p
+              mix={css({
+                display: 'flex',
+                flexWrap: 'wrap',
+                columnGap: '24px',
+              })}
+            >
+              <a
+                href={SAMPLE_URLS[locale]}
+                target="_blank"
+                rel="noopener"
+                mix={[textLink, externalLink]}
+              >
+                {t('このサンプルを開く')}
+                <ArrowUpRightIcon size={13} />
+              </a>
+              <a
+                href="https://artifactshare.com"
+                target="_blank"
+                rel="noopener"
+                mix={[textLink, externalLink]}
+              >
+                {t('artifactshare.comを見る')}
+                <ArrowUpRightIcon size={13} />
+              </a>
+            </p>
+          </figcaption>
+        </figure>
 
         <div
           mix={css({

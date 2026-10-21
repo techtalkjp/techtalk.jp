@@ -1,28 +1,18 @@
 import { css, type Handle } from 'remix/component'
 
 import { getI18n } from '../../i18n/provider.tsx'
-import { ArrowUpRightIcon } from '../icons.tsx'
 import {
   container,
-  externalLink,
   medium,
   phrase,
   primaryButton,
   secondaryButton,
-  textLink,
   wide,
 } from '../styles.ts'
-import { ProductPreview } from './product-preview.tsx'
-
-/** 1 画面目に描いた技術検証レポートのサンプル（Artifact Share で公開しているもの） */
-const SAMPLE_URLS = {
-  ja: 'https://kblg7hwkv2.artifactshare.link/',
-  en: 'https://0w3cy597f1.artifactshare.link/',
-}
 
 /**
- * トップの 1 画面目。中央に見出しと相談ボタン、その下に代表と「経営」「開発」の経歴を 1 行で置き、
- * 下端から Artifact Share で届けた技術検証レポートの画面が、青い光を背にせり上がる
+ * トップの 1 画面目。中央に見出しと相談ボタン、その下に代表を置き、
+ * 下端に技術の種が製品になるまでを描いた画像を敷く
  */
 export function HeroSection(handle: Handle) {
   return () => {
@@ -87,120 +77,33 @@ export function HeroSection(handle: Handle) {
           <Founder />
         </div>
 
-        <div
-          mix={css({
-            position: 'relative',
-            marginTop: '56px',
-            [wide]: { marginTop: '72px' },
-            // 画面の後ろの光。ぼかしは使わず、グラデーションだけで描く
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              inset: '-120px 0 auto',
-              height: '640px',
-              background:
-                'radial-gradient(ellipse 48% 56% at 50% 50%, var(--glow), transparent 70%)',
-              pointerEvents: 'none',
-            },
-          })}
-        >
-          <figure
-            id="products"
-            aria-label={t('プロダクト')}
-            mix={[
-              container,
-              css({
-                position: 'relative',
-                '@media (prefers-reduced-motion: no-preference)': {
-                  animation: 'rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both',
-                },
-              }),
-            ]}
-          >
-            <div
-              mix={css({
-                borderRadius: 'var(--r-image)',
-                overflow: 'hidden',
-                // 枠の上端から漏れる光で、画面が光を背にしているように見せる
-                boxShadow:
-                  '0 -40px 72px -36px var(--glow), var(--shadow-image)',
-                background: 'var(--surface)',
-              })}
-            >
-              <ProductPreview
-                locale={locale}
-                label={t(
-                  'Artifact Share で共有した技術検証レポートのサンプル。試した技術、確かめたこと、製品の種が並び、右のコメント欄には質問と、答えを書き足して v2 に更新したという返信がある',
-                )}
-              />
-            </div>
-            <figcaption
-              mix={css({
-                display: 'grid',
-                justifyItems: 'center',
-                gap: '8px',
-                marginTop: '28px',
-                textAlign: 'center',
-              })}
-            >
-              <h2
-                mix={css({
-                  fontSize: 'var(--t-20)',
-                  lineHeight: 1.5,
-                  fontWeight: 700,
-                  [medium]: { fontSize: 'var(--t-28)' },
-                })}
-              >
-                <span mix={phrase}>{t('検証の結果は、')}</span>
-                <span mix={phrase}>
-                  {/* 製品名の途中で折り返さない */}
-                  {t('自分で作った Artifact Share で届けています。').replace(
-                    'Artifact Share',
-                    'Artifact\u00a0Share',
-                  )}
-                </span>
-              </h2>
-              <p
-                mix={css({
-                  maxWidth: '36em',
-                  color: 'var(--text-muted)',
-                  textWrap: 'balance',
-                })}
-              >
-                {t(
-                  'サンプルの技術検証レポート。コメントの質問に答えて、同じ URL のまま v2 に更新したところ',
-                )}
-              </p>
-              <p
-                mix={css({
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  justifyContent: 'center',
-                  columnGap: '24px',
-                })}
-              >
-                <a
-                  href={SAMPLE_URLS[locale]}
-                  target="_blank"
-                  rel="noopener"
-                  mix={[textLink, externalLink]}
-                >
-                  {t('このサンプルを開く')}
-                  <ArrowUpRightIcon size={13} />
-                </a>
-                <a
-                  href="https://artifactshare.com"
-                  target="_blank"
-                  rel="noopener"
-                  mix={[textLink, externalLink]}
-                >
-                  {t('artifactshare.comを見る')}
-                  <ArrowUpRightIcon size={13} />
-                </a>
-              </p>
-            </figcaption>
-          </figure>
-        </div>
+        {/* 原石（技術の種）が、切り出され、光る完成品になるまでを描いた生成画像。
+            四辺はページの地の色に溶かしてある。飾りなので読み上げない */}
+        <picture>
+          <source
+            srcset="/images/hero-dark.webp"
+            media="(prefers-color-scheme: dark)"
+          />
+          <img
+            src="/images/hero-light.webp"
+            alt=""
+            width={1600}
+            height={560}
+            fetchpriority="high"
+            decoding="async"
+            mix={css({
+              display: 'block',
+              width: '100%',
+              maxWidth: '1600px',
+              marginInline: 'auto',
+              marginTop: '24px',
+              [wide]: { marginTop: '8px' },
+              '@media (prefers-reduced-motion: no-preference)': {
+                animation: 'rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both',
+              },
+            })}
+          />
+        </picture>
       </div>
     )
   }
