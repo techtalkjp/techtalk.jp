@@ -12,17 +12,17 @@ const tracks: { name: MessageKey; roles: MessageKey[] }[] = [
   {
     name: '経営',
     roles: [
-      '経営企画室長、新規事業の企画開発部長（ドワンゴ）',
-      '合弁会社の代表取締役副社長（IRIS）',
-      '代表取締役（TechTalk）',
+      'ドワンゴの経営企画室長、新規事業の企画開発部長',
+      '合弁会社 IRIS の代表取締役副社長',
+      'TechTalk の代表取締役',
     ],
   },
   {
     name: '開発',
     roles: [
-      'プログラマー、開発責任者（ドワンゴ）',
-      '技術担当取締役（ニワンゴ）',
-      'Artifact Share の開発と運営（TechTalk）',
+      'ドワンゴのプログラマー、開発責任者',
+      'ニワンゴの技術担当取締役',
+      'TechTalk で Artifact Share を開発・運営',
     ],
   },
 ]
