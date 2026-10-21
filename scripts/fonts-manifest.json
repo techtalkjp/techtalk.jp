@@ -29,7 +29,7 @@
     "app/ui/biography/page.tsx": "21cd786b7f17ad3fe87818a056c7c590d10f15d2bc58879cee2df0f176dc955e",
     "app/ui/document.tsx": "3958125039a2d3ffb854224b778b2f7d13b7159fae9bda0daae04f3958389237",
     "app/ui/global-styles.ts": "95e295074b2bd0726b70a9515b8b53dd18bbb1414903445e488d19ce8f6b2685",
-    "app/ui/home/approach.tsx": "3b26554e47ddbf0c99d9e8c9237a1f710a1067ccc911ed736fac0f54329c2005",
+    "app/ui/home/approach.tsx": "d229db9d26b884bc0386f7e4560d23a4d341224bcdfe6f5cbf93fa5beb876636",
     "app/ui/home/cases.tsx": "66b5ad8b8d11d290db41ed121b7780b4e6567e2fe1e7e855929b280983baff1d",
     "app/ui/home/company.tsx": "06791f3ff73b04104abcbaee47c5838ef6d2f66949c77e1ad247b107819e4761",
     "app/ui/home/contact.tsx": "5a21c13a27aaf0f4d25a3fedcf0e2ddb3e5ad275c14751a70cca3b3f12260a1b",
@@ -47,8 +47,8 @@
     "app/ui/styles.ts": "2069ada7b0fc9ca8bdb95b14a7259d10a8531469e092dc765046582d5d32fbde"
   },
   "fonts": {
-    "line-seed-jp-400-96daf363cd4d.woff2": "96daf363cd4d9e3d2116f906bdc032cc0377b7a27cc51b3c30aebfd0f68df603",
-    "line-seed-jp-700-d3d154b2e136.woff2": "d3d154b2e136d996091136bda5d2d7a23de87661861de3ab3b326d7ac4700b12",
+    "line-seed-jp-400-0ccd40003d04.woff2": "0ccd40003d043b4c36c761edcaa1d69853cbbc50ebaae21025e940ea105867e1",
+    "line-seed-jp-700-1c619118e555.woff2": "1c619118e555441753c220c0de2ad0d262b178fd4bfb45b1934a992d2ae5da67",
     "line-seed-jp-800-15ce895e04a3.woff2": "15ce895e04a3a3d26a95eb0b59b12db46aafb95063b2b585d81ba049476d2bf9"
   }
 }
