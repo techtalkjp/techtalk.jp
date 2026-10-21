@@ -13,7 +13,7 @@
     "app/controllers/home.tsx": "3cbeeb43061caea29291661bc6b5d85600fc67513c09239fc712af57c32bd3e2",
     "app/controllers/not-found.tsx": "845f7330a4e6a7fbece378e9e143df65b61afe0f1021bcb30dcfa6f673766a72",
     "app/controllers/privacy.tsx": "24e39ec5bb76fcaf1704e2cc2dffdbbcd8ba3042fdf5e35c55f59e7d1bd3e9b9",
-    "app/i18n/en.json": "42b35118517806a0ec62657d342201cf323f1a428f4b787895d46a5fb0d7e13f",
+    "app/i18n/en.json": "dac10545495cd52e0e397f0200c381237d073e18ed189a40fc7a377bcd8fa3cd",
     "app/i18n/index.ts": "2137cf01f80b0651233af632899763997a8040095a719378b6cf30bdc60aaf96",
     "app/i18n/provider.tsx": "b884d59799e153f24d0611b65f534bec9264fb55235d8738fda459d26b06a00d",
     "app/islands/events.ts": "f0fe49b9e5f9162d96969829f21c834bcd68e5c82a79612f606945476258f7a2",
@@ -33,10 +33,10 @@
     "app/ui/home/cases.tsx": "66b5ad8b8d11d290db41ed121b7780b4e6567e2fe1e7e855929b280983baff1d",
     "app/ui/home/company.tsx": "06791f3ff73b04104abcbaee47c5838ef6d2f66949c77e1ad247b107819e4761",
     "app/ui/home/contact.tsx": "5a21c13a27aaf0f4d25a3fedcf0e2ddb3e5ad275c14751a70cca3b3f12260a1b",
-    "app/ui/home/hero.tsx": "31a8f784fcb95293d863e42e51bfa472beaf5a4a8e49aca0f34611db39863ae2",
+    "app/ui/home/hero.tsx": "24b9491a75da696e0fe3c8949ccb412414bbe919123ee50aba17658bc73f0ecc",
     "app/ui/home/page.tsx": "13fa119eb9015b49aae9ce6710f5298b30f94cf4d8cee14fcc1777d7a3daf8c9",
     "app/ui/home/product-preview.tsx": "a5fc3a458ad0e7bbe45d38697f67528a6b061479f23012eee6618ddd81ffa673",
-    "app/ui/home/profile.tsx": "a6b8e6ad32c645c730e08c99bc4cfcb4d6991a433b51bcf7144e06a4594fff27",
+    "app/ui/home/profile.tsx": "7097970177f3e210d3d439a999220556ad60d46fce8452b0531f73e34231bc78",
     "app/ui/icons.tsx": "48faca4355bafbf070d359f3d91d7ed4e208ff516ff8ddb47a34fbb450fce0dd",
     "app/ui/layout.tsx": "1ec740b49b4986ba3b93403f4fcfe4284cc8355d792f4478e8aa505fa8c075fc",
     "app/ui/page-intro.tsx": "0bd39e4cbdc45a08dc0b51b1bfa8733bb5a7abcb4d6b0eb9016a78f77bd27400",
@@ -47,8 +47,8 @@
     "app/ui/styles.ts": "2069ada7b0fc9ca8bdb95b14a7259d10a8531469e092dc765046582d5d32fbde"
   },
   "fonts": {
-    "line-seed-jp-400-fc178f410abd.woff2": "fc178f410abdb1fc6e5715e9f39a1055f0b74744725e5c7b21dacb201aa7b21a",
-    "line-seed-jp-700-d21ed8c23d15.woff2": "d21ed8c23d15418fe707f165ef81919e4f580b789df3316b6debfcc2b39c1599",
+    "line-seed-jp-400-9433448d85d0.woff2": "9433448d85d00f2b289446b556adf9a83e8d322a1b2a879fcf07d098e893b657",
+    "line-seed-jp-700-fd10165dbd5a.woff2": "fd10165dbd5a1fdd2839fafd6d6dd7887c1d4d88472174fc31a4bcac356dbeb5",
     "line-seed-jp-800-15ce895e04a3.woff2": "15ce895e04a3a3d26a95eb0b59b12db46aafb95063b2b585d81ba049476d2bf9"
   }
 }

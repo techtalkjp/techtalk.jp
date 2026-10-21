@@ -206,64 +206,48 @@ export function HeroSection(handle: Handle) {
   }
 }
 
-/** 代表の写真と名前、経営と開発それぞれの経歴を 1 行で */
+/** 代表の写真と名前。肩書きを並べず、話を聞く人がそのまま作ることだけを添える */
 function Founder(handle: Handle) {
   return () => {
     let { t } = getI18n(handle)
-    let role = css({
-      display: 'inline-flex',
-      alignItems: 'baseline',
-      gap: '8px',
-      color: 'var(--text-muted)',
-    })
-    let tag = css({
-      fontSize: 'var(--t-14)',
-      fontWeight: 700,
-      color: 'var(--accent)',
-    })
     return (
       <div
         mix={css({
           display: 'flex',
-          flexWrap: 'wrap',
           alignItems: 'center',
-          justifyContent: 'center',
-          gap: '12px 24px',
+          gap: '12px',
           marginTop: '40px',
+          textAlign: 'left',
           fontSize: 'var(--t-16)',
         })}
       >
-        <span
+        <img
+          src="/images/coji.webp"
+          width={48}
+          height={48}
+          alt=""
           mix={css({
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '10px',
+            flexShrink: 0,
+            width: '48px',
+            height: '48px',
+            borderRadius: '50%',
+            boxShadow: '0 0 0 1px var(--border-strong)',
           })}
-        >
-          <img
-            src="/images/coji.webp"
-            width={48}
-            height={48}
-            alt=""
+        />
+        <p mix={css({ lineHeight: 1.5 })}>
+          <span
             mix={css({
-              width: '48px',
-              height: '48px',
-              borderRadius: '50%',
-              boxShadow: '0 0 0 1px var(--border-strong)',
+              display: 'block',
+              fontWeight: 700,
+              color: 'var(--text-strong)',
             })}
-          />
-          <span mix={css({ fontWeight: 700, color: 'var(--text-strong)' })}>
+          >
             {t('代表 溝口 浩二')}
           </span>
-        </span>
-        <span mix={role}>
-          <span mix={tag}>{t('経営')}</span>
-          {t('経営企画室長、合弁会社の副社長')}
-        </span>
-        <span mix={role}>
-          <span mix={tag}>{t('開発')}</span>
-          {t('プログラマー、技術担当取締役')}
-        </span>
+          <span mix={css({ display: 'block', color: 'var(--text-muted)' })}>
+            {t('話を聞く人と、作る人が同じです。')}
+          </span>
+        </p>
       </div>
     )
   }
