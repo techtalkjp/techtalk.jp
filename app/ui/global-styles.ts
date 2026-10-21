@@ -2,48 +2,50 @@
  * サイト全体のベース CSS。デザイントークン（CSS 変数）とリセットだけを置き、
  * 個々の見た目は各コンポーネントの css() mixin（`rmx` レイヤー）で書く。
  *
- * 色は暖かみのある無彩色の階調にアクセント 1 色（Artifact Share の青）だけ。
- * 文字は 12 / 14 / 16 / 18 / 20 / 28 と見出しの display（18 はモバイルのリード文だけ）、余白は 8px 刻み、
- * 角丸は 6px（ボタン・入力）と 12px（画像）の 2 値。
+ * 色は青みのある無彩色の階調（夜は黒、昼は白）にアクセント 1 色（明るい青）だけ。
+ * 文字は 12 / 14 / 16 / 18 / 20 / 28 / 40 と見出しの display、余白は 8px 刻み、
+ * 角丸はボタンのピル、入力欄 8px、画面や面 16px。
  * 入力欄の枠（--border-input）だけは、どこに書けばいいか見分けられるよう背景との差を 3:1 以上にする。
  * テーマは OS の設定（prefers-color-scheme）に従う。
  */
 const lightTokens = `
   color-scheme: light;
-  --bg: #f8f6f2;
-  --surface: #ffffff;
-  --border: #e4e0d8;
-  --border-strong: #cfcac0;
-  --border-input: #8a857c;
-  --text-strong: #1c1b18;
-  --text-muted: #4a4843;
-  --text-subtle: #6c6962;
-  --accent: #1d62ab;
-  --accent-soft: #e6eef7;
-  --button-bg: #1c1b18;
-  --button-text: #f8f6f2;
+  --bg: #ffffff;
+  --surface: #f5f6f8;
+  --border: #e5e7eb;
+  --border-strong: #d0d4db;
+  --border-input: #858c99;
+  --text-strong: #0b0d12;
+  --text-muted: #474e5c;
+  --text-subtle: #626977;
+  --accent: #2453d6;
+  --accent-soft: #e7edfc;
+  --glow: rgb(36 83 214 / 0.3);
+  --button-bg: #0b0d12;
+  --button-text: #ffffff;
   --danger: #b42318;
-  --danger-surface: #fbeae8;
-  --shadow-image: 0 0 0 1px rgb(28 27 24 / 0.07), 0 24px 48px -24px rgb(28 27 24 / 0.22), 0 8px 16px -8px rgb(28 27 24 / 0.08);
+  --danger-surface: #fdecea;
+  --shadow-image: 0 0 0 1px rgb(11 13 18 / 0.08), 0 32px 64px -32px rgb(11 13 18 / 0.28), 0 12px 24px -12px rgb(11 13 18 / 0.1);
 `
 
 const darkTokens = `
   color-scheme: dark;
-  --bg: #161513;
-  --surface: #1e1d1a;
-  --border: #2f2d29;
-  --border-strong: #44413b;
-  --border-input: #77736b;
-  --text-strong: #f1eee8;
-  --text-muted: #c4c0b7;
-  --text-subtle: #8f8b83;
-  --accent: #7fb0e6;
-  --accent-soft: #1d2a38;
-  --button-bg: #f1eee8;
-  --button-text: #161513;
-  --danger: #f2998f;
-  --danger-surface: #3a1f1c;
-  --shadow-image: 0 0 0 1px rgb(255 255 255 / 0.08), 0 24px 48px -24px rgb(0 0 0 / 0.6);
+  --bg: #0b0d12;
+  --surface: #13161d;
+  --border: #20242d;
+  --border-strong: #2f3440;
+  --border-input: #646b79;
+  --text-strong: #f2f4f8;
+  --text-muted: #b3bac7;
+  --text-subtle: #8b93a2;
+  --accent: #7fa2ff;
+  --accent-soft: #172038;
+  --glow: rgb(84 120 255 / 0.36);
+  --button-bg: #f2f4f8;
+  --button-text: #0b0d12;
+  --danger: #ff9a8f;
+  --danger-surface: #3a1c1b;
+  --shadow-image: 0 0 0 1px rgb(255 255 255 / 0.1), 0 40px 80px -32px rgb(0 0 0 / 0.7);
 `
 
 export const globalStyles = `
@@ -58,9 +60,11 @@ export const globalStyles = `
     --t-18: 1.125rem;
     --t-20: 1.25rem;
     --t-28: 1.75rem;
-    --t-display: clamp(1.875rem, 1rem + 4.6vw, 4.25rem);
-    --r-control: 6px;
-    --r-image: 12px;
+    --t-40: clamp(1.5rem, 1rem + 2.4vw, 2.5rem);
+    --t-display: clamp(2.25rem, 1rem + 5.4vw, 5.25rem);
+    --r-control: 8px;
+    --r-image: 16px;
+    --r-pill: 999px;
     --header-height: 64px;
   }
   @media (prefers-color-scheme: dark) {
@@ -103,6 +107,7 @@ export const globalStyles = `
   p, li, dd { text-wrap: pretty; }
   ul, ol { padding: 0; list-style: none; }
   ::selection { background: var(--accent); color: var(--bg); }
+  html { scrollbar-color: var(--border-strong) var(--bg); caret-color: var(--accent); }
   img, svg { display: block; max-width: 100%; }
   img { height: auto; }
   a { color: inherit; text-decoration: inherit; }
@@ -112,6 +117,10 @@ export const globalStyles = `
   @keyframes fade-up {
     from { opacity: 0; transform: translateY(1.25rem); }
     to { opacity: 1; transform: none; }
+  }
+  @keyframes rise {
+    from { transform: translateY(48px); }
+    to { transform: none; }
   }
   @keyframes spin {
     to { transform: rotate(360deg); }

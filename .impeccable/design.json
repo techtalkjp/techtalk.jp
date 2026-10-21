@@ -1,91 +1,200 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-20T12:16:05+00:00",
+  "generatedAt": "2026-10-21T07:23:23+00:00",
   "title": "Design System: TechTalk",
   "extensions": {
     "colorMeta": {
-      "ink-blue": {
+      "signal-blue": {
         "role": "primary",
-        "displayName": "ペンの青",
-        "canonical": "#1d62ab",
+        "displayName": "信号の青",
+        "canonical": "#2453d6",
         "tonalRamp": [
-          "#0d2c4d",
-          "#143f6e",
-          "#1d62ab",
-          "#3d7fc4",
-          "#7fb0e6",
-          "#a9c9ee",
-          "#cfe0f5",
-          "#e6eef7"
+          "#0c1d4d",
+          "#14306f",
+          "#1d43a3",
+          "#2453d6",
+          "#4f78ea",
+          "#7fa2ff",
+          "#b5c8fb",
+          "#e7edfc"
         ]
       },
-      "paper": {
+      "night-signal-blue": {
+        "role": "primary",
+        "displayName": "信号の青（夜）",
+        "canonical": "#7fa2ff"
+      },
+      "signal-glow": {
+        "role": "primary",
+        "displayName": "青の光",
+        "canonical": "rgb(36 83 214 / 0.3)"
+      },
+      "night-signal-glow": {
+        "role": "primary",
+        "displayName": "青の光（夜）",
+        "canonical": "rgb(84 120 255 / 0.36)"
+      },
+      "signal-blue-soft": {
+        "role": "primary",
+        "displayName": "青のにじみ",
+        "canonical": "#e7edfc"
+      },
+      "night-ground": {
         "role": "neutral",
-        "displayName": "紙",
-        "canonical": "#f8f6f2",
+        "displayName": "夜の地",
+        "canonical": "#0b0d12",
         "tonalRamp": [
-          "#161513",
-          "#1e1d1a",
-          "#2f2d29",
-          "#44413b",
-          "#6c6962",
-          "#cfcac0",
-          "#e4e0d8",
-          "#f8f6f2"
+          "#0b0d12",
+          "#13161d",
+          "#20242d",
+          "#2f3440",
+          "#646b79",
+          "#8b93a2",
+          "#b3bac7",
+          "#f2f4f8"
         ]
       },
-      "ink": {
+      "white-ground": {
         "role": "neutral",
-        "displayName": "インク",
-        "canonical": "#1c1b18"
+        "displayName": "昼の地",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0d12",
+          "#474e5c",
+          "#626977",
+          "#858c99",
+          "#d0d4db",
+          "#e5e7eb",
+          "#f5f6f8",
+          "#ffffff"
+        ]
       },
-      "rule": {
+      "cool-surface": {
         "role": "neutral",
-        "displayName": "罫線",
-        "canonical": "#e4e0d8"
+        "displayName": "一段明るい面",
+        "canonical": "#f5f6f8"
+      },
+      "night-surface": {
+        "role": "neutral",
+        "displayName": "一段明るい面（夜）",
+        "canonical": "#13161d"
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "細い線",
+        "canonical": "#e5e7eb"
+      },
+      "hairline-strong": {
+        "role": "neutral",
+        "displayName": "濃い線",
+        "canonical": "#d0d4db"
       },
       "field-edge": {
         "role": "neutral",
         "displayName": "入力欄の縁",
-        "canonical": "#8a857c"
+        "canonical": "#858c99"
       },
-      "alert-red": {
+      "text-strong": {
+        "role": "neutral",
+        "displayName": "強い文字",
+        "canonical": "#0b0d12"
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "抑えた文字",
+        "canonical": "#474e5c"
+      },
+      "text-subtle": {
+        "role": "neutral",
+        "displayName": "淡い文字",
+        "canonical": "#626977"
+      },
+      "button-fill": {
+        "role": "neutral",
+        "displayName": "ボタンの塗り",
+        "canonical": "#0b0d12"
+      },
+      "danger": {
         "role": "error",
         "displayName": "警告の赤",
         "canonical": "#b42318"
+      },
+      "night-danger": {
+        "role": "error",
+        "displayName": "警告の赤（夜）",
+        "canonical": "#ff9a8f"
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "ページの冒頭の 1 行だけ。"
+        "purpose": "ページの冒頭の見出しだけ。トップでは中央揃えの 2 行。"
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "各セクションの見出し。"
+        "purpose": "各セクションの見出し。上に小さなラベルを置かない。"
+      },
+      "page-lede": {
+        "displayName": "Page lede",
+        "purpose": "Display の下のリード文。18px → 760px 以上で 20px。"
+      },
+      "section-lede": {
+        "displayName": "Section lede",
+        "purpose": "セクション見出しの下のリード文。16px → 760px 以上で 18px。"
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "一覧の各項目の見出し。18〜20px。"
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "本文。"
       },
       "label": {
         "displayName": "Label",
-        "purpose": "セクション名、ボタン、フォームのラベル。"
+        "purpose": "ボタン、フォームのラベル、役割の札。"
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "プロダクトの画面の中の小さな文字だけ。"
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "社名のワードマークだけ。"
       }
     },
     "shadows": [
       {
         "name": "shadow-image",
-        "value": "0 0 0 1px rgb(28 27 24 / 0.07), 0 24px 48px -24px rgb(28 27 24 / 0.22), 0 8px 16px -8px rgb(28 27 24 / 0.08)",
-        "purpose": "プロダクト画面の台紙だけ。"
+        "value": "0 0 0 1px rgb(11 13 18 / 0.08), 0 32px 64px -32px rgb(11 13 18 / 0.28), 0 12px 24px -12px rgb(11 13 18 / 0.1)",
+        "purpose": "プロダクトの画面だけ（昼）。"
       },
       {
-        "name": "button-sheen",
-        "value": "inset 0 1px 0 rgb(255 255 255 / 0.12)",
-        "purpose": "塗りのボタンの上端の照り返し。"
+        "name": "shadow-image-night",
+        "value": "0 0 0 1px rgb(255 255 255 / 0.1), 0 40px 80px -32px rgb(0 0 0 / 0.7)",
+        "purpose": "プロダクトの画面だけ（夜）。"
+      },
+      {
+        "name": "glow-leak",
+        "value": "0 -40px 72px -36px var(--glow)",
+        "purpose": "画面の上端から漏れる青い光。画面の影と重ねる。"
+      },
+      {
+        "name": "glow-backdrop",
+        "value": "radial-gradient(ellipse 48% 56% at 50% 50%, var(--glow), transparent 70%)",
+        "purpose": "1 画面目の画面の後ろの光（背景）。ぼかしは使わない。"
+      },
+      {
+        "name": "photo-ring",
+        "value": "0 0 0 1px var(--border-strong)",
+        "purpose": "代表の丸い写真の縁。"
       }
     ],
     "motion": [
       {
         "name": "state",
         "value": "150ms ease-out",
-        "purpose": "色と押下の変化。"
+        "purpose": "ボタン、リンク、入力欄の状態の変化。"
       },
       {
         "name": "press",
@@ -93,12 +202,21 @@
         "purpose": "ボタンの押下。"
       },
       {
+        "name": "rise",
+        "value": "rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both",
+        "purpose": "プロダクトの画面が 48px 下からせり上がる。"
+      },
+      {
         "name": "fade-up",
-        "value": "0.6s ease-out",
-        "purpose": "送信完了の知らせ。reduced-motion では動かさない。"
+        "value": "fade-up 0.6s ease-out both",
+        "purpose": "送信完了の知らせ。"
       }
     ],
     "breakpoints": [
+      {
+        "name": "form",
+        "value": "560px"
+      },
       {
         "name": "sm",
         "value": "640px"
@@ -108,7 +226,7 @@
         "value": "760px"
       },
       {
-        "name": "navWide",
+        "name": "nav",
         "value": "860px"
       },
       {
@@ -126,72 +244,96 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "1 画面に 1 つだけの塗りのボタン。",
+      "description": "文字色を反転した無彩色の塗りのピル。1 画面に 1 つだけ。",
       "html": "<button class=\"ds-btn-primary\">相談する</button>",
-      "css": ".ds-btn-primary{position:relative;display:inline-flex;align-items:center;height:40px;padding:0 18px;border:0;border-radius:var(--r-control,6px);background:var(--button-bg,#1c1b18);color:var(--button-text,#f8f6f2);font:700 14px/1 'LINE Seed JP',system-ui,sans-serif;letter-spacing:.02em;box-shadow:inset 0 1px 0 rgb(255 255 255 / .12);cursor:pointer;transition:background-color 150ms ease-out,transform 150ms ease-out}.ds-btn-primary:hover{background:color-mix(in srgb,var(--button-bg,#1c1b18) 86%,var(--bg,#f8f6f2))}.ds-btn-primary:active{transform:scale(.97)}.ds-btn-primary:focus-visible{outline:2px solid var(--accent,#1d62ab);outline-offset:3px}"
+      "css": ".ds-btn-primary{position:relative;display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 22px;border:0;border-radius:var(--r-pill,999px);font:700 14px/1 'LINE Seed JP',system-ui,sans-serif;letter-spacing:.02em;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease-out,box-shadow 150ms ease-out,transform 150ms ease-out;background:var(--button-bg,#0b0d12);color:var(--button-text,#ffffff)}.ds-btn-primary:hover{background:color-mix(in srgb,var(--button-bg,#0b0d12) 84%,var(--bg,#ffffff))}.ds-btn-primary:focus-visible{outline:2px solid var(--accent,#2453d6);outline-offset:3px;}.ds-btn-primary:active{transform:scale(.97)}"
     },
     {
       "name": "Secondary Button",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "枠線だけのボタン。",
+      "description": "透明の地に濃い線の内側の縁のピル。",
       "html": "<button class=\"ds-btn-secondary\">進め方を見る</button>",
-      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;height:40px;padding:0 18px;border:0;border-radius:var(--r-control,6px);background:transparent;color:var(--text-strong,#1c1b18);font:700 14px/1 'LINE Seed JP',system-ui,sans-serif;letter-spacing:.02em;box-shadow:inset 0 0 0 1px var(--border-strong,#cfcac0);cursor:pointer;transition:background-color 150ms ease-out,transform 150ms ease-out}.ds-btn-secondary:hover{background:var(--surface,#fff)}.ds-btn-secondary:active{transform:scale(.97)}.ds-btn-secondary:focus-visible{outline:2px solid var(--accent,#1d62ab);outline-offset:3px}"
+      "css": ".ds-btn-secondary{position:relative;display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 22px;border:0;border-radius:var(--r-pill,999px);font:700 14px/1 'LINE Seed JP',system-ui,sans-serif;letter-spacing:.02em;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease-out,box-shadow 150ms ease-out,transform 150ms ease-out;background:transparent;color:var(--text-strong,#0b0d12);box-shadow:inset 0 0 0 1px var(--border-strong,#d0d4db)}.ds-btn-secondary:hover{background:var(--surface,#f5f6f8);box-shadow:inset 0 0 0 1px var(--text-subtle,#626977)}.ds-btn-secondary:focus-visible{outline:2px solid var(--accent,#2453d6);outline-offset:3px;}.ds-btn-secondary:active{transform:scale(.97)}"
     },
     {
       "name": "Text Field",
       "kind": "input",
       "refersTo": "input",
-      "description": "一枚紙の面に、3:1 以上の縁。",
-      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">お名前</span><input class=\"ds-input\" /></label>",
-      "css": ".ds-field{display:grid;gap:8px;font-family:'LINE Seed JP',system-ui,sans-serif}.ds-field-label{font-size:14px;font-weight:700;line-height:1.5;color:var(--text-strong,#1c1b18)}.ds-input{width:100%;padding:10px 12px;border:0;border-radius:var(--r-control,6px);background:var(--surface,#fff);color:var(--text-strong,#1c1b18);font:16px/1.7 inherit;box-shadow:inset 0 0 0 1px var(--border-input,#8a857c);transition:box-shadow 150ms ease-out}.ds-input:focus-visible{outline:none;box-shadow:inset 0 0 0 1.5px var(--accent,#1d62ab),0 0 0 4px var(--accent-soft,#e6eef7)}"
-    },
-    {
-      "name": "Ruled List",
-      "kind": "custom",
-      "description": "罫線で区切った行に、左に見出し、右に本文。",
-      "html": "<ul class=\"ds-ruled\"><li><h3>開発会社に相談したら、まず仕様書を求められた</h3><p>仕様書がなくてもかまいません。</p></li><li><h3>社内に、技術の判断を任せられる人がいない</h3><p>技術の選択肢を、費用や時間に置き換えてお話しします。</p></li></ul>",
-      "css": ".ds-ruled{list-style:none;margin:0;padding:0;border-top:1px solid var(--border,#e4e0d8);font-family:'LINE Seed JP',system-ui,sans-serif}.ds-ruled li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:32px;padding:24px 0;border-bottom:1px solid var(--border,#e4e0d8)}.ds-ruled h3{margin:0;font-size:16px;line-height:1.6;color:var(--text-strong,#1c1b18)}.ds-ruled p{margin:0;color:var(--text-muted,#4a4843);line-height:1.7}"
+      "description": "一段明るい面に入力欄の縁。フォーカスで青の縁とにじみ。",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">メールアドレス</span><input class=\"ds-input\" type=\"email\" placeholder=\"you@example.com\"></label>",
+      "css": ".ds-field{display:grid;gap:8px;font-family:'LINE Seed JP',system-ui,sans-serif}.ds-field-label{font-size:14px;font-weight:700}.ds-input{padding:10px 12px;border:0;border-radius:var(--r-control,8px);background:var(--surface,#f5f6f8);box-shadow:inset 0 0 0 1px var(--border-input,#858c99);font:400 16px/1.7 'LINE Seed JP',system-ui,sans-serif;color:var(--text-strong,#0b0d12);transition:box-shadow 150ms ease-out}.ds-input::placeholder{color:var(--text-subtle,#626977)}.ds-input:focus-visible{outline:none;box-shadow:inset 0 0 0 1.5px var(--accent,#2453d6),0 0 0 4px var(--accent-soft,#e7edfc)}"
     },
     {
       "name": "Section Nav",
       "kind": "nav",
-      "description": "ヘッダーのページ内ナビ。いま読んでいる場所に下線。",
+      "refersTo": "",
+      "description": "ヘッダーのページ内ナビ。いまのセクションは強い文字と 1px の下線。",
       "html": "<nav class=\"ds-nav\"><a href=\"#\">こんなとき</a><a href=\"#\" aria-current=\"location\">進め方</a><a href=\"#\">プロダクト</a><a href=\"#\">代表</a></nav>",
-      "css": ".ds-nav{display:flex;gap:28px;font:14px/1.7 'LINE Seed JP',system-ui,sans-serif;color:var(--text-muted,#4a4843)}.ds-nav a{padding:12px 0;color:inherit;text-decoration:none;transition:color 150ms ease-out}.ds-nav a:hover,.ds-nav a[aria-current=location]{color:var(--text-strong,#1c1b18)}.ds-nav a[aria-current=location]{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--accent,#1d62ab);outline-offset:3px}"
+      "css": ".ds-nav{display:flex;gap:28px;font:400 14px/1.7 'LINE Seed JP',system-ui,sans-serif}.ds-nav a{padding-block:10px;color:var(--text-muted,#474e5c);text-decoration:none;transition:color 150ms ease-out}.ds-nav a:hover,.ds-nav a[aria-current=location]{color:var(--text-strong,#0b0d12)}.ds-nav a[aria-current=location]{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--accent,#2453d6);outline-offset:3px;}"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "代表の経歴の枠。一段明るい面と内側の線、影なし。役割の札は青い文字だけ。",
+      "html": "<div class=\"ds-panel\"><div><h3 class=\"ds-tag\">経営</h3><ul><li>経営企画室長</li><li>合弁会社の代表取締役副社長</li></ul></div><div><h3 class=\"ds-tag\">開発</h3><ul><li>プログラマー</li><li>技術担当取締役</li></ul></div></div>",
+      "css": ".ds-panel{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--r-image,16px);background:var(--surface,#f5f6f8);box-shadow:inset 0 0 0 1px var(--border,#e5e7eb);font-family:'LINE Seed JP',system-ui,sans-serif}.ds-panel>div{padding:28px}.ds-panel>div+div{border-left:1px solid var(--border,#e5e7eb)}.ds-tag{margin:0;font-size:14px;font-weight:700;color:var(--accent,#2453d6)}.ds-panel ul{margin:12px 0 0;padding:0;list-style:none}.ds-panel li{padding-block:8px;font-size:14px;line-height:1.6}.ds-panel li+li{border-top:1px solid var(--border,#e5e7eb)}"
+    },
+    {
+      "name": "Step Number",
+      "kind": "custom",
+      "refersTo": "step-number",
+      "description": "進め方の番号。青の 1px の輪に桁揃えの数字、段は濃い線でつなぐ。",
+      "html": "<ol class=\"ds-steps\"><li><span>1</span>構想を聞く</li><li><span>2</span>最初に作るものを絞る</li><li><span>3</span>自分で作り、一緒に見る</li></ol>",
+      "css": ".ds-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin:0;padding:0;list-style:none;font:700 20px/1.5 'LINE Seed JP',system-ui,sans-serif}.ds-steps li{position:relative;display:grid;row-gap:20px}.ds-steps li:not(:last-child)::after{content:'';position:absolute;left:56px;right:-36px;top:20px;height:1px;background:var(--border-strong,#d0d4db)}.ds-steps span{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--accent,#2453d6);color:var(--accent,#2453d6);font-size:14px;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Product Screen",
+      "kind": "custom",
+      "refersTo": "product-screen",
+      "description": "光を背にした実物の画面。放射状の光、漏れる光、画面の影、48px のせり上がり。",
+      "html": "<div class=\"ds-stage\"><div class=\"ds-screen\"><div class=\"ds-screen-bar\"></div><div class=\"ds-screen-body\"></div></div></div>",
+      "css": ".ds-stage{position:relative;padding:48px 24px 0;overflow:hidden}.ds-stage::before{content:'';position:absolute;inset:-60px 0 auto;height:360px;background:radial-gradient(ellipse 48% 56% at 50% 50%,var(--glow,rgb(36 83 214 / .3)),transparent 70%);pointer-events:none}.ds-screen{position:relative;height:200px;border-radius:var(--r-image,16px);overflow:hidden;background:var(--surface,#f5f6f8);box-shadow:0 -40px 72px -36px var(--glow,rgb(36 83 214 / .3)),var(--shadow-image,0 0 0 1px rgb(11 13 18 / .08),0 32px 64px -32px rgb(11 13 18 / .28),0 12px 24px -12px rgb(11 13 18 / .1))}.ds-screen-bar{height:32px;border-bottom:1px solid var(--border,#e5e7eb)}@media (prefers-reduced-motion:no-preference){.ds-screen{animation:ds-rise .9s cubic-bezier(.16,1,.3,1) both}}@keyframes ds-rise{from{transform:translateY(48px)}to{transform:none}}"
     },
     {
       "name": "Wordmark",
       "kind": "custom",
-      "description": "字間を詰めた TechTalk と、青い円の句点。",
+      "refersTo": "",
+      "description": "800 の太さで字間を詰め、青い円の句点を打つ。",
       "html": "<span class=\"ds-wordmark\">TechTalk</span>",
-      "css": ".ds-wordmark{display:inline-flex;align-items:baseline;font:800 20px/1 'LINE Seed JP',sans-serif;letter-spacing:-.04em;color:var(--text-strong,#1c1b18)}.ds-wordmark::after{content:'';width:.3em;height:.3em;margin-left:.08em;border-radius:50%;background:var(--accent,#1d62ab)}"
+      "css": ".ds-wordmark{display:inline-flex;align-items:baseline;font:800 20px/1 'LINE Seed JP',system-ui,sans-serif;letter-spacing:-.04em;color:var(--text-strong,#0b0d12)}.ds-wordmark::after{content:'';width:.3em;height:.3em;margin-left:.08em;border-radius:50%;background:var(--accent,#2453d6)}"
     }
   ],
   "narrative": {
-    "northStar": "打ち合わせの机",
-    "overview": "経営者と向かい合って座る机の上を、そのまま画面にしたサイト。紙（暖かみのある無彩色の地）の上に、話の順に要点が罫線で区切って置かれ、必要なところにだけ青いペンで印が付く。机の上には飾りを置かない。見せるのは話の中身と、話している本人。\n\n密度は低めで、余白は話の間合いとして使う。各セクションは左に小さな見出し（いま何の話か）、右に本文の 2 段組で、罫線が話題の切れ目になる。カードの並びや大きな数字、装飾的な図版は使わない。置くのは自社プロダクトの本物の画面（写真か、それを忠実に描いた HTML）と代表の写真だけ。\n\n部品は「静かで確か」。普段は目立たないが、押したとき・入力したとき・間違えたときには、はっきり応える。テーマは OS の設定に従い、明るい机と夜の机の 2 つを同じ構造で持つ。",
+    "northStar": "光を背にした実物",
+    "overview": "一人の会社を、今の開発者向けプロダクトと同じ水準で見せるサイト。夜は青みのある黒、昼は冷たい白の地に、中央の大きな見出しを置き、その下から自分で作った製品の本物の画面が青い光を背にせり上がる。見せるのは言葉で飾った実績ではなく、動いている実物と、それを作った本人。\n\n地は平らで、区切りは 1px の細い線と、一段だけ明るい面（surface）の 2 つだけ。アクセントの青は「光」と「印」にだけ使い、ボタンの塗りには使わない。塗りのボタンは文字色と同じ無彩色を反転させたピルで、1 画面に 1 つ。見出しは LINE Seed JP の 700 を大きく詰めて組み、本文は控えめな灰色で短く置く。\n\nテーマは OS の設定に従い、夜と昼の 2 つを同じ役割・同じ構造で持つ。",
     "keyCharacteristics": [
-      "暖かみのある無彩色の階調と、アクセントの青 1 色だけ",
-      "罫線（1px）で区切る。面や影で区切らない",
-      "左にセクション名、右に本文の 2 段組（900px 以上）",
+      "青みのある無彩色の階調（夜は黒、昼は白）と、明るい青 1 色だけ",
+      "区切りは 1px の線と、一段明るい面。影を持つのはプロダクトの画面だけ",
+      "1 画面目は中央揃えの大見出し、リード、ピルのボタン 2 つ、代表の 1 行、せり上がる画面",
       "書体は LINE Seed JP の 1 ファミリー（400 / 700、ワードマークだけ 800）",
       "日本語の見出しは文節で折り返す"
     ],
     "rules": [
       {
-        "name": "The 青いペン 1 本 Rule",
-        "body": "アクセントは青 1 色だけ。2 色目の強調色、グラデーション、色付きの面を足さない。青は「印」なので、広い面を塗らない。",
+        "name": "The 青は光と印 Rule",
+        "body": "アクセントは青 1 色だけ。光（画面の後ろ）と印（リンク、番号、札、句点、フォーカス）にだけ使い、ボタンや面を青で塗らない。2 色目の強調色を足さない。",
         "section": "colors"
       },
       {
-        "name": "The 罫線で区切る Rule",
-        "body": "話題の切れ目は 1px の罫線で示す。背景色の切り替えや影で段を作らない。",
+        "name": "The 光は 1 か所 Rule",
+        "body": "グラデーションは 1 画面目の画面の後ろの光（放射状、ぼかしなし）だけ。文字、ボタン、面、背景全体にグラデーションを掛けない。",
         "section": "colors"
       },
       {
         "name": "The 文節で折る Rule",
-        "body": "日本語の見出しは文節ごとに `display: inline-block` の塊にし、単語の途中で折り返さない。本文には `word-break: auto-phrase` と `line-break: strict` を掛ける。英語の訳文には塊を使わない。",
+        "body": "日本語の見出しは文節ごとに inline-block の塊にし、単語の途中で折り返さない。本文には `word-break: auto-phrase` と `line-break: strict` を掛ける。英語の訳文には塊を使わない。",
+        "section": "typography"
+      },
+      {
+        "name": "The 見出しに語らせる Rule",
+        "body": "セクション見出しの上に小さなラベル（いま何の話か）を置かない。見出しそのものが話題を言う。",
         "section": "typography"
       },
       {
@@ -200,25 +342,27 @@
         "section": "typography"
       },
       {
-        "name": "The 影は写真だけ Rule",
-        "body": "カード、注記、フォームに影を付けない。持ち上げたいときは sheet の面と罫線で済ませる。",
+        "name": "The 影は画面だけ Rule",
+        "body": "一覧、面、注記、フォームに落ち影を付けない。持ち上げたいときは一段明るい面と 1px の線で済ませる。",
         "section": "elevation"
       }
     ],
     "dos": [
-      "Do 色を足す前に、既存のトークン（`app/ui/global-styles.ts`）で済まないか考える。",
-      "Do 話題の切れ目には 1px の罫線（rule）を引く。",
-      "Do 押せるものは見た目の大きさにかかわらず 44px の範囲を確保する。",
-      "Do ライトとダークの両方で、本文 4.5:1、入力欄の縁 3:1 を確かめる。",
-      "Do 画像には width と height を書く。プロダクトの画面は本物（写真か、それを忠実に描いた HTML）、人物は本人の写真だけを使う。",
-      "Do アニメーションは `prefers-reduced-motion: no-preference` のときだけ動かす（送信完了の知らせの fade-up と、ボタンの押下）。"
+      "**Do** 色を足す前に、既存のトークン（`app/ui/global-styles.ts`）で済まないか考える。",
+      "**Do** 区切りには 1px の線（hairline）か、一段明るい面（surface）を使う。",
+      "**Do** 押せるものは見た目の大きさにかかわらず 44px の範囲を確保する。",
+      "**Do** 夜と昼の両方で、本文 4.5:1、入力欄の縁 3:1 を確かめる。",
+      "**Do** 画像には width と height を書く。プロダクトの画面は本物（写真か、それを忠実に描いた HTML）、人物は本人の写真だけを使う。生成画像は夜用と昼用を対で作り、来歴を残す。",
+      "**Do** アニメーションは `prefers-reduced-motion: no-preference` のときだけ動かす（画面のせり上がり、送信完了の fade-up、ボタンの押下）。"
     ],
     "donts": [
-      "Don't 青以外のアクセント色やグラデーションを使わない。",
-      "Don't 固定・大きなレイヤーに blur、backdrop-filter、mask を使わない（iOS Safari でスクロール中の描画が遅れる）。",
-      "Don't 同じ大きさのカードを並べる構成や、大きな数字の実績パネルを使わない。",
-      "Don't テーマの切り替え UI を置かない。OS の設定に従うだけにする。",
-      "Don't 角丸に 6px と 12px（と写真の円）以外の値を使わない。"
+      "**Don't** 青以外のアクセント色を使わない。青でボタンや広い面を塗らない。",
+      "**Don't** グラデーションを、1 画面目の画面の後ろの光以外に使わない。",
+      "**Don't** 固定・大きなレイヤーに blur、backdrop-filter、mask を使わない（iOS Safari でスクロール中の描画が遅れる）。光もぼかしではなくグラデーションで描く。",
+      "**Don't** 塗りや影の付いたカードを並べない。並べるときは線で区切る。大きな数字の実績パネルも使わない。",
+      "**Don't** セクション見出しの上に小さなラベルを置かない。",
+      "**Don't** テーマの切り替え UI を置かない。OS の設定に従うだけにする。",
+      "**Don't** 角丸にピル・8px・16px・円以外の値を使わない（プロダクトの画面の中を除く）。"
     ]
   }
 }

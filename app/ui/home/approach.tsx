@@ -3,7 +3,7 @@ import { css, type Handle } from 'remix/component'
 import type { MessageKey } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
 import { Section, sectionHeading, sectionLede } from '../section.tsx'
-import { medium, phrase } from '../styles.ts'
+import { phrase, wide } from '../styles.ts'
 
 const steps: { title: MessageKey; body: MessageKey }[] = [
   {
@@ -27,7 +27,8 @@ export function ApproachSection(handle: Handle) {
       <Section id="approach" name={t('進め方')}>
         <h2 mix={sectionHeading}>
           <span mix={phrase}>{t('話し合いから、')}</span>
-          <span mix={phrase}>{t('最初のバージョンが動くまで。')}</span>
+          <span mix={phrase}>{t('最初のバージョンが')}</span>
+          <span mix={phrase}>{t('動くまで。')}</span>
         </h2>
         <p mix={sectionLede}>
           {t(
@@ -35,51 +36,119 @@ export function ApproachSection(handle: Handle) {
           )}
         </p>
 
+        {/* 原石を切り出して、光る完成品にするまでの 3 段を、下の 3 段に合わせて描いた生成画像。
+            四辺はページの地の色に溶かしてある。飾りなので読み上げない */}
+        <picture>
+          <source
+            srcset="/images/approach-dark.webp"
+            media="(prefers-color-scheme: dark)"
+          />
+          <img
+            src="/images/approach-light.webp"
+            alt=""
+            width={1600}
+            height={560}
+            loading="lazy"
+            decoding="async"
+            mix={css({
+              width: '100%',
+              marginTop: '32px',
+              [wide]: { marginTop: '40px' },
+            })}
+          />
+        </picture>
+
         <ol
           // リストの見た目を消すと Safari の読み上げがリストとして扱わなくなるので、明示する
           role="list"
-          mix={css({ marginTop: '40px', borderTop: '1px solid var(--border)' })}
+          mix={css({
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1fr)',
+            gap: '40px',
+            marginTop: '32px',
+            [wide]: {
+              gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+              gap: '48px',
+              marginTop: '16px',
+            },
+          })}
         >
           {steps.map((step, index) => (
             <li
               key={step.title}
               mix={css({
+                position: 'relative',
                 display: 'grid',
-                gridTemplateColumns: 'minmax(0, 1fr)',
-                gap: '8px',
-                padding: '28px 0',
-                borderBottom: '1px solid var(--border)',
-                [medium]: {
-                  gridTemplateColumns: '220px minmax(0, 1fr)',
-                  gap: '32px',
+                alignContent: 'start',
+                gridTemplateColumns: '40px minmax(0, 1fr)',
+                columnGap: '20px',
+                // 次の段へつなぐ線。狭いときは番号の下へ縦に、広いときは番号の右へ横に引く
+                '&:not(:last-child)::after': {
+                  content: '""',
+                  position: 'absolute',
+                  left: '20px',
+                  top: '52px',
+                  bottom: '-28px',
+                  width: '1px',
+                  background: 'var(--border-strong)',
+                },
+                [wide]: {
+                  gridTemplateColumns: 'minmax(0, 1fr)',
+                  rowGap: '20px',
+                  '&:not(:last-child)::after': {
+                    left: '56px',
+                    right: '-36px',
+                    top: '20px',
+                    bottom: 'auto',
+                    width: 'auto',
+                    height: '1px',
+                  },
                 },
               })}
             >
-              <h3 mix={css({ fontSize: 'var(--t-16)', lineHeight: 1.6 })}>
-                {/* 順番は ol が伝えるので、見出しの名前には入れない */}
-                <span
-                  aria-hidden="true"
+              {/* 順番は ol が伝えるので、読み上げには出さない */}
+              <span
+                aria-hidden="true"
+                mix={css({
+                  display: 'grid',
+                  placeItems: 'center',
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  boxShadow: 'inset 0 0 0 1px var(--accent)',
+                  color: 'var(--accent)',
+                  fontSize: 'var(--t-14)',
+                  fontWeight: 700,
+                  fontVariantNumeric: 'tabular-nums',
+                })}
+              >
+                {index + 1}
+              </span>
+              <div>
+                <h3
                   mix={css({
-                    display: 'inline-block',
-                    width: '2em',
-                    color: 'var(--accent)',
-                    fontVariantNumeric: 'tabular-nums',
+                    fontSize: 'var(--t-20)',
+                    lineHeight: 1.5,
+                    paddingTop: '6px',
+                    [wide]: { paddingTop: 0 },
                   })}
                 >
-                  {index + 1}
-                </span>
-                {t(step.title)}
-              </h3>
-              <p mix={css({ color: 'var(--text-muted)' })}>{t(step.body)}</p>
+                  {t(step.title)}
+                </h3>
+                <p mix={css({ marginTop: '10px', color: 'var(--text-muted)' })}>
+                  {t(step.body)}
+                </p>
+              </div>
             </li>
           ))}
         </ol>
 
         <div
           mix={css({
-            marginTop: '40px',
-            maxWidth: '40em',
+            marginTop: '64px',
+            maxWidth: '44em',
             padding: '20px 24px',
+            background: 'var(--surface)',
             // 強制カラーモードでも枠が残るよう、box-shadow ではなく border で描く
             border: '1px solid var(--border)',
             borderRadius: 'var(--r-control)',

@@ -21,8 +21,8 @@ export function PageIntro(
     return (
       <div
         mix={css({
-          paddingBlock: '64px 72px',
-          [wide]: { paddingBlock: '104px 96px' },
+          paddingBlock: '64px 8px',
+          [wide]: { paddingBlock: '104px 16px' },
         })}
       >
         <div mix={container}>
@@ -30,9 +30,9 @@ export function PageIntro(
           <h1
             mix={css({
               fontSize: 'var(--t-display)',
-              lineHeight: 1.25,
+              lineHeight: 1.15,
               fontWeight: 700,
-              letterSpacing: '-0.025em',
+              letterSpacing: '-0.03em',
             })}
           >
             {title}

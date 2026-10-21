@@ -2,8 +2,8 @@ import { css, type Handle } from 'remix/component'
 
 import type { MessageKey } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
-import { Section, sectionHeading, sectionLede } from '../section.tsx'
-import { medium, phrase } from '../styles.ts'
+import { Section, sectionHeading } from '../section.tsx'
+import { medium, phrase, wide } from '../styles.ts'
 
 /** 相談に来る経営者がよく抱えている状況と、それへの応え方 */
 const cases: { situation: MessageKey; answer: MessageKey }[] = [
@@ -33,35 +33,48 @@ export function CasesSection(handle: Handle) {
           <span mix={phrase}>{t('技術のことを、')}</span>
           <span mix={phrase}>{t('経営の言葉で相談したいとき。')}</span>
         </h2>
-        <p mix={sectionLede}>
-          {t(
-            '新しい事業を始めようとしている経営者や事業責任者の方から、よくうかがう状況です。',
-          )}
-        </p>
         <ul
           // リストの見た目を消すと Safari の読み上げがリストとして扱わなくなるので、明示する
           role="list"
-          mix={css({ marginTop: '40px', borderTop: '1px solid var(--border)' })}
+          mix={css({
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1fr)',
+            marginTop: '48px',
+            borderTop: '1px solid var(--border)',
+            [wide]: {
+              gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+              marginTop: '64px',
+            },
+          })}
         >
           {cases.map((item) => (
             <li
               key={item.situation}
               mix={css({
-                display: 'grid',
-                gridTemplateColumns: 'minmax(0, 1fr)',
-                gap: '6px',
-                padding: '24px 0',
+                padding: '28px 0',
                 borderBottom: '1px solid var(--border)',
-                [medium]: {
-                  gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.2fr)',
-                  gap: '32px',
+                [wide]: {
+                  padding: '32px 40px 0 0',
+                  borderBottom: 0,
+                  '& + &': {
+                    paddingLeft: '40px',
+                    borderLeft: '1px solid var(--border)',
+                  },
                 },
               })}
             >
-              <h3 mix={css({ fontSize: 'var(--t-16)', lineHeight: 1.6 })}>
+              <h3
+                mix={css({
+                  fontSize: 'var(--t-18)',
+                  lineHeight: 1.55,
+                  [medium]: { fontSize: 'var(--t-20)' },
+                })}
+              >
                 {t(item.situation)}
               </h3>
-              <p mix={css({ color: 'var(--text-muted)' })}>{t(item.answer)}</p>
+              <p mix={css({ marginTop: '12px', color: 'var(--text-muted)' })}>
+                {t(item.answer)}
+              </p>
             </li>
           ))}
         </ul>
