@@ -30,7 +30,7 @@ function homeSeo({ locale }: I18n): Seo {
       ? '技術の話から、新しい事業をつくる。 | 株式会社TechTalk'
       : 'From a conversation about technology to a new business | TechTalk, Inc.',
     description: ja
-      ? '経営と開発の両方を経験した代表が経営者と直接話し合い、新しい事業の構想から、動く最初のバージョンまで一緒につくります。株式会社TechTalk。'
+      ? '経営と開発の両方を経験した代表が経営者と直接話し合い、新しい事業の構想から、動く最初のバージョンまで一緒に作ります。株式会社TechTalk。'
       : 'A founder with experience in both management and engineering works directly with business owners, from the first idea to a working first version. TechTalk, Inc.',
     path: paths.home(locale),
     siteName: ja ? '株式会社TechTalk' : 'TechTalk, Inc.',

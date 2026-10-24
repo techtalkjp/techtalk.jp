@@ -16,7 +16,7 @@ const SAMPLE_URLS = {
 const steps: { title: MessageKey; body: MessageKey }[] = [
   {
     title: '誰に、何を届けるかを考える',
-    body: '技術の種を使って、どんな顧客の何を解決し、どんな価値を届けられるかを一緒に考えます。',
+    body: '技術の種を使って、どんな顧客の、どんな課題を解決し、どんな価値を届けられるかを一緒に考えます。',
   },
   {
     title: '試して確かめる',
