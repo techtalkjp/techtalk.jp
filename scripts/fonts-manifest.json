@@ -13,7 +13,7 @@
     "app/controllers/home.tsx": "3cbeeb43061caea29291661bc6b5d85600fc67513c09239fc712af57c32bd3e2",
     "app/controllers/not-found.tsx": "845f7330a4e6a7fbece378e9e143df65b61afe0f1021bcb30dcfa6f673766a72",
     "app/controllers/privacy.tsx": "24e39ec5bb76fcaf1704e2cc2dffdbbcd8ba3042fdf5e35c55f59e7d1bd3e9b9",
-    "app/i18n/en.json": "dac10545495cd52e0e397f0200c381237d073e18ed189a40fc7a377bcd8fa3cd",
+    "app/i18n/en.json": "5cc99e914b40fd283e9ad90d84a0e477ce51e874b4e4010fe1388b60dc53f1e4",
     "app/i18n/index.ts": "2137cf01f80b0651233af632899763997a8040095a719378b6cf30bdc60aaf96",
     "app/i18n/provider.tsx": "b884d59799e153f24d0611b65f534bec9264fb55235d8738fda459d26b06a00d",
     "app/islands/events.ts": "f0fe49b9e5f9162d96969829f21c834bcd68e5c82a79612f606945476258f7a2",
@@ -26,17 +26,17 @@
     "app/paths.ts": "262573afdf0ccba2d21e82c22181eb4cba7f43b44fbe6c31e46df506acd1cfe8",
     "app/router.ts": "cf6b587cb9ca1950c0bcd24367cb5365edaf60f445b316e6273dcb2b00a7ca3f",
     "app/routes.ts": "e5bbf58bd0bd142ff162d7b47e54f216f9d05963e823c07ffeb84fc667d8ee5f",
-    "app/ui/biography/page.tsx": "f19884bb44ac45e98ae63630901ba98cec1921d40d96f46f038a41b2334e090c",
+    "app/ui/biography/page.tsx": "e6194118c9adfa0a8489295019fc995708c99094a40a16906097ac26dcb809cb",
     "app/ui/document.tsx": "3958125039a2d3ffb854224b778b2f7d13b7159fae9bda0daae04f3958389237",
     "app/ui/global-styles.ts": "ba42e3ef31a5acf8d331240ee335196729fded2c1939914a0295cf1f9af5b1f4",
-    "app/ui/home/approach.tsx": "17452bd1280218efe3e839ee9b283e4e1775f8219f4f93be088cd0af34696662",
+    "app/ui/home/approach.tsx": "a85aa40e9e1694bace59855cb573096387994d5bf0d40d9c98b94cb19430c65f",
     "app/ui/home/cases.tsx": "66b5ad8b8d11d290db41ed121b7780b4e6567e2fe1e7e855929b280983baff1d",
     "app/ui/home/company.tsx": "06791f3ff73b04104abcbaee47c5838ef6d2f66949c77e1ad247b107819e4761",
     "app/ui/home/contact.tsx": "5a21c13a27aaf0f4d25a3fedcf0e2ddb3e5ad275c14751a70cca3b3f12260a1b",
-    "app/ui/home/hero.tsx": "98a67bde482ec3b83ad3fed5a3550b1959cd719a10a494e904a47a7bf1ef24e9",
-    "app/ui/home/page.tsx": "13fa119eb9015b49aae9ce6710f5298b30f94cf4d8cee14fcc1777d7a3daf8c9",
+    "app/ui/home/hero.tsx": "34e47d93d098bf388cbbd4102d771462d0b24ab2a557481f635451c446781d96",
+    "app/ui/home/page.tsx": "7cc5ca5475e9531a1b26d07ec17ea15bb1cf138a3133ed40439c6068fa9f3092",
     "app/ui/home/product-preview.tsx": "a5fc3a458ad0e7bbe45d38697f67528a6b061479f23012eee6618ddd81ffa673",
-    "app/ui/home/profile.tsx": "7097970177f3e210d3d439a999220556ad60d46fce8452b0531f73e34231bc78",
+    "app/ui/home/profile.tsx": "6394375125ab8fe3966a9c63c5c75a23ed7952f3dccc372779e1a0b1463dd009",
     "app/ui/icons.tsx": "48faca4355bafbf070d359f3d91d7ed4e208ff516ff8ddb47a34fbb450fce0dd",
     "app/ui/layout.tsx": "840e23b300b622c7f7c07040bf92b2b5d084c5a705eadacf7ce8b056644f974e",
     "app/ui/page-intro.tsx": "0bd39e4cbdc45a08dc0b51b1bfa8733bb5a7abcb4d6b0eb9016a78f77bd27400",
@@ -47,8 +47,8 @@
     "app/ui/styles.ts": "2069ada7b0fc9ca8bdb95b14a7259d10a8531469e092dc765046582d5d32fbde"
   },
   "fonts": {
-    "line-seed-jp-400-bbd465c4a31f.woff2": "bbd465c4a31f13732ad3f01aef8a746aa01ef0c40a11e2c39d1e93588193b71f",
-    "line-seed-jp-700-bf78fab29888.woff2": "bf78fab29888ab25f30ab51aa9cf7f162364c8692542b263fa273d75748beebc",
+    "line-seed-jp-400-5e65adf5cae1.woff2": "5e65adf5cae1a159190939ff2c84ee8f12e74a33dc9e02670c60b7bbcb161ed4",
+    "line-seed-jp-700-6eaff0d9172f.woff2": "6eaff0d9172fc0d18625d54cc31d73fa5740cc7e6eacae0c9e28a1fe1cfeecc3",
     "line-seed-jp-800-15ce895e04a3.woff2": "15ce895e04a3a3d26a95eb0b59b12db46aafb95063b2b585d81ba049476d2bf9"
   }
 }
