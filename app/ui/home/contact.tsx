@@ -2,12 +2,14 @@ import { css, Frame, type Handle } from 'remix/component'
 
 import {
   contactLimits,
+  contactMessages,
   type ContactErrors,
   type ContactFieldName,
 } from '../../contact/schema.ts'
 import type { ContactSubmitResult } from '../../contact/submit.ts'
 import type { MessageKey } from '../../i18n/index.ts'
 import { getI18n } from '../../i18n/provider.tsx'
+import { ContactFormValidation } from '../../islands/contact-form-validation.tsx'
 import { SubmitButton } from '../../islands/submit-button.tsx'
 import { paths } from '../../paths.ts'
 import { fadeUpOnLoad, phrase, textLink } from '../styles.ts'
@@ -179,6 +181,12 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
     let id = (name: string) => `contact-${name}`
     let describedBy = (name: ContactFieldName) =>
       errors[name] ? `${id(name)}-error` : undefined
+    // エラーがなくても描いておき、ブラウザの検証（ContactFormValidation）が文言を書き込む
+    let errorText = (name: ContactFieldName) => (
+      <p id={`${id(name)}-error`} hidden={!errors[name]} mix={errorStyle}>
+        {errors[name] ?? ''}
+      </p>
+    )
 
     let field = (f: Field) => (
       <div key={f.name} data-rmx-key={f.name} mix={fieldStyle}>
@@ -199,11 +207,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
           aria-describedby={describedBy(f.name)}
           mix={inputStyle}
         />
-        {errors[f.name] ? (
-          <p id={`${id(f.name)}-error`} mix={errorStyle}>
-            {errors[f.name]}
-          </p>
-        ) : null}
+        {errorText(f.name)}
       </div>
     )
 
@@ -278,11 +282,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
               css({ minHeight: '168px', resize: 'vertical', lineHeight: 1.7 }),
             ]}
           />
-          {errors.message ? (
-            <p id={`${id('message')}-error`} mix={errorStyle}>
-              {errors.message}
-            </p>
-          ) : null}
+          {errorText('message')}
         </div>
 
         {/* honeypot: 人には見えない欄。ボットが埋めたら送信したことにして捨てる。
@@ -309,6 +309,7 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
             })}
           >
             <input
+              id={id('privacyPolicy')}
               type="checkbox"
               name="privacyPolicy"
               required
@@ -335,13 +336,10 @@ export function ContactForm(handle: Handle<{ state: ContactFormState }>) {
               {locale === 'ja' ? 'に同意する' : null}
             </span>
           </label>
-          {errors.privacyPolicy ? (
-            <p id={`${id('privacyPolicy')}-error`} mix={errorStyle}>
-              {errors.privacyPolicy}
-            </p>
-          ) : null}
+          {errorText('privacyPolicy')}
         </div>
 
+        <ContactFormValidation messages={contactMessages(t)} />
         <SubmitButton
           label={t('相談を送る')}
           pendingLabel={t('送信中…')}

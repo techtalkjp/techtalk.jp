@@ -98,23 +98,46 @@ export type ContactParseResult =
     }
   | { success: false; values: ContactValues; errors: ContactErrors }
 
-/** フォームを検証し、失敗時は欄ごとの（翻訳済み）エラーと入力値を返す */
+/**
+ * 検証エラーの文言（翻訳済み）。ブラウザの検証にも props で渡すので、文字列だけにする。
+ * maxLength は `{max}` を残したまま渡し、検証のときに上限の数で置き換える
+ */
+export interface ContactMessages {
+  required: Record<Exclude<ContactFieldName, 'company'>, string>
+  email: string
+  maxLength: string
+}
+
+export function contactMessages(t: Translate): ContactMessages {
+  return {
+    required: {
+      name: t(requiredMessages.name),
+      email: t(requiredMessages.email),
+      message: t(requiredMessages.message),
+      privacyPolicy: t(requiredMessages.privacyPolicy),
+    },
+    email: t('正しいメールアドレスを入力してください'),
+    maxLength: t('{max}文字以内で入力してください'),
+  }
+}
+
+/** フォームを検証し、失敗時は欄ごとの（翻訳済み）エラーと入力値を返す。サーバーとブラウザの両方で使う */
 export function parseContactForm(
   formData: FormData,
-  t: Translate,
+  messages: ContactMessages,
 ): ContactParseResult {
   let result = s.parseSafe(contactSchema, formData, {
     errorMap(context) {
       let field = context.path?.[0] as ContactFieldName | undefined
       if (context.code === 'string.max_length') {
         let { max } = context.values as { max: number }
-        return t('{max}文字以内で入力してください', { max })
+        return messages.maxLength.replaceAll('{max}', String(max))
       }
       if (context.code === 'string.email') {
-        return t('正しいメールアドレスを入力してください')
+        return messages.email
       }
       if (field && field !== 'company') {
-        return t(requiredMessages[field])
+        return messages.required[field]
       }
       return undefined
     },

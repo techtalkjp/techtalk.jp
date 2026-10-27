@@ -1,6 +1,7 @@
 import type { Translate } from '../i18n/index.ts'
 import type { Bindings } from '../middleware/bindings.ts'
 import {
+  contactMessages,
   parseContactForm,
   type ContactErrors,
   type ContactValues,
@@ -31,7 +32,7 @@ export async function submitContact(options: {
     return { status: 'sent' }
   }
 
-  let parsed = parseContactForm(options.formData, options.t)
+  let parsed = parseContactForm(options.formData, contactMessages(options.t))
   if (!parsed.success) {
     return { status: 'invalid', values: parsed.values, errors: parsed.errors }
   }
