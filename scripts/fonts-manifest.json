@@ -2,9 +2,9 @@
   "upstream": "https://raw.githubusercontent.com/google/fonts/874ec71eac706dd23900d1305449abed6767b7df/ofl/lineseedjp",
   "sources": {
     "app/config.ts": "d1bb131ae639e2bd6182bb02d6456d1258f279c3ff5960d0aa36fb4fc959da4d",
-    "app/contact/schema.ts": "47b915e338f75486c94adaa7353e3f7efa457bdcd748d0a2dd1ac338fa5962d3",
+    "app/contact/schema.ts": "e27cbd08b5b906c8b9b8c7df1291d6d621e38b535521c0099b90bdf102306693",
     "app/contact/score-sales.ts": "175f92b68456a4448d48604ed81cd959daa3f4b121d7810916c19263e9cfcb93",
-    "app/contact/submit.ts": "559effbbe2f4dd8ca933f0564ed48fbb83ad29f66f3729547e265dc3e1289d5d",
+    "app/contact/submit.ts": "ec7b7e8073a05bea5154f525709953f702598989e37b011c7b139c386c07d3e8",
     "app/contact/types.ts": "1dc9dfe8b48c0c6b411141c186ac55c2226420881d630cc8eac5a84daf095b97",
     "app/controllers/biography.tsx": "2f2a1f2c39f4b1d5f3bf00dc8639d271ac0649ff5507ffaaba07d2ccd66f152b",
     "app/controllers/cache.ts": "a649ef1e5a29ac48ffb4e577122ddfa7c9e01dbd0e4de828dfcc06e1e4dc5263",
@@ -16,9 +16,10 @@
     "app/i18n/en.json": "5cc99e914b40fd283e9ad90d84a0e477ce51e874b4e4010fe1388b60dc53f1e4",
     "app/i18n/index.ts": "2137cf01f80b0651233af632899763997a8040095a719378b6cf30bdc60aaf96",
     "app/i18n/provider.tsx": "b884d59799e153f24d0611b65f534bec9264fb55235d8738fda459d26b06a00d",
+    "app/islands/contact-form-validation.tsx": "ac2a0bc71b26ab4224be248db349d8e8844e6fa8a0983d7c0fe707ea7f0c40ad",
     "app/islands/events.ts": "f0fe49b9e5f9162d96969829f21c834bcd68e5c82a79612f606945476258f7a2",
     "app/islands/section-nav.tsx": "7a98d7d75bf13dc35bda0a7f08fa1e77d0d31b4a3c12234c8ee35695b66b1d70",
-    "app/islands/submit-button.tsx": "9c4d46d2404181e0d998913b34910d36aa1a57f3aa85ebe331397ef4911a5b39",
+    "app/islands/submit-button.tsx": "1d21479dd7f503588b949fd697e6da9a744a062d6f25f18ee458ba51a1db6fb1",
     "app/middleware/bindings.ts": "31343a07b3874109e528daaa32e8734db1ee3f38d17c72696ad5c3e4b3b820a0",
     "app/middleware/canonical-path.ts": "09be053dedbe7598636cd30871081d18ffffa0f9300a908722c48a5a3f044c96",
     "app/middleware/contact-form-data.ts": "d9d803752f01493a7960af700165a57f6f0c137db066dfd3c6e212bc7f95f5e0",
@@ -32,7 +33,7 @@
     "app/ui/home/approach.tsx": "a85aa40e9e1694bace59855cb573096387994d5bf0d40d9c98b94cb19430c65f",
     "app/ui/home/cases.tsx": "66b5ad8b8d11d290db41ed121b7780b4e6567e2fe1e7e855929b280983baff1d",
     "app/ui/home/company.tsx": "06791f3ff73b04104abcbaee47c5838ef6d2f66949c77e1ad247b107819e4761",
-    "app/ui/home/contact.tsx": "5a21c13a27aaf0f4d25a3fedcf0e2ddb3e5ad275c14751a70cca3b3f12260a1b",
+    "app/ui/home/contact.tsx": "c611f55b7fe939915503cb2fc8deb6010a74a41af3529b421f093482acd0d0ce",
     "app/ui/home/hero.tsx": "34e47d93d098bf388cbbd4102d771462d0b24ab2a557481f635451c446781d96",
     "app/ui/home/page.tsx": "7cc5ca5475e9531a1b26d07ec17ea15bb1cf138a3133ed40439c6068fa9f3092",
     "app/ui/home/product-preview.tsx": "a5fc3a458ad0e7bbe45d38697f67528a6b061479f23012eee6618ddd81ffa673",
@@ -47,8 +48,8 @@
     "app/ui/styles.ts": "2069ada7b0fc9ca8bdb95b14a7259d10a8531469e092dc765046582d5d32fbde"
   },
   "fonts": {
-    "line-seed-jp-400-5e65adf5cae1.woff2": "5e65adf5cae1a159190939ff2c84ee8f12e74a33dc9e02670c60b7bbcb161ed4",
-    "line-seed-jp-700-6eaff0d9172f.woff2": "6eaff0d9172fc0d18625d54cc31d73fa5740cc7e6eacae0c9e28a1fe1cfeecc3",
+    "line-seed-jp-400-e964097adf33.woff2": "e964097adf33f9e01fb08bbcb3af0be2001d14f209343c952e3533750e4b240a",
+    "line-seed-jp-700-ac80161f8101.woff2": "ac80161f81016fb09f704ec7c0136de9a2feeba2cead3406a8946f711c58a310",
     "line-seed-jp-800-15ce895e04a3.woff2": "15ce895e04a3a3d26a95eb0b59b12db46aafb95063b2b585d81ba049476d2bf9"
   }
 }

@@ -28,10 +28,13 @@ export const SubmitButton = clientEntry(
     // Navigation API がなく通常の POST になる場合も、二度押しはこれで防ぐ
     // 完了やエラーが先に届いたら、遅れて動くタイマーは止める
     let timer: ReturnType<typeof setTimeout> | undefined
-    function onSubmit() {
+    function onSubmit(event: Event) {
+      // 入力エラーで送信が止められた（ContactFormValidation）ときは送信中にしない
+      if (event.defaultPrevented) return
       failed = false
       clearTimeout(timer)
       timer = setTimeout(() => {
+        if (event.defaultPrevented) return
         pending = true
         void handle.update()
       }, 0)

@@ -88,7 +88,8 @@ app.addEventListener('error', (event) => {
 // 待っている間に利用者が別の場所へ移っていたら動かさない
 document.addEventListener('submit', (event) => {
   let form = event.target
-  if (!(form instanceof HTMLFormElement)) return
+  // 入力エラーで止められた送信は Frame を描き直さないので、待たない
+  if (event.defaultPrevented || !(form instanceof HTMLFormElement)) return
   let target = form.getAttribute('data-rmx-target')
   let frame = target ? app.frames.get(target) : undefined
   let scope = form.closest('section')
