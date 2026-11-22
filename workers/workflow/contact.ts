@@ -5,7 +5,11 @@ import {
   type WorkflowEvent,
   type WorkflowStep,
 } from 'cloudflare:workers'
-import { classifyInquiry } from './services/classify.ts'
+import {
+  type Classification,
+  classifyInquiry,
+  unclassified,
+} from './services/classify.ts'
 import { sendNotificationEmail, sendReplyEmail } from './services/email.tsx'
 import { logEvaluation, type RoutedAs } from './services/evaluations.ts'
 import { SlackError, sendSlack } from './services/slack.ts'
@@ -20,11 +24,25 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
     const inquiry = event.payload
     console.log('Received inquiry:', inquiry.name, inquiry.email)
 
-    const classification = await step.do('classifyInquiry', async () => {
-      const result = await classifyInquiry(env.AI, inquiry)
-      console.log('Classification:', result)
-      return result
-    })
+    // 判定の失敗（タイムアウト、モデルの廃止など）はステップのやり直しに任せる。
+    // やり直しても判定できなければ、本物の問い合わせを取りこぼさないよう、
+    // 件名に「要確認」を付けて通知する（以前は黙って「通常」扱いにしていた）
+    let classification: Classification
+    try {
+      classification = await step.do(
+        'classifyInquiry',
+        CLASSIFY_STEP,
+        async () => {
+          const result = await classifyInquiry(env.AI, inquiry)
+          console.log('Classification:', result)
+          return result
+        },
+      )
+    } catch (error) {
+      rethrowEngineError(error)
+      console.error('Classification gave up:', error)
+      classification = unclassified(error)
+    }
 
     // 振り分けの主役はLLM。rule は shadow mode の評価記録用。
     const routedAs: RoutedAs =
@@ -92,6 +110,12 @@ export class ContactWorkflow extends WorkflowEntrypoint<Env> {
     }
   }
 }
+
+/** 判定は数回だけやり直す。通知を長く遅らせないよう、待ち時間は短めにする */
+const CLASSIFY_STEP = {
+  retries: { limit: 3, delay: '10 seconds', backoff: 'exponential' },
+  timeout: '1 minute',
+} as const
 
 /**
  * Slack は補助の通知なので、待たせすぎず数回だけやり直す。
