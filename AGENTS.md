@@ -17,7 +17,7 @@ This file provides guidance to coding agents (Claude Code, Codex など) when wo
 
 ## Architecture
 
-Remix 3（`remix@3.0.0`）を Cloudflare Workers で動かしている。React ではなく `remix/component` の JSX（`jsxImportSource: "remix/component"`、hooks なし）を使う。Remix のソースは `~/.opensrc/repos/github.com/remix-run/remix/3.0.0` にある（`pnpm dlx opensrc path remix@3.0.0`）。
+Remix 3（`remix@3.2.0`）を Cloudflare Workers で動かしている。React ではなく `remix/component` の JSX（`jsxImportSource: "remix/component"`、hooks なし）を使う。Remix のソースは `~/.opensrc/repos/github.com/remix-run/remix/3.2.0` にある（`pnpm dlx opensrc path remix@3.2.0`）。
 
 - `worker.ts` - Worker のエントリ。`createAppRouter()` を isolate ごとに作る
 - `app/routes.ts` - URL の定義。パターンは先頭 `/` なしで書く（`(:lang)` はロケール。ja は接頭辞なし、en は `/en`）

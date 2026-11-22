@@ -5,4 +5,4 @@ pre-commit:
       run: pnpm exec oxfmt -c .oxfmtrc.json {staged_files} && git add {staged_files}
     lint:
       glob: '*.{js,jsx,ts,tsx,mjs,cjs}'
-      run: pnpm exec oxlint -c .oxlintrc.json --fix {staged_files} && git add {staged_files}
+      run: pnpm exec oxlint -c .oxlintrc.json --fix --no-error-on-unmatched-pattern {staged_files} && git add {staged_files}
