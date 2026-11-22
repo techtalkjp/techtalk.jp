@@ -4,7 +4,12 @@ import { describe, it } from 'remix/test'
 import { scoreSales } from '../app/contact/score-sales.ts'
 import type { ContactFormData } from '../app/contact/types.ts'
 import { createTranslate } from '../app/i18n/index.ts'
-import type { Classification } from '../workers/workflow/services/classify.ts'
+import {
+  type Classification,
+  ClassifyError,
+  classifyInquiry,
+  unclassified,
+} from '../workers/workflow/services/classify.ts'
 import {
   escapeMrkdwn,
   sendSlack,
@@ -98,5 +103,63 @@ describe('sendSlack', () => {
     assert.ok(limited instanceof SlackError && !limited.permanent)
     let down = await sendWithStatus(503)
     assert.ok(down instanceof SlackError && !down.permanent)
+  })
+})
+
+describe('classifyInquiry', () => {
+  const inquiry = {
+    ...base,
+    message: '開発のご相談をしたいです。',
+    rule: { score: 0, tier: 'normal' as const, reasons: [] },
+  }
+  const fakeAi = (run: () => Promise<unknown>) => ({ run }) as unknown as Ai
+
+  it('reads a { response } result', async () => {
+    let result = await classifyInquiry(
+      fakeAi(async () => ({
+        response: '{"verdict":"sales","confidence":90,"reason":"営業"}',
+      })),
+      inquiry,
+    )
+    assert.equal(result.verdict, 'sales')
+    assert.equal(result.confidence, 90)
+  })
+
+  it('reads an OpenAI-style { choices } result', async () => {
+    let result = await classifyInquiry(
+      fakeAi(async () => ({
+        choices: [
+          { message: { content: '{"verdict":"normal","confidence":80}' } },
+        ],
+      })),
+      inquiry,
+    )
+    assert.equal(result.verdict, 'normal')
+  })
+
+  it('throws instead of passing the inquiry as normal when the AI call fails', async () => {
+    await assert.rejects(
+      classifyInquiry(
+        fakeAi(async () => {
+          throw new Error('5028: model was deprecated')
+        }),
+        inquiry,
+      ),
+      ClassifyError,
+    )
+  })
+
+  it('throws when the response cannot be read', async () => {
+    await assert.rejects(
+      classifyInquiry(
+        fakeAi(async () => ({ response: 'わかりません' })),
+        inquiry,
+      ),
+      ClassifyError,
+    )
+  })
+
+  it('treats a classification that gave up as gray', () => {
+    assert.equal(unclassified(new Error('timeout')).verdict, 'gray')
   })
 })

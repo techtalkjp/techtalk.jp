@@ -47,7 +47,9 @@ export const sendNotificationEmail = async (
 ) => {
   await withContext('Notification email', async () => {
     // 営業判定（sales）の問い合わせは Workflow 側で通知の前に止めている
-    const subject = `新しいお問い合わせ: ${form.name}様`
+    // gray（判定がつかない、または判定に失敗した）は件名で分かるようにする
+    const prefix = classification.verdict === 'gray' ? '[要確認] ' : ''
+    const subject = `${prefix}新しいお問い合わせ: ${form.name}様`
     const classificationNote =
       `LLM判定: ${classification.verdict} (${classification.confidence}%) ${classification.reason || ''}\n` +
       `ルール: ${form.rule.score} (${form.rule.tier}) ${form.rule.reasons.join('、')}`
