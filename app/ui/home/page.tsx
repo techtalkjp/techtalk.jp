@@ -9,16 +9,12 @@ import { PageShell } from '../layout.tsx'
 import { ApproachSection } from './approach.tsx'
 import { CasesSection } from './cases.tsx'
 import { CompanySection } from './company.tsx'
-import { ContactSection, type ContactFormState } from './contact.tsx'
+import { ContactSection } from './contact.tsx'
 import { HeroSection } from './hero.tsx'
 import { ProfileSection } from './profile.tsx'
 
 export interface HomePageProps {
   i18n: I18n
-  /** JS なしで送信してエラーになったときのフォーム状態 */
-  contactState?: ContactFormState
-  /** JS なしで送信に成功してリダイレクトされてきた */
-  sent?: boolean
 }
 
 const SOCIAL = Object.values(PROFILE_URLS)
@@ -71,7 +67,7 @@ function homeSeo({ locale }: I18n): Seo {
 
 export function HomePage(handle: Handle<HomePageProps>) {
   return () => {
-    let { i18n, contactState, sent } = handle.props
+    let { i18n } = handle.props
     return (
       <Document locale={i18n.locale} seo={homeSeo(i18n)}>
         <I18nProvider value={i18n}>
@@ -82,7 +78,7 @@ export function HomePage(handle: Handle<HomePageProps>) {
               <ApproachSection />
               <ProfileSection />
               <CompanySection />
-              <ContactSection fallbackState={contactState} sent={sent} />
+              <ContactSection />
             </main>
           </PageShell>
         </I18nProvider>

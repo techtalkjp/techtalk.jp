@@ -12,11 +12,3 @@ export const publicPageHeaders = {
     mustRevalidate: true,
   }).toString(),
 }
-
-/** 送信結果など、訪問者ごとに変わる応答 */
-export const privateHeaders = {
-  'Cache-Control': new CacheControl({
-    private: true,
-    noStore: true,
-  }).toString(),
-}

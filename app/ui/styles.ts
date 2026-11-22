@@ -15,13 +15,6 @@ export const container = css({
   paddingInline: '1.5rem',
 })
 
-/** ページ表示時に一度だけふわっと出す */
-export const fadeUpOnLoad = css({
-  '@media (prefers-reduced-motion: no-preference)': {
-    animation: 'fade-up 0.6s ease-out both',
-  },
-})
-
 /**
  * 見出しの文節。日本語では途中で折り返さない。
  * 英語は普通に折り返す（inline-block だと訳文の末尾の空白が消えて語がくっつく）

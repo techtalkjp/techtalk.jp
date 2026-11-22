@@ -11,7 +11,7 @@ This file provides guidance to coding agents (Claude Code, Codex など) when wo
 - `pnpm test` - `remix test`（`test/**/*.test.{ts,tsx}`）
 - `pnpm typecheck` / `pnpm lint` / `pnpm format` / `pnpm format:fix`
 - `pnpm validate` - `fonts:ensure` のあと、format, lint, typecheck, test, fonts:check を並列実行
-- `pnpm typegen` - `worker-configuration.d.ts` を再生成（secrets は `.env.example` から）
+- `pnpm typegen` - `worker-configuration.d.ts` を再生成（secrets は使っていないので、手元の `.env` は読ませない）
 - `pnpm migrations:apply` / `pnpm migrations:apply:production` - D1 マイグレーション。本番は自動では当たらない。マージとの順番は README の「デプロイ」に従う
 
 変更後は必ず `pnpm validate` を通す。
@@ -20,23 +20,21 @@ This file provides guidance to coding agents (Claude Code, Codex など) when wo
 
 Remix 3（`remix@3.0.0`）を Cloudflare Workers で動かしている。React ではなく `remix/component` の JSX（`jsxImportSource: "remix/component"`、hooks なし）を使う。Remix のソースは `~/.opensrc/repos/github.com/remix-run/remix/3.0.0` にある（`pnpm dlx opensrc path remix@3.0.0`）。
 
-- `worker.ts` - Worker のエントリ。`createAppRouter({ bindings })` を isolate ごとに作り、`ContactWorkflow` を re-export する
+- `worker.ts` - Worker のエントリ。`createAppRouter({ bindings })` を isolate ごとに作る
 - `app/routes.ts` - URL の定義。パターンは先頭 `/` なしで書く（`(:lang)` はロケール。ja は接頭辞なし、en は `/en`）
-- `app/router.ts` - 全体のミドルウェア（logger, canonicalPath, cop, bindings, render）とルートの割り当て。フォームの解析は問い合わせのルートだけに `contactFormData()`（上限つき、400/413）を掛ける。ロケールは `(:lang)` のルートに `locale()` を掛け、`context.i18n` で受け取る
+- `app/router.ts` - 全体のミドルウェア（logger, canonicalPath, cop, bindings, render）とルートの割り当て。ロケールは `(:lang)` のルートに `locale()` を掛け、`context.i18n` で受け取る
 - `app/controllers/` - ルートごとのハンドラ。`context.render(<Page />)` で HTML を返す
 - `app/ui/` - サーバー描画のコンポーネント。スタイルは `css()` mixin、トークンは `app/ui/global-styles.ts` の CSS 変数
 - `app/islands/` - ブラウザでハイドレーションするコンポーネント（`clientEntry('/js/entry.js#Name', ...)`）。`client/islands.ts` に同名で export を足す
 - `client/entry.ts` - `run()` を起動する。アイランドも同じファイルにまとめて入れる（`/js/entry.js` 1 本）
-- `app/contact/` - 問い合わせのスキーマ（`remix/data-schema`）、honeypot、営業スコア、Workflow への投入
 - `app/i18n/` - `t('日本語の文言')` で翻訳。英訳は `app/i18n/en.json`（日本語の文言がキー）。`t()` の引数は en.json のキーに型で縛っているので、文言を変えたら en.json のキーも直す（直さないと typecheck が落ちる）。SEO の説明文のように `t()` を通さない文言は型で守られないので、日英を見比べて直す。`I18nProvider` / `getI18n(handle)` でツリーに渡す
-- `workers/workflow/` - `ContactWorkflow`。Workers AI で営業判定 → 評価ログ → 通知メールと Slack を並べて送る（片方が失敗してももう片方は送る。両方失敗したら自動返信を送らずに Workflow を失敗にする）→ 自動返信（入力内容は載せない。失敗は記録だけ）。メールは `renderToString` で JSX から作る
 
 ## 決まりごと
 
 - 見た目を変えるときは `DESIGN.md`（トークン、部品、やらないこと）に従う。誰に何を伝えるサイトか、出してよい実績は何かは `PRODUCT.md` にある
 - ブラウザ用 JS は esbuild で `public/js/entry.js` 1 本にまとめる（デプロイ前後で古いページと新しいチャンクが混ざらないように）。`remix/assets` は Node 専用なので使わない
 - バインディングは `cloudflare:workers` から import せず、`context.bindings`（`app/middleware/bindings.ts`）経由で使う。テストでは偽物を渡す
-- 問い合わせフォームはトップの `<Frame name="contact">`。JS ありの送信は `data-rmx-src` で `/contact-form` に送り、フォーム部分だけ差し替える。JS なしの送信はトップの URL が受ける。どちらも動くこと
+- 問い合わせはフォームで受けない（営業ツールの送信ばかりになったため閉じた）。トップの問い合わせのセクションから、代表の Facebook へ Messenger（`MESSENGER_URL`、`app/config.ts`）で送ってもらう。POST を受けるルートを足さない
 - テーマは OS の設定（`prefers-color-scheme`）に従うだけで、切り替え UI は置かない
 - デザインのトークン（色、文字サイズ 12/14/16/18/20/28/40/display、角丸 8px/16px とボタンのピル）は `app/ui/global-styles.ts` にある。色はアクセント 1 色（青）と無彩色だけ。新しい値を足す前にトークンで済まないか考える
 - 固定・大きなレイヤーに blur、backdrop-filter、mask を使わない（iOS Safari でスクロール中の描画が遅れる）

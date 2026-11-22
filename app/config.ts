@@ -7,3 +7,6 @@ export const PROFILE_URLS = {
   zenn: 'https://zenn.dev/coji',
   facebook: 'https://www.facebook.com/mizoguchi.coji',
 } as const
+
+/** 問い合わせの窓口。代表の Facebook に Messenger で送ってもらう */
+export const MESSENGER_URL = 'https://m.me/mizoguchi.coji'

@@ -26,7 +26,7 @@
     "fonts:check": "node scripts/check-fonts.mjs",
     "fonts:ensure": "node scripts/check-fonts.mjs --ensure",
     "deploy": "wrangler deploy",
-    "typegen": "wrangler types --env-file .env.example",
+    "typegen": "wrangler types --env-file /dev/null",
     "typecheck": "tsc",
     "lint": "oxlint -c .oxlintrc.json",
     "format": "oxfmt -c .oxfmtrc.json --check",
@@ -39,7 +39,6 @@
     "prepare": "lefthook install || true"
   },
   "dependencies": {
-    "mimetext": "3.0.28",
     "remix": "3.1.0"
   },
   "packageManager": "pnpm@12.17.0",
