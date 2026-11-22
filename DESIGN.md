@@ -3,33 +3,25 @@ name: TechTalk
 description: 青みのある黒の地に大見出しを置き、青い光を描いた生成画像と、自分で作った製品の本物の画面を見せる、一人の会社のプロダクトサイト
 colors:
   signal-blue: '#2453d6'
-  signal-blue-soft: '#e7edfc'
   white-ground: '#ffffff'
   cool-surface: '#f5f6f8'
   hairline: '#e5e7eb'
   hairline-strong: '#d0d4db'
-  field-edge: '#858c99'
   text-strong: '#0b0d12'
   text-muted: '#474e5c'
   text-subtle: '#626977'
   button-fill: '#0b0d12'
   button-ink: '#ffffff'
-  danger: '#b42318'
-  danger-surface: '#fdecea'
   night-signal-blue: '#7fa2ff'
-  night-signal-blue-soft: '#172038'
   night-ground: '#0b0d12'
   night-surface: '#13161d'
   night-hairline: '#20242d'
   night-hairline-strong: '#2f3440'
-  night-field-edge: '#646b79'
   night-text-strong: '#f2f4f8'
   night-text-muted: '#b3bac7'
   night-text-subtle: '#8b93a2'
   night-button-fill: '#f2f4f8'
   night-button-ink: '#0b0d12'
-  night-danger: '#ff9a8f'
-  night-danger-surface: '#3a1c1b'
 typography:
   display:
     fontFamily: "'LINE Seed JP', system-ui, -apple-system, 'Hiragino Sans', sans-serif"
@@ -114,12 +106,6 @@ components:
     height: '44px'
   button-secondary-hover:
     backgroundColor: '{colors.cool-surface}'
-  input:
-    backgroundColor: '{colors.cool-surface}'
-    textColor: '{colors.text-strong}'
-    typography: '{typography.body}'
-    rounded: '{rounded.control}'
-    padding: '10px 12px'
   panel:
     backgroundColor: '{colors.cool-surface}'
     rounded: '{rounded.image}'
@@ -164,21 +150,18 @@ components:
 
 ### Primary
 
-- **信号の青**（signal-blue / night-signal-blue）: 本文中のリンク、進め方の番号の輪、代表の「いま手がけている仕事」の枠の見出し、ワードマークの句点、フォーカスの枠、選択範囲、チェックボックス。印を付ける場所にだけ使う。
-- **青のにじみ**（signal-blue-soft / night-signal-blue-soft）: 入力欄のフォーカス時の外側の輪。
+- **信号の青**（signal-blue / night-signal-blue）: 本文中のリンク、進め方の番号の輪、代表の「いま手がけている仕事」の枠の見出し、ワードマークの句点、フォーカスの枠、選択範囲、問い合わせの枠の見出し。印を付ける場所にだけ使う。
 
 ### Neutral
 
 - **地**（white-ground / night-ground）: ページの地。ヘッダーも同じ色の不透明な面で、下端に線を引く。
-- **一段明るい面**（cool-surface / night-surface）: 入力欄、代表の「いま手がけている仕事」の枠、送信完了の知らせ、お受けしていない依頼の注記、画面の台紙。地から一段だけ持ち上げたい面。
+- **一段明るい面**（cool-surface / night-surface）: 代表の「いま手がけている仕事」の枠、問い合わせの枠、お受けしていない依頼の注記、画面の台紙。地から一段だけ持ち上げたい面。
 - **細い線**（hairline / night-hairline）: ヘッダーとフッターの区切り、一覧の行と列の区切り、面の縁。
 - **濃い線**（hairline-strong / night-hairline-strong）: 枠線だけのボタン、写真の縁、進め方の段をつなぐ線、スクロールバー。
-- **入力欄の縁**（field-edge / night-field-edge）: 入力欄の枠だけに使う。地との差を 3:1 以上にする。
 - **強い文字**（text-strong / night-text-strong）: 見出しと本文。
 - **抑えた文字**（text-muted / night-text-muted）: リード文、一覧の答えの側、注記、ページ内ナビ。
 - **淡い文字**（text-subtle / night-text-subtle）: 会社概要の項目名、肩書き、フッター、言語の切り替え、プレースホルダー。地に対して 4.5:1 以上を保つ。
 - **ボタンの塗り**（button-fill / button-ink と夜の対）: 強い文字の色を反転させた塗り。夜は白いピルに黒い文字、昼は黒いピルに白い文字。
-- **警告の赤**（danger / danger-surface と夜の対）: 入力エラーと送信失敗だけ。
 
 ### Named Rules
 
@@ -200,7 +183,7 @@ components:
 - **Section lede**（400、16px → 760px 以上で 18px、1.7、最大 34em、抑えた文字）: セクション見出しの下のリード文。
 - **Title**（700、18〜20px、1.5）: 一覧の各項目の見出し（こんなとき、進め方の各段）。
 - **Body**（400、16px、1.7、字間 0.01em）: 本文。段落は最大 30〜36em。
-- **Label**（700、14px、字間 0.02em）: ボタン、フォームのラベル、枠の見出し、注記の見出し。ナビとフッターのリンクは同じ 14px の 400。
+- **Label**（700、14px、字間 0.02em）: ボタン、枠の見出し、注記の見出し。ナビとフッターのリンクは同じ 14px の 400。
 - **Caption**（400、12px）: プロダクトの画面の中の小さな文字だけ。
 
 ### Named Rules
@@ -218,11 +201,11 @@ components:
 - **セクション:** 1 列、左揃え。上下の余白 80px、900px 以上で 128px。セクション同士は余白だけで区切り、線を引かない。
 - **3 列の一覧:** こんなとき・進め方は、900px 以上で同じ幅の 3 列。こんなときは列の間に縦の線、進め方は番号の輪を横の線でつなぐ。狭い幅では 1 列に積み、こんなときは行の線、進め方は縦の線でつなぐ。
 - **代表:** 写真と名前の行の下に、900px 以上で「理由の文 : いま手がけている仕事の枠 = 1 : 1.1」の 2 列。
-- **問い合わせ:** 960px 以上で説明とフォームを 0.9 : 1.1 の 2 列。名前と会社名は 560px 以上で横に並べる。
+- **問い合わせ:** 見出しを 2 列の上に置き、その下に 900px 以上で説明と Messenger の枠を 1 : 1.1 の 2 列（代表と同じ）。
 - **会社概要:** 640px 以上で項目名 160px と値の 2 列、行ごとに下に線。
 - **ヘッダー:** 上部に固定、高さ 64px。860px 以下ではページ内ナビが 2 段目に回り（108px）、360px 未満では 3〜4 段に折り返す（190px）。横スクロールにはしない。
 - **余白の刻み:** 8px を基準に、8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 56 / 64 / 72 / 80 / 104 / 128px を使う。
-- **ブレークポイント:** 560（フォームの欄）/ 640 / 760 / 860（ナビ）/ 900（列）/ 960（問い合わせ）px。
+- **ブレークポイント:** 640 / 760 / 860（ナビ）/ 900（列）px。
 
 ## Elevation & Depth
 
@@ -235,11 +218,11 @@ components:
 
 ### Named Rules
 
-**The 影は画面だけ Rule.** 一覧、面、注記、フォームに落ち影を付けない。持ち上げたいときは一段明るい面と 1px の線で済ませる。
+**The 影は画面だけ Rule.** 一覧、面、注記に落ち影を付けない。持ち上げたいときは一段明るい面と 1px の線で済ませる。
 
 ## Shapes
 
-角丸は 3 値と円。押すボタンはピル（999px）、入力欄・注記・スキップリンクは 8px、大きな面と画面は 16px。代表の写真、進め方の番号の輪、ワードマークの句点は円。それ以外の形（斜め、切り欠き、ブロブ）は使わない。プロダクトの画面の中は、実物（Artifact Share）の角丸に合わせる。
+角丸は 3 値と円。押すボタンはピル（999px）、注記・スキップリンクは 8px、大きな面と画面は 16px。代表の写真、進め方の番号の輪、ワードマークの句点は円。それ以外の形（斜め、切り欠き、ブロブ）は使わない。プロダクトの画面の中は、実物（Artifact Share）の角丸に合わせる。
 
 ## Components
 
@@ -248,20 +231,21 @@ components:
 丸いピルで、押すと応える。
 
 - **Shape:** ピル（999px）。高さ 44px、左右 22px。ヘッダーだけ高さ 36px・左右 14px にし、押せる範囲は `::before` で上下に広げて 44px にする。
-- **Primary:** ボタンの塗り（文字色を反転した無彩色）に、ラベル書体。1 画面に 1 つだけ（ヘッダーと 1 画面目の「相談する」、フォームの送信）。hover で地の色を 16% 混ぜて少し沈める。
+- **Primary:** ボタンの塗り（文字色を反転した無彩色）に、ラベル書体。1 画面に 1 つだけ（ヘッダーと 1 画面目の「相談する」、問い合わせの「Messenger でメッセージを送る」）。hover で地の色を 16% 混ぜて少し沈める。
 - **Secondary:** 透明の地に濃い線の内側の縁。hover で一段明るい面が出て、縁が淡い文字の色になる。
 - **Hover / Focus / Active:** 150ms ease-out で変える。フォーカスは 2px の青い枠（3px 離す）。押下で 0.97 倍に縮む。無効時は不透明度 0.6。
 - **強制カラーモード:** 背景と影が消えるので、実線の枠を描く。
 
-### Inputs / Fields
+### Contact（Messenger の枠）
 
-- **Style:** 一段明るい面に、入力欄の縁の 1px の内側の線。角丸 8px、余白 10px 12px、文字は 16px（iOS で拡大されない大きさ）。
-- **Focus:** 縁が 1.5px の青になり、外側に 4px の青のにじみ。
-- **Error:** 縁が 1.5px の赤になり、欄の下に 14px の赤い文で原因を書く。送信失敗は赤の面（danger-surface）に角丸 8px で知らせる。
-- **Optional:** 任意の欄にだけ、ラベルの横に淡い文字で「任意」と添える。
-- **Checkbox:** 18px、`accent-color` を青に。ラベルごと 44px の高さで押せる。
+問い合わせはフォームで受けず、代表の Facebook に Messenger で送ってもらう。右の列に、一段明るい面・細い線の内側の縁・角丸 16px の枠を 1 つ置く（余白 24px、760px 以上で 32px）。
 
-### Panels（代表のいま手がけている仕事、送信完了）
+- **上の行:** 代表の丸い写真（56px、写真の輪）と、名前（18px / 700）、その下に淡い文字で「Facebook Messenger」。
+- **最初のメッセージ:** 14px / 700 の青い見出しの下に、書いてほしいことを 3 行。行は細い線で区切り、順番はないので番号を振らない。
+- **ボタン:** 塗りのピル「Messenger でメッセージを送る」に外部リンクの矢印。スマホでは枠の幅いっぱい、760px 以上では文字の幅。下に 14px の淡い文字で、友達でなくても送れることを添える。
+- Facebook や Messenger のロゴ、ブランドの色は使わない。
+
+### Panels（代表のいま手がけている仕事、問い合わせの枠）
 
 - **Corner Style:** 16px。
 - **Background:** 一段明るい面に、細い線の内側の縁。影は付けない。
@@ -303,9 +287,9 @@ components:
 - **Do** 色を足す前に、既存のトークン（`app/ui/global-styles.ts`）で済まないか考える。
 - **Do** 区切りには 1px の線（hairline）か、一段明るい面（surface）を使う。
 - **Do** 押せるものは見た目の大きさにかかわらず 44px の範囲を確保する。
-- **Do** 夜と昼の両方で、本文 4.5:1、入力欄の縁 3:1 を確かめる。
+- **Do** 夜と昼の両方で、本文 4.5:1 を確かめる。
 - **Do** 画像には width と height を書く。プロダクトの画面は本物（写真か、それを忠実に描いた HTML）、人物は本人の写真だけを使う。生成画像は夜用と昼用を対で作り、来歴を残す。
-- **Do** アニメーションは `prefers-reduced-motion: no-preference` のときだけ動かす（1 画面目の画像のせり上がり、送信完了の fade-up、ボタンの押下）。
+- **Do** アニメーションは `prefers-reduced-motion: no-preference` のときだけ動かす（1 画面目の画像のせり上がり、ボタンの押下）。
 
 ### Don't:
 

@@ -4,8 +4,6 @@
     "app/**/*.ts",
     "app/**/*.tsx",
     "client/**/*.ts",
-    "workers/**/*.ts",
-    "workers/**/*.tsx",
     "test/**/*.ts",
     "test/**/*.tsx"
   ],

@@ -4,8 +4,7 @@
  *
  * 色は青みのある無彩色の階調（夜は黒、昼は白）にアクセント 1 色（明るい青）だけ。
  * 文字は 12 / 14 / 16 / 18 / 20 / 28 / 40 と見出しの display、余白は 8px 刻み、
- * 角丸はボタンのピル、入力欄 8px、画面や面 16px。
- * 入力欄の枠（--border-input）だけは、どこに書けばいいか見分けられるよう背景との差を 3:1 以上にする。
+ * 角丸はボタンのピル、注記 8px、画面や面 16px。
  * テーマは OS の設定（prefers-color-scheme）に従う。
  */
 const lightTokens = `
@@ -14,16 +13,12 @@ const lightTokens = `
   --surface: #f5f6f8;
   --border: #e5e7eb;
   --border-strong: #d0d4db;
-  --border-input: #858c99;
   --text-strong: #0b0d12;
   --text-muted: #474e5c;
   --text-subtle: #626977;
   --accent: #2453d6;
-  --accent-soft: #e7edfc;
   --button-bg: #0b0d12;
   --button-text: #ffffff;
-  --danger: #b42318;
-  --danger-surface: #fdecea;
   --shadow-image: 0 0 0 1px rgb(11 13 18 / 0.08), 0 32px 64px -32px rgb(11 13 18 / 0.28), 0 12px 24px -12px rgb(11 13 18 / 0.1);
 `
 
@@ -33,16 +28,12 @@ const darkTokens = `
   --surface: #13161d;
   --border: #20242d;
   --border-strong: #2f3440;
-  --border-input: #646b79;
   --text-strong: #f2f4f8;
   --text-muted: #b3bac7;
   --text-subtle: #8b93a2;
   --accent: #7fa2ff;
-  --accent-soft: #172038;
   --button-bg: #f2f4f8;
   --button-text: #0b0d12;
-  --danger: #ff9a8f;
-  --danger-surface: #3a1c1b;
   --shadow-image: 0 0 0 1px rgb(255 255 255 / 0.1), 0 40px 80px -32px rgb(0 0 0 / 0.7);
 `
 
@@ -112,10 +103,6 @@ export const globalStyles = `
   button, input, textarea { font: inherit; color: inherit; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(1.25rem); }
-    to { opacity: 1; transform: none; }
-  }
   @keyframes rise {
     from { transform: translateY(48px); }
     to { transform: none; }

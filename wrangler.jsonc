@@ -19,26 +19,11 @@
     "directory": "./public",
     "binding": "ASSETS"
   },
-  "ai": {
-    "binding": "AI"
-  },
-  "workflows": [
-    {
-      "name": "techtalkjp-contact-workflow",
-      "binding": "CONTACT_WORKFLOW",
-      "class_name": "ContactWorkflow"
-    }
-  ],
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "techtalkjp",
       "database_id": "634e29d6-baee-4023-a402-c16cba3038af"
-    }
-  ],
-  "send_email": [
-    {
-      "name": "EMAIL"
     }
   ],
   "observability": {

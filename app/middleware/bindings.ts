@@ -1,11 +1,8 @@
 import { createContextKey, type Middleware } from 'remix/router'
 
-import type { ContactInquiry } from '../contact/types.ts'
-
 /** ハンドラから使う Cloudflare のバインディング */
 export interface Bindings {
   db: D1Database
-  contactWorkflow: Pick<Workflow<ContactInquiry>, 'create'>
 }
 
 const BindingsKey = createContextKey<Bindings>()
