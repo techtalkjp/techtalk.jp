@@ -33,9 +33,6 @@
     "format:fix": "oxfmt -c .oxfmtrc.json",
     "test": "remix test",
     "validate": "pnpm fonts:ensure && run-p format lint typecheck test fonts:check",
-    "migrations:list": "wrangler d1 migrations list techtalkjp --local",
-    "migrations:apply": "wrangler d1 migrations apply techtalkjp --local",
-    "migrations:apply:production": "wrangler d1 migrations apply techtalkjp --remote",
     "prepare": "lefthook install || true"
   },
   "dependencies": {

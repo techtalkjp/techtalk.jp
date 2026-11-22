@@ -5,7 +5,7 @@
 ## 構成
 
 - [Remix 3](https://remix.run)（`remix/component` によるサーバー描画、アイランド、Frame）
-- Cloudflare Workers / D1
+- Cloudflare Workers
 - ページ: トップ（`/`, `/en`）、経歴（`/biography`, `/en/biography`）、プライバシーポリシー（`/privacy`）
 - 問い合わせは代表の Facebook に Messenger で送ってもらう（フォームは営業の送信ばかりになったので閉じた）
 - サイトの前提（誰に何を伝えるか、出してよい実績）は `PRODUCT.md`、見た目の決まりは `DESIGN.md`
@@ -14,7 +14,6 @@
 
 ```sh
 pnpm install
-pnpm migrations:apply   # ローカル D1
 pnpm dev                # https://techtalk.localhost
 pnpm validate           # fonts:ensure のあと format, lint, typecheck, test, fonts:check
 ```
@@ -34,5 +33,3 @@ LINE Seed JP はサイト内で使う文字に絞った WOFF2 を `public/fonts/
 ## デプロイ
 
 main にマージすると、Cloudflare の Workers Builds が本番にデプロイする。結果は GitHub のチェック（`Workers Builds: techtalkjp`）に出る。手元から出し直すときは `pnpm run deploy`。
-
-D1 のマイグレーションは自動では当たらないので、手で `pnpm migrations:apply:production` を実行する。どちらを先にするかは中身で決める。テーブルや列を足すときは、新しいコードが書き込む先を先に用意するため、マージの前にマイグレーションを当てる。消すときは、古いコードが動いている間に消さないよう、マージしてデプロイが終わってから当てる。

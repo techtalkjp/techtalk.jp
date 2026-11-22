@@ -19,13 +19,6 @@
     "directory": "./public",
     "binding": "ASSETS"
   },
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "techtalkjp",
-      "database_id": "634e29d6-baee-4023-a402-c16cba3038af"
-    }
-  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1

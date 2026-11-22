@@ -4,7 +4,6 @@
     "app/config.ts": "917b1648fc833727a28150bad76cf1662057fbe97629108219bffadbda49d2d2",
     "app/controllers/biography.tsx": "2f2a1f2c39f4b1d5f3bf00dc8639d271ac0649ff5507ffaaba07d2ccd66f152b",
     "app/controllers/cache.ts": "361337a4831dcf0282aa32af3ea0dc7112dfb1c58877e4fac4f24602313d82e9",
-    "app/controllers/healthcheck.ts": "166c58d3324d34a8073b34f69017a21e9d1c7782466b183eff7502472880247c",
     "app/controllers/home.tsx": "81bbe9c9174966651643a02476f1a8e7dfcda471bad1d5dc518aa17ef1ece473",
     "app/controllers/not-found.tsx": "845f7330a4e6a7fbece378e9e143df65b61afe0f1021bcb30dcfa6f673766a72",
     "app/controllers/privacy.tsx": "24e39ec5bb76fcaf1704e2cc2dffdbbcd8ba3042fdf5e35c55f59e7d1bd3e9b9",
@@ -13,12 +12,11 @@
     "app/i18n/provider.tsx": "b884d59799e153f24d0611b65f534bec9264fb55235d8738fda459d26b06a00d",
     "app/islands/events.ts": "f0fe49b9e5f9162d96969829f21c834bcd68e5c82a79612f606945476258f7a2",
     "app/islands/section-nav.tsx": "7a98d7d75bf13dc35bda0a7f08fa1e77d0d31b4a3c12234c8ee35695b66b1d70",
-    "app/middleware/bindings.ts": "c06f0bc32748f3c2ef039f70035c164ed0a363dbe88fca36503d552f0ad0d3e1",
     "app/middleware/canonical-path.ts": "09be053dedbe7598636cd30871081d18ffffa0f9300a908722c48a5a3f044c96",
     "app/middleware/locale.ts": "6905ea62c53af8cd44bc2626fbb92eaf68bf3920450bed625c4b3ae5c9fdcf67",
     "app/paths.ts": "520b060748ed638908b183bb564680b2045bf0d38df2a196405302621c3c7ac3",
-    "app/router.ts": "10fc16ba981d2056a6fcd5e6e41b5440b7aed22cf0260d890473947525a0bfe9",
-    "app/routes.ts": "a77d77f57e9fcbb66aa6f885ba1947904faf3f64bc596ed4af11445c768f203f",
+    "app/router.ts": "e0f6dcbfa21d63d49ac452db07d225595830a9ad1acf46c9bfbdb6f1ed643fd5",
+    "app/routes.ts": "5a8fc3d3af745f673ba8d5ccba2dc66bd037e3bdd32112fada90a6193a093e7f",
     "app/ui/biography/page.tsx": "e6194118c9adfa0a8489295019fc995708c99094a40a16906097ac26dcb809cb",
     "app/ui/document.tsx": "3958125039a2d3ffb854224b778b2f7d13b7159fae9bda0daae04f3958389237",
     "app/ui/global-styles.ts": "ff3460e222c372bf16679d9651d7283ec84505eac227e7ff573ada61760f1c84",
@@ -40,8 +38,8 @@
     "app/ui/styles.ts": "7fd39bdab9712e6c6a6ab2ad3107b68f90fa16f0c0ea3c2b0b54d99158b33a9c"
   },
   "fonts": {
-    "line-seed-jp-400-f45af2f79b69.woff2": "f45af2f79b693e7bcd5bea9750e3d0d406e1bfa54bcb05555abd774c2e312248",
-    "line-seed-jp-700-aeeaed184f69.woff2": "aeeaed184f69b1e68e9d65f58c6202af868cf6539075ec5860a74dfcd270ebe0",
+    "line-seed-jp-400-90173febb40a.woff2": "90173febb40a9f5cf20d442c0e68ebc157c817c7cfaab0fe362296ada3ccffde",
+    "line-seed-jp-700-7401660efd55.woff2": "7401660efd55d2c5c9cc9440d17633c1e89baa82a866bbefb1ea185c80951a7d",
     "line-seed-jp-800-15ce895e04a3.woff2": "15ce895e04a3a3d26a95eb0b59b12db46aafb95063b2b585d81ba049476d2bf9"
   }
 }
