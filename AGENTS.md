@@ -12,7 +12,6 @@ This file provides guidance to coding agents (Claude Code, Codex など) when wo
 - `pnpm typecheck` / `pnpm lint` / `pnpm format` / `pnpm format:fix`
 - `pnpm validate` - `fonts:ensure` のあと、format, lint, typecheck, test, fonts:check を並列実行
 - `pnpm typegen` - `worker-configuration.d.ts` を再生成（secrets は使っていないので、手元の `.env` は読ませない）
-- `pnpm migrations:apply` / `pnpm migrations:apply:production` - D1 マイグレーション。本番は自動では当たらない。マージとの順番は README の「デプロイ」に従う
 
 変更後は必ず `pnpm validate` を通す。
 
@@ -20,9 +19,9 @@ This file provides guidance to coding agents (Claude Code, Codex など) when wo
 
 Remix 3（`remix@3.0.0`）を Cloudflare Workers で動かしている。React ではなく `remix/component` の JSX（`jsxImportSource: "remix/component"`、hooks なし）を使う。Remix のソースは `~/.opensrc/repos/github.com/remix-run/remix/3.0.0` にある（`pnpm dlx opensrc path remix@3.0.0`）。
 
-- `worker.ts` - Worker のエントリ。`createAppRouter({ bindings })` を isolate ごとに作る
+- `worker.ts` - Worker のエントリ。`createAppRouter()` を isolate ごとに作る
 - `app/routes.ts` - URL の定義。パターンは先頭 `/` なしで書く（`(:lang)` はロケール。ja は接頭辞なし、en は `/en`）
-- `app/router.ts` - 全体のミドルウェア（logger, canonicalPath, cop, bindings, render）とルートの割り当て。ロケールは `(:lang)` のルートに `locale()` を掛け、`context.i18n` で受け取る
+- `app/router.ts` - 全体のミドルウェア（logger, canonicalPath, cop, render）とルートの割り当て。ロケールは `(:lang)` のルートに `locale()` を掛け、`context.i18n` で受け取る
 - `app/controllers/` - ルートごとのハンドラ。`context.render(<Page />)` で HTML を返す
 - `app/ui/` - サーバー描画のコンポーネント。スタイルは `css()` mixin、トークンは `app/ui/global-styles.ts` の CSS 変数
 - `app/islands/` - ブラウザでハイドレーションするコンポーネント（`clientEntry('/js/entry.js#Name', ...)`）。`client/islands.ts` に同名で export を足す
@@ -33,11 +32,9 @@ Remix 3（`remix@3.0.0`）を Cloudflare Workers で動かしている。React �
 
 - 見た目を変えるときは `DESIGN.md`（トークン、部品、やらないこと）に従う。誰に何を伝えるサイトか、出してよい実績は何かは `PRODUCT.md` にある
 - ブラウザ用 JS は esbuild で `public/js/entry.js` 1 本にまとめる（デプロイ前後で古いページと新しいチャンクが混ざらないように）。`remix/assets` は Node 専用なので使わない
-- バインディングは `cloudflare:workers` から import せず、`context.bindings`（`app/middleware/bindings.ts`）経由で使う。テストでは偽物を渡す
 - 問い合わせはフォームで受けない（営業ツールの送信ばかりになったため閉じた）。トップの問い合わせのセクションから、代表の Facebook へ Messenger（`MESSENGER_URL`、`app/config.ts`）で送ってもらう。POST を受けるルートを足さない
 - テーマは OS の設定（`prefers-color-scheme`）に従うだけで、切り替え UI は置かない
 - デザインのトークン（色、文字サイズ 12/14/16/18/20/28/40/display、角丸 8px/16px とボタンのピル）は `app/ui/global-styles.ts` にある。色はアクセント 1 色（青）と無彩色だけ。新しい値を足す前にトークンで済まないか考える
 - 固定・大きなレイヤーに blur、backdrop-filter、mask を使わない（iOS Safari でスクロール中の描画が遅れる）
 - アイランドの props はシリアライズ可能な値だけ。翻訳済みの文字列を渡す
 - workerd では `handle.signal` を `addEventListener` の `signal` に渡せないので、イベント購読はブラウザでだけ行う
-- `remix/data-table` は D1 ドライバがないので使わない。D1 は `prepare()` で直接使う

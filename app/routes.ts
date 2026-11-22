@@ -5,5 +5,4 @@ export const routes = route({
   home: get('(:lang)'),
   biography: get('(:lang/)biography'),
   privacy: get('privacy'),
-  healthcheck: get('healthcheck'),
 })

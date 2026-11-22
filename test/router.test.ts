@@ -4,16 +4,7 @@ import { describe, it } from 'remix/test'
 import { createAppRouter } from '../app/router.ts'
 
 function setup() {
-  let router = createAppRouter({
-    log: false,
-    bindings: {
-      db: {
-        prepare: () => ({
-          first: async () => ({ now: '2026-10-03 00:00:00' }),
-        }),
-      } as unknown as D1Database,
-    },
-  })
+  let router = createAppRouter({ log: false })
   let fetch = (path: string, init?: RequestInit) =>
     // `//evil.com/` のようなパスもそのまま送るため、URL を文字列でつなぐ
     router.fetch(new Request(`http://localhost${path}`, init))
@@ -129,15 +120,5 @@ describe('pages', () => {
       response.headers.get('Cache-Control'),
       'public, max-age=0, must-revalidate',
     )
-  })
-
-  it('healthcheck queries D1', async () => {
-    let { fetch } = setup()
-    let response = await fetch('/healthcheck')
-    assert.equal(response.status, 200)
-    assert.deepEqual(await response.json(), {
-      status: 'ok',
-      now: '2026-10-03 00:00:00',
-    })
   })
 })
